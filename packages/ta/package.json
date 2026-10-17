@@ -1,0 +1,37 @@
+{
+  "name": "@charton/ta",
+  "version": "0.1.0",
+  "description": "Technical-analysis helpers over Float64Array for chart indicators.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chart-on/charton.git",
+    "directory": "packages/ta"
+  },
+  "homepage": "https://github.com/chart-on/charton#readme",
+  "bugs": "https://github.com/chart-on/charton/issues",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "browserslist": ["chrome >= 111", "edge >= 111", "firefox >= 114", "safari >= 16.4", "ios_saf >= 16.4"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist", "README.md", "LICENSE", "NOTICE"],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p ."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "charton-example-vue-ssr",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: a chart rendered on the server with @charton/vue and hydrated in the browser.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p . && vite build --outDir dist/client && vite build --ssr src/entry-server.ts --outDir dist/server",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/vue": "workspace:^",
+    "vue": "^3.5.0"
+  }
+}

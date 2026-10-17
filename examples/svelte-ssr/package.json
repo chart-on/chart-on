@@ -1,0 +1,21 @@
+{
+  "name": "charton-example-svelte-ssr",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: a chart rendered on the server with @charton/svelte and hydrated in the browser.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "svelte-check --tsconfig ./tsconfig.json && vite build --outDir dist/client && vite build --ssr src/entry-server.ts --outDir dist/server",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/svelte": "workspace:^",
+    "svelte": "^5.57.2"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "svelte-check": "^4.7.6"
+  }
+}

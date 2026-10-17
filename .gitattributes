@@ -1,0 +1,4 @@
+# Files that tests compare byte for byte stay LF on every platform, so a
+# checkout with core.autocrlf=true neither fails them nor shows them as changed
+# after a test run rewrites them.
+*.snap text eol=lf

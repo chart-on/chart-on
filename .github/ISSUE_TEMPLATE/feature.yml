@@ -1,0 +1,53 @@
+name: Feature request
+description: Propose a new feature or an improvement. Agree on scope here before writing code.
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [open issues](../issues) and the roadmap (label `epic`) first, so work is not duplicated.
+        Describe behaviour in terms of what users need, and refer to other products, companies or exchanges by their role rather than by name.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The behaviour or API you suggest. Code sketches are welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and acceptance criteria
+      description: What is in and out of scope, and how we will know it is done.
+      placeholder: |
+        - [ ] ...
+        - [ ] Unit tests for ...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - core (engine)
+        - ui (shell and controls)
+        - demo
+        - infra (CI, tooling)
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I would like to work on this (a maintainer will assign it to you).

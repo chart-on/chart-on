@@ -1,0 +1,18 @@
+{
+  "name": "demo",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/indicators": "workspace:^",
+    "@charton/locales": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "lucide": "^1.55.0"
+  }
+}

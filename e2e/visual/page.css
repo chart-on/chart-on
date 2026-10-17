@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+}
+
+/* Fixed sizes, so screenshots do not depend on the window. */
+.scene {
+  position: relative;
+  width: 480px;
+  height: 270px;
+}
+
+.scene.shell {
+  width: 640px;
+  height: 360px;
+}

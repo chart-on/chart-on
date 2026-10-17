@@ -1,0 +1,1824 @@
+/*
+ * Landing page. A framed column of hairline-bordered cells over a faint
+ * blueprint grid. Colours come from the docs theme, so both schemes follow it.
+ */
+
+.lp {
+  --lp-line: var(--vp-c-divider);
+  --lp-grid: color-mix(in srgb, var(--vp-c-divider) 30%, transparent);
+  --lp-cell: 48px;
+  --lp-mono: var(--vp-font-family-mono);
+  --lp-gutter: 24px;
+  /* Card surface: a shade deeper than the page in both schemes. */
+  --lp-card: var(--vp-c-bg-alt);
+  /* As wide as the nav's content, so the frame lines up with the logo and the last nav item. */
+  --lp-max: calc(var(--vp-layout-max-width) - 64px);
+  /* Terracotta accent; the darker shade keeps text readable on paper. */
+  --lp-accent: #e06c3e;
+  --lp-accent-text: #b04d27;
+  --lp-accent-soft: rgb(224 108 62 / 0.14);
+  padding: 0 var(--lp-gutter);
+  overflow-x: clip;
+  color: var(--vp-c-text-1);
+}
+
+.lp p,
+.lp h1,
+.lp h2,
+.lp h3 {
+  margin: 0;
+}
+
+.lp code {
+  font-family: var(--lp-mono);
+  font-size: 0.875em;
+}
+
+.lp [hidden] {
+  display: none !important;
+}
+
+.dark .lp {
+  --lp-accent-text: #f09875;
+}
+
+/* The landing nav floats: a rounded, translucent bar as wide as the content
+   column, fixed to the window at every width (the docs theme only fixes it
+   from 960 px). It slides away while scrolling down (landing.ts). */
+.landing .VPNav {
+  position: fixed;
+  top: 12px;
+  right: 0;
+  left: 0;
+  width: min(calc(100% - 48px), calc(var(--vp-layout-max-width) - 64px));
+  margin: 0 auto;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--vp-c-bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing .VPNav.lp-nav-hidden {
+  transform: translateY(calc(-100% - 16px));
+}
+
+@media (max-width: 640px) {
+  .landing .VPNav {
+    width: calc(100% - 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing .VPNav {
+    transition: none;
+  }
+}
+
+.landing .VPNavBar,
+.landing .VPNavBar .content-body,
+.landing .VPNavBar .title {
+  background: transparent !important;
+}
+
+.landing .VPNavBar .divider {
+  display: none;
+}
+
+.landing .VPNavBar .wrapper {
+  padding: 0 20px;
+}
+
+/* The menu screen on narrow widths opens below the floating bar and spans the
+   window. A backdrop filter on the bar would make the bar the containing block
+   of the fixed screen, so the bar drops it (and turns opaque) while the screen
+   is open. */
+.landing .VPNav:has(.VPNavBar.screen-open) {
+  background: var(--vp-c-bg);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.landing .VPNavScreen {
+  top: calc(var(--vp-nav-height) + 20px);
+}
+
+.landing .VPContent {
+  padding-top: calc(var(--vp-nav-height) + 24px) !important;
+}
+
+/* The docs theme's "Return to top" bar, shown on narrow widths. */
+.landing .VPLocalNav {
+  display: none;
+}
+
+/* ---- Frame and grid ------------------------------------------------- */
+
+.lp-frame {
+  position: relative;
+  max-width: var(--lp-max);
+  margin: 0 auto;
+  border: solid var(--lp-line);
+  border-width: 0 1px 1px;
+}
+
+/* Small crosses where the frame's bottom edge meets its sides, both drawn by one element. */
+.lp-frame::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  right: -6px;
+  bottom: -6px;
+  left: -6px;
+  height: 11px;
+  background:
+    linear-gradient(var(--lp-accent), var(--lp-accent)) 5px 0 / 1px 100% no-repeat,
+    linear-gradient(var(--lp-accent), var(--lp-accent)) 0 5px / 11px 1px no-repeat,
+    linear-gradient(var(--lp-accent), var(--lp-accent)) calc(100% - 5px) 0 / 1px 100% no-repeat,
+    linear-gradient(var(--lp-accent), var(--lp-accent)) 100% 5px / 11px 1px no-repeat;
+  pointer-events: none;
+}
+
+/* The bottom rule continues past the frame to both edges of the page (`.lp` clips it). */
+.lp-frame::after {
+  content: '';
+  position: absolute;
+  right: -100vmax;
+  bottom: -1px;
+  left: -100vmax;
+  height: 1px;
+  background: var(--lp-line);
+  pointer-events: none;
+}
+
+/* ---- Type and controls ---------------------------------------------- */
+
+.lp-label,
+.lp-eyebrow {
+  font-family: var(--lp-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
+}
+
+.lp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+}
+
+.lp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lp-accent);
+  box-shadow: 0 0 0 3px var(--lp-accent-soft);
+}
+
+.lp h2 {
+  margin-top: 12px;
+  font-size: clamp(28px, 3.2vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.lp h3 {
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.lp-btn:hover {
+  border-color: var(--vp-c-text-3);
+}
+
+.lp-btn-primary {
+  border-color: transparent;
+  background: var(--vp-c-brand-1);
+  color: var(--vp-c-bg);
+}
+
+.lp-btn-primary:hover {
+  border-color: transparent;
+  background: var(--vp-c-brand-2);
+}
+
+.lp-btn-small {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.lp svg,
+.lp-appearance svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lp-btn svg,
+.lp-more svg {
+  transition: transform 0.15s;
+}
+
+.lp-btn:hover svg,
+.lp-card:hover .lp-more svg {
+  transform: translateX(2px);
+}
+
+.lp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.lp-checks {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 28px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--vp-c-text-2);
+}
+
+.lp-checks li {
+  display: flex;
+  gap: 10px;
+}
+
+.lp-checks svg {
+  margin-top: 3px;
+  color: var(--lp-accent);
+}
+
+/* ---- Hero ----------------------------------------------------------- */
+
+.lp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  min-height: 640px;
+  padding: 96px 0 88px 56px;
+  /* Open at the sides: the hero sits on the page, the ruled column starts below it. */
+  border-inline-width: 0;
+}
+
+/* ---- Hero illustration (hero-art.ts) ------------------------------- */
+
+.lp-hero-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* The art fills the hero from a third across to the window's right edge, under the text. */
+.lp-hero-art-wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 30%;
+  right: calc((100% - 100vw) / 2);
+  overflow: hidden;
+}
+
+.lp .lp-hero-art {
+  width: 100%;
+  height: 100%;
+  /* The output line runs on past the scene; the wrapper clips it at the hero's edges. */
+  overflow: visible;
+  fill: none;
+  stroke: none;
+}
+
+.hx-grid path {
+  stroke: var(--vp-c-text-1);
+  stroke-opacity: 0.07;
+}
+
+.hx-shadow {
+  fill: var(--vp-c-text-1);
+  opacity: 0.05;
+}
+
+.hx-wire {
+  fill: none;
+  stroke: var(--vp-c-text-3);
+  stroke-width: 1.5;
+}
+
+.hx-wire-out {
+  stroke: var(--lp-accent);
+}
+
+.hx-dot {
+  fill: var(--vp-c-text-1);
+}
+
+.hx-dot-out {
+  fill: var(--lp-accent);
+}
+
+/* Rings that spread from the stack's footprint, and the renderer's beat. */
+.hx-pulse {
+  fill: none;
+  stroke: var(--lp-accent);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hx-pulse 3.2s ease-out infinite;
+  animation-delay: calc(var(--i) * -1.6s);
+}
+
+.hx-base polygon {
+  animation: hx-beat 3.2s ease-in-out infinite;
+}
+
+@keyframes hx-pulse {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes hx-beat {
+  0%,
+  100% {
+    stroke: var(--vp-c-text-1);
+    stroke-opacity: 0.16;
+  }
+
+  15% {
+    stroke: var(--lp-accent);
+    stroke-opacity: 0.9;
+  }
+}
+
+.hx-pill {
+  fill: var(--vp-c-bg);
+  stroke: var(--vp-c-divider);
+}
+
+.hx-pill-text,
+.hx-face-text,
+.hx-tile-text {
+  font-family: var(--lp-mono);
+  letter-spacing: 0.02em;
+}
+
+.hx-pill-text {
+  font-size: 12px;
+  fill: var(--vp-c-text-2);
+}
+
+.hx-box polygon {
+  stroke: var(--vp-c-text-1);
+  stroke-opacity: 0.16;
+  stroke-linejoin: round;
+}
+
+.hx-box .hx-top {
+  fill: var(--vp-c-bg-soft);
+}
+
+.hx-box .hx-left {
+  fill: var(--lp-card);
+}
+
+.hx-box .hx-right {
+  fill: color-mix(in srgb, var(--lp-card) 82%, #000);
+}
+
+.hx-base .hx-left {
+  fill: color-mix(in srgb, var(--vp-c-text-1) 10%, var(--lp-card));
+}
+
+.hx-core polygon {
+  stroke: #8e3f1f;
+  stroke-opacity: 0.6;
+}
+
+.hx-core .hx-top {
+  fill: #f09875;
+}
+
+.hx-core .hx-left {
+  fill: #e06c3e;
+}
+
+.hx-core .hx-right {
+  fill: #b04d27;
+}
+
+.hx-accent-soft .hx-top {
+  fill: color-mix(in srgb, var(--lp-accent) 35%, var(--vp-c-bg-soft));
+}
+
+.hx-face-text {
+  font-size: 11px;
+  fill: var(--vp-c-text-2);
+}
+
+.hx-face-title {
+  font-size: 15px;
+  font-weight: 600;
+  fill: #f5f1e8;
+}
+
+.hx-tile-text {
+  font-size: 11px;
+  fill: var(--vp-c-text-1);
+}
+
+.hx-candle {
+  color: #f5f1e8;
+}
+
+.hx-candle.is-down {
+  color: #3a1a10;
+}
+
+.hx-candle path {
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.hx-candle rect {
+  fill: currentColor;
+}
+
+.hx-average {
+  fill: none;
+  stroke: #f5f1e8;
+  stroke-opacity: 0.75;
+  stroke-width: 1.25;
+}
+
+/* The core's chart strip slides left by one copy of its loop. */
+.hx-scroll {
+  animation: hx-scroll 18s linear infinite;
+}
+
+.hx-sheen {
+  fill: url(#hx-sheen-g);
+  pointer-events: none;
+}
+
+/* Glyphs on the top tiles. */
+.hx-glyph rect,
+.hx-glyph path {
+  fill: none;
+  stroke: var(--vp-c-text-2);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hx-glyph .hx-glyph-fill {
+  fill: var(--vp-c-text-2);
+  stroke: none;
+}
+
+.hx-glyph .hx-glyph-draw {
+  stroke: var(--lp-accent);
+  stroke-width: 2;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: hx-draw 4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -1.3s);
+}
+
+.hx-glyph .hx-glyph-flow {
+  stroke: var(--lp-accent);
+  stroke-width: 2;
+  stroke-dasharray: 10 6;
+  animation: hx-flow 1.4s linear infinite;
+}
+
+.hx-glyph .hx-glyph-flow.is-slow {
+  stroke: var(--vp-c-text-2);
+  animation-duration: 2.6s;
+}
+
+/* Theming glyph: three swatches, a ring stepping between them. */
+.hx-glyph .hx-swatch {
+  stroke: var(--vp-c-text-2);
+  stroke-width: 1;
+}
+
+.hx-glyph .hx-swatch.is-accent {
+  fill: #e06c3e;
+}
+
+.hx-glyph .hx-swatch.is-paper {
+  fill: #f5f1e8;
+}
+
+.hx-glyph .hx-swatch.is-ink {
+  fill: #242424;
+}
+
+.hx-glyph .hx-swatch-ring {
+  fill: none;
+  stroke: var(--vp-c-text-1);
+  stroke-width: 1.5;
+  animation: hx-pick 4.5s steps(1) infinite;
+}
+
+@keyframes hx-pick {
+  0% {
+    transform: translateX(0);
+  }
+
+  33% {
+    transform: translateX(14px);
+  }
+
+  66% {
+    transform: translateX(28px);
+  }
+}
+
+/* The lower layers float on a slow, staggered loop. */
+.hx-layer {
+  animation: hx-bob 5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.7s);
+}
+
+@keyframes hx-bob {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Only the tile under the pointer rises; its hover area (.hx-hit) stays put. */
+.hx-hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.hx-tile-body {
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hx-tile:hover .hx-tile-body {
+  transform: translateY(-14px);
+}
+
+@keyframes hx-scroll {
+  to {
+    transform: translateX(calc(var(--span) * -1));
+  }
+}
+
+@keyframes hx-draw {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 1;
+  }
+
+  55%,
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes hx-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hx-pulse,
+  .hx-base polygon,
+  .hx-layer,
+  .hx-scroll,
+  .hx-glyph .hx-glyph-draw,
+  .hx-glyph .hx-glyph-flow,
+  .hx-glyph .hx-swatch-ring {
+    animation: none;
+  }
+
+  .hx-glyph .hx-glyph-draw {
+    stroke-dashoffset: 0;
+  }
+
+  .hx-tile-body {
+    transition: none;
+  }
+}
+
+.lp-title {
+  margin-top: 24px !important;
+  font-size: clamp(44px, 6.4vw, 80px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.lp-lead {
+  margin-top: 24px !important;
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+}
+
+.lp-install {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 8px 12px;
+  border: 1px dashed var(--lp-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.lp-install:hover {
+  color: var(--vp-c-text-1);
+}
+
+.lp-install-prompt {
+  font-family: var(--lp-mono);
+  color: var(--vp-c-text-3);
+}
+
+.lp-install-done {
+  font-size: 12px;
+  color: var(--vp-c-green-1);
+}
+
+.lp-panel {
+  background: var(--vp-c-bg);
+}
+
+.lp-panel-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--lp-line);
+  background: var(--vp-c-bg-soft);
+}
+
+/* ---- Code showcase -------------------------------------------------- */
+
+.lp-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.lp-showcase-text {
+  padding: 56px 48px;
+}
+
+.lp-showcase-text > p:not(.lp-label) {
+  margin-top: 16px;
+  color: var(--vp-c-text-2);
+  line-height: 1.65;
+}
+
+.lp-showcase-code {
+  display: flex;
+  overflow: hidden;
+  padding: 48px 0 0 32px;
+  background: radial-gradient(70% 70% at 15% 20%, var(--lp-accent-soft), transparent 70%);
+}
+
+/* An outer bezel around the editor; both bleed off the frame's right and bottom edges. */
+.lp-editor-frame {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0 0 10px;
+  border: solid var(--lp-line);
+  border-width: 1px 0 0 1px;
+  border-radius: 22px 0 0 0;
+  background: color-mix(in srgb, var(--vp-c-bg-soft) 70%, transparent);
+  box-shadow: -12px -12px 48px -24px rgb(224 108 62 / 0.35);
+}
+
+.lp-editor {
+  min-height: 380px;
+  height: 100%;
+  border: solid var(--lp-line);
+  border-width: 1px 0 0 1px;
+  border-radius: 14px 0 0 0;
+  background: var(--lp-card);
+}
+
+.lp-editor-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--lp-line);
+  border-radius: 14px 0 0 0;
+  background: var(--vp-c-bg);
+}
+
+.lp-editor-tab {
+  flex: none;
+  height: 46px;
+  padding: 0 14px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.lp-editor-tab:hover,
+.lp-editor-tab[aria-selected='true'] {
+  color: var(--vp-c-text-1);
+}
+
+.lp-editor-tab[aria-selected='true'] {
+  font-weight: 600;
+}
+
+/* The sliding highlight is an underline here. */
+.lp-editor-tabs .lp-indicator {
+  border-radius: 0;
+  background: none;
+  box-shadow: inset 0 -2px 0 var(--vp-c-text-1);
+}
+
+.lp-editor pre {
+  margin: 0;
+  padding: 20px 24px 32px 16px;
+  /* Long lines wrap; each wrapped line stays indented under its number. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  counter-reset: line;
+  font-family: var(--lp-mono);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--vp-c-text-1);
+}
+
+.lp-line {
+  position: relative;
+  display: block;
+  padding-left: 5ch;
+}
+
+.lp-line::before {
+  position: absolute;
+  left: 0;
+  width: 3ch;
+  counter-increment: line;
+  content: counter(line);
+  text-align: right;
+  color: var(--vp-c-text-3);
+  user-select: none;
+}
+
+.lp-editor pre code {
+  font-size: inherit;
+}
+
+.lp {
+  --tk-keyword: var(--lp-accent-text);
+  --tk-string: #4c7a3d;
+  --tk-number: #7b4fb8;
+  --tk-call: #2d5ea8;
+}
+
+.dark .lp {
+  --tk-string: #a9cc8f;
+  --tk-number: #c6a6f2;
+  --tk-call: #93b8f2;
+}
+
+.tk-keyword {
+  color: var(--tk-keyword);
+}
+
+.tk-string {
+  color: var(--tk-string);
+}
+
+.tk-number {
+  color: var(--tk-number);
+}
+
+.tk-call {
+  color: var(--tk-call);
+}
+
+.tk-comment {
+  color: var(--vp-c-text-3);
+  font-style: italic;
+}
+
+/* ---- Stats strip ---------------------------------------------------- */
+
+.lp-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 32px;
+}
+
+/* Cards like the bento tiles below. */
+.lp-stat {
+  padding: 28px;
+  border: 1px solid var(--lp-line);
+  border-radius: 16px;
+  background: var(--lp-card);
+}
+
+.lp-stat-value {
+  margin-top: 12px !important;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-stat-value span {
+  margin-left: 4px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--vp-c-text-2);
+}
+
+.lp-stat-detail {
+  margin-top: 12px !important;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--vp-c-text-3);
+}
+
+/* ---- Closing call to action: open source --------------------------- */
+
+/* The last frame: an accent glow over the blueprint grid. */
+.lp-oss {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 88px 56px;
+  background:
+    radial-gradient(60% 120% at 0% 0%, var(--lp-accent-soft), transparent 70%),
+    linear-gradient(var(--lp-grid) 1px, transparent 1px) -1px -1px / var(--lp-cell) var(--lp-cell),
+    linear-gradient(90deg, var(--lp-grid) 1px, transparent 1px) -1px -1px / var(--lp-cell) var(--lp-cell);
+}
+
+.lp-oss-text {
+  max-width: 640px;
+}
+
+.lp-oss-text h2 {
+  margin-top: 12px !important;
+  font-size: clamp(32px, 4.4vw, 56px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.lp-oss-text > p:not(.lp-label) {
+  margin-top: 16px;
+  color: var(--vp-c-text-2);
+  line-height: 1.65;
+}
+
+.lp-oss-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---- Support: credit, star and sponsors ----------------------------- */
+
+/* Two ruled cells: credit and star, then the sponsor pitch and, once there is one, the list. */
+.lp-support {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lp-support-cell {
+  padding: 56px 48px;
+}
+
+.lp-support-cell:only-child {
+  grid-column: 1 / -1;
+}
+
+.lp-support-cell:first-child:not(:only-child) {
+  border-right: 1px solid var(--lp-line);
+}
+
+.lp-support-cell > p:not(.lp-label) {
+  margin-top: 16px;
+  max-width: 520px;
+  color: var(--vp-c-text-2);
+  line-height: 1.65;
+}
+
+.lp-support .lp-install {
+  max-width: 100%;
+  text-align: left;
+}
+
+.lp-support .lp-install code {
+  overflow-wrap: anywhere;
+}
+
+.lp-sponsor-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  align-content: center;
+  gap: 16px;
+  margin: 0;
+  padding: 48px;
+  list-style: none;
+}
+
+.lp-sponsor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  padding: 16px;
+  border: 1px solid var(--lp-line);
+  border-radius: 14px;
+  background: var(--lp-card);
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+
+.lp-sponsor:hover {
+  border-color: var(--vp-c-text-3);
+}
+
+.lp-sponsor img {
+  max-width: 100%;
+  max-height: 48px;
+}
+
+/* ---- Panels --------------------------------------------------------- */
+
+.lp-panel-chart {
+  position: relative;
+  height: 400px;
+}
+
+.lp-chart-host {
+  width: 100%;
+  height: 100%;
+}
+
+.lp-panel-note {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* ---- Sliding tab highlight (slide.ts) ------------------------------- */
+
+.lp-sliding {
+  position: relative;
+}
+
+.lp-sliding > :not(.lp-indicator) {
+  position: relative;
+  z-index: 1;
+}
+
+/* The selected item's own background gives way to the sliding one. */
+.lp .lp-sliding [aria-selected='true'],
+.lp .lp-sliding [aria-checked='true'],
+.lp-appearance.lp-sliding [aria-checked='true'] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.lp-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 7px;
+  background: var(--vp-c-bg-soft);
+  box-shadow: inset 0 0 0 1px var(--lp-line);
+  pointer-events: none;
+}
+
+.lp-appearance .lp-indicator {
+  background: var(--vp-c-bg);
+}
+
+.lp-indicator-ready {
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-indicator-ready {
+    transition: none;
+  }
+}
+
+/* An info button whose note shows on hover and keyboard focus. */
+.lp-tip {
+  position: relative;
+  display: inline-flex;
+  margin-left: 6px;
+}
+
+.lp-tip-trigger {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  color: var(--vp-c-text-3);
+  transition: color 0.15s;
+}
+
+.lp-tip-trigger:hover,
+.lp-tip-trigger:focus-visible {
+  color: var(--vp-c-text-1);
+}
+
+.lp-tip-body {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  width: max-content;
+  max-width: min(280px, 70vw);
+  padding: 8px 10px;
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg-elv);
+  box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.4);
+  font-family: var(--vp-font-family-base);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--vp-c-text-2);
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.15s,
+    visibility 0.15s;
+}
+
+.lp-tip:hover .lp-tip-body,
+.lp-tip-trigger:focus-visible + .lp-tip-body {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Auto-pan speed picker in the speed demo's bar. */
+.lp-speeds {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+}
+
+.lp-speeds button {
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-family: var(--lp-mono);
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.15s;
+}
+
+.lp-speeds button:hover,
+.lp-speeds button[aria-checked='true'] {
+  color: var(--vp-c-text-1);
+}
+
+.lp-speeds .lp-indicator {
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+}
+
+.lp-panel-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* The speed demo's play / pause button shows one icon for its state. */
+[data-speed-toggle][aria-pressed='true'] .lp-icon-play,
+[data-speed-toggle][aria-pressed='false'] .lp-icon-pause {
+  display: none;
+}
+
+.lp-btn-icon {
+  width: 30px;
+  padding: 0;
+  justify-content: center;
+}
+
+.lp-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 4px;
+  font-family: var(--lp-mono);
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Label then value, split by hairlines. Values start where the label ends and
+   keep a fixed width, so changing digits never shift the next group. */
+.lp-readout > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 14px;
+  border-left: 1px solid var(--lp-line);
+}
+
+.lp-readout > span:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.lp-readout b {
+  min-width: 5ch;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.lp-flow-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* View toggles: on shows the swatch and a raised chip, off fades both. */
+.lp-flow-key button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--vp-c-text-3);
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    color 0.15s,
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.lp-flow-key button:hover {
+  color: var(--vp-c-text-1);
+}
+
+.lp-flow-key button[aria-pressed='true'] {
+  border-color: var(--lp-line);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+
+.lp-flow-key i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+}
+
+.lp-flow-key [aria-pressed='true'] i {
+  opacity: 1;
+}
+
+.lp-flow-key i + i {
+  margin-left: -4px;
+}
+
+.lp-flow-key .lp-key-heat {
+  width: 20px;
+  background: var(--lp-key-heat);
+}
+
+.lp-key-bid {
+  background: var(--lp-key-bid);
+}
+
+.lp-key-ask {
+  background: var(--lp-key-ask);
+}
+
+.lp-key-footprint {
+  background: linear-gradient(var(--lp-key-up) 50%, var(--lp-key-down) 50%);
+}
+
+.lp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--lp-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--vp-c-text-2);
+}
+
+.lp-status::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--vp-c-text-3);
+}
+
+.lp-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--lp-accent-text);
+}
+
+/* ---- Bento ---------------------------------------------------------- */
+
+/* One padded area holding the tiles as separate cards. */
+.lp-bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: 16px;
+  padding: 32px;
+}
+
+.lp-tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--lp-line);
+  border-radius: 16px;
+  background: var(--lp-card);
+  color: inherit;
+}
+
+.lp-tile > p:not(.lp-label),
+.lp-tile-head > p:not(.lp-label) {
+  margin-top: 10px;
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+}
+
+.lp-tile .lp-more {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.lp-tile-speed {
+  grid-column: span 8;
+  grid-row: span 2;
+}
+
+.lp-tile-agents,
+.lp-tile-packages {
+  grid-column: span 4;
+}
+
+.lp-tile-flow {
+  grid-column: span 5;
+}
+
+/* A chart tile is the chart itself: no card around it, just the panel and its ring (inset so the ring meets the tile's edge). */
+.lp-tile-flow-chart {
+  grid-column: span 7;
+  padding: 8px;
+  border: 0;
+  background: none;
+}
+
+/*
+ * Mirrors the order flow row: the chart on the left, its text and code on the
+ * right. The text comes first in the markup, so it leads on narrow screens;
+ * dense flow pulls the chart back into the row's free columns.
+ */
+.lp-tile-custom-chart {
+  grid-column: 1 / span 7;
+  padding: 8px;
+  border: 0;
+  background: none;
+}
+
+.lp-tile-custom-chart .lp-tile-fill {
+  margin-top: 0;
+}
+
+.lp-tile-custom {
+  grid-column: 8 / span 5;
+}
+
+/* A small editor that fills the tile and scrolls, so the code never sets the row height. */
+.lp-custom-editor {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  height: auto;
+  margin-top: 20px;
+  overflow: hidden;
+  border-width: 1px;
+  border-radius: 10px;
+}
+
+.lp-custom-editor .lp-editor-tabs {
+  flex: none;
+  padding: 0 6px;
+  border-radius: 10px 10px 0 0;
+}
+
+.lp-custom-editor .lp-editor-tab {
+  height: 38px;
+  padding: 0 10px;
+  font-family: var(--lp-mono);
+  font-size: 12px;
+}
+
+.lp-custom-code {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.lp-custom-editor pre {
+  padding: 14px 16px 20px 8px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.lp-tile-small {
+  grid-column: span 4;
+}
+
+.lp-tile-fill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.lp-tile-flow-chart .lp-tile-fill {
+  margin-top: 0;
+}
+
+.lp-tile-fill .lp-panel-chart {
+  flex: 1;
+  min-height: 380px;
+}
+
+.lp-files,
+.lp-features,
+.lp-chips {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-files {
+  display: grid;
+  gap: 8px;
+}
+
+.lp-files li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.lp-files li > :first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--vp-c-text-1);
+}
+
+.lp-files svg {
+  color: var(--lp-accent);
+}
+
+.lp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lp-chip {
+  padding: 6px 10px;
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.lp-chip-main {
+  border-color: transparent;
+  background: var(--lp-accent-soft);
+  color: var(--lp-accent-text);
+}
+
+.lp-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+  font-size: 15px;
+}
+
+.lp-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--vp-c-text-2);
+}
+
+.lp-features code {
+  font-size: inherit;
+}
+
+.lp .lp-features svg {
+  width: 16px;
+  height: 16px;
+  color: var(--lp-accent);
+}
+
+/*
+ * Key feature cards in the other scheme's colours: paper in the dark
+ * scheme, ink in the light one. The tokens are
+ * swapped inside, so everything in the card follows.
+ */
+.dark .lp-tile-feature {
+  --vp-c-bg: #faf8f2;
+  --vp-c-bg-soft: #ede8dc;
+  --vp-c-text-1: var(--site-ink);
+  --vp-c-text-2: rgb(36 36 36 / 0.72);
+  --vp-c-text-3: rgb(36 36 36 / 0.5);
+  --lp-line: rgb(36 36 36 / 0.14);
+  --lp-card: #faf8f2;
+  --lp-accent-text: #b04d27;
+}
+
+html:not(.dark) .lp-tile-feature {
+  --vp-c-bg: var(--site-ink);
+  --vp-c-bg-soft: #2c2c2b;
+  --vp-c-text-1: var(--site-paper);
+  --vp-c-text-2: rgb(245 241 232 / 0.72);
+  --vp-c-text-3: rgb(245 241 232 / 0.5);
+  --lp-line: rgb(245 241 232 / 0.14);
+  --lp-card: #1d1d1d;
+  --lp-accent-text: #f09875;
+}
+
+.lp-tile-feature {
+  border-color: transparent;
+  color: var(--vp-c-text-1);
+}
+
+.lp-tile-feature.lp-card:hover {
+  border-color: var(--lp-accent);
+}
+
+.lp-tile-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: var(--lp-accent-soft);
+  color: var(--lp-accent);
+}
+
+.lp .lp-tile-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.lp-card {
+  transition: border-color 0.15s;
+}
+
+.lp-card:hover {
+  border-color: var(--vp-c-text-3);
+}
+
+/* ---- Footer --------------------------------------------------------- */
+
+/* Full width, under the last frame: its top border runs over the frame's bottom edge. */
+.lp-footer {
+  margin: -1px calc(-1 * var(--lp-gutter)) 0;
+  border-top: 1px solid var(--lp-line);
+}
+
+.lp-footer-cols,
+.lp-footer-bottom {
+  max-width: var(--lp-max);
+  margin: 0 auto;
+}
+
+.lp-footer-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lp-footer-col {
+  padding: 40px 32px 48px;
+  border-right: 1px solid var(--lp-line);
+}
+
+.lp-footer-col:first-child {
+  border-left: 1px solid var(--lp-line);
+}
+
+.lp-footer-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.lp-footer-col ul {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-footer-col a,
+.lp-footer-bottom a {
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+  transition: color 0.15s;
+}
+
+.lp-footer-col a:hover,
+.lp-footer-bottom a:hover {
+  color: var(--vp-c-text-1);
+}
+
+/* Full width, so the rule under the columns runs edge to edge like the one above. */
+.lp-footer-row {
+  border-bottom: 1px solid var(--lp-line);
+}
+
+.lp-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 32px 40px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.lp-appearance {
+  /* Also used outside .lp, in the nav and its menus (AppearancePicker.vue). */
+  --lp-line: var(--vp-c-divider);
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+}
+
+.lp-appearance button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  color: var(--vp-c-text-2);
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+
+.lp-appearance button:hover {
+  color: var(--vp-c-text-1);
+}
+
+.lp-appearance button[aria-checked='true'] {
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  box-shadow: inset 0 0 0 1px var(--lp-line);
+}
+
+/* ---- Narrow screens ------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .lp-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-bento > * {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .lp-hero {
+    gap: 40px;
+    padding: 64px 32px;
+  }
+
+  .lp-hero {
+    min-height: 0;
+  }
+
+  .lp-hero-art-wrap {
+    position: static;
+    aspect-ratio: 880 / 560;
+    margin: 0 -32px;
+  }
+
+  .lp-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lp-showcase {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-footer-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-footer-col {
+    border-right: 0;
+    border-bottom: 1px solid var(--lp-line);
+  }
+
+  .lp-footer-col:first-child {
+    border-left: 0;
+  }
+
+  .lp-support {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-support-cell:first-child:not(:only-child) {
+    border-right: 0;
+    border-bottom: 1px solid var(--lp-line);
+  }
+
+  .lp-sponsor-list {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .lp {
+    --lp-gutter: 16px;
+    padding: 0 16px;
+  }
+
+  .lp-hero {
+    padding: 48px 20px;
+  }
+
+  .lp-stat {
+    padding: 20px;
+  }
+
+  .lp-stats,
+  .lp-bento {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .lp-tile {
+    padding: 22px 18px;
+  }
+
+  .lp-stat-value {
+    font-size: 32px;
+  }
+
+  .lp-panel-chart {
+    height: 320px;
+  }
+
+  .lp-footer-bottom {
+    padding: 24px 20px 32px;
+  }
+
+  .lp-showcase-text {
+    padding: 40px 20px;
+  }
+
+  .lp-oss {
+    padding: 56px 20px;
+  }
+
+  .lp-support-cell {
+    padding: 40px 20px;
+  }
+
+  .lp-sponsor-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .lp-showcase-code {
+    padding: 0 0 0 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp *,
+  .lp *::before {
+    transition: none !important;
+  }
+}

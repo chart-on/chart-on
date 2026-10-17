@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "paths": {
+      "@charton/core": ["./packages/core/src/index.ts"],
+      "@charton/core/internal": ["./packages/core/src/internal.ts"],
+      "@charton/core/testing": ["./packages/core/src/testing.ts"],
+      "@charton/ui": ["./packages/ui/src/index.ts"],
+      "@charton/ui/templates": ["./packages/ui/src/templates.ts"],
+      "@charton/react": ["./packages/react/src/index.ts"],
+      "@charton/react/shell": ["./packages/react/src/shell.ts"],
+      "@charton/vue": ["./packages/vue/src/index.ts"],
+      "@charton/vue/shell": ["./packages/vue/src/shell.ts"],
+      "@charton/svelte": ["./packages/svelte/src/index.ts"],
+      "@charton/svelte/shell": ["./packages/svelte/src/shell.ts"],
+      "@charton/ta": ["./packages/ta/src/index.ts"],
+      "@charton/indicators": ["./packages/indicators/src/index.ts"],
+      "@charton/locales/*": ["./packages/locales/src/*"]
+    }
+  }
+}

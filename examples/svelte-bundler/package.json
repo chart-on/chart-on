@@ -1,0 +1,22 @@
+{
+  "name": "charton-example-svelte-bundler",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: the chart widget in a client-rendered app using @charton/svelte built with a bundler.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "svelte-check --tsconfig ./tsconfig.json && vite build"
+  },
+  "dependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/svelte": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "svelte": "^5.57.2"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "svelte-check": "^4.7.6"
+  }
+}

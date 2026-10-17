@@ -1,0 +1,58 @@
+name: Bug report
+description: Something renders or behaves incorrectly.
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: Search the [open issues](../issues) first. A minimal reproduction helps the most.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include screenshots or a short recording for rendering issues.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Code, data or demo interactions that trigger the bug.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: playground
+    attributes:
+      label: Playground link
+      description: Optional. Reproduce the bug in the docs playground (`/playground`) and paste its link; the link holds the code.
+      placeholder: https://…/playground#code=…
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: e.g. 0.1.0 or a commit SHA
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+      placeholder: e.g. Chrome 140 on Windows 11, 150% display scaling
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - core (engine)
+        - ui (shell and controls)
+        - demo
+        - infra (CI, tooling)

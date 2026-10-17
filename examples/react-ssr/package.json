@@ -1,0 +1,22 @@
+{
+  "name": "charton-example-react-ssr",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: a chart rendered on the server with @charton/react and hydrated in the browser.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p . && vite build --outDir dist/client && vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/react": "workspace:^",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
+  }
+}

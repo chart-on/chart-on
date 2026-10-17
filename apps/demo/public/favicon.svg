@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="15" fill="#e06c3e"/>
+  <!-- The mark, drawn on a 100-unit grid: a stepped block with its rounded shoulder at the top right and a separate square. -->
+  <g fill="#f5f1e8" transform="translate(14 14) scale(.36)">
+    <path d="M100 46A46 46 0 0 0 54 0H7A7 7 0 0 0 0 7V39A7 7 0 0 0 7 46H23V70A7 7 0 0 0 30 77H53.5V93A7 7 0 0 0 60.5 100H93A7 7 0 0 0 100 93Z"/>
+    <rect x="0" y="79" width="21" height="21" rx="6.5"/>
+  </g>
+</svg>

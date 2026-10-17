@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>charton without a bundler</title>
+    <!--
+      The script-tag build: run `pnpm build`, then open this file in a browser
+      (directly from disk works too). In your own page, copy the three files from
+      packages/ui/dist/browser/ next to it and change the paths.
+    -->
+    <link rel="stylesheet" href="../../packages/ui/dist/browser/style.css" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #121217;
+      }
+      #chart {
+        height: 100%;
+      }
+      .fallback {
+        color: #babac6;
+        font: 14px system-ui, sans-serif;
+        padding: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart"></div>
+
+    <!-- Defines the global `charton`: the engine and the shell in one file. -->
+    <script src="../../packages/ui/dist/browser/charton.iife.js"></script>
+    <script>
+      const { createChartShell, createMockDataSource, isWebGL2Supported } = charton;
+      const el = document.getElementById('chart');
+
+      if (!isWebGL2Supported()) {
+        el.innerHTML = '<p class="fallback">This chart needs WebGL2, which this browser does not offer.</p>';
+      } else {
+        // Create once; afterwards change it in place (setTheme, applyOptions, setSymbol).
+        const shell = createChartShell(el, { theme: 'dark' });
+        shell.chart.setDataSource(createMockDataSource());
+        shell.chart.setSymbol('DEMO', '1h');
+        // Kept on window so you can try the API from the browser console.
+        window.shell = shell;
+      }
+    </script>
+  </body>
+</html>

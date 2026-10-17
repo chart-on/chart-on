@@ -1,0 +1,4575 @@
+/*
+ * @charton/ui — flat trading-terminal look.
+ * Dark by default, light with `data-theme="light"` on .pc-shell (`.pc-light` still works);
+ * without `data-theme` the colours follow the OS setting.
+ * Override any --pc-* variable on .pc-shell to restyle. The chart tokens at the end of the
+ * block color the canvas: the shell reads them with `themeFromCss` from @charton/core.
+ */
+.pc-shell {
+  --pc-shell: #0a0a0e;
+  --pc-canvas: #121217;
+  --pc-panel: #121217;
+  --pc-surface: #1b1b22;
+  --pc-popover: #1b1b22;
+  --pc-hover: #24242d;
+  --pc-active: #2f2f39;
+  --pc-line: #23232b;
+  --pc-line-strong: #3b3b47;
+  --pc-ink: #e6e6ec;
+  --pc-muted-strong: #babac6;
+  --pc-muted: #8b8b99;
+  --pc-faint: #5e5e6c;
+  --pc-accent: #8b75ff;
+  --pc-accent-ink: #0e0e13;
+  --pc-accent-soft: rgba(139, 117, 255, 0.16);
+  --pc-focus: var(--pc-accent);
+  --pc-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --pc-tip-bg: #2f2f39;
+  --pc-tip-ink: #ffffff;
+  --pc-tip-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --pc-font: system-ui, ui-sans-serif, sans-serif;
+  --pc-font-mono: ui-monospace, monospace;
+  --pc-font-size-xs: 11px;
+  --pc-font-size-sm: 12px;
+  --pc-font-size: 13px;
+  --pc-font-size-lg: 14px;
+  --pc-font-size-xl: 15px;
+  --pc-radius-xs: 2px;
+  --pc-radius-sm: 4px;
+  --pc-radius-md: 6px;
+  --pc-radius-lg: 8px;
+  --pc-space-1: 2px;
+  --pc-space-2: 4px;
+  --pc-space-3: 6px;
+  --pc-space-4: 8px;
+  --pc-space-5: 12px;
+  --pc-space-6: 16px;
+  --pc-rail-button: 36px;
+  --pc-gap: 4px;
+  /* Panel styles (see "panels" below): rounding of floating parts and the stage, and the space they keep from the shell's edges. */
+  --pc-panel-radius: var(--pc-radius-lg);
+  --pc-panel-inset: var(--pc-space-2);
+  --pc-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Overlay entrances: a quart ease-out, gentler than --pc-ease at the start, so the motion reads
+     as a glide instead of a snap. Durations grow with travel: 200ms popovers and toasts, 240ms
+     dialogs, 260ms panels and sheets; fades without travel take 160ms. */
+  --pc-ease-enter: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Chart canvas: one token per ChartTheme key. */
+  --pc-chart-bg: var(--pc-canvas);
+  --pc-chart-grid: rgba(36, 36, 45, 0.6);
+  --pc-chart-separator: var(--pc-line);
+  --pc-chart-text: var(--pc-muted-strong);
+  --pc-chart-text-muted: var(--pc-muted);
+  --pc-chart-font: var(--pc-font);
+  --pc-chart-font-size: 12px;
+  /* Typography baseline: weight (a number, normal or bold) and numerals (tabular or proportional). */
+  --pc-chart-font-weight: 400;
+  --pc-chart-numerals: tabular;
+  --pc-chart-crosshair: rgba(150, 150, 166, 0.75);
+  --pc-chart-label-bg: var(--pc-active);
+  --pc-chart-label-text: #ffffff;
+  --pc-up: #3cc4a0;
+  --pc-down: #e8574a;
+  --pc-line-series: var(--pc-accent);
+  --pc-drawing: var(--pc-accent);
+  --pc-drawing-selected: var(--pc-ink);
+  --pc-drawing-fill: rgba(139, 117, 255, 0.12);
+  --pc-chart-reference-line: var(--pc-muted);
+  --pc-bid: #3d8bfd;
+  --pc-ask: #e8574a;
+  --pc-depth-bid: rgba(61, 139, 253, 0.35);
+  --pc-depth-ask: rgba(232, 87, 74, 0.35);
+  --pc-extended-hours: #e0a030;
+  --pc-alert: #f0a73a;
+  --pc-annotation-fill: rgba(61, 139, 253, 0.12);
+  /* Star of a favourite tool; follows the alert colour of each theme. */
+  --pc-favorite: var(--pc-alert);
+  /* Navigator strip: overview line, window over the visible range, shade outside it. */
+  --pc-navigator-line: var(--pc-muted);
+  --pc-navigator-window: var(--pc-accent-soft);
+  --pc-navigator-border: var(--pc-accent);
+  --pc-navigator-shade: color-mix(in srgb, var(--pc-shell) 40%, transparent);
+  --pc-heatmap: #211e36, #493088, #6656d7, #2ea4dc, #48dcc1, #fced95;
+  --pc-chart-watermark: rgba(186, 186, 198, 0.09);
+  --pc-level-neutral: #8b8b99;
+  --pc-level-red: #f06a5d;
+  --pc-level-orange: #eda23c;
+  --pc-level-green: #3fcf6e;
+  --pc-level-blue: #4c9aff;
+  --pc-level-purple: #a98bff;
+  /* Dialogs: form and picker dialogs, symbol search. */
+  --pc-dialog-bg: var(--pc-popover);
+  --pc-dialog-backdrop: color-mix(in srgb, var(--pc-shell) 60%, transparent);
+  --pc-dialog-radius: var(--pc-radius-lg);
+  --pc-dialog-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  --pc-dialog-width: 560px;
+  --pc-dialog-panel-width: 340px;
+  --pc-dialog-height: 560px;
+  --pc-dialog-sidebar-width: 168px;
+  --pc-dialog-padding: var(--pc-space-6);
+  /* Smallest width of a dialog footer text button, so a short label like "Ok" stays a real target. */
+  --pc-dialog-btn-min-width: 76px;
+  --pc-dialog-field-height: 28px;
+  --pc-dialog-error: var(--pc-down);
+  /* Scrollbars of every scrolling area; built from the colours above, so each theme follows. */
+  --pc-scrollbar-size: 10px;
+  --pc-scrollbar-radius: var(--pc-scrollbar-size);
+  --pc-scrollbar-track: transparent;
+  --pc-scrollbar-thumb: var(--pc-line-strong);
+  --pc-scrollbar-thumb-hover: var(--pc-faint);
+  --pc-scrollbar-thumb-active: var(--pc-muted);
+
+  /* Dialogs cover the shell. */
+  position: relative;
+  /* The narrow layout below follows the shell's width, not the viewport's. */
+  container: pc-shell / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pc-gap);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--pc-shell);
+  color: var(--pc-ink);
+  font-family: var(--pc-font);
+  font-size: var(--pc-font-size);
+  box-sizing: border-box;
+  transition: background-color 200ms;
+}
+
+/* Light. Keep in sync with the system-light block below. */
+.pc-shell[data-theme='light'],
+.pc-shell.pc-light {
+  --pc-shell: #e8e8ee;
+  --pc-canvas: #ffffff;
+  --pc-panel: #ffffff;
+  --pc-surface: #ffffff;
+  --pc-popover: #ffffff;
+  --pc-hover: #f3f3f7;
+  --pc-active: #e9e9ef;
+  --pc-line: #e5e5eb;
+  --pc-line-strong: #cfcfd9;
+  --pc-ink: #15151b;
+  --pc-muted-strong: #34343f;
+  --pc-muted: #696977;
+  --pc-faint: #a9a9b6;
+  --pc-accent: #5f43e6;
+  --pc-accent-ink: #ffffff;
+  --pc-accent-soft: rgba(95, 67, 230, 0.1);
+  --pc-shadow: 0 12px 32px rgba(21, 21, 27, 0.16);
+  --pc-tip-bg: #15151b;
+  --pc-chart-grid: rgba(241, 241, 245, 1);
+  --pc-chart-text: var(--pc-ink);
+  --pc-chart-crosshair: rgba(120, 120, 136, 0.8);
+  --pc-chart-label-bg: var(--pc-ink);
+  --pc-up: #0f8268;
+  --pc-down: #c9412f;
+  --pc-drawing-fill: rgba(95, 67, 230, 0.1);
+  --pc-bid: #1d63d8;
+  --pc-ask: #c9412f;
+  --pc-depth-bid: rgba(29, 99, 216, 0.28);
+  --pc-depth-ask: rgba(201, 65, 47, 0.28);
+  --pc-extended-hours: #a8650a;
+  --pc-alert: #a35c00;
+  --pc-annotation-fill: rgba(29, 99, 216, 0.1);
+  --pc-heatmap: #f3f2fe, #abe6e9, #51cbbd, #2c90d7, #5f3ed8, #541b81;
+  --pc-chart-watermark: rgba(21, 21, 27, 0.07);
+  --pc-level-neutral: #6e6e7c;
+  --pc-level-red: #cf3f2e;
+  --pc-level-orange: #b0650a;
+  --pc-level-green: #17904a;
+  --pc-level-blue: #2563d9;
+  --pc-level-purple: #7a4ee0;
+}
+
+/* No data-theme: follow the OS. Same values as the light block above. */
+@media (prefers-color-scheme: light) {
+  .pc-shell:not([data-theme]) {
+    --pc-shell: #e8e8ee;
+    --pc-canvas: #ffffff;
+    --pc-panel: #ffffff;
+    --pc-surface: #ffffff;
+    --pc-popover: #ffffff;
+    --pc-hover: #f3f3f7;
+    --pc-active: #e9e9ef;
+    --pc-line: #e5e5eb;
+    --pc-line-strong: #cfcfd9;
+    --pc-ink: #15151b;
+    --pc-muted-strong: #34343f;
+    --pc-muted: #696977;
+    --pc-faint: #a9a9b6;
+    --pc-accent: #5f43e6;
+    --pc-accent-ink: #ffffff;
+    --pc-accent-soft: rgba(95, 67, 230, 0.1);
+    --pc-shadow: 0 12px 32px rgba(21, 21, 27, 0.16);
+    --pc-tip-bg: #15151b;
+    --pc-chart-grid: rgba(241, 241, 245, 1);
+    --pc-chart-text: var(--pc-ink);
+    --pc-chart-crosshair: rgba(120, 120, 136, 0.8);
+    --pc-chart-label-bg: var(--pc-ink);
+    --pc-up: #0f8268;
+    --pc-down: #c9412f;
+    --pc-drawing-fill: rgba(95, 67, 230, 0.1);
+    --pc-bid: #1d63d8;
+    --pc-ask: #c9412f;
+    --pc-depth-bid: rgba(29, 99, 216, 0.28);
+    --pc-depth-ask: rgba(201, 65, 47, 0.28);
+    --pc-extended-hours: #a8650a;
+    --pc-alert: #a35c00;
+    --pc-annotation-fill: rgba(29, 99, 216, 0.1);
+    --pc-heatmap: #f3f2fe, #abe6e9, #51cbbd, #2c90d7, #5f3ed8, #541b81;
+    --pc-chart-watermark: rgba(21, 21, 27, 0.07);
+    --pc-level-neutral: #6e6e7c;
+    --pc-level-red: #cf3f2e;
+    --pc-level-orange: #b0650a;
+    --pc-level-green: #17904a;
+    --pc-level-blue: #2563d9;
+    --pc-level-purple: #7a4ee0;
+  }
+}
+
+/*
+ * High contrast: add the `pc-theme-high-contrast` class (shell option `className`).
+ * Dark by default; light with data-theme="light", or the OS setting without data-theme.
+ * Same colours as highContrastDarkTheme / highContrastLightTheme in @charton/core.
+ */
+.pc-shell.pc-theme-high-contrast {
+  --pc-shell: #000000;
+  --pc-canvas: #000000;
+  --pc-panel: #000000;
+  --pc-surface: #121212;
+  --pc-popover: #121212;
+  --pc-hover: #262626;
+  --pc-active: #3a3a3a;
+  --pc-line: #6b6b6b;
+  --pc-line-strong: #a0a0a0;
+  --pc-ink: #ffffff;
+  --pc-muted-strong: #ffffff;
+  --pc-muted: #d4d4d4;
+  --pc-faint: #a8a8a8;
+  --pc-accent: #b8a6ff;
+  --pc-accent-ink: #000000;
+  --pc-accent-soft: rgba(184, 166, 255, 0.25);
+  --pc-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+  --pc-tip-bg: #ffffff;
+  --pc-tip-ink: #000000;
+  --pc-chart-grid: rgba(255, 255, 255, 0.16);
+  --pc-chart-text: var(--pc-ink);
+  --pc-chart-crosshair: rgba(255, 255, 255, 0.9);
+  --pc-chart-label-bg: #ffffff;
+  --pc-chart-label-text: #000000;
+  --pc-up: #2ee59d;
+  --pc-down: #ff6b5e;
+  --pc-drawing-fill: rgba(184, 166, 255, 0.18);
+  --pc-bid: #66b3ff;
+  --pc-ask: #ff6b5e;
+  --pc-depth-bid: rgba(102, 179, 255, 0.5);
+  --pc-depth-ask: rgba(255, 107, 94, 0.5);
+  --pc-extended-hours: #ffc04d;
+  --pc-alert: #ffb21f;
+  --pc-annotation-fill: rgba(102, 179, 255, 0.22);
+  --pc-heatmap: #1c1a3d, #3d2fb0, #2f6bff, #00bfff, #3dffb0, #ffff70;
+  --pc-chart-watermark: rgba(255, 255, 255, 0.14);
+  --pc-level-neutral: #d4d4d4;
+  --pc-level-red: #ff6b5e;
+  --pc-level-orange: #ffb84d;
+  --pc-level-green: #4dea7c;
+  --pc-level-blue: #66b3ff;
+  --pc-level-purple: #c9b0ff;
+  --pc-scrollbar-thumb: var(--pc-muted);
+  --pc-scrollbar-thumb-hover: var(--pc-ink);
+  --pc-scrollbar-thumb-active: var(--pc-ink);
+}
+
+.pc-shell.pc-theme-high-contrast[data-theme='light'],
+.pc-shell.pc-theme-high-contrast.pc-light {
+  --pc-shell: #e6e6e6;
+  --pc-canvas: #ffffff;
+  --pc-panel: #ffffff;
+  --pc-surface: #ffffff;
+  --pc-popover: #ffffff;
+  --pc-hover: #ebebeb;
+  --pc-active: #dcdcdc;
+  --pc-line: #7a7a7a;
+  --pc-line-strong: #3b3b3b;
+  --pc-ink: #000000;
+  --pc-muted-strong: #000000;
+  --pc-muted: #3b3b3b;
+  --pc-faint: #5c5c5c;
+  --pc-accent: #3b1fc4;
+  --pc-accent-ink: #ffffff;
+  --pc-accent-soft: rgba(59, 31, 196, 0.14);
+  --pc-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  --pc-tip-bg: #000000;
+  --pc-tip-ink: #ffffff;
+  --pc-chart-grid: rgba(0, 0, 0, 0.14);
+  --pc-chart-text: var(--pc-ink);
+  --pc-chart-crosshair: rgba(0, 0, 0, 0.85);
+  --pc-chart-label-bg: var(--pc-ink);
+  --pc-chart-label-text: #ffffff;
+  --pc-up: #00694d;
+  --pc-down: #b3241b;
+  --pc-drawing-fill: rgba(59, 31, 196, 0.12);
+  --pc-bid: #0a4fb5;
+  --pc-ask: #b3241b;
+  --pc-depth-bid: rgba(10, 79, 181, 0.4);
+  --pc-depth-ask: rgba(179, 36, 27, 0.4);
+  --pc-extended-hours: #7a4a00;
+  --pc-alert: #7a4100;
+  --pc-annotation-fill: rgba(10, 79, 181, 0.16);
+  --pc-heatmap: #eef0ff, #9fd4ff, #3a9be6, #1f58cc, #3b1fc4, #1e0559;
+  --pc-chart-watermark: rgba(0, 0, 0, 0.1);
+  --pc-level-neutral: #3b3b3b;
+  --pc-level-red: #b3241b;
+  --pc-level-orange: #8a4b00;
+  --pc-level-green: #0b6b2e;
+  --pc-level-blue: #0a4fb5;
+  --pc-level-purple: #5a2bc4;
+}
+
+@media (prefers-color-scheme: light) {
+  .pc-shell.pc-theme-high-contrast:not([data-theme]) {
+    --pc-shell: #e6e6e6;
+    --pc-canvas: #ffffff;
+    --pc-panel: #ffffff;
+    --pc-surface: #ffffff;
+    --pc-popover: #ffffff;
+    --pc-hover: #ebebeb;
+    --pc-active: #dcdcdc;
+    --pc-line: #7a7a7a;
+    --pc-line-strong: #3b3b3b;
+    --pc-ink: #000000;
+    --pc-muted-strong: #000000;
+    --pc-muted: #3b3b3b;
+    --pc-faint: #5c5c5c;
+    --pc-accent: #3b1fc4;
+    --pc-accent-ink: #ffffff;
+    --pc-accent-soft: rgba(59, 31, 196, 0.14);
+    --pc-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    --pc-tip-bg: #000000;
+    --pc-tip-ink: #ffffff;
+    --pc-chart-grid: rgba(0, 0, 0, 0.14);
+    --pc-chart-text: var(--pc-ink);
+    --pc-chart-crosshair: rgba(0, 0, 0, 0.85);
+    --pc-chart-label-bg: var(--pc-ink);
+    --pc-chart-label-text: #ffffff;
+    --pc-up: #00694d;
+    --pc-down: #b3241b;
+    --pc-drawing-fill: rgba(59, 31, 196, 0.12);
+    --pc-bid: #0a4fb5;
+    --pc-ask: #b3241b;
+    --pc-depth-bid: rgba(10, 79, 181, 0.4);
+    --pc-depth-ask: rgba(179, 36, 27, 0.4);
+    --pc-extended-hours: #7a4a00;
+    --pc-alert: #7a4100;
+    --pc-annotation-fill: rgba(10, 79, 181, 0.16);
+    --pc-heatmap: #eef0ff, #9fd4ff, #3a9be6, #1f58cc, #3b1fc4, #1e0559;
+    --pc-chart-watermark: rgba(0, 0, 0, 0.1);
+    --pc-level-neutral: #3b3b3b;
+    --pc-level-red: #b3241b;
+    --pc-level-orange: #8a4b00;
+    --pc-level-green: #0b6b2e;
+    --pc-level-blue: #0a4fb5;
+    --pc-level-purple: #5a2bc4;
+  }
+}
+
+/*
+ * Colour-safe up and down (blue and orange) for colour-vision deficiencies, over any theme:
+ * shell.setPalette('color-safe') sets data-pc-palette. Same colours as colorSafeUpDown.
+ */
+.pc-shell[data-pc-palette='color-safe'] {
+  --pc-up: #4ba3ff;
+  --pc-down: #ff9a1f;
+  --pc-ask: #ff9a1f;
+  --pc-depth-ask: rgba(255, 154, 31, 0.35);
+}
+
+.pc-shell[data-pc-palette='color-safe'][data-theme='light'],
+.pc-shell[data-pc-palette='color-safe'].pc-light {
+  --pc-up: #1a62c9;
+  --pc-down: #c25a00;
+  --pc-ask: #c25a00;
+  --pc-depth-ask: rgba(194, 90, 0, 0.28);
+}
+
+@media (prefers-color-scheme: light) {
+  .pc-shell[data-pc-palette='color-safe']:not([data-theme]) {
+    --pc-up: #1a62c9;
+    --pc-down: #c25a00;
+    --pc-ask: #c25a00;
+    --pc-depth-ask: rgba(194, 90, 0, 0.28);
+  }
+}
+
+.pc-shell *,
+.pc-shell *::before,
+.pc-shell *::after {
+  box-sizing: border-box;
+}
+
+/*
+ * Scrollbars: one rule for every scrolling area, styled by the --pc-scrollbar-* tokens.
+ * Engines with the pseudo-elements get the full styling (size, radius, hover); the others
+ * get the standard thin width and colours. Zero specificity, so a component can still hide
+ * its scrollbar. `pc-native-scrollbars` on the shell and forced colours keep the platform's.
+ */
+@media (forced-colors: none) {
+  @supports selector(::-webkit-scrollbar) {
+    /* A host page's inherited scrollbar-color would switch the pseudo-elements off. */
+    :where(.pc-shell:not(.pc-native-scrollbars)) * {
+      scrollbar-color: auto;
+    }
+
+    :where(.pc-shell:not(.pc-native-scrollbars)) ::-webkit-scrollbar {
+      width: var(--pc-scrollbar-size);
+      height: var(--pc-scrollbar-size);
+      background: var(--pc-scrollbar-track);
+    }
+
+    :where(.pc-shell:not(.pc-native-scrollbars)) ::-webkit-scrollbar-thumb {
+      /* The transparent border insets the thumb, clear of rounded corners. */
+      border: 2px solid transparent;
+      border-radius: var(--pc-scrollbar-radius);
+      background: var(--pc-scrollbar-thumb) padding-box;
+    }
+
+    :where(.pc-shell:not(.pc-native-scrollbars)) ::-webkit-scrollbar-thumb:hover {
+      background-color: var(--pc-scrollbar-thumb-hover);
+    }
+
+    :where(.pc-shell:not(.pc-native-scrollbars)) ::-webkit-scrollbar-thumb:active {
+      background-color: var(--pc-scrollbar-thumb-active);
+    }
+
+    :where(.pc-shell:not(.pc-native-scrollbars)) ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    :where(.pc-shell:not(.pc-native-scrollbars)) * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--pc-scrollbar-thumb) var(--pc-scrollbar-track);
+    }
+
+    /* No thumb hover here: the thumb gets stronger while the pointer is over its area. */
+    :where(.pc-shell:not(.pc-native-scrollbars)) :hover {
+      scrollbar-color: var(--pc-scrollbar-thumb-hover) var(--pc-scrollbar-track);
+    }
+  }
+}
+
+/* Lists whose content changes while open keep their width when a scrollbar comes or goes. */
+.pc-ot-tree,
+.pc-picker-results,
+.pc-symbol-search-results,
+.pc-form-body,
+.pc-appearance-body,
+.pc-table-view-body {
+  scrollbar-gutter: stable;
+}
+
+.pc-shell-top {
+  position: relative;
+  z-index: 6;
+  flex-shrink: 0;
+  background: var(--pc-panel);
+}
+
+.pc-shell-body {
+  display: flex;
+  flex: 1;
+  gap: var(--pc-gap);
+  min-height: 0;
+}
+
+/* Tooltips and popovers overflow the rail into the stage. */
+.pc-shell-side {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-shrink: 0;
+  min-height: 0;
+  background: var(--pc-panel);
+}
+
+/* Shell feature flags hide parts with the `hidden` attribute. */
+.pc-shell-side[hidden],
+.pc-bottombar[hidden] {
+  display: none;
+}
+
+.pc-shell-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--pc-gap);
+  min-width: 0;
+  min-height: 0;
+}
+
+.pc-stage {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--pc-chart-bg);
+}
+
+/* The ring is a layer over the chart: the chart's canvases would cover the root's own shadow or outline. */
+.pc-stage .pc-chart:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  box-shadow: inset 0 0 0 1px var(--pc-focus);
+  pointer-events: none;
+}
+
+/* After a pointer press the ring stays hidden until the next key press (createChartShell sets data-pc-pointer). */
+.pc-shell[data-pc-pointer] .pc-stage .pc-chart:focus-visible::after {
+  box-shadow: none;
+  outline: none;
+}
+
+/* ------------------------------ panels ------------------------------- */
+
+/*
+ * The shell's `panels` option, written as data-pc-* attributes by createChartShell.
+ * Floating parts are rounded cards, docked parts square strips flush with the shell's
+ * edges, inset parts have no fill and sit on the shell background. Unless every part is
+ * docked (the flush layout), the shell keeps `--pc-panel-inset` free at its edges and
+ * rounds the stage; with mixed styles a docked part reaches back over that space.
+ */
+.pc-shell[data-pc-panels]:not([data-pc-panels='docked']) {
+  padding: var(--pc-panel-inset);
+}
+
+.pc-shell[data-pc-panels]:not([data-pc-panels='docked']) > .pc-shell-body > .pc-shell-main > :is(.pc-stage, .pc-navigator),
+.pc-shell[data-pc-panels]:not([data-pc-panels='docked']) > .pc-shell-body > .pc-shell-main > .pc-stage .pc-chart:focus-visible::after,
+.pc-shell[data-pc-toolbar='floating'] > .pc-shell-top,
+.pc-shell[data-pc-rail='floating'] > .pc-shell-body > .pc-shell-side:not([data-sheet]),
+.pc-shell[data-pc-bottom-bar='floating'] > .pc-shell-body > .pc-shell-main > .pc-bottombar {
+  border-radius: var(--pc-panel-radius);
+}
+
+.pc-shell[data-pc-toolbar='inset'] > .pc-shell-top,
+.pc-shell[data-pc-rail='inset'] > .pc-shell-body > .pc-shell-side:not([data-sheet]),
+.pc-shell[data-pc-bottom-bar='inset'] > .pc-shell-body > .pc-shell-main > .pc-bottombar {
+  background: transparent;
+}
+
+.pc-shell[data-pc-panels='mixed'][data-pc-toolbar='docked'] > .pc-shell-top {
+  margin: calc(-1 * var(--pc-panel-inset)) calc(-1 * var(--pc-panel-inset)) 0;
+}
+
+.pc-shell[data-pc-panels='mixed'][data-pc-rail='docked'] > .pc-shell-body > .pc-shell-side:not([data-sheet]) {
+  margin-inline-start: calc(-1 * var(--pc-panel-inset));
+  margin-bottom: calc(-1 * var(--pc-panel-inset));
+}
+
+.pc-shell[data-pc-panels='mixed'][data-pc-bottom-bar='docked'] > .pc-shell-body > .pc-shell-main > .pc-bottombar {
+  margin-inline-end: calc(-1 * var(--pc-panel-inset));
+  margin-bottom: calc(-1 * var(--pc-panel-inset));
+}
+
+/* ------------------------- slots and toasts -------------------------- */
+
+/* App content above and below the rail: the side column stacks instead of sitting in a row. */
+.pc-shell-side--slots {
+  flex-direction: column;
+}
+
+.pc-shell-side--slots > .pc-rail {
+  flex: 1;
+}
+
+.pc-slot {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pc-slot--rail-top,
+.pc-slot--rail-bottom {
+  flex-direction: column;
+  padding: var(--pc-space-2) 0;
+}
+
+/* The loading and empty slots, centred over the chart; only their content takes presses. */
+.pc-status-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--pc-muted);
+}
+
+.pc-status-slot[hidden] {
+  display: none;
+}
+
+.pc-status-slot > * {
+  pointer-events: auto;
+}
+
+/*
+ * Above dialogs (40) and bottom sheets (35), so a toast raised from a modal reads at full contrast; below tooltips (50).
+ * Clear of the favourites bar, which sets the room it takes from the stage's bottom or top (favorites.ts).
+ */
+.pc-toasts {
+  position: absolute;
+  bottom: max(40px, var(--pc-favorites-bottom, 0px));
+  left: 50%;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pc-space-2);
+  max-width: calc(100% - 2 * var(--pc-space-4));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* A bottom sheet (compact panel or tool sheet) holds the bottom edge: toasts move to the top instead of covering its buttons. */
+.pc-shell:has(> .pc-dialog-backdrop > .pc-dialog--panel[data-compact='true'], > .pc-shell-body > .pc-shell-side[data-sheet='open'])
+  > .pc-shell-body
+  > .pc-shell-main
+  > .pc-stage
+  > .pc-toasts {
+  top: max(var(--pc-space-4), var(--pc-favorites-top, 0px));
+  bottom: auto;
+}
+
+.pc-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+  max-width: 100%;
+  padding: var(--pc-space-2);
+  padding-inline-start: var(--pc-space-4);
+  border-inline-start: 3px solid var(--pc-accent);
+  border-radius: var(--pc-radius-md);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font-size: var(--pc-font-size-sm);
+  pointer-events: auto;
+  animation: pc-pop-in 200ms var(--pc-ease-enter);
+}
+
+.pc-toast--success {
+  border-inline-start-color: var(--pc-up);
+}
+
+.pc-toast--error {
+  border-inline-start-color: var(--pc-down);
+}
+
+.pc-toast-message {
+  overflow-wrap: anywhere;
+}
+
+/* The chart status (reconnecting, stale…): no close button; a spinner while in progress. */
+.pc-toast--status {
+  padding-inline-end: var(--pc-space-4);
+}
+
+.pc-toast--status > svg {
+  flex: none;
+  color: var(--pc-muted);
+  animation: pc-spin 1s linear infinite;
+}
+
+@keyframes pc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-toast--status > svg {
+    animation: none;
+  }
+}
+
+/* ------------------------------ toolbar ------------------------------ */
+
+/* Runtime show/hide uses the `hidden` attribute; beat the display rules below. */
+.pc-shell-top[hidden],
+.pc-shell-side[hidden],
+.pc-toolbar[hidden],
+.pc-toolbar > [hidden],
+.pc-toolbar-seg > [hidden],
+.pc-rail[hidden] {
+  display: none !important;
+}
+
+/* One row; items that do not fit move into the "more" menu instead of wrapping. */
+.pc-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+  min-height: 40px;
+  padding: 0 var(--pc-space-3);
+}
+
+.pc-toolbar > * {
+  flex-shrink: 0;
+}
+
+.pc-toolbar > .pc-spacer {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.pc-toolbar-end {
+  margin-inline-start: auto;
+}
+
+/* Menu icons match the toolbar's icon buttons (`--md`), so strokes weigh the same. */
+.pc-toolbar .pc-menu-face > svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Compact stage before overflow: text beside an icon drops, the icon stays. */
+.pc-toolbar--icons .pc-toolbar-text,
+.pc-toolbar--icons .pc-menu-text,
+.pc-toolbar--icons .pc-toolbar-detail {
+  display: none;
+}
+
+/* A button whose text follows the chart, such as the symbol header: the text stays, its detail is muted. */
+.pc-toolbar-content {
+  min-width: 0;
+}
+
+/* Long text (a host's `format`, say) ends in an ellipsis instead of pushing other items out. */
+.pc-toolbar-content > span,
+.pc-toolbar-detail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pc-toolbar-content > span {
+  max-width: 14em;
+  color: var(--pc-ink);
+  font-weight: 600;
+}
+
+.pc-toolbar-detail {
+  max-width: 10em;
+  color: var(--pc-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.pc-toolbar-slot {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pc-toolbar-action-list {
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--pc-space-4);
+}
+
+.pc-toolbar-action {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+  padding: var(--pc-space-2);
+  border-radius: var(--pc-radius-sm);
+}
+
+.pc-toolbar-action:hover {
+  background: var(--pc-hover);
+}
+
+.pc-toolbar-action label {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  flex: 1;
+  min-width: 0;
+  font-size: var(--pc-font-size-sm);
+}
+
+.pc-toolbar-action label span {
+  overflow-wrap: anywhere;
+}
+
+.pc-toolbar-action input {
+  accent-color: var(--pc-accent);
+}
+
+.pc-toolbar-action-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: var(--pc-muted-strong);
+}
+
+.pc-toolbar-action-controls {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.pc-toolbar-action [data-control='drag'] {
+  cursor: grab;
+  touch-action: none;
+}
+
+/* The row being dragged: lifted above its neighbours and dimmed. */
+.pc-toolbar-action[data-dragging] {
+  position: relative;
+  z-index: 1;
+  opacity: 0.6;
+  background: var(--pc-hover);
+}
+
+.pc-toolbar-action[data-dragging] [data-control='drag'] {
+  cursor: grabbing;
+}
+
+.pc-sep {
+  flex-shrink: 0;
+  width: 1px;
+  height: 22px;
+  margin: 0 var(--pc-space-2);
+  background: var(--pc-line);
+}
+
+.pc-spacer {
+  flex: 1;
+}
+
+/* Toolbar separators and the dividers between item groups (the toolbar's `dividers` option) share one look. */
+.pc-toolbar > .pc-sep {
+  background: var(--pc-line-strong);
+}
+
+/* The divider sits where a separator would: the same spacing and line, drawn before the item's box. */
+.pc-toolbar > .pc-toolbar-divided {
+  position: relative;
+  margin-inline-start: calc(2 * var(--pc-space-2) + var(--pc-space-1) + 1px);
+}
+
+.pc-toolbar > .pc-toolbar-divided::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  inset-inline-start: calc(-1 * (var(--pc-space-2) + var(--pc-space-1) + 1px));
+  width: 1px;
+  height: 22px;
+  background: var(--pc-line-strong);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ---------------------------- tool rail ------------------------------ */
+
+.pc-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pc-space-1);
+  width: calc(var(--pc-rail-button) + 2 * var(--pc-space-3));
+  padding: var(--pc-space-3) 0;
+  min-height: 0;
+}
+
+.pc-rail-sep {
+  flex-shrink: 0;
+  width: calc(var(--pc-rail-button) - 8px);
+  height: 1px;
+  margin: var(--pc-space-2) 0;
+  background: var(--pc-line);
+}
+
+.pc-rail-group {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pc-rail-more {
+  /*
+   * The keyboard's way into a group's flyout (a mouse hovers, touch long-presses):
+   * hidden until it has keyboard focus, then a small tab in the rail's side
+   * padding, so a group is no wider than a plain button.
+   */
+  position: absolute;
+  inset-block: 3px;
+  inset-inline-end: calc(-1 * var(--pc-space-3));
+  /* Flex centres the chevron's box even where it is wider than the padding it sits in. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pc-space-3);
+  padding: 0;
+  border: 0;
+  border-radius: var(--pc-radius-xs);
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pc-rail-more:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  opacity: 1;
+}
+
+.pc-rail-more > svg {
+  flex-shrink: 0;
+  stroke-width: 3;
+}
+
+.pc-rail-more:dir(rtl) > svg {
+  transform: scaleX(-1);
+}
+
+/* The bottom sheet's rail opens its flyouts upwards. */
+.pc-rail[data-orientation='horizontal'] .pc-rail-more > svg {
+  transform: rotate(-90deg);
+}
+
+/*
+ * A group's button: a short bar on the side its flyout opens says it holds more
+ * tools, beside the icon on a vertical rail, above it in the bottom sheet (the
+ * overflow "more" button has no flyout, so no bar).
+ */
+.pc-rail-group:has(> .pc-rail-more) > .pc-icon-btn::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 4px);
+  inset-inline-end: 3px;
+  width: 2px;
+  height: 8px;
+  border-radius: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.pc-rail[data-orientation='horizontal'] .pc-rail-group:has(> .pc-rail-more) > .pc-icon-btn::after {
+  top: 3px;
+  inset-inline-end: calc(50% - 4px);
+  width: 8px;
+  height: 2px;
+}
+
+/* Rail flyouts open clear of the rail: past its side padding, then the usual gap. */
+.pc-rail .pc-popover--right {
+  inset-inline-start: calc(100% + 2 * var(--pc-space-3));
+}
+
+/* ---------------------------- icon button ---------------------------- */
+
+.pc-icon-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-muted-strong);
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms, transform 120ms var(--pc-ease);
+}
+
+.pc-icon-btn--sm {
+  width: 28px;
+  height: 28px;
+}
+
+.pc-icon-btn--md {
+  width: 32px;
+  height: 32px;
+}
+
+.pc-icon-btn--lg {
+  width: var(--pc-rail-button);
+  height: var(--pc-rail-button);
+}
+
+.pc-icon-btn:hover {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+.pc-icon-btn:active {
+  transform: scale(0.94);
+}
+
+.pc-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* A tool the access rules refuse (`access.refused: 'disable'`): still pressable, so the app hears it. */
+.pc-icon-btn.is-blocked,
+.pc-popover-item.is-blocked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pc-icon-btn--surface {
+  background: var(--pc-surface);
+  box-shadow: inset 0 0 0 1px var(--pc-line);
+}
+
+.pc-icon-btn.is-active {
+  background: var(--pc-accent-soft);
+  color: var(--pc-accent);
+}
+
+/* No double-tap zoom on tool buttons: a double-tap keeps the tool active. */
+.pc-rail .pc-icon-btn,
+.pc-rail .pc-popover-item {
+  touch-action: manipulation;
+}
+
+/* A drawing tool kept active for repeated drawings (`drawings.toolKept`): a ring and a corner dot. */
+.pc-icon-btn[data-kept] {
+  box-shadow: inset 0 0 0 1px var(--pc-accent);
+}
+
+.pc-icon-btn[data-kept]::before,
+.pc-popover-item[data-kept]::before {
+  content: '';
+  position: absolute;
+  inset-inline-end: 3px;
+  bottom: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pc-accent);
+  pointer-events: none;
+}
+
+.pc-popover-item[data-kept] {
+  position: relative;
+}
+
+.pc-popover-item[data-kept]::before {
+  top: 50%;
+  inset-inline-end: var(--pc-space-3);
+  bottom: auto;
+  transform: translateY(-50%);
+}
+
+.pc-icon-btn:focus-visible,
+.pc-btn:focus-visible,
+.pc-seg-btn:focus-visible,
+.pc-popover-item:focus-visible,
+.pc-chip:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+/* ------------------------------ button ------------------------------- */
+
+.pc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 var(--pc-space-4);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-muted-strong);
+  font: 500 var(--pc-font-size) var(--pc-font);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms;
+}
+
+.pc-btn:hover {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+.pc-btn--surface,
+.pc-btn--neutral {
+  box-shadow: inset 0 0 0 1px var(--pc-line);
+}
+
+.pc-btn--neutral {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+.pc-btn.is-active {
+  color: var(--pc-accent);
+}
+
+/* ---------------------------- segmented ------------------------------ */
+
+.pc-seg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0;
+  padding: 0;
+}
+
+.pc-seg-indicator {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-hover);
+  transition: transform 260ms var(--pc-ease), width 260ms var(--pc-ease);
+}
+
+.pc-seg-btn {
+  position: relative;
+  z-index: 1;
+  height: 32px;
+  padding: 0 var(--pc-space-4);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-muted-strong);
+  font: 500 var(--pc-font-size) var(--pc-font);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: color 150ms;
+}
+
+.pc-seg-btn:hover {
+  color: var(--pc-ink);
+}
+
+.pc-seg-btn.is-active {
+  color: var(--pc-accent);
+}
+
+/* ------------------------------ popover ------------------------------ */
+
+.pc-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pc-menu-face {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+}
+
+.pc-popover {
+  position: absolute;
+  top: calc(100% + var(--pc-space-2));
+  inset-inline-start: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  padding: var(--pc-space-3) 0;
+  border-radius: var(--pc-radius-md);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  transform-origin: top left;
+  animation: pc-pop-in 200ms var(--pc-ease-enter);
+}
+
+.pc-popover--right {
+  top: 0;
+  inset-inline-start: calc(100% + var(--pc-space-3));
+}
+
+.pc-popover--up {
+  top: auto;
+  bottom: calc(100% + var(--pc-space-2));
+  transform-origin: bottom left;
+  --pc-pop-y: 4px;
+}
+
+/* Slides from the trigger's side: down from above, or up from below for `--up`. */
+@keyframes pc-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--pc-pop-y, -4px)) scale(0.98);
+  }
+}
+
+/* Lead slot, label and end mark sit one small step apart: the lead slot is 16px, so an 8px gap keeps icon and text one unit. */
+.pc-popover-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  height: 36px;
+  padding: 0 var(--pc-space-6);
+  border: 0;
+  background: transparent;
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size-lg) var(--pc-font);
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* A long label must not squeeze the icon. */
+.pc-popover-item > svg {
+  flex: none;
+}
+
+.pc-popover-item:hover {
+  background: var(--pc-hover);
+}
+
+.pc-popover-item.is-active {
+  background: var(--pc-accent-soft);
+  color: var(--pc-accent);
+}
+
+/* ---------------------------- context menu ---------------------------- */
+
+.pc-context-menu {
+  z-index: 30;
+  min-width: 220px;
+}
+
+/* Placed by `left` in script: right to left, the start inset must not pin the right edge too. */
+.pc-context-menu,
+.pc-cluster-list,
+.pc-draft-editor {
+  inset-inline-start: auto;
+}
+
+.pc-context-menu .pc-popover-item:disabled {
+  color: var(--pc-muted);
+  cursor: default;
+}
+
+.pc-menu-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* A checked radio entry's dot; a border keeps it visible in forced colours. */
+[aria-checked='true'] > .pc-menu-radio::before {
+  content: '';
+  border: 3px solid;
+  border-radius: 50%;
+}
+
+/* The check or radio mark of a checked row whose lead slot holds an icon. */
+.pc-menu-end {
+  margin-inline-start: auto;
+}
+
+.pc-menu-sep {
+  height: 1px;
+  margin: var(--pc-space-3) 0;
+  background: var(--pc-line);
+}
+
+/* A heading such as the indicator a legend row menu is for. */
+.pc-menu-label {
+  max-width: 320px;
+  padding: var(--pc-space-2) var(--pc-space-6) var(--pc-space-3);
+  overflow: hidden;
+  color: var(--pc-muted);
+  font: 500 var(--pc-font-size) var(--pc-font);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pc-context-menu .pc-menu-danger {
+  color: var(--pc-down);
+}
+
+.pc-menu-arrow {
+  margin-inline-start: auto;
+  color: var(--pc-muted);
+}
+
+.pc-popover-item[aria-expanded='true'] {
+  background: var(--pc-hover);
+}
+
+/* Anchored to the trigger's right edge, e.g. the toolbar "more" menu. */
+.pc-popover--end {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  transform-origin: top right;
+}
+
+/* Right to left: popovers grow from their start corner, and arrows point the other way. */
+[dir='rtl'] .pc-popover {
+  transform-origin: top right;
+}
+
+[dir='rtl'] .pc-popover--up {
+  transform-origin: bottom right;
+}
+
+[dir='rtl'] .pc-popover--end {
+  transform-origin: top left;
+}
+
+[dir='rtl'] :is(.pc-menu-arrow, .pc-ot-twisty, .pc-form-back) svg {
+  transform: scaleX(-1);
+}
+
+/* A rail flyout's section; a long flyout flows them into columns (`--pc-rail-columns`), never splitting one. */
+.pc-rail-section {
+  padding-bottom: var(--pc-space-2);
+  break-inside: avoid;
+}
+
+.pc-rail-section:last-child {
+  padding-bottom: 0;
+}
+
+/* The untitled section of tools outside the table: a divider keeps them apart from the section above. */
+.pc-rail-section:not([aria-label]):not(:first-child) {
+  padding-top: var(--pc-space-2);
+  border-top: 1px solid var(--pc-line);
+}
+
+/* A column fits the longest built-in tool label ("Trend-based Fib extension") beside its icon and favourite star. */
+.pc-rail-flyout--columns {
+  display: block;
+  width: calc(var(--pc-rail-columns) * 248px);
+  columns: var(--pc-rail-columns);
+  column-gap: 0;
+  column-rule: 1px solid var(--pc-line);
+}
+
+/* The rail's "more" popover: a column of the rail buttons that do not fit, ending level with the button. */
+.pc-rail-overflow {
+  top: auto;
+  bottom: 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--pc-space-1);
+  padding: var(--pc-space-3);
+}
+
+/* A section heading hugs its rows: 6px above the text, 4px below, and (below) the divider sits 6px above it, so the space on both sides of the divider is equal. */
+.pc-popover-label {
+  padding: var(--pc-space-3) var(--pc-space-6) var(--pc-space-2);
+  font-size: var(--pc-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pc-muted);
+}
+
+.pc-popover-label:not(:first-child) {
+  margin-top: var(--pc-space-3);
+  border-top: 1px solid var(--pc-line);
+}
+
+/* ---------------------------- depth ladder ---------------------------- */
+
+/* Not positioned, like the data window: place it with your own layout. */
+.pc-depth-ladder {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  max-height: 100%;
+  overflow: auto;
+  border-radius: var(--pc-radius-md, 6px);
+  background: var(--pc-panel, #121217);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line, #23232b);
+  color: var(--pc-ink, #e6e6ec);
+  font: 12px var(--pc-font, sans-serif);
+}
+
+.pc-depth-ladder[hidden] {
+  display: none;
+}
+
+.pc-ladder-head,
+.pc-ladder-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 12px;
+}
+
+.pc-ladder-head {
+  padding-block: 6px;
+  border-bottom: 1px solid var(--pc-line, #23232b);
+  color: var(--pc-muted, #8b8b99);
+}
+
+.pc-ladder-row {
+  font-family: var(--pc-font-mono, monospace);
+  font-variant-numeric: tabular-nums;
+  /* Shaded from the right by the row's share of the largest listed size. */
+  background: linear-gradient(to left, var(--pc-ladder-color) var(--pc-ladder-fill, 0%), transparent 0);
+}
+
+.pc-ladder-bid {
+  --pc-ladder-color: var(--pc-depth-bid, rgba(61, 139, 253, 0.35));
+}
+
+.pc-ladder-ask {
+  --pc-ladder-color: var(--pc-depth-ask, rgba(232, 87, 74, 0.35));
+}
+
+.pc-ladder-best {
+  font-weight: 600;
+}
+
+.pc-ladder-bid.pc-ladder-best span:first-child {
+  color: var(--pc-bid, #3d8bfd);
+}
+
+.pc-ladder-ask.pc-ladder-best span:first-child {
+  color: var(--pc-ask, #e8574a);
+}
+
+/* ---------------------------- data window ---------------------------- */
+
+/* Not positioned: place it with your own layout, e.g. absolutely over the stage. */
+.pc-data-window {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  max-height: 100%;
+  overflow: auto;
+  border-radius: var(--pc-radius-md, 6px);
+  background: var(--pc-panel, #121217);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line, #23232b);
+  color: var(--pc-ink, #e6e6ec);
+  font: 12px var(--pc-font, sans-serif);
+}
+
+.pc-data-window[hidden] {
+  display: none;
+}
+
+.pc-data-window:focus-visible {
+  outline: 2px solid var(--pc-focus, #8b75ff);
+  outline-offset: 1px;
+}
+
+.pc-dw-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--pc-line, #23232b);
+}
+
+.pc-dw-heading {
+  font-weight: 600;
+}
+
+.pc-dw-time {
+  color: var(--pc-muted, #8b8b99);
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-dw-group {
+  padding: 6px 12px;
+}
+
+.pc-dw-group + .pc-dw-group {
+  border-top: 1px solid var(--pc-line, #23232b);
+}
+
+.pc-dw-title {
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.pc-dw-rows {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  margin: 0;
+}
+
+.pc-dw-rows dt {
+  color: var(--pc-muted, #8b8b99);
+}
+
+.pc-dw-rows dd {
+  margin: 0;
+  text-align: end;
+  font-family: var(--pc-font-mono, monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Screen-reader announcements only. */
+.pc-dw-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ----------------------------- navigator ----------------------------- */
+
+.pc-navigator {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--pc-panel, transparent);
+  touch-action: none;
+  user-select: none;
+}
+
+.pc-navigator-line {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.pc-navigator-shade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--pc-navigator-shade, rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+}
+
+.pc-navigator-window {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  border-inline: 1px solid var(--pc-navigator-border, currentColor);
+  background: var(--pc-navigator-window, rgba(128, 128, 128, 0.16));
+  cursor: grab;
+}
+
+.pc-navigator[data-dragging='pan'] .pc-navigator-window {
+  cursor: grabbing;
+}
+
+.pc-navigator[data-scroll='false'] .pc-navigator-window {
+  cursor: default;
+}
+
+/* Wider than they look, so the edges are easy to grab; centred on the window edge. */
+.pc-navigator-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  margin-left: -5px;
+  cursor: ew-resize;
+}
+
+.pc-navigator-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 4px;
+  height: 14px;
+  border-radius: var(--pc-radius-xs, 2px);
+  background: var(--pc-navigator-border, currentColor);
+  transform: translateY(-50%);
+}
+
+.pc-navigator-window:focus-visible,
+.pc-navigator-handle:focus-visible {
+  outline: 2px solid var(--pc-focus, currentColor);
+  outline-offset: -2px;
+}
+
+.pc-navigator-shade[hidden],
+.pc-navigator-window[hidden],
+.pc-navigator-handle[hidden] {
+  display: none;
+}
+
+/* ---------------------------- object tree ---------------------------- */
+
+/* Not positioned, like the data window: place it with your own layout. */
+.pc-object-tree {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  max-height: 100%;
+  overflow: hidden;
+  border-radius: var(--pc-radius-md, 6px);
+  background: var(--pc-panel, #121217);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line, #23232b);
+  color: var(--pc-ink, #e6e6ec);
+  font: var(--pc-font-size-sm, 12px) var(--pc-font, sans-serif);
+}
+
+.pc-object-tree[hidden] {
+  display: none;
+}
+
+.pc-ot-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  padding-inline-start: 12px;
+  border-bottom: 1px solid var(--pc-line, #23232b);
+}
+
+.pc-ot-heading {
+  font-weight: 600;
+}
+
+.pc-ot-count {
+  color: var(--pc-muted, #8b8b99);
+}
+
+.pc-ot-bulk {
+  display: flex;
+  margin-inline-start: auto;
+}
+
+.pc-ot-tree {
+  overflow: auto;
+  padding: 4px 0;
+}
+
+.pc-ot-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 28px;
+  padding: 0;
+  padding-inline: 4px 6px;
+  cursor: default;
+  user-select: none;
+}
+
+.pc-ot-row[aria-level='2'] {
+  padding-inline-start: 22px;
+}
+
+.pc-ot-row:hover {
+  background: var(--pc-hover, #24242d);
+}
+
+.pc-ot-row[aria-selected='true'] {
+  background: var(--pc-accent-soft, rgba(139, 117, 255, 0.16));
+}
+
+.pc-ot-row:focus-visible {
+  outline: 2px solid var(--pc-focus, #8b75ff);
+  outline-offset: -2px;
+}
+
+.pc-ot-row[data-drop='true'] {
+  box-shadow: inset 0 2px 0 var(--pc-accent, #8b75ff);
+}
+
+.pc-ot-row--pane {
+  font-weight: 600;
+}
+
+.pc-ot-row[data-visible='false'] .pc-ot-text {
+  color: var(--pc-faint, #5e5e6c);
+}
+
+.pc-ot-twisty {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 16px;
+  color: var(--pc-muted, #8b8b99);
+}
+
+.pc-ot-text {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pc-ot-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pc-ot-detail {
+  color: var(--pc-muted, #8b8b99);
+  font-weight: 400;
+}
+
+.pc-ot-input {
+  flex: 1;
+  min-width: 0;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--pc-focus, #8b75ff);
+  border-radius: var(--pc-radius-sm, 4px);
+  background: var(--pc-surface, #1b1b22);
+  color: var(--pc-ink, #e6e6ec);
+  font: inherit;
+  font-weight: 400;
+}
+
+.pc-ot-actions {
+  display: flex;
+  flex-shrink: 0;
+  visibility: hidden;
+}
+
+/* Actions show on hover, focus and selection, and stay for hidden or locked objects so their state reads at a glance. */
+.pc-ot-row:hover .pc-ot-actions,
+.pc-ot-row:focus-visible .pc-ot-actions,
+.pc-ot-row[aria-selected='true'] .pc-ot-actions,
+.pc-ot-row[data-visible='false'] .pc-ot-actions,
+.pc-ot-actions:has([data-on='true']) {
+  visibility: visible;
+}
+
+.pc-ot-action {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--pc-radius-sm, 4px);
+  background: transparent;
+  color: var(--pc-muted, #8b8b99);
+  cursor: pointer;
+}
+
+.pc-ot-action:hover {
+  background: var(--pc-active, #2f2f39);
+  color: var(--pc-ink, #e6e6ec);
+}
+
+.pc-ot-action[data-on='true'] {
+  color: var(--pc-accent, #8b75ff);
+}
+
+/* ---------------------------- bottom bar ----------------------------- */
+
+.pc-bottombar {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 34px;
+  background: var(--pc-panel);
+  font-size: var(--pc-font-size-sm);
+}
+
+.pc-bottombar > * {
+  flex-shrink: 0;
+}
+
+/* The bar's items live in a toolbar that fills the strip; slots sit beside it. */
+.pc-bottombar > .pc-toolbar {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+/* A toolbar item that shrinks instead of overflowing, e.g. the range presets, which scroll. */
+.pc-toolbar > .pc-toolbar-shrink {
+  flex-shrink: 1;
+  min-width: 0;
+  display: flex;
+}
+
+/* The scale mode radios match the chips beside them. */
+.pc-bottombar .pc-seg-btn {
+  font-size: var(--pc-font-size-sm);
+}
+
+/* When space runs out, the range presets scroll so the menus and toggles on the right stay reachable. */
+.pc-bottombar-ranges {
+  display: flex;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  --pc-scrollbar-size: 0px;
+}
+
+.pc-chip {
+  height: 26px;
+  padding: 0 var(--pc-space-4);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-muted-strong);
+  font: 500 var(--pc-font-size-sm) var(--pc-font);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms;
+}
+
+.pc-chip:hover {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+/* Selected shows as an accent underline, not a colour change alone: ink text stays readable on hover. */
+.pc-chip.is-active {
+  color: var(--pc-ink);
+  text-decoration: underline 2px var(--pc-accent);
+  text-underline-offset: 4px;
+}
+
+.pc-clock {
+  padding: 0 var(--pc-space-4);
+  color: var(--pc-muted-strong);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* A clock that changes the timezone: chip-sized, quiet until hovered. */
+.pc-clock--button {
+  height: 26px;
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms;
+}
+
+.pc-clock--button:hover {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+.pc-clock--button:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+/* Session bands chip: a dot per lane, faded while closed, and a list with countdowns. */
+.pc-sessions {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pc-sessions[hidden],
+.pc-sessions-list[hidden] {
+  display: none;
+}
+
+.pc-sessions-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+}
+
+.pc-session-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.pc-session-dot.is-closed {
+  opacity: 0.3;
+}
+
+.pc-sessions-list {
+  min-width: 240px;
+}
+
+.pc-session-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  min-height: 32px;
+  padding: 0 var(--pc-space-6);
+  color: var(--pc-ink);
+  font-size: var(--pc-font-size-sm);
+}
+
+.pc-session-row.is-closed .pc-session-dot {
+  opacity: 0.3;
+}
+
+.pc-session-name {
+  flex: 1;
+}
+
+.pc-session-status {
+  color: var(--pc-muted-strong);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Menus in the bottom bar: chip-sized triggers. */
+.pc-bottombar .pc-menu-trigger {
+  height: 26px;
+  color: var(--pc-muted-strong);
+  font-size: var(--pc-font-size-sm);
+}
+
+/* ------------------------------ dialog ------------------------------- */
+
+.pc-dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(var(--pc-space-6), 8%, 72px) var(--pc-space-6) var(--pc-space-6);
+  background: var(--pc-dialog-backdrop);
+  animation: pc-fade-in 160ms var(--pc-ease-enter);
+}
+
+.pc-dialog-backdrop[hidden] {
+  display: none;
+}
+
+@keyframes pc-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.pc-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(var(--pc-dialog-width), 100%);
+  max-height: 100%;
+  min-height: 0;
+  border-radius: var(--pc-dialog-radius);
+  background: var(--pc-dialog-bg);
+  color: var(--pc-ink);
+  box-shadow: var(--pc-dialog-shadow);
+  animation: pc-pop-in 240ms var(--pc-ease-enter);
+}
+
+.pc-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pc-space-4);
+  padding: calc(var(--pc-space-4) + var(--pc-space-1)) calc(var(--pc-space-4) + var(--pc-space-1)) var(--pc-space-4);
+  padding-inline-start: var(--pc-space-6);
+  border-bottom: 1px solid var(--pc-line);
+}
+
+/* The header draws the divider; a body that starts with its own would double it. */
+.pc-dialog-header + * {
+  border-top: 0;
+}
+
+/* The title takes the free space, so header controls group beside the close button instead of floating mid-header. */
+.pc-dialog-title {
+  margin-inline-end: auto;
+  font-size: var(--pc-font-size-xl);
+  font-weight: 600;
+}
+
+.pc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pc-dialog [hidden] {
+  display: none !important;
+}
+
+.pc-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pc-space-4);
+  padding: var(--pc-space-5) var(--pc-dialog-padding);
+  border-top: 1px solid var(--pc-line);
+}
+
+.pc-dialog-actions {
+  display: flex;
+  gap: var(--pc-space-3);
+  margin-inline-start: auto;
+}
+
+.pc-dialog-actions--start {
+  margin-inline-start: 0;
+}
+
+/* Text buttons only: icon buttons use `.pc-icon-btn` and stay square. */
+.pc-dialog-footer .pc-btn {
+  justify-content: center;
+  min-width: var(--pc-dialog-btn-min-width);
+}
+
+.pc-btn--primary {
+  background: var(--pc-accent);
+  box-shadow: none;
+  color: var(--pc-accent-ink);
+}
+
+.pc-btn--primary:hover {
+  background: color-mix(in srgb, var(--pc-accent) 88%, var(--pc-ink));
+}
+
+/* Destructive action, e.g. Delete in a confirmation. */
+.pc-btn--danger {
+  background: var(--pc-down);
+  box-shadow: none;
+  color: var(--pc-accent-ink);
+}
+
+.pc-btn--danger:hover {
+  background: color-mix(in srgb, var(--pc-down) 88%, var(--pc-ink));
+}
+
+/* Confirmation (`confirmDialog`): a short question, stacked over another dialog. */
+.pc-confirm {
+  width: min(380px, 100%);
+}
+
+.pc-confirm-message {
+  margin: 0;
+  padding: var(--pc-space-2) var(--pc-dialog-padding) var(--pc-space-5);
+  color: var(--pc-muted-strong);
+  overflow-wrap: anywhere;
+}
+
+/* A narrow panel or bottom sheet wraps its footer buttons instead of overflowing. */
+.pc-dialog--panel .pc-dialog-footer {
+  flex-wrap: wrap;
+}
+
+.pc-confirm .pc-dialog-footer {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Non-modal panel: docked to the host's right edge, a bottom sheet in compact mode. The
+   backdrop only positions it; presses outside the panel reach the chart. */
+.pc-dialog-backdrop--panel {
+  z-index: 30;
+  align-items: stretch;
+  justify-content: flex-end;
+  padding: var(--pc-space-4);
+  background: transparent;
+  pointer-events: none;
+  animation: none;
+}
+
+/* Panels (and the appearance and table view panels) slide in from the inline end. */
+[dir='rtl'] :is(.pc-dialog--panel, .pc-appearance, .pc-table-view) {
+  --pc-slide: -24px;
+}
+
+.pc-dialog--panel {
+  width: min(var(--pc-dialog-panel-width), 100%);
+  pointer-events: auto;
+  animation: pc-panel-in 260ms var(--pc-ease-enter);
+}
+
+.pc-dialog--panel.pc-form-dialog {
+  height: auto;
+}
+
+.pc-dialog--panel[data-compact='true'] {
+  align-self: flex-end;
+  width: 100%;
+  max-height: 70%;
+  animation-name: pc-sheet-in;
+}
+
+.pc-dialog--panel[data-closing='true'] {
+  pointer-events: none;
+  animation: pc-panel-out 160ms ease-in forwards;
+}
+
+.pc-dialog--panel[data-compact='true'][data-closing='true'] {
+  animation-name: pc-sheet-out;
+}
+
+.pc-dialog--panel .pc-dialog-header {
+  gap: var(--pc-space-2);
+}
+
+.pc-dialog--panel .pc-dialog-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Stands in for the title, which the panel keeps only for screen readers. */
+.pc-form-combo-wrap.pc-indicator-switch {
+  flex: 1;
+}
+
+@keyframes pc-panel-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--pc-slide, 24px));
+  }
+}
+
+@keyframes pc-panel-out {
+  to {
+    opacity: 0;
+    transform: translateX(var(--pc-slide, 24px));
+  }
+}
+
+@keyframes pc-sheet-out {
+  to {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-dialog--panel,
+  .pc-dialog--panel[data-closing='true'] {
+    animation: none;
+  }
+}
+
+/* ----------------------------- form dialog ---------------------------- */
+
+.pc-form-dialog {
+  height: min(var(--pc-dialog-height), 100%);
+}
+
+/* A form of one or two fields, e.g. a name prompt: as tall as its content. */
+.pc-form-dialog--short {
+  height: auto;
+}
+
+.pc-form-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pc-form-dialog--sidebar .pc-form-main {
+  flex-direction: row;
+}
+
+.pc-form-dialog[data-compact='true'] .pc-form-main {
+  flex-direction: column;
+}
+
+.pc-form-nav {
+  flex-shrink: 0;
+  padding: 0 var(--pc-dialog-padding);
+  border-bottom: 1px solid var(--pc-line);
+}
+
+.pc-form-dialog--sidebar[data-compact='false'] .pc-form-nav {
+  width: var(--pc-dialog-sidebar-width);
+  padding: var(--pc-space-3);
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--pc-line);
+  border-bottom: 0;
+}
+
+.pc-form-tabs {
+  display: flex;
+  gap: var(--pc-space-2);
+  overflow-x: auto;
+}
+
+.pc-form-tabs[aria-orientation='vertical'] {
+  flex-direction: column;
+}
+
+.pc-form-tab,
+.pc-form-nav-item,
+.pc-picker-tab,
+.pc-indicator-picker-tab {
+  flex-shrink: 0;
+  padding: var(--pc-space-3) var(--pc-space-4);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-muted-strong);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.pc-form-tabs[aria-orientation='horizontal'] .pc-form-tab {
+  border-radius: 0;
+  box-shadow: inset 0 -2px 0 transparent;
+}
+
+.pc-form-tab:hover,
+.pc-form-nav-item:hover,
+.pc-picker-tab:hover,
+.pc-indicator-picker-tab:hover {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+.pc-form-tab[aria-selected='true'],
+.pc-picker-tab[aria-selected='true'] {
+  background: var(--pc-active);
+  color: var(--pc-ink);
+}
+
+.pc-form-tabs[aria-orientation='horizontal'] .pc-form-tab[aria-selected='true'] {
+  background: transparent;
+  box-shadow: inset 0 -2px 0 var(--pc-accent);
+}
+
+.pc-form-tab:focus-visible,
+.pc-form-nav-item:focus-visible,
+.pc-picker-tab:focus-visible,
+.pc-indicator-picker-tab:focus-visible,
+.pc-indicator-picker-tool:focus-visible,
+.pc-form-group-toggle:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+.pc-form-nav-list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--pc-space-3) 0;
+}
+
+.pc-form-nav-item {
+  padding: var(--pc-space-4);
+}
+
+/* Buttons that lead elsewhere, under the sections and set apart from them by a divider. */
+.pc-form-nav-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pc-space-2);
+  margin-top: var(--pc-space-3);
+  padding-top: var(--pc-space-3);
+  border-top: 1px solid var(--pc-line);
+}
+
+/* In the footer they are plain footer buttons. */
+.pc-dialog-actions > .pc-form-nav-actions {
+  display: contents;
+}
+
+.pc-form-nav-select,
+.pc-picker-nav-select {
+  width: 100%;
+  margin: var(--pc-space-3) 0;
+}
+
+.pc-form-body {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--pc-space-3) var(--pc-dialog-padding) var(--pc-dialog-padding);
+}
+
+.pc-form-back {
+  margin: 0 0 var(--pc-space-3);
+  margin-inline-start: calc(-1 * var(--pc-space-4));
+}
+
+.pc-form-group + .pc-form-group {
+  margin-top: var(--pc-space-4);
+  padding-top: var(--pc-space-3);
+  border-top: 1px solid var(--pc-line);
+}
+
+.pc-form-group-label,
+.pc-form-group-toggle {
+  padding: var(--pc-space-3) 0;
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pc-form-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.pc-form-group-toggle svg {
+  transition: transform 160ms var(--pc-ease);
+}
+
+.pc-form-group-toggle[aria-expanded='false'] svg {
+  transform: rotate(-90deg);
+}
+
+[dir='rtl'] .pc-form-group-toggle[aria-expanded='false'] svg {
+  transform: rotate(90deg);
+}
+
+.pc-form-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--pc-space-5);
+  min-height: 36px;
+}
+
+.pc-form-label {
+  color: var(--pc-muted-strong);
+}
+
+.pc-form-control {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pc-form-hint,
+.pc-form-error {
+  grid-column: 1 / -1;
+  padding-bottom: var(--pc-space-3);
+  font-size: var(--pc-font-size-sm);
+}
+
+.pc-form-hint {
+  color: var(--pc-muted);
+}
+
+.pc-form-error {
+  color: var(--pc-dialog-error);
+}
+
+/* Narrow: labels above wide controls. */
+.pc-form-dialog[data-compact='true'] .pc-form-field--text,
+.pc-form-dialog[data-compact='true'] .pc-form-field--multi-select,
+.pc-form-dialog[data-compact='true'] .pc-form-field--slider {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--pc-space-2);
+}
+
+.pc-form-dialog[data-compact='true'] .pc-form-field--text .pc-form-control,
+.pc-form-dialog[data-compact='true'] .pc-form-field--slider .pc-form-control {
+  justify-content: stretch;
+}
+
+/* Drawing settings: the levels list sits under its label. */
+.pc-form-field--drawing-levels {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--pc-space-2);
+}
+
+.pc-form-field--drawing-levels .pc-form-control {
+  justify-content: flex-start;
+}
+
+/* Select (listbox.ts): a closed trigger that opens a list, with a search box over long lists such as timezones. */
+.pc-form-combo-wrap {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.pc-select.pc-form-combo {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+  max-width: 100%;
+  text-align: start;
+  cursor: pointer;
+}
+
+.pc-dialog .pc-select.pc-form-combo {
+  width: 240px;
+}
+
+.pc-dialog .pc-form-nav-select .pc-select.pc-form-combo,
+.pc-dialog .pc-picker-nav-select .pc-select.pc-form-combo,
+.pc-dialog .pc-indicator-switch .pc-select.pc-form-combo {
+  width: 100%;
+}
+
+.pc-appearance .pc-select.pc-form-combo {
+  width: 112px;
+}
+
+.pc-form-combo-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pc-form-combo > svg {
+  flex: none;
+  color: var(--pc-muted);
+}
+
+/* Fixed to the viewport (placed by form-inputs.ts), so the scrolling form body does not clip it. */
+.pc-popover.pc-form-combo-popover {
+  position: fixed;
+  top: auto;
+  /* Placed by `top` only, above the trigger too: a `bottom` would squeeze it. */
+  bottom: auto;
+  inset-inline-start: auto;
+  z-index: 30;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--pc-space-3);
+  gap: var(--pc-space-2);
+}
+
+.pc-dialog .pc-input.pc-form-combo-search {
+  flex: none;
+  width: 100%;
+}
+
+.pc-form-combo-list {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Focus shows on the active option instead. */
+.pc-form-combo-list:focus {
+  outline: none;
+}
+
+.pc-popover-item.pc-form-combo-option {
+  height: 32px;
+  padding: 0 var(--pc-space-4);
+  border-radius: var(--pc-radius-sm);
+  font: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pc-form-combo-option.is-focus {
+  background: var(--pc-hover);
+  outline: 1px solid var(--pc-focus);
+  outline-offset: -1px;
+}
+
+.pc-form-combo-option.is-active.is-focus {
+  background: var(--pc-accent-soft);
+}
+
+.pc-form-combo-empty {
+  padding: var(--pc-space-3) var(--pc-space-4);
+  color: var(--pc-muted);
+}
+
+.pc-dialog .pc-input,
+.pc-dialog .pc-select {
+  box-sizing: border-box;
+  height: var(--pc-dialog-field-height);
+  padding: 0 var(--pc-space-4);
+  border: 1px solid var(--pc-line-strong);
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-surface);
+  color: var(--pc-ink);
+  font: inherit;
+}
+
+.pc-dialog .pc-input {
+  width: 180px;
+}
+
+.pc-dialog .pc-input--number {
+  width: 96px;
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-dialog .pc-input:focus-visible,
+.pc-dialog .pc-select:focus-visible,
+.pc-check:focus-visible,
+.pc-slider:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: 1px;
+}
+
+.pc-dialog .pc-input[aria-invalid='true'] {
+  border-color: var(--pc-dialog-error);
+}
+
+.pc-dialog :disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pc-check,
+.pc-slider {
+  accent-color: var(--pc-accent);
+}
+
+.pc-form-slider,
+.pc-form-range,
+.pc-form-choices {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+}
+
+.pc-form-choices {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pc-form-choice {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+  cursor: pointer;
+}
+
+.pc-slider-value {
+  min-width: 40px;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+/* ---------------------------- picker dialog ---------------------------- */
+
+.pc-picker {
+  height: min(var(--pc-dialog-height), 100%);
+}
+
+/* `listOnQuery` with nothing typed, and always in the palette layout: the search box, then the categories as chips. */
+.pc-picker[data-idle] {
+  height: auto;
+}
+
+.pc-picker[data-idle] .pc-picker-results {
+  display: none;
+}
+
+.pc-picker[data-idle] .pc-picker-main {
+  border-top: 0;
+}
+
+.pc-picker[data-idle] .pc-picker-nav,
+.pc-picker--palette .pc-picker-nav {
+  width: auto;
+  padding: 0 var(--pc-dialog-padding) var(--pc-space-5);
+  border: 0;
+}
+
+.pc-picker[data-idle] .pc-picker-tabs,
+.pc-picker--palette .pc-picker-tabs {
+  flex-flow: row wrap;
+  gap: var(--pc-space-3);
+}
+
+.pc-picker[data-idle] .pc-picker-tab,
+.pc-picker--palette .pc-picker-tab {
+  box-shadow: inset 0 0 0 1px var(--pc-line-strong);
+}
+
+/* The search box of the search dialogs (picker, symbol search, indicator picker): a flat row across
+   the dialog between the header's divider and the list's, with no outline of its own. It always
+   has focus while the dialog is open, so the caret marks it; forced colours outline it below. */
+.pc-picker-field,
+.pc-symbol-search-field {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  min-width: 0;
+  height: 44px;
+  padding: 0 var(--pc-dialog-padding);
+  color: var(--pc-muted);
+}
+
+.pc-picker-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size-lg) var(--pc-font);
+}
+
+.pc-picker-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  border-top: 1px solid var(--pc-line);
+}
+
+.pc-picker[data-compact='true'] .pc-picker-main {
+  flex-direction: column;
+}
+
+.pc-picker-nav {
+  flex-shrink: 0;
+  width: var(--pc-dialog-sidebar-width);
+  padding: var(--pc-space-3);
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--pc-line);
+}
+
+/* The palette layout keeps its chips. */
+.pc-picker[data-compact='true']:not(.pc-picker--palette) .pc-picker-nav {
+  width: auto;
+  padding: 0 var(--pc-dialog-padding);
+  border-inline-end: 0;
+  border-bottom: 1px solid var(--pc-line);
+}
+
+.pc-picker-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pc-space-1);
+}
+
+.pc-picker-results {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--pc-space-3);
+}
+
+.pc-picker-row {
+  display: flex;
+  align-items: center;
+  border-radius: var(--pc-radius-sm);
+}
+
+.pc-picker-row[data-active='true'] {
+  background: var(--pc-hover);
+}
+
+.pc-picker-option {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--pc-space-4);
+  min-width: 0;
+  min-height: 36px;
+  padding: var(--pc-space-2) var(--pc-space-4);
+  cursor: pointer;
+}
+
+.pc-picker-option[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pc-picker-check {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--pc-radius-xs);
+  box-shadow: inset 0 0 0 1px var(--pc-line-strong);
+}
+
+.pc-picker-option[aria-selected='true'] .pc-picker-check {
+  background: var(--pc-accent);
+  box-shadow: none;
+  color: var(--pc-accent-ink);
+}
+
+.pc-picker-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pc-picker-label,
+.pc-picker-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pc-picker-label mark {
+  background: none;
+  color: var(--pc-accent);
+}
+
+.pc-picker-description {
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+}
+
+.pc-picker-actions {
+  display: flex;
+  gap: var(--pc-space-1);
+  padding-inline-end: var(--pc-space-2);
+}
+
+.pc-picker-actions [aria-pressed='true'] {
+  color: var(--pc-accent);
+}
+
+.pc-picker-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pc-space-4);
+  padding: var(--pc-space-6);
+  color: var(--pc-muted);
+}
+
+.pc-picker-count {
+  color: var(--pc-muted);
+}
+
+/* --------------------------- command palette --------------------------- */
+
+/* Palette layout (`layout: 'palette'`): no title bar, and a bit lower than other dialogs. */
+.pc-dialog-backdrop:has(> .pc-picker--palette) {
+  padding-top: clamp(var(--pc-space-6), 14%, 120px);
+}
+
+.pc-command-palette .pc-picker-text {
+  flex: 1;
+}
+
+.pc-command-end {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--pc-space-4);
+  margin-inline-start: auto;
+  color: var(--pc-muted);
+}
+
+.pc-command-state {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: var(--pc-accent);
+}
+
+.pc-command-key {
+  padding: 0 var(--pc-space-2);
+  border-radius: var(--pc-radius-xs);
+  box-shadow: inset 0 0 0 1px var(--pc-line-strong);
+  font: 400 var(--pc-font-size-sm) var(--pc-font);
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+/* Which source a row came from, under All only. */
+.pc-command-source {
+  min-width: 4em;
+  font-size: var(--pc-font-size-sm);
+  text-align: end;
+}
+
+.pc-command-palette:not([data-all]) .pc-command-source {
+  display: none;
+}
+
+/* --------------------------- keyboard shortcuts --------------------------- */
+
+.pc-shortcuts-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--pc-dialog-padding) var(--pc-space-4);
+}
+
+.pc-shortcut-heading {
+  margin: var(--pc-space-5) 0 var(--pc-space-2);
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+  font-weight: 600;
+}
+
+.pc-shortcut-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+  min-height: 32px;
+}
+
+.pc-shortcut-label {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.pc-shortcut-keys,
+.pc-shortcut-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pc-space-1);
+}
+
+.pc-shortcut-chip {
+  padding: 0 var(--pc-space-2);
+  border: 0;
+  border-radius: var(--pc-radius-xs);
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--pc-line-strong);
+  color: inherit;
+  font: 400 var(--pc-font-size-sm) var(--pc-font);
+  line-height: 22px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pc-shortcut-chip kbd {
+  font: inherit;
+}
+
+.pc-shortcut-chip:hover {
+  background: var(--pc-hover);
+}
+
+.pc-shortcut-chip--recording {
+  box-shadow: inset 0 0 0 1px var(--pc-accent);
+  color: var(--pc-accent);
+}
+
+.pc-shortcut-none {
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+}
+
+/* --------------------------- symbol search --------------------------- */
+
+/* Height follows the results up to the dialog cap, also when the host is taller than the viewport. */
+.pc-symbol-search {
+  max-height: min(var(--pc-dialog-height), 100%);
+  max-height: min(var(--pc-dialog-height), 85dvh, 100%);
+}
+
+/* Search box and exchange select on one row that never gives its height to a long result list. */
+.pc-symbol-search-bar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.pc-symbol-search-field {
+  flex: 1;
+}
+
+/* The exchange select keeps the dialog's padding from the edge. */
+.pc-symbol-search-field + * {
+  margin-inline-end: var(--pc-dialog-padding);
+}
+
+.pc-symbol-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size-lg) var(--pc-font);
+}
+
+.pc-symbol-search-input::placeholder {
+  color: var(--pc-muted);
+}
+
+.pc-symbol-search-filters {
+  display: flex;
+  flex-shrink: 0;
+  padding: var(--pc-space-4) var(--pc-space-5);
+}
+
+/* Too many types for the width: the tabs scroll sideways. */
+.pc-symbol-search-filters .pc-seg {
+  flex-shrink: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  --pc-scrollbar-size: 0px;
+}
+
+/* The exchange select gives up width (its label ellipsizes) before the search box does. */
+.pc-symbol-search-bar .pc-form-combo-wrap {
+  max-width: 45%;
+}
+
+/* Compact host: the exchange select gets its own full-width row under the search box. */
+.pc-symbol-search[data-compact='true'] .pc-symbol-search-bar {
+  flex-wrap: wrap;
+}
+
+.pc-symbol-search[data-compact='true'] .pc-symbol-search-bar .pc-form-combo-wrap {
+  flex-basis: 100%;
+  max-width: none;
+  margin-inline-start: var(--pc-dialog-padding);
+  margin-bottom: var(--pc-space-4);
+}
+
+.pc-dialog.pc-symbol-search[data-compact='true'] .pc-symbol-search-bar .pc-select.pc-form-combo {
+  width: 100%;
+}
+
+.pc-dialog .pc-symbol-search-bar .pc-select.pc-form-combo {
+  width: auto;
+  height: 36px;
+  border-radius: var(--pc-radius-md);
+}
+
+.pc-symbol-search-results {
+  flex: 1;
+  min-height: 0;
+  padding: var(--pc-space-2) 0 var(--pc-space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: 1px solid var(--pc-line);
+  /* Keeps the scrollbar inside the dialog's rounded corners. */
+  border-radius: 0 0 var(--pc-dialog-radius) var(--pc-dialog-radius);
+}
+
+/* One grid for all rows so columns line up; rows and groups share it through subgrid. */
+.pc-symbol-search-list {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  column-gap: var(--pc-space-5);
+  transition: opacity 120ms;
+}
+
+.pc-symbol-search-list.has-logos {
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+}
+
+.pc-symbol-search-list[aria-busy='true'] {
+  opacity: 0.6;
+}
+
+.pc-symbol-search-group,
+.pc-symbol-search-option {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.pc-symbol-search-group-label {
+  grid-column: 1 / -1;
+  padding: var(--pc-space-4) var(--pc-space-6) var(--pc-space-1);
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.pc-symbol-search-option {
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--pc-space-6);
+  cursor: pointer;
+}
+
+.pc-symbol-search-group .pc-symbol-search-option {
+  padding-inline-start: calc(var(--pc-space-6) + var(--pc-space-5));
+}
+
+.pc-symbol-search-option[aria-selected='true'] {
+  background: var(--pc-hover);
+}
+
+.pc-symbol-search-option mark {
+  background: transparent;
+  color: var(--pc-accent);
+}
+
+.pc-symbol-search-logo {
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--pc-active);
+}
+
+.pc-symbol-search-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pc-symbol-search-symbol {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pc-symbol-search-detail {
+  overflow: hidden;
+  color: var(--pc-muted-strong);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pc-symbol-search-type,
+.pc-symbol-search-exchange {
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+  white-space: nowrap;
+}
+
+.pc-symbol-search-exchange {
+  text-align: end;
+}
+
+/* Favourites: a star column after each row. */
+.pc-symbol-search-list.has-stars {
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+}
+
+.pc-symbol-search-list.has-stars.has-logos {
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto auto;
+}
+
+.pc-symbol-search-row {
+  display: contents;
+}
+
+.pc-symbol-search-list.has-stars .pc-symbol-search-option {
+  grid-column: 1 / -2;
+  padding-inline-end: 0;
+}
+
+.pc-symbol-search-star {
+  margin-inline-end: var(--pc-space-4);
+  opacity: 0;
+}
+
+.pc-symbol-search-row:hover > .pc-symbol-search-star,
+.pc-symbol-search-option[aria-selected='true'] + .pc-symbol-search-star,
+.pc-symbol-search-option.is-unavailable + .pc-symbol-search-star,
+.pc-symbol-search-star:focus-visible,
+.pc-symbol-search-star[aria-pressed='true'] {
+  opacity: 1;
+}
+
+.pc-symbol-search-star[aria-pressed='true'] {
+  color: var(--pc-alert);
+}
+
+.pc-symbol-search-star[aria-pressed='true'] svg {
+  fill: currentColor;
+}
+
+.pc-symbol-search-option.is-unavailable {
+  color: var(--pc-faint);
+  cursor: default;
+}
+
+.pc-symbol-search-option.is-unavailable .pc-symbol-search-symbol,
+.pc-symbol-search-option.is-unavailable .pc-symbol-search-detail {
+  color: inherit;
+}
+
+@media (hover: none) {
+  .pc-symbol-search-star {
+    opacity: 1;
+  }
+}
+
+/* Narrow dialog: give the description the exchange column's room. */
+.pc-symbol-search {
+  container-type: inline-size;
+}
+
+@container (max-width: 440px) {
+  .pc-symbol-search-exchange {
+    display: none;
+  }
+}
+
+.pc-symbol-search-message,
+.pc-symbol-search-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--pc-space-4) + var(--pc-space-1));
+  padding: calc(var(--pc-space-6) + var(--pc-space-4)) var(--pc-space-6);
+  color: var(--pc-muted);
+  text-align: center;
+}
+
+.pc-symbol-search-footer {
+  padding: var(--pc-space-4) var(--pc-space-6);
+  font-size: var(--pc-font-size-sm);
+}
+
+.pc-symbol-search-message[hidden],
+.pc-symbol-search-footer[hidden] {
+  display: none;
+}
+
+/* -------------------------- indicator picker -------------------------- */
+
+.pc-indicator-picker {
+  width: min(720px, 100%);
+  height: min(560px, 100%);
+  container-type: inline-size;
+}
+
+/* The search field grows along the symbol search's row; in this column it keeps its height. */
+.pc-indicator-picker > .pc-symbol-search-field {
+  flex: none;
+}
+
+/* The built-in / custom switch, above the categories. */
+.pc-indicator-picker-sources {
+  padding: var(--pc-space-4) var(--pc-space-5);
+}
+
+/* Right under the search row when there is no source switch, so the row has the same room above and below. */
+.pc-indicator-picker-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  border-top: 1px solid var(--pc-line);
+}
+
+.pc-indicator-picker-tabs {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: var(--pc-space-1);
+  width: 156px;
+  padding: var(--pc-space-4);
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--pc-line);
+}
+
+.pc-indicator-picker-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pc-space-4);
+  min-height: 30px;
+  padding: 0 var(--pc-space-4);
+  border-radius: var(--pc-radius-md);
+  white-space: nowrap;
+}
+
+.pc-indicator-picker-tab[aria-selected='true'] {
+  background: var(--pc-accent-soft);
+  color: var(--pc-ink);
+  font-weight: 600;
+}
+
+.pc-indicator-picker-count {
+  min-width: 18px;
+  padding: 0 var(--pc-space-2);
+  border-radius: 9px;
+  background: var(--pc-active);
+  color: var(--pc-muted-strong);
+  font-size: var(--pc-font-size-xs);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+.pc-indicator-picker-results {
+  flex: 1;
+  min-width: 0;
+  padding: var(--pc-space-2) 0 var(--pc-space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.pc-indicator-picker-option[aria-disabled='true'] .pc-indicator-picker-text {
+  opacity: 0.55;
+}
+
+/* The row holds the star, the text-only option and the row's tools side by side. */
+.pc-indicator-picker-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  min-height: 44px;
+  padding: var(--pc-space-2) var(--pc-space-5);
+  padding-inline-start: var(--pc-space-4);
+  cursor: pointer;
+}
+
+.pc-indicator-picker-row[data-active='true'] {
+  background: var(--pc-hover);
+}
+
+.pc-indicator-picker-option {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--pc-space-4);
+  min-width: 0;
+}
+
+.pc-indicator-picker-option mark {
+  background: transparent;
+  color: var(--pc-accent);
+}
+
+.pc-indicator-picker-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pc-indicator-picker-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pc-indicator-picker-inputs {
+  margin-inline-start: var(--pc-space-3);
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+  font-weight: 400;
+}
+
+.pc-indicator-picker-description {
+  overflow: hidden;
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pc-indicator-picker-category {
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-sm);
+  white-space: nowrap;
+}
+
+.pc-indicator-picker-badge {
+  padding: 0 var(--pc-space-3);
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-accent-soft);
+  color: var(--pc-accent);
+  font-size: var(--pc-font-size-xs);
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.pc-indicator-picker-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+}
+
+.pc-indicator-picker-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pc-space-2);
+  min-width: 28px;
+  height: 28px;
+  padding: 0 var(--pc-space-2);
+  border: 0;
+  border-radius: var(--pc-radius-md);
+  background: transparent;
+  color: var(--pc-muted);
+  font: inherit;
+  font-size: var(--pc-font-size-sm);
+  cursor: pointer;
+}
+
+.pc-indicator-picker-tool:hover {
+  background: var(--pc-active);
+  color: var(--pc-ink);
+}
+
+/* A destructive icon button, such as a trash icon: the danger colour dialogs and menus use. After the buttons it overrides. */
+.pc-danger,
+.pc-danger:hover {
+  color: var(--pc-down);
+}
+
+.pc-danger:hover {
+  background: color-mix(in srgb, var(--pc-down) 14%, transparent);
+}
+
+/* The Add button shows on the active row only. */
+.pc-indicator-picker-add {
+  display: none;
+  color: var(--pc-accent);
+}
+
+.pc-indicator-picker-row[data-active='true'] .pc-indicator-picker-add {
+  display: inline-flex;
+}
+
+/* Unstarred stars show only on the active row, so the list stays calm. */
+.pc-indicator-picker-star {
+  opacity: 0;
+}
+
+.pc-indicator-picker-row[data-active='true'] .pc-indicator-picker-star,
+.pc-indicator-picker-star:focus-visible,
+.pc-indicator-picker-star[aria-pressed='true'] {
+  opacity: 1;
+}
+
+.pc-indicator-picker-star[aria-pressed='true'] {
+  color: var(--pc-alert);
+}
+
+.pc-indicator-picker-star[aria-pressed='true'] svg {
+  fill: currentColor;
+}
+
+.pc-indicator-picker-placement {
+  box-shadow: inset 0 0 0 1px var(--pc-line-strong);
+}
+
+.pc-indicator-picker-section + .pc-indicator-picker-section {
+  margin-top: var(--pc-space-2);
+}
+
+.pc-indicator-picker .pc-symbol-search-group-label {
+  padding-inline-start: var(--pc-space-5);
+}
+
+/* Narrow dialog: categories become a scrolling row above the list. */
+@container (max-width: 520px) {
+  .pc-indicator-picker-body {
+    flex-direction: column;
+  }
+
+  .pc-indicator-picker-tabs {
+    flex-direction: row;
+    width: auto;
+    padding: var(--pc-space-2) var(--pc-space-4);
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--pc-line);
+    scrollbar-width: none;
+  }
+
+  .pc-indicator-picker-category {
+    display: none;
+  }
+}
+
+/* ------------------------------ tooltip ------------------------------ */
+
+.pc-shell [data-tip] {
+  position: relative;
+}
+
+/* One element per shell (tooltip.ts), placed next to the hovered or focused trigger and kept inside the shell. */
+.pc-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  max-width: calc(100% - 2 * var(--pc-space-2));
+  padding: calc(var(--pc-space-2) + 1px) var(--pc-space-4);
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-tip-bg);
+  color: var(--pc-tip-ink);
+  font: 400 var(--pc-font-size-sm) var(--pc-font);
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  box-shadow: var(--pc-tip-shadow);
+  animation: pc-tip-in 120ms ease 300ms both;
+}
+
+.pc-tip[hidden] {
+  display: none;
+}
+
+@keyframes pc-tip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.pc-shell [aria-expanded='true']::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-shell *,
+  .pc-seg-indicator {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Narrow shell, whatever the viewport: thinner chrome. A container cannot style itself, so the
+   tokens go on its children. */
+@container pc-shell (max-width: 640px) {
+  .pc-shell > * {
+    --pc-rail-button: 32px;
+    --pc-gap: var(--pc-space-1);
+  }
+
+  .pc-bottombar .pc-clock {
+    display: none;
+  }
+}
+
+/* ------------------------- compact layout --------------------------- */
+
+/*
+ * `railSheet` flag below `railBreakpoint` (createChartShell sets data-pc-layout):
+ * the rail's column becomes a bottom sheet over the chart, opened from the
+ * "Drawing tools" button, and the range presets collapse into a menu.
+ */
+.pc-shell-side[data-sheet] {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 35;
+  border-radius: var(--pc-radius-lg) var(--pc-radius-lg) 0 0;
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  animation: pc-sheet-in 260ms var(--pc-ease-enter);
+}
+
+.pc-shell-side[data-sheet='closed'] {
+  display: none;
+}
+
+@keyframes pc-sheet-in {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+
+/* A horizontal rail: wrapping rows, so every tool stays reachable at phone width. */
+.pc-rail[data-orientation='horizontal'] {
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: auto;
+  padding: var(--pc-space-3);
+}
+
+.pc-rail[data-orientation='horizontal'] .pc-rail-sep {
+  width: 1px;
+  height: calc(var(--pc-rail-button) - 8px);
+  margin: 0 var(--pc-space-2);
+}
+
+.pc-rail[data-orientation='horizontal'] .pc-spacer {
+  display: none;
+}
+
+.pc-sheet-toggle[aria-expanded='true'] {
+  background: var(--pc-accent-soft);
+  color: var(--pc-accent);
+}
+
+/* Without a bottom bar the button floats over the stage's lower-left corner. */
+.pc-sheet-toggle[data-float] {
+  position: absolute;
+  inset-inline-start: var(--pc-space-4);
+  z-index: 4;
+  background: var(--pc-panel);
+  box-shadow: var(--pc-tip-shadow), 0 0 0 1px var(--pc-line);
+}
+
+.pc-bottombar-range-menu {
+  display: none;
+}
+
+.pc-shell[data-pc-layout='compact'] .pc-bottombar-ranges {
+  display: none !important;
+}
+
+.pc-shell[data-pc-layout='compact'] .pc-bottombar-range-menu {
+  display: block;
+}
+
+/* -------------------------- pointer tooltip -------------------------- */
+
+/* Placed with a transform by createPointerTooltip; never takes the pointer. Works outside the shell too. */
+.pc-pointer-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  max-width: 240px;
+  padding: var(--pc-space-3, 6px) var(--pc-space-4, 8px);
+  border-radius: var(--pc-radius-sm, 4px);
+  background: var(--pc-tip-bg, #2f2f39);
+  color: var(--pc-tip-ink, #ffffff);
+  box-shadow: var(--pc-tip-shadow, 0 4px 12px rgba(0, 0, 0, 0.35));
+  font: 400 var(--pc-font-size-sm, 12px) / 1.45 var(--pc-font, sans-serif);
+  pointer-events: none;
+  /* Opacity only: the transform places it. */
+  animation: pc-fade-in 160ms var(--pc-ease-enter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-pointer-tip {
+    animation: none;
+  }
+}
+
+.pc-pointer-tip[hidden] {
+  display: none;
+}
+
+.pc-ptip-time {
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-ptip-row {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--pc-space-4, 8px);
+}
+
+.pc-ptip-title {
+  font-weight: 600;
+}
+
+.pc-ptip-part {
+  display: inline-flex;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.pc-ptip-label {
+  opacity: 0.7;
+}
+
+.pc-ptip-value {
+  font-family: var(--pc-font-mono, monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------- drawing toolbar -------------------------- */
+
+.pc-drawing-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+  padding: calc(var(--pc-space-1) + 1px);
+  border-radius: var(--pc-radius-md);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font-family: var(--pc-font);
+  /* Opacity only: the transform places it. */
+  animation: pc-fade-in 160ms var(--pc-ease-enter);
+}
+
+.pc-drawing-toolbar[hidden] {
+  display: none;
+}
+
+.pc-drawing-fields {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+}
+
+.pc-drawing-toolbar .pc-menu[hidden] {
+  display: none;
+}
+
+/* "More style" and levels panels: labelled rows under the toolbar. */
+.pc-drawing-style-popover,
+.pc-levels-popover {
+  min-width: 0;
+  gap: var(--pc-space-2);
+  padding: var(--pc-space-4);
+  cursor: default;
+}
+
+.pc-drawing-style-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pc-space-5);
+  min-height: 32px;
+  padding: 0 var(--pc-space-2);
+  color: var(--pc-muted-strong);
+  font-size: var(--pc-font-size);
+  white-space: nowrap;
+}
+
+.pc-levels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pc-space-1);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.pc-levels-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+}
+
+.pc-levels-visible {
+  margin: 0;
+  accent-color: var(--pc-accent);
+  cursor: pointer;
+}
+
+.pc-levels-value {
+  width: 76px;
+  height: 26px;
+  padding: 0 var(--pc-space-3);
+  border: 1px solid var(--pc-line-strong);
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-surface);
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size) var(--pc-font);
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-levels-visible:focus-visible,
+.pc-levels-value:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: 1px;
+}
+
+/* --------------------------- favourites bar ---------------------------- */
+
+/* Starred drawing tools, floating over the plot; placed with a transform by favorites.ts. */
+.pc-favorites-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+  padding: calc(var(--pc-space-1) + 1px);
+  border-radius: var(--pc-radius-md);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font-family: var(--pc-font);
+}
+
+.pc-favorites-bar[hidden] {
+  display: none;
+}
+
+.pc-favorites-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+  /* Wraps rather than scrolls once the bar reaches the plot's size, so tooltips are not clipped. */
+  flex-wrap: wrap;
+  min-width: 0;
+  min-height: 0;
+}
+
+.pc-favorites-bar[data-orientation='vertical'],
+.pc-favorites-bar[data-orientation='vertical'] .pc-favorites-tools {
+  flex-direction: column;
+}
+
+.pc-favorites-handle {
+  width: 20px;
+  cursor: grab;
+  touch-action: none;
+  color: var(--pc-faint);
+}
+
+.pc-favorites-handle:active {
+  cursor: grabbing;
+  transform: none;
+}
+
+.pc-favorites-bar[data-orientation='vertical'] .pc-favorites-handle {
+  width: 32px;
+  height: 20px;
+}
+
+.pc-favorites-tools .pc-icon-btn {
+  touch-action: none;
+}
+
+.pc-favorites-tools .pc-icon-btn.is-dragging {
+  background: var(--pc-active);
+  cursor: grabbing;
+}
+
+/* A narrow shell keeps the bar in one row, whatever layout the user picked. */
+.pc-shell[data-pc-layout='compact'] .pc-favorites-bar,
+.pc-shell[data-pc-layout='compact'] .pc-favorites-tools {
+  flex-direction: row;
+}
+
+.pc-shell[data-pc-layout='compact'] .pc-favorites-handle {
+  width: 20px;
+  height: 32px;
+}
+
+.pc-shell[data-pc-layout='compact'] .pc-favorites-flip {
+  display: none;
+}
+
+/* Flyout entry with its favourite star: the row carries the highlight, star included. */
+.pc-popover-row {
+  display: flex;
+  align-items: center;
+}
+
+.pc-popover-row:hover {
+  background: var(--pc-hover);
+}
+
+.pc-popover-row:has(> .pc-popover-item.is-active) {
+  background: var(--pc-accent-soft);
+}
+
+.pc-popover-row > .pc-popover-item {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+}
+
+.pc-favorite-star {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-inline-end: var(--pc-space-3);
+  padding: 0;
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-faint);
+  cursor: pointer;
+  opacity: 0;
+}
+
+.pc-popover-row:hover .pc-favorite-star,
+.pc-favorite-star:focus-visible,
+.pc-favorite-star[aria-checked='true'] {
+  opacity: 1;
+}
+
+.pc-favorite-star:hover {
+  color: var(--pc-ink);
+}
+
+.pc-favorite-star[aria-checked='true'] {
+  color: var(--pc-favorite);
+}
+
+.pc-favorite-star:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+/* Without hover (touch), stars are always shown. */
+@media (hover: none) {
+  .pc-favorite-star {
+    opacity: 1;
+  }
+}
+
+/* Toolbar buttons of starred intervals or chart styles, beside their menu. */
+.pc-favorite-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+}
+
+.pc-favorite-strip[hidden] {
+  display: none;
+}
+
+.pc-favorite-strip-item {
+  min-width: 32px;
+  padding-inline: var(--pc-space-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------ replay ------------------------------- */
+
+.pc-replay-bar {
+  position: absolute;
+  top: var(--pc-space-4);
+  left: 50%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-1);
+  padding: calc(var(--pc-space-1) + 1px);
+  border-radius: var(--pc-radius-md);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font-family: var(--pc-font);
+  transform: translateX(-50%);
+}
+
+.pc-replay-bar[hidden],
+.pc-replay-bar [hidden] {
+  display: none;
+}
+
+/* ---------------------------- go to date ----------------------------- */
+
+.pc-goto {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pc-goto-form {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--pc-space-3);
+  min-width: 0;
+  padding: var(--pc-space-3);
+}
+
+.pc-goto-form[hidden] {
+  display: none;
+}
+
+.pc-goto-input {
+  height: 32px;
+  padding: 0 var(--pc-space-3);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size) var(--pc-font);
+  color-scheme: inherit;
+}
+
+.pc-goto-input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--pc-focus);
+}
+
+.pc-color-input {
+  width: 28px;
+  height: 28px;
+  padding: var(--pc-space-2);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+
+.pc-color-input:hover {
+  background: var(--pc-hover);
+}
+
+.pc-color-input:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+/* ----------------------------- appearance ----------------------------- */
+
+.pc-appearance {
+  position: absolute;
+  top: var(--pc-space-4);
+  inset-inline-end: var(--pc-space-4);
+  bottom: var(--pc-space-4);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  width: min(300px, calc(100% - 2 * var(--pc-space-4)));
+  border-radius: var(--pc-radius-lg);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size) var(--pc-font);
+  animation: pc-panel-in 260ms var(--pc-ease-enter);
+}
+
+.pc-appearance-head {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+  padding: var(--pc-space-4);
+  padding-inline-start: var(--pc-space-6);
+  border-bottom: 1px solid var(--pc-line);
+}
+
+.pc-appearance-head h2 {
+  flex: 1;
+  margin: 0;
+  font-size: var(--pc-font-size-xl);
+  font-weight: 600;
+}
+
+.pc-appearance-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--pc-space-3) var(--pc-space-6) var(--pc-space-6);
+}
+
+.pc-appearance-section + .pc-appearance-section {
+  border-top: 1px solid var(--pc-line);
+}
+
+.pc-appearance-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--pc-space-4);
+}
+
+.pc-appearance-section-head h3 {
+  margin: 0;
+  color: var(--pc-muted);
+  font-size: var(--pc-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pc-appearance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 36px;
+  gap: var(--pc-space-4);
+}
+
+.pc-appearance .pc-select,
+.pc-appearance .pc-input {
+  height: 28px;
+  padding: 0 var(--pc-space-4);
+  border: 1px solid var(--pc-line-strong);
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-surface);
+  color: var(--pc-ink);
+  font: inherit;
+}
+
+/* Watermark line sizes: room for three digits, numbers right aligned like other numeric fields. */
+.pc-appearance .pc-appearance-size {
+  width: 72px;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------- color control ---------------------------- */
+
+.pc-color-control {
+  position: relative;
+}
+
+.pc-color-trigger {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--pc-line-strong);
+  border-radius: var(--pc-radius-sm);
+  /* A checkerboard under the chip shows the opacity. */
+  background: repeating-conic-gradient(#8b8b99 0% 25%, #ffffff 0% 50%) 50% / 8px 8px;
+  cursor: pointer;
+}
+
+.pc-color-chip {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--pc-radius-sm) - 1px);
+}
+
+.pc-color-trigger:focus-visible,
+.pc-swatch:focus-visible,
+.pc-opacity:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: 1px;
+}
+
+/* Opens from whichever edge of its trigger keeps it on screen (`placePopover`). */
+.pc-color-popover {
+  min-width: 0;
+  width: 248px;
+  max-width: calc(100vw - 2 * var(--pc-space-5));
+  gap: var(--pc-space-4);
+  padding: var(--pc-space-5);
+}
+
+/* Ten columns, `SWATCH_COLUMNS` in color-control.ts: the arrow keys move by that many per row. */
+.pc-swatches {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: var(--pc-space-1);
+}
+
+.pc-swatch {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--pc-line-strong);
+  border-radius: var(--pc-radius-xs);
+  cursor: pointer;
+}
+
+.pc-color-custom,
+.pc-opacity-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  color: var(--pc-muted);
+}
+
+.pc-color-custom span {
+  flex: 1;
+}
+
+.pc-opacity {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--pc-accent);
+}
+
+.pc-opacity-value {
+  min-width: 36px;
+  color: var(--pc-ink);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.pc-presets {
+  display: grid;
+  /* Six columns, matching the arrow-key rows in appearance.ts. */
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--pc-space-3);
+  padding: var(--pc-space-4) 0 var(--pc-space-2);
+}
+
+.pc-preset {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--pc-line-strong);
+  border-radius: var(--pc-radius-md);
+  cursor: pointer;
+  /* A preview: keep its own colours in forced-colours mode. */
+  forced-color-adjust: none;
+}
+
+.pc-preset[aria-pressed='true'] {
+  border-color: var(--pc-accent);
+  box-shadow: 0 0 0 1px var(--pc-accent);
+}
+
+.pc-preset:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: 2px;
+}
+
+.pc-preset-dot {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.pc-preset-dot svg {
+  visibility: hidden;
+}
+
+.pc-preset[aria-pressed='true'] .pc-preset-dot svg {
+  visibility: visible;
+}
+
+.pc-appearance-modes {
+  display: flex;
+  padding-bottom: var(--pc-space-2);
+}
+
+.pc-appearance-check {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-4);
+  cursor: pointer;
+}
+
+.pc-appearance-check input {
+  accent-color: var(--pc-accent);
+}
+
+.pc-appearance-pair {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+}
+
+/* ---------------------------- cluster list ---------------------------- */
+
+.pc-cluster-list {
+  z-index: 30;
+  min-width: 180px;
+  padding: var(--pc-space-3);
+  gap: var(--pc-space-2);
+}
+
+.pc-cluster-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pc-space-4);
+  min-height: 28px;
+  padding: 0 var(--pc-space-3);
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size) var(--pc-font);
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-cluster-cancel {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: transparent;
+  color: var(--pc-muted);
+  cursor: pointer;
+}
+
+.pc-cluster-cancel:hover {
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+}
+
+.pc-cluster-cancel:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+/* --------------------------- draft editor ---------------------------- */
+
+.pc-draft-editor {
+  z-index: 30;
+  min-width: 160px;
+  padding: var(--pc-space-3);
+  gap: var(--pc-space-3);
+}
+
+.pc-draft-editor[role='menu'] {
+  padding: var(--pc-space-3) 0;
+  gap: 0;
+}
+
+.pc-draft-row,
+.pc-draft-presets {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-2);
+}
+
+.pc-draft-presets {
+  flex-wrap: wrap;
+}
+
+.pc-draft-qty {
+  width: 96px;
+  height: 32px;
+  padding: 0 var(--pc-space-3);
+  border: 0;
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-hover);
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size) var(--pc-font);
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-draft-qty:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+/* ----------------------------- table view ----------------------------- */
+
+.pc-table-view {
+  position: absolute;
+  top: var(--pc-space-4);
+  inset-inline-end: var(--pc-space-4);
+  bottom: var(--pc-space-4);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, calc(100% - 2 * var(--pc-space-4)));
+  border-radius: var(--pc-radius-lg);
+  background: var(--pc-popover);
+  box-shadow: var(--pc-shadow), 0 0 0 1px var(--pc-line);
+  color: var(--pc-ink);
+  font: 400 var(--pc-font-size) var(--pc-font);
+  animation: pc-panel-in 260ms var(--pc-ease-enter);
+}
+
+.pc-table-view-head {
+  display: flex;
+  align-items: center;
+  gap: var(--pc-space-3);
+  padding: var(--pc-space-4);
+  padding-inline-start: var(--pc-space-6);
+  border-bottom: 1px solid var(--pc-line);
+}
+
+.pc-table-view-head h2 {
+  flex: 1;
+  margin: 0;
+  font-size: var(--pc-font-size-xl);
+  font-weight: 600;
+}
+
+.pc-table-view-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.pc-table-view-body:focus-visible {
+  outline: 2px solid var(--pc-focus);
+  outline-offset: -2px;
+}
+
+.pc-table-view-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-table-view-table caption {
+  padding: var(--pc-space-4) var(--pc-space-6);
+  color: var(--pc-muted);
+  text-align: start;
+}
+
+.pc-table-view-table th,
+.pc-table-view-table td {
+  padding: var(--pc-space-2) var(--pc-space-4);
+  border-bottom: 1px solid var(--pc-line);
+  text-align: end;
+  white-space: nowrap;
+}
+
+.pc-table-view-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--pc-popover);
+  color: var(--pc-muted);
+  font-weight: 600;
+}
+
+.pc-table-view-table th[scope='row'] {
+  font-weight: 400;
+  text-align: start;
+}
+
+/* --------------------------- forced colours --------------------------- */
+
+/*
+ * An OS high-contrast mode replaces colours with the system palette and drops
+ * box shadows, so the shadows that draw focus rings, edges and selected states
+ * become outlines, borders and system colours. The chart canvas is recoloured
+ * by the shell (`forcedColorsTheme`).
+ */
+@media (forced-colors: active) {
+  /* The rail's group bar is a background, which forced colours would paint as Canvas: draw it in the text colour. */
+  .pc-rail-group:has(> .pc-rail-more) > .pc-icon-btn::after {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .pc-stage .pc-chart:focus-visible::after,
+  .pc-picker-field:focus-within,
+  .pc-symbol-search-field:focus-within,
+  .pc-goto-input:focus {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .pc-shell :focus-visible,
+  .pc-dialog :focus-visible,
+  .pc-appearance :focus-visible,
+  .pc-table-view :focus-visible,
+  .pc-data-window:focus-visible {
+    outline-color: Highlight;
+  }
+
+  .pc-popover,
+  .pc-dialog,
+  .pc-appearance,
+  .pc-table-view,
+  .pc-data-window,
+  .pc-drawing-toolbar,
+  .pc-favorites-bar,
+  .pc-replay-bar,
+  .pc-pointer-tip,
+  .pc-shell-side[data-sheet],
+  .pc-tip {
+    outline: 1px solid CanvasText;
+  }
+
+  .pc-icon-btn--surface,
+  .pc-picker-field,
+  .pc-symbol-search-field,
+  .pc-goto-input,
+  .pc-command-key,
+  .pc-shortcut-chip {
+    outline: 1px solid ButtonText;
+  }
+
+  .pc-icon-btn.is-active,
+  .pc-popover-item.is-active,
+  .pc-form-tab[aria-selected='true'],
+  .pc-picker-tab[aria-selected='true'],
+  .pc-picker-row[data-active='true'],
+  .pc-symbol-search-option[aria-selected='true'],
+  .pc-picker-actions [aria-pressed='true'] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  /* On a Highlight fill a Highlight ring would not show. */
+  .pc-icon-btn.is-active:focus-visible,
+  .pc-popover-item.is-active:focus-visible,
+  .pc-form-tab[aria-selected='true']:focus-visible,
+  .pc-picker-tab[aria-selected='true']:focus-visible,
+  .pc-picker-row[data-active='true']:focus-visible,
+  .pc-symbol-search-option[aria-selected='true']:focus-visible,
+  .pc-picker-actions [aria-pressed='true']:focus-visible {
+    outline-color: HighlightText;
+  }
+
+  .pc-btn.is-active,
+  .pc-seg-btn.is-active,
+  .pc-chip.is-active {
+    text-decoration: underline 2px;
+    text-underline-offset: 4px;
+  }
+
+  .pc-icon-btn:disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+
+  .pc-icon-btn[data-kept],
+  .pc-popover-item[data-kept] {
+    outline: 2px solid HighlightText;
+    outline-offset: -4px;
+  }
+
+  .pc-icon-btn[data-kept]::before,
+  .pc-popover-item[data-kept]::before {
+    forced-color-adjust: none;
+    background: HighlightText;
+  }
+}
+
+/*
+ * Chart grid (createChartGrid): shells in resizable cells. The grid root is also a
+ * .pc-shell for the tokens; each cell's shell sizes its narrow layout by the cell.
+ */
+.pc-grid {
+  --pc-grid-gutter: var(--pc-gap);
+  --pc-grid-active: var(--pc-accent);
+}
+
+.pc-grid-cells {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Isolated, so the active outline stays under the cell's own dialogs and popovers. */
+.pc-grid-cell {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The cell the toolbar acts on, once there is more than one. Drawn inside, so the layout never shifts. */
+.pc-grid-cells:not([data-count='1']) > .pc-grid-cell[aria-current='true']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  outline: 1px solid var(--pc-grid-active);
+  outline-offset: -1px;
+}
+
+.pc-grid-resizer {
+  position: relative;
+  z-index: 1;
+  touch-action: none;
+  outline: none;
+  transition: background-color 120ms;
+}
+
+/* A hit area wider than the gutter. */
+.pc-grid-resizer::before {
+  content: '';
+  position: absolute;
+  inset: 0 -3px;
+}
+
+.pc-grid-resizer[aria-orientation='horizontal']::before {
+  inset: -3px 0;
+}
+
+.pc-grid-resizer[aria-orientation='vertical'],
+.pc-grid[data-resizing='columns'] {
+  cursor: col-resize;
+}
+
+.pc-grid-resizer[aria-orientation='horizontal'],
+.pc-grid[data-resizing='rows'] {
+  cursor: row-resize;
+}
+
+.pc-grid[data-resizing] {
+  user-select: none;
+}
+
+.pc-grid-resizer:hover,
+.pc-grid-resizer:focus-visible {
+  background: var(--pc-line-strong);
+}
+
+.pc-grid-resizer:focus-visible,
+.pc-grid-resizer:active {
+  background: var(--pc-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-grid-resizer {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .pc-grid-cells:not([data-count='1']) > .pc-grid-cell[aria-current='true']::after {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .pc-grid-resizer:hover,
+  .pc-grid-resizer:focus-visible,
+  .pc-grid-resizer:active {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}
+
+/* Print view of `printChart`: hidden on screen; while it is up, only the chart image prints, fitted to the page. */
+.pc-print-view {
+  display: none;
+}
+
+@media print {
+  html.pc-printing,
+  html.pc-printing body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  html.pc-printing body > :not(.pc-print-view) {
+    display: none !important;
+  }
+
+  html.pc-printing .pc-print-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    break-inside: avoid;
+  }
+
+  html.pc-printing .pc-print-view img {
+    display: block;
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: contain;
+  }
+}

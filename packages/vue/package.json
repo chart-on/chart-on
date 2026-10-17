@@ -1,0 +1,58 @@
+{
+  "name": "@charton/vue",
+  "version": "0.1.0",
+  "description": "Components and composables that mount @charton/core charts and @charton/ui shells in Vue apps, with server rendering support.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chart-on/charton.git",
+    "directory": "packages/vue"
+  },
+  "homepage": "https://github.com/chart-on/charton#readme",
+  "bugs": "https://github.com/chart-on/charton/issues",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "browserslist": ["chrome >= 111", "edge >= 111", "firefox >= 114", "safari >= 16.4", "ios_saf >= 16.4"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./shell": {
+      "types": "./dist/shell.d.ts",
+      "import": "./dist/shell.js",
+      "default": "./dist/shell.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist", "README.md", "LICENSE", "NOTICE"],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p ."
+  },
+  "peerDependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@charton/ui": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "happy-dom": "^21.0.1",
+    "vue": "^3.5.0"
+  }
+}

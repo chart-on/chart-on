@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Typecheck, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      # Version comes from the packageManager field in package.json.
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      # Build first: tests import workspace packages through their dist (the demo loads @charton/locales).
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm check:packages
+      - run: pnpm api:check
+      - run: pnpm check:csp
+      - run: pnpm size
+
+  browser:
+    name: Browser tests
+    runs-on: ubuntu-latest
+    # The Linux screenshot baselines were made in this image, so fonts and the software renderer
+    # match. Keep its version equal to the locked `@playwright/test` version.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:browser
+
+  examples:
+    name: Framework examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      # Builds the example apps and the packages they use, then renders the server-rendering ones.
+      - run: node scripts/check-examples.mjs
+
+  bench:
+    name: Benchmarks
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @charton/core build
+
+      # Without a base build the comparison reports this branch's numbers only.
+      - name: Build the base branch
+        continue-on-error: true
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git worktree add --detach "$RUNNER_TEMP/base" "$BASE_SHA"
+          pnpm -C "$RUNNER_TEMP/base" install --frozen-lockfile
+          pnpm -C "$RUNNER_TEMP/base" --filter @charton/core build
+
+      # The same benchmark file runs against both builds, alternating, to even out machine noise.
+      - name: Run benchmarks on the base branch and this branch
+        run: |
+          for run in 1 2; do
+            CHARTON_BENCH_CORE="$RUNNER_TEMP/base/packages/core/dist" pnpm bench --reporter=json --outputFile="base-$run.json" || true
+            pnpm bench --reporter=json --outputFile="head-$run.json"
+          done
+
+      - name: Compare with the base branch
+        run: node scripts/compare-bench.mjs --base base-1.json --base base-2.json --head head-1.json --head head-2.json

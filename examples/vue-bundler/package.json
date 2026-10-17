@@ -1,0 +1,18 @@
+{
+  "name": "charton-example-vue-bundler",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: the chart widget in a client-rendered app using @charton/vue built with a bundler.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p . && vite build"
+  },
+  "dependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "@charton/vue": "workspace:^",
+    "vue": "^3.5.0"
+  }
+}

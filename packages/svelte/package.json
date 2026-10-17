@@ -1,0 +1,62 @@
+{
+  "name": "@charton/svelte",
+  "version": "0.1.0",
+  "description": "Components, an action and context helpers that mount @charton/core charts and @charton/ui shells in compiled component apps, with server rendering support.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chart-on/charton.git",
+    "directory": "packages/svelte"
+  },
+  "homepage": "https://github.com/chart-on/charton#readme",
+  "bugs": "https://github.com/chart-on/charton/issues",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "browserslist": ["chrome >= 111", "edge >= 111", "firefox >= 114", "safari >= 16.4", "ios_saf >= 16.4"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "svelte": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./shell": {
+      "types": "./dist/shell.d.ts",
+      "svelte": "./dist/shell.js",
+      "default": "./dist/shell.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist", "README.md", "LICENSE", "NOTICE"],
+  "scripts": {
+    "build": "svelte-package --input src --output dist",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "peerDependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "svelte": "^5.18.0"
+  },
+  "peerDependenciesMeta": {
+    "@charton/ui": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@charton/core": "workspace:^",
+    "@charton/ui": "workspace:^",
+    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "happy-dom": "^21.0.1",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6"
+  }
+}

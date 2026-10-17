@@ -1,0 +1,30 @@
+# Weekly update pull requests for the CI actions and the pnpm workspace.
+# Actions are pinned to commit SHAs; updates move the SHA and its version comment together.
+# open-pull-requests-limit: 0 holds version-update PRs while CI cannot run (#723).
+# Delete that line from both entries to turn them on.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    commit-message:
+      prefix: chore
+    groups:
+      actions:
+        patterns: ['*']
+
+  # The workspace has one lockfile at the root, which covers every package.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    commit-message:
+      prefix: chore
+    groups:
+      # Major versions open one pull request each, so a breaking upgrade is reviewed on its own.
+      packages:
+        patterns: ['*']
+        update-types: [minor, patch]

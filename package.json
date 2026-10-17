@@ -1,0 +1,36 @@
+{
+  "name": "charton",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "pnpm --filter demo dev",
+    "build": "pnpm --filter @charton/ta build && pnpm --filter @charton/core build && pnpm --filter @charton/indicators build && pnpm --filter @charton/ui build && pnpm --filter @charton/locales build && pnpm --filter @charton/react build && pnpm --filter @charton/vue build && pnpm --filter @charton/svelte build && pnpm --filter charton-plugin-starter build && pnpm --filter demo build",
+    "test": "vitest run",
+    "typecheck": "tsc -p packages/ta && tsc -p packages/core && tsc -p packages/indicators && tsc -p packages/ui && tsc -p packages/locales && tsc -p packages/react && tsc -p packages/vue && pnpm --filter @charton/svelte typecheck && tsc -p apps/demo && tsc -p docs/examples && tsc -p docs/.vitepress/theme/site && tsc -p examples/plugin-starter && tsc -p e2e",
+    "check:packages": "node scripts/check-packages.mjs",
+    "check:csp": "node scripts/check-csp.mjs",
+    "test:browser": "playwright test",
+    "size": "node scripts/check-size.mjs",
+    "size:report": "node scripts/size-report.mjs",
+    "bench": "vitest bench --run --config vitest.bench.config.ts",
+    "api:docs": "typedoc",
+    "api:report": "node scripts/api-report.mjs --update",
+    "api:check": "node scripts/api-report.mjs",
+    "docs:dev": "pnpm api:docs && pnpm --filter docs dev",
+    "docs:build": "pnpm api:docs && pnpm --filter docs build"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "7.59.3",
+    "@playwright/test": "~1.63.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "26.6.5",
+    "svelte": "^5.57.2",
+    "typedoc": "0.28.20",
+    "typedoc-plugin-markdown": "4.13.1",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vitest": "^5.0.0"
+  }
+}

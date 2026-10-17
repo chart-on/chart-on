@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
+
+#shell {
+  position: relative;
+  min-height: 0;
+}
+
+/*
+ * Fixed widths for the six buttons that overflow, so how many go into the More menu on a
+ * narrow page does not depend on the platform's fonts: at 720 px several always do, at the
+ * default width none do.
+ */
+.pc-toolbar .pc-btn:is([aria-label='Alpha'], [aria-label='Bravo'], [aria-label='Charlie'], [aria-label='Delta'], [aria-label='Echo'], [aria-label='Foxtrot']) {
+  box-sizing: border-box;
+  width: 120px;
+  flex: none;
+  overflow: hidden;
+}

@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+}
+
+/* The screenshot area: the scene and, in the right-to-left one, the reference texts. */
+.shot {
+  width: 720px;
+}
+
+/* Fixed sizes, so screenshots do not depend on the window. */
+.scene {
+  position: relative;
+  width: 720px;
+  height: 420px;
+}
+
+/* The drawing texts laid out by the browser itself (`dir="auto"`), for comparison in the right-to-left shot. */
+.reference {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 720px;
+  padding: 8px;
+  box-sizing: border-box;
+  font: 14px sans-serif;
+}
+
+.reference:empty {
+  display: none;
+}

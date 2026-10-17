@@ -1,0 +1,306 @@
+/*
+ * Site palette: the Paper & Ink colour preset from @charton/core (paper
+ * #f5f1e8, ink #242424), inverted for the dark scheme. The scheme follows the
+ * system setting until the reader picks one with the toggle.
+ */
+:root {
+  --site-paper: #f5f1e8;
+  --site-ink: #242424;
+  --vp-c-bg: var(--site-paper);
+  --vp-c-bg-alt: #ede8dc;
+  --vp-c-bg-soft: #ede8dc;
+  --vp-c-bg-elv: #faf8f2;
+  --vp-c-text-1: var(--site-ink);
+  --vp-c-text-2: rgb(36 36 36 / 0.72);
+  --vp-c-text-3: rgb(36 36 36 / 0.5);
+  --vp-c-divider: rgb(36 36 36 / 0.12);
+  --vp-c-border: rgb(36 36 36 / 0.2);
+  --vp-c-gutter: rgb(36 36 36 / 0.08);
+  --vp-c-brand-1: var(--site-ink);
+  --vp-c-brand-2: #3d3d3d;
+  --vp-c-brand-3: var(--site-ink);
+  --vp-c-brand-soft: rgb(36 36 36 / 0.08);
+  --vp-button-brand-bg: var(--site-ink);
+  --vp-button-brand-hover-bg: #3d3d3d;
+  --vp-button-brand-active-bg: #3d3d3d;
+  --vp-button-brand-text: var(--site-paper);
+  --vp-button-brand-hover-text: var(--site-paper);
+  --vp-button-brand-active-text: var(--site-paper);
+}
+
+.dark {
+  --vp-c-bg: var(--site-ink);
+  --vp-c-bg-alt: #1d1d1d;
+  --vp-c-bg-soft: #2c2c2b;
+  --vp-c-bg-elv: #2c2c2b;
+  --vp-c-text-1: var(--site-paper);
+  --vp-c-text-2: rgb(245 241 232 / 0.72);
+  --vp-c-text-3: rgb(245 241 232 / 0.5);
+  --vp-c-divider: rgb(245 241 232 / 0.12);
+  --vp-c-border: rgb(245 241 232 / 0.2);
+  --vp-c-gutter: rgb(245 241 232 / 0.06);
+  --vp-c-brand-1: var(--site-paper);
+  --vp-c-brand-2: #e3ddd0;
+  --vp-c-brand-3: var(--site-paper);
+  --vp-c-brand-soft: rgb(245 241 232 / 0.1);
+  --vp-button-brand-bg: var(--site-paper);
+  --vp-button-brand-hover-bg: #e3ddd0;
+  --vp-button-brand-active-bg: #e3ddd0;
+  --vp-button-brand-text: var(--site-ink);
+  --vp-button-brand-hover-text: var(--site-ink);
+  --vp-button-brand-active-text: var(--site-ink);
+}
+
+.example-chart {
+  position: relative;
+  margin: 16px 0 0;
+  background: var(--vp-c-bg-alt);
+}
+
+/* Charts sit in a rounded hairline card; the landing page adds a soft bezel around it. */
+.example-chart,
+.playground-chart,
+.lp-panel {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.lp-panel {
+  box-shadow:
+    0 0 0 7px var(--lp-card, var(--vp-c-bg-alt)),
+    0 0 0 8px var(--vp-c-divider);
+}
+
+.example-chart-host {
+  width: 100%;
+  height: 100%;
+}
+
+.example-chart-error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--vp-c-danger-1);
+  font-size: 14px;
+}
+
+/* The source sits right under its chart and its playground link. */
+.example-chart + div[class*='language-'],
+.example-playground-link + div[class*='language-'] {
+  margin-top: 8px;
+}
+
+.vp-doc .example-playground-link {
+  margin: 8px 0 0;
+  font-size: 14px;
+  text-align: right;
+}
+
+.markdown-link {
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+
+/*
+ * Scrollbars in the site palette. A non-auto `scrollbar-color` turns off the
+ * `::-webkit-scrollbar` styles in Chromium, so each engine gets one path.
+ */
+:root {
+  --site-scrollbar: rgb(36 36 36 / 0.22);
+  --site-scrollbar-hover: rgb(36 36 36 / 0.4);
+}
+
+.dark {
+  --site-scrollbar: rgb(245 241 232 / 0.2);
+  --site-scrollbar-hover: rgb(245 241 232 / 0.38);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--site-scrollbar) transparent;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background: var(--site-scrollbar) padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--site-scrollbar-hover);
+  }
+}
+
+/* No vertical rules between the nav's menu, appearance switch and links; spacing separates them. */
+.VPNavBar .content-body .translations::before,
+.VPNavBar .content-body .appearance::before,
+.VPNavBar .content-body .social-links::before {
+  content: none !important;
+}
+
+.VPNavBar .content-body .appearance {
+  margin-left: 16px;
+}
+
+.VPNavBar .content-body .social-links {
+  margin-left: 8px;
+}
+
+/* Search: an outlined field in the site's line colour, the shortcut as one small mono badge. */
+@media (min-width: 768px) {
+  .DocSearch-Button {
+    width: 260px !important;
+    height: 36px !important;
+    border: 1px solid var(--vp-c-divider) !important;
+    background: transparent !important;
+  }
+
+  .DocSearch-Button:hover {
+    border-color: var(--vp-c-text-3) !important;
+  }
+}
+
+.DocSearch-Button .DocSearch-Button-Keys {
+  gap: 2px;
+  padding: 2px 6px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 5px;
+}
+
+.DocSearch-Button .DocSearch-Button-Key,
+.DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: auto;
+  line-height: 16px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+  color: var(--vp-c-text-3);
+}
+
+/* Advertise the "/" shortcut instead of the modifier + K pair, in a square badge. */
+.DocSearch-Button .DocSearch-Button-Keys {
+  justify-content: center;
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  padding: 0;
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child {
+  display: none;
+}
+
+.DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
+  /* A row, so the hidden "K" text takes no width instead of a 16px row above the "/". */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  height: 100%;
+  font-size: 0;
+}
+
+.DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key::after {
+  content: '/';
+  font-size: 11px;
+}
+
+/* Suggestions in the search box while its query is empty (search-suggestions.ts). */
+.search-suggestions {
+  padding: 4px 4px 12px;
+}
+
+.search-suggestions[hidden] {
+  display: none;
+}
+
+.search-suggestions-title {
+  margin: 12px 0 8px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+.search-suggestions-pages {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search-suggestions-pages a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.search-suggestions-pages a:hover,
+.search-suggestions-pages a:focus-visible {
+  border-color: var(--vp-c-text-3);
+  background: var(--vp-c-default-soft);
+}
+
+.search-suggestions-pages svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: var(--vp-c-text-3);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.search-suggestions-terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.search-suggestions-terms button {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 7px;
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.search-suggestions-terms button:hover,
+.search-suggestions-terms button:focus-visible {
+  border-color: var(--vp-c-text-3);
+  color: var(--vp-c-text-1);
+}

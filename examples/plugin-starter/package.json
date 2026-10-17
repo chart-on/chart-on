@@ -1,0 +1,31 @@
+{
+  "name": "charton-plugin-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Starter template for a charton plugin: one drawing tool and one indicator.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "keywords": ["charton-plugin"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p ."
+  },
+  "peerDependencies": {
+    "@charton/core": "workspace:^"
+  },
+  "devDependencies": {
+    "@charton/core": "workspace:^"
+  }
+}

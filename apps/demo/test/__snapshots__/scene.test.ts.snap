@@ -1,0 +1,86 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`lays out candles with a volume overlay 1`] = `
+{
+  "annotations": [
+    {
+      "kind": "marker",
+      "options": {
+        "id": "signal",
+        "shape": "arrow-up",
+        "text": "Signal",
+        "time": 1704084000,
+      },
+      "pane": 0,
+      "series": 0,
+      "visible": true,
+    },
+    {
+      "kind": "price-line",
+      "options": {
+        "axisLabel": true,
+        "lineStyle": "dashed",
+        "lineWidth": 1,
+        "price": 105.123,
+        "title": "Level",
+      },
+      "pane": 0,
+      "series": 0,
+      "visible": true,
+    },
+  ],
+  "barSpacing": 10,
+  "drawings": [],
+  "panes": [
+    {
+      "collapsed": false,
+      "height": 512,
+      "scales": [
+        {
+          "from": 87.7517,
+          "id": "right",
+          "mode": "normal",
+          "side": "right",
+          "to": 95.3427,
+        },
+      ],
+      "series": [
+        {
+          "kind": "candles",
+          "legend": "Sample O94.0800 H94.3500 L93.6100 C94.1100 +0.0300 (+0.03%)",
+          "scale": "right",
+          "title": "Sample",
+          "values": {
+            "close": 94.11,
+            "high": 94.35,
+            "low": 93.61,
+            "open": 94.08,
+            "volume": 6649,
+          },
+          "visible": true,
+          "visiblePointCount": 87,
+        },
+        {
+          "kind": "histogram",
+          "legend": "Volume 6.65K",
+          "scale": "right",
+          "title": "Volume",
+          "values": {
+            "value": 6649,
+          },
+          "visible": true,
+          "visiblePointCount": 87,
+        },
+      ],
+    },
+  ],
+  "size": {
+    "height": 540,
+    "width": 960,
+  },
+  "visibleRange": {
+    "from": 1704079980,
+    "to": 1704085140,
+  },
+}
+`;

@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  height: 100vh;
+}
+
+.frame {
+  position: relative;
+  min-height: 0;
+}

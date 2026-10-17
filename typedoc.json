@@ -1,0 +1,19 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  // API reference for the docs site, as Markdown in docs/api (generated, not checked in): pnpm api:docs.
+  "name": "charton API",
+  "entryPointStrategy": "packages",
+  // @charton/svelte is left out: its components are .svelte files, which the generator cannot read.
+  "entryPoints": ["packages/ta", "packages/core", "packages/indicators", "packages/ui", "packages/react", "packages/vue"],
+  "packageOptions": {
+    // Packages with more than one entry list them in their own typedoc.json.
+    "entryPoints": ["src/index.ts"],
+    // Types referenced but not exported are listed in the API reports (etc/*.api.md) instead.
+    "validation": { "notExported": false }
+  },
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs/api",
+  "readme": "none",
+  "entryFileName": "index",
+  "sanitizeComments": true
+}

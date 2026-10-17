@@ -1,0 +1,48 @@
+{
+  "files": {
+    "packages/ui/dist/index.js": 105472,
+    "packages/ui/dist/style.css": 12800,
+    "packages/ui/dist/templates.js": 2048,
+    "packages/ui/dist/browser/charton.js": 354816,
+    "packages/locales/dist/de-DE.js": 10496,
+    "packages/locales/dist/es-ES.js": 10496,
+    "packages/locales/dist/fr-FR.js": 10752,
+    "packages/locales/dist/id-ID.js": 9984,
+    "packages/locales/dist/ja-JP.js": 11520,
+    "packages/locales/dist/zh-CN.js": 11008,
+    "packages/locales/dist/zh-TW.js": 11008,
+    "packages/react/dist/index.js": 512,
+    "packages/react/dist/shell.js": 768,
+    "packages/react/dist/sync.js": 768,
+    "packages/vue/dist/index.js": 512,
+    "packages/vue/dist/shell.js": 1024,
+    "packages/vue/dist/sync.js": 1280,
+    "packages/svelte/dist/index.js": 256,
+    "packages/svelte/dist/shell.js": 256,
+    "packages/svelte/dist/Chart.svelte": 1024,
+    "packages/svelte/dist/ChartShell.svelte": 1536,
+    "packages/svelte/dist/action.js": 512,
+    "packages/svelte/dist/sync.js": 1024,
+    "packages/svelte/dist/watch.svelte.js": 512
+  },
+  "bundles": {
+    "everything": {
+      "imports": "*",
+      "budget": 263936
+    },
+    "createChart + dataSource + createRestDataSource": {
+      "imports": [
+        "createChart",
+        "dataSource",
+        "createRestDataSource"
+      ],
+      "budget": 102656
+    },
+    "createChart": {
+      "imports": [
+        "createChart"
+      ],
+      "budget": 87808
+    }
+  }
+}

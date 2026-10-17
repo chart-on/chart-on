@@ -35,7 +35,10 @@ interface Sample {
 /** Inertia velocity decay time constant (ms). */
 const DECAY_MS = 325;
 const MIN_VELOCITY = 0.02;
-const ZOOM_EASE_MS = 70;
+/** Easing time constant (ms) for mouse-wheel zoom and pan notches. */
+const WHEEL_EASE_MS = 70;
+/** Smallest wheel delta (css px) taken for a mouse notch; trackpads send smaller ones at frame rate. */
+const WHEEL_NOTCH = 40;
 /** Max pointer travel (css px) for a press to still count as a click. */
 const CLICK_SLOP_MOUSE = 3;
 const CLICK_SLOP_TOUCH = 8;
@@ -133,6 +136,8 @@ export class Interaction {
   private velocity = 0;
   private zoomTarget: number | null = null;
   private zoomAnchor = 0;
+  /** Wheel pan (css px) still to ease in. */
+  private panRemaining = 0;
   /** The current pointer gesture comes from a touch screen. */
   #touch = false;
   /** Pending long-press: becomes inspection unless the finger moves or lifts first. */
@@ -250,7 +255,7 @@ export class Interaction {
 
   /** Apply changed feature flags: end gestures and motion that were just turned off. */
   featuresChanged(): void {
-    if (!this.#canPan(this.#touch)) this.velocity = 0;
+    if (!this.#canPan(this.#touch)) this.velocity = this.panRemaining = 0;
     if (!this.#canZoom()) this.zoomTarget = null;
     if (this.#drag && !this.#allows(this.#drag.kind)) {
       if (this.#drag.kind === 'baseline') this.#baselines.pointerUp();
@@ -290,13 +295,21 @@ export class Interaction {
     }
     if (this.zoomTarget !== null) {
       const current = Math.log(time.barSpacing);
-      const k = 1 - Math.exp(-dt / ZOOM_EASE_MS);
+      const k = 1 - Math.exp(-dt / WHEEL_EASE_MS);
       const next = Math.abs(this.zoomTarget - current) < 1e-3 ? this.zoomTarget : current + (this.zoomTarget - current) * k;
       time.zoom(Math.exp(next - current), this.zoomAnchor);
       // A fixed edge can hold the spacing short of the target.
       const held = next !== current && Math.log(time.barSpacing) === current;
       if (next === this.zoomTarget || held) this.zoomTarget = null;
       else active = true;
+    }
+    if (this.panRemaining !== 0) {
+      const rest = this.panRemaining;
+      const move = Math.abs(rest) < 0.5 ? rest : rest * (1 - Math.exp(-dt / WHEEL_EASE_MS));
+      this.panRemaining -= move;
+      // An edge drops what remains, like a fling.
+      if (move !== 0 && !time.pan(move)) this.panRemaining = 0;
+      if (this.panRemaining !== 0) active = true;
     }
     return active;
   }
@@ -312,6 +325,10 @@ export class Interaction {
     if (this.zoomTarget !== null) {
       time.zoom(Math.exp(this.zoomTarget - Math.log(time.barSpacing)), this.zoomAnchor);
       this.zoomTarget = null;
+    }
+    if (this.panRemaining !== 0) {
+      time.pan(this.panRemaining);
+      this.panRemaining = 0;
     }
   }
 
@@ -380,9 +397,9 @@ export class Interaction {
     setRootStyle(this.#el, 'touchAction', own ? 'none' : this.#canZoom(true) ? 'pan-y' : 'pan-y pinch-zoom');
   };
 
-  /** Stop inertia, eased zoom and programmatic view animations. */
+  /** Stop inertia, eased wheel zoom and pan, and programmatic view animations. */
   stopMotion(): void {
-    this.velocity = 0;
+    this.velocity = this.panRemaining = 0;
     this.zoomTarget = null;
     this.#chart.time.cancelAnimation();
   }
@@ -809,16 +826,20 @@ export class Interaction {
     this.velocity = 0;
     chart.time.cancelAnimation();
     const anchor = this.#zoomAnchorX('plot', clampLow(p.x, 0, chart.plotWidth));
+    // Mouse wheel notches ease over a few frames instead of jumping.
+    const smooth = chart.options.smoothZoom && !chart.options.lowPower;
 
     if (pan) {
       // Down or right moves towards newer bars, like scrolling a page forward.
-      chart.time.pan(-(horizontal ? dx : dy));
+      const d = -(horizontal ? dx : dy);
+      if (smooth && Math.abs(d) >= WHEEL_NOTCH) this.panRemaining += d;
+      else chart.time.pan(d);
     } else if (e.ctrlKey) {
       // Trackpad pinch arrives as ctrl+wheel.
       this.zoomTarget = null;
       chart.time.zoom(Math.exp(-dy * 0.01), anchor);
-    } else if (chart.options.smoothZoom && !chart.options.lowPower && Math.abs(dy) >= 40) {
-      // Mouse wheel notch: ease towards the target spacing.
+    } else if (smooth && Math.abs(dy) >= WHEEL_NOTCH) {
+      // Ease towards the target spacing.
       const t = chart.time;
       const base = this.zoomTarget ?? Math.log(t.barSpacing);
       this.zoomTarget = clampNum(base - dy * 0.0025, Math.log(t.floorSpacing), Math.log(t.maxBarSpacing));

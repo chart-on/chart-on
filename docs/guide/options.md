@@ -39,7 +39,7 @@ chart.applyOptions({ features: { legend: false } });
 | `crosshair` | see [Crosshair](#crosshair) | Mode, line styles, labels and the time label's position |
 | `scrollButton` | `true` | Floating button that scrolls back to the newest bar |
 | `inertia` | `true` | Momentum after drag-panning |
-| `smoothZoom` | `true` | Animate mouse-wheel zoom steps |
+| `smoothZoom` | `true` | Animate mouse-wheel zoom and scroll steps |
 | `zoomAnchor` | `{ plot: 'pointer', timeAxis: 'right-edge' }` | What a time zoom keeps fixed: `'pointer'`, `'newest'` (the newest bar while it is on screen) or `'right-edge'`. `plot` covers the wheel, pinch and `+` / `-` keys, `timeAxis` the time-axis drag. One string sets both; `applyOptions` merges a partial object. See [zoom anchor](./interaction#zoom-anchor) |
 | `smoothScale` | `true` | Ease price-scale changes instead of jumping |
 | `animateViewChanges` | `true` | Animate `scrollToRealtime`, `fitContent`, range changes |

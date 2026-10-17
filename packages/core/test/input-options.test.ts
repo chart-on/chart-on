@@ -118,6 +118,83 @@ describe('wheel modes', () => {
   });
 });
 
+describe('eased wheel pan', () => {
+  const smooth = (options: ChartOptionsPatch = {}) => {
+    const c = chart({ smoothZoom: true, ...options });
+    c.time.pan(500);
+    return c;
+  };
+  const remaining = (c: Chart) => (c as unknown as { interaction: { panRemaining: number } }).interaction.panRemaining;
+  /** Run frames 16 ms apart, from `from` ms. */
+  const frames = (c: Chart, count: number, from = 16) => {
+    const frame = (c as unknown as { frame(now: number): void }).frame;
+    for (let i = 0; i < count; i++) frame(from + i * 16);
+  };
+
+  it('eases a Shift+wheel notch to where an immediate pan would land', () => {
+    const c = smooth();
+    const before = view(c);
+    wheel(c, { deltaY: 100, shiftKey: true });
+    expect(c.time.rightOffset).toBe(before.offset);
+    frames(c, 1);
+    const partial = c.time.rightOffset - before.offset;
+    expect(partial).toBeGreaterThan(0);
+    expect(partial).toBeLessThan(100 / before.spacing);
+    frames(c, 100, 32);
+    expect(c.time.rightOffset).toBeCloseTo(before.offset + 100 / before.spacing);
+    expect(c.time.barSpacing).toBe(before.spacing);
+    expect(remaining(c)).toBe(0);
+  });
+
+  it('eases plain wheel notches in pan mode and adds up consecutive notches', () => {
+    const c = smooth({ wheel: 'pan' });
+    const before = view(c);
+    wheel(c, { deltaY: 100 });
+    wheel(c, { deltaY: 100 });
+    frames(c, 100);
+    expect(c.time.rightOffset).toBeCloseTo(before.offset + 200 / before.spacing);
+  });
+
+  it('pans trackpad-sized deltas and low-power wheels at once', () => {
+    const c = smooth();
+    const before = view(c);
+    wheel(c, { deltaX: 10 });
+    expect(c.time.rightOffset).toBeCloseTo(before.offset + 10 / before.spacing);
+    c.applyOptions({ lowPower: true });
+    const next = view(c);
+    wheel(c, { deltaY: 100, shiftKey: true });
+    expect(c.time.rightOffset).toBeCloseTo(next.offset + 100 / next.spacing);
+    expect(remaining(c)).toBe(0);
+  });
+
+  it('drops what remains at an edge', () => {
+    const c = smooth();
+    // Far more than the 500 px back to the newest bar.
+    wheel(c, { deltaY: 5000, shiftKey: true });
+    frames(c, 200);
+    expect(remaining(c)).toBe(0);
+    const atEdge = c.time.rightOffset;
+    wheel(c, { deltaY: -100, shiftKey: true });
+    frames(c, 100, 3216);
+    expect(c.time.rightOffset).toBeCloseTo(atEdge - 100 / c.time.barSpacing);
+  });
+
+  it('stops on pointer down and settles on finish', () => {
+    const c = smooth();
+    wheel(c, { deltaY: 100, shiftKey: true });
+    frames(c, 1);
+    dispatch(c.root, 'pointerdown', { clientX: 300, clientY: 200 });
+    expect(remaining(c)).toBe(0);
+    dispatch(c.root, 'pointerup', { clientX: 300, clientY: 200 });
+
+    const before = view(c);
+    wheel(c, { deltaY: 100, shiftKey: true });
+    (c as unknown as { interaction: { finish(): void } }).interaction.finish();
+    expect(c.time.rightOffset).toBeCloseTo(before.offset + 100 / before.spacing);
+    expect(remaining(c)).toBe(0);
+  });
+});
+
 describe('navigation keys', () => {
   it('Home and End jump to the oldest and newest bars', () => {
     const c = chart();

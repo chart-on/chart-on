@@ -419,7 +419,7 @@ export interface ChartOptions {
   focusable: boolean;
   /** Momentum after drag-panning. */
   inertia: boolean;
-  /** Animate mouse-wheel zoom steps. */
+  /** Animate mouse-wheel zoom and scroll steps. */
   smoothZoom: boolean;
   /**
    * What the plain mouse wheel does: `'zoom'` zooms time, `'pan'` scrolls it,

@@ -3025,7 +3025,8 @@
   padding-inline-start: calc(var(--pc-space-6) + var(--pc-space-5));
 }
 
-.pc-symbol-search-option[aria-selected='true'] {
+.pc-symbol-search-option[aria-selected='true'],
+.pc-symbol-search-option[aria-selected='true'] + .pc-symbol-search-star {
   background: var(--pc-hover);
 }
 
@@ -3091,25 +3092,23 @@
   padding-inline-end: 0;
 }
 
-.pc-symbol-search-star {
-  margin-inline-end: var(--pc-space-4);
-  opacity: 0;
+/*
+ * The rail flyouts' star (`.pc-favorite-star`), stretched over its cell and the
+ * column gap so the active row's fill runs through it.
+ */
+.pc-symbol-search-list .pc-symbol-search-star {
+  align-self: stretch;
+  width: auto;
+  height: auto;
+  margin-inline: calc(-1 * var(--pc-space-5)) 0;
+  padding-inline: var(--pc-space-6);
+  border-radius: 0;
 }
 
 .pc-symbol-search-row:hover > .pc-symbol-search-star,
 .pc-symbol-search-option[aria-selected='true'] + .pc-symbol-search-star,
-.pc-symbol-search-option.is-unavailable + .pc-symbol-search-star,
-.pc-symbol-search-star:focus-visible,
-.pc-symbol-search-star[aria-pressed='true'] {
+.pc-symbol-search-option.is-unavailable + .pc-symbol-search-star {
   opacity: 1;
-}
-
-.pc-symbol-search-star[aria-pressed='true'] {
-  color: var(--pc-alert);
-}
-
-.pc-symbol-search-star[aria-pressed='true'] svg {
-  fill: currentColor;
 }
 
 .pc-symbol-search-option.is-unavailable {
@@ -3120,12 +3119,6 @@
 .pc-symbol-search-option.is-unavailable .pc-symbol-search-symbol,
 .pc-symbol-search-option.is-unavailable .pc-symbol-search-detail {
   color: inherit;
-}
-
-@media (hover: none) {
-  .pc-symbol-search-star {
-    opacity: 1;
-  }
 }
 
 /* Narrow dialog: give the description the exchange column's room. */
@@ -3816,7 +3809,8 @@
 
 .pc-popover-row:hover .pc-favorite-star,
 .pc-favorite-star:focus-visible,
-.pc-favorite-star[aria-checked='true'] {
+.pc-favorite-star[aria-checked='true'],
+.pc-favorite-star[aria-pressed='true'] {
   opacity: 1;
 }
 
@@ -3824,7 +3818,8 @@
   color: var(--pc-ink);
 }
 
-.pc-favorite-star[aria-checked='true'] {
+.pc-favorite-star[aria-checked='true'],
+.pc-favorite-star[aria-pressed='true'] {
   color: var(--pc-favorite);
 }
 
@@ -4401,6 +4396,7 @@
   .pc-picker-tab[aria-selected='true'],
   .pc-picker-row[data-active='true'],
   .pc-symbol-search-option[aria-selected='true'],
+  .pc-symbol-search-option[aria-selected='true'] + .pc-symbol-search-star,
   .pc-picker-actions [aria-pressed='true'] {
     forced-color-adjust: none;
     background: Highlight;

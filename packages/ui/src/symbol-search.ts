@@ -1,10 +1,10 @@
 import type { Chart, MessageParams } from '@charton/core';
 import { Star } from 'lucide';
-import { button, iconButton, segmentedTabs } from './controls';
+import { button, segmentedTabs } from './controls';
 import type { FavoritesList } from './favorites';
 import { createListbox, type Listbox } from './listbox';
 import { dialogClassFor } from './dialog';
-import { h } from './dom';
+import { h, icon, nameButton } from './dom';
 import { resultsText, shellText, type ShellMessageKey } from './messages';
 import {
   createSearchController,
@@ -266,14 +266,21 @@ export function createSymbolSearch<T extends SymbolSearchResult>(
   function withStar(row: HTMLElement, ref: string, item?: T): HTMLElement {
     if (!starred) return row;
     const on = starred.has(ref);
-    const star = iconButton({ icon: Star, label: t(on ? 'indicatorsFavoriteRemove' : 'indicatorsFavoriteAdd', { name: ref }), variant: 'ghost' });
-    star.className += ' pc-symbol-search-star';
-    star.setAttribute('aria-pressed', String(on));
+    // The rail flyouts' star, so both look and behave alike.
+    const star = h('button', { type: 'button', class: 'pc-favorite-star pc-symbol-search-star', 'aria-pressed': String(on) });
+    nameButton(star, t(on ? 'indicatorsFavoriteRemove' : 'indicatorsFavoriteAdd', { name: ref }));
+    const glyph = icon(Star, 14);
+    if (on) glyph.setAttribute('fill', 'currentColor');
+    star.append(glyph);
     // Tab reaches the active row's star, and those of unavailable rows, which cannot be active.
     star.tabIndex = !item || item === active ? 0 : -1;
     star.addEventListener('mousedown', (e) => e.preventDefault());
     star.addEventListener('click', () => toggleStar(ref, item));
-    if (item) stars.set(item, star);
+    if (item) {
+      stars.set(item, star);
+      // The star belongs to its row: pointing at it makes the row active, as pointing at the row does.
+      onPointerMove(star, () => active !== item && setActive(item, false));
+    }
     return h('div', { class: 'pc-symbol-search-row', role: 'none' }, row, star);
   }
 

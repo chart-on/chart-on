@@ -1,7 +1,7 @@
 /**
  * The docs site palette for charts: the Paper & Ink colour preset, whose dark
  * variant swaps the two colours, matching custom.css. Used by the landing
- * page, the examples and the playground.
+ * page, the examples, the playground and the preview page.
  */
 import { builtInColorPresets, presetTheme, type ChartTheme } from '@charton/core';
 import { presetShellTokens } from '@charton/ui';
@@ -18,14 +18,14 @@ const block = (selector: string, mode: 'light' | 'dark') =>
     .join(';')}}`;
 
 /**
- * Gives the UI shells in examples and the playground the site palette. The
- * shell reads its chart colours from these tokens when it is created, and its
- * own scheme already follows the page. High-contrast shells keep their colours.
- * Runs once, before the first example or playground run.
+ * Gives the UI shells in examples, the playground and the preview page the
+ * site palette. The shell reads its chart colours from these tokens when it is
+ * created, and its own scheme already follows the page. High-contrast shells
+ * keep their colours. Runs once, before the first shell is created.
  */
 export function installShellPalette(): void {
   if (document.querySelector('style[data-site-palette]')) return;
-  const shell = ':is(.example-chart, .playground) .pc-shell:not(.pc-theme-high-contrast)';
+  const shell = ':is(.example-chart, .playground, .preview) .pc-shell:not(.pc-theme-high-contrast)';
   const style = document.createElement('style');
   style.dataset.sitePalette = '';
   style.textContent = block(`html:not(.dark) ${shell}`, 'light') + block(`html.dark ${shell}`, 'dark');

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@charton/core": "workspace:^",
+    "@charton/indicators": "workspace:^",
     "@charton/ui": "workspace:^",
     "@codemirror/commands": "6.11.1",
     "@codemirror/lang-javascript": "6.2.5",
@@ -17,6 +18,7 @@
     "@codemirror/state": "6.7.6",
     "@codemirror/view": "6.43.13",
     "@lezer/highlight": "1.2.5",
+    "ccxt": "4.5.85",
     "codemirror": "6.0.2"
   },
   "devDependencies": {

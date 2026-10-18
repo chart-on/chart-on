@@ -18,5 +18,7 @@ export default {
     // Async, so only the playground page downloads it and the compiler it loads.
     app.component('Playground', defineAsyncComponent(() => import('./Playground.vue')));
     app.component('ThemeBuilder', defineAsyncComponent(() => import('./ThemeBuilder.vue')));
+    // Async, so only the preview page downloads the shell and the exchange library.
+    app.component('Preview', defineAsyncComponent(() => import('./Preview.vue')));
   },
 } satisfies Theme;

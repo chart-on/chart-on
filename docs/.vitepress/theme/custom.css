@@ -309,3 +309,12 @@
 .preview-page .VPLocalNav {
   display: none;
 }
+
+/* The narrow-width menu spans the window, its items lined up with the logo, instead of a 288 px column. */
+.VPNav .VPNavScreen {
+  padding: 0 24px;
+}
+
+.VPNav .VPNavScreen .container {
+  max-width: none;
+}

@@ -104,6 +104,17 @@
   top: calc(var(--vp-nav-height) + 20px);
 }
 
+/* Menu items line up with the logo inside the bar: its inset, border and padding (24 + 1 + 20). */
+.landing .VPNav .VPNavScreen {
+  padding: 0 45px;
+}
+
+@media (max-width: 640px) {
+  .landing .VPNav .VPNavScreen {
+    padding: 0 37px;
+  }
+}
+
 .landing .VPContent {
   padding-top: calc(var(--vp-nav-height) + 24px) !important;
 }

@@ -4,5 +4,5 @@
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["./*.ts"]
+  "include": ["./*.ts", "../preview.ts"]
 }

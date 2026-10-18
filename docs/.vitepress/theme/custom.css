@@ -304,3 +304,8 @@
   border-color: var(--vp-c-text-3);
   color: var(--vp-c-text-1);
 }
+
+/* The preview page has no navbar, so the narrow-screen outline bar would always show; it has nothing to list. */
+.preview-page .VPLocalNav {
+  display: none;
+}

@@ -1,4 +1,4 @@
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, onTestFinished, vi } from 'vitest';
 import { builtinTools, Chart, type DrawingToolDef } from '@charton/core';
 import { dispatch, fakeContainer, installFakeDom } from '../../core/test/fake-dom';
 import { overflowMore } from '../src/controls';
@@ -291,6 +291,54 @@ describe('overflowMore', () => {
     more.fit();
     expect(fake(bar).children).toEqual(kids);
     expect(fake(more.panel).children).toEqual([]);
+    more.stop();
+  });
+
+  it('shows its popover again after a fade out, also when reopened during the fade', async () => {
+    const bar = h('div');
+    bar.append(h('button'), h('button'));
+    sized(bar, () => 2);
+    const button = h('button');
+    const more = overflowMore(bar, button, 'wrap', 'pop');
+    more.fit();
+    // A platform that animates: each close fades the popover, which fills forwards.
+    const fades: { cancel: ReturnType<typeof vi.fn>; finish: () => void }[] = [];
+    Object.assign(more.panel, {
+      getBoundingClientRect: () => ({ width: 100 }),
+      animate: () => {
+        let finish = () => {};
+        const finished = new Promise<void>((resolve) => (finish = resolve));
+        const fade = { cancel: vi.fn(), finished, finish };
+        fades.push(fade);
+        return fade;
+      },
+    });
+    const click = () => fake(button).dispatch('click');
+    vi.stubGlobal('matchMedia', () => ({ matches: false }));
+    onTestFinished(() => {
+      vi.unstubAllGlobals();
+    });
+
+    click();
+    click();
+    expect(more.panel.inert).toBe(true);
+    fades[0]!.finish();
+    await Promise.resolve();
+    // Gone, and left visible and usable for the next open.
+    expect(fake(more.panel).parent).toBeNull();
+    expect(fades[0]!.cancel).toHaveBeenCalled();
+    expect(more.panel.inert).toBe(false);
+
+    click();
+    expect(fake(more.panel).parent).toBe(fake(more.wrap));
+    click();
+    // Opened again before the fade ends: the end of the fade keeps it.
+    click();
+    fades[1]!.finish();
+    await Promise.resolve();
+    expect(fake(more.panel).parent).toBe(fake(more.wrap));
+    expect(more.panel.inert).toBe(false);
+    expect(button.getAttribute('aria-expanded')).toBe('true');
     more.stop();
   });
 

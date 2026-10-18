@@ -38,8 +38,22 @@ jobs:
       - run: pnpm size
 
   browser:
-    name: Browser tests
+    name: Browser tests (${{ matrix.part }})
     runs-on: ubuntu-latest
+    # The tests render WebGL on the CPU, so separate runners beat more workers on one (#7).
+    # The demo tests, the slowest part, are split in two by file.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - part: demo 1/2
+            args: --project=demo --shard=1/2
+          - part: demo 2/2
+            args: --project=demo --shard=2/2
+          - part: landing
+            args: --project=landing
+          - part: pages
+            args: --project=chromium --project=visual --project=heatmap --project=a11y-rtl
     # The Linux screenshot baselines were made in this image, so fonts and the software renderer
     # match. Keep its version equal to the locked `@playwright/test` version.
     container:
@@ -56,7 +70,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test:browser
+      - run: pnpm test:browser ${{ matrix.args }}
 
   examples:
     name: Framework examples

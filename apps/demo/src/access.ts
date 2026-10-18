@@ -25,7 +25,7 @@ export function showAccessNotices(chart: Chart, stage: HTMLElement): () => void 
   const labelOf = (tool: string) => chart.drawings.getTools().find((t) => t.type === tool)?.label ?? tool;
 
   const offs = [
-    chart.on('tool:refuse', ({ tool }) => show(`${labelOf(tool)} is a premium tool in this demo.`)),
+    chart.on('tool:refuse', ({ tool }) => show(`${labelOf(tool)} is turned off by this demo's access rules.`)),
     chart.on('indicator:refuse', ({ reason }) => {
       if (reason === 'limit') show(`This demo allows ${chart.indicators.limit} indicators. Remove one to add another.`);
       else show('That indicator is not available in this demo.');

@@ -117,6 +117,17 @@ describe('symbol search favourites', () => {
     expect(list.get()).toEqual([]);
   });
 
+  it('makes a row active when the pointer moves over its star', async () => {
+    const { panel } = open(memoryList(), vi.fn(), listed);
+    await settle();
+    await settle();
+    const selected = () => options(panel).map((r) => r.getAttribute('aria-selected'));
+    dispatch(stars(panel)[2]!, 'mousemove', { screenX: 7, screenY: 7 });
+    expect(selected()).toEqual(['false', 'false', 'true']);
+    dispatch(stars(panel)[1]!, 'mousemove', { screenX: 8, screenY: 8 });
+    expect(selected()).toEqual(['false', 'true', 'false']);
+  });
+
   it('refuses a star past the limit', async () => {
     const list = memoryList(['AAA'], 1);
     const { panel, dialog } = open(list);

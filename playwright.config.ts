@@ -7,8 +7,23 @@ import { A11Y_RTL_PAGE_PORT } from './e2e/a11y-rtl-page/vite.config';
 import { DEMO_PAGE_PORT } from './e2e/demo/vite.config';
 
 const LANDING_PORT = 4186;
-// Building the docs site takes a minute or two: only when the landing tests may run.
-const landing = !process.argv.some((arg) => arg.startsWith('--project')) || process.argv.some((arg) => /\blanding\b/.test(arg));
+
+// The projects named on the command line (`--project=demo` or `--project demo`); none means all.
+// CI runs a few projects per job, so each job builds only the pages its projects load.
+const selected = process.argv.flatMap((arg, i, argv) =>
+  arg.startsWith('--project=') ? [arg.slice('--project='.length)] : arg === '--project' ? [argv[i + 1]] : [],
+);
+const runs = (project: string) => selected.length === 0 || selected.includes(project);
+
+// Each preview page in `e2e/`, with its port and the project that loads it.
+const pages: [dir: string, port: number, project: string][] = [
+  ['strict-page', STRICT_PAGE_PORT, 'chromium'],
+  ['visual', VISUAL_PAGE_PORT, 'visual'],
+  ['heatmap-page', HEATMAP_PAGE_PORT, 'heatmap'],
+  ['keyboard-page', KEYBOARD_PAGE_PORT, 'chromium'],
+  ['a11y-rtl-page', A11Y_RTL_PAGE_PORT, 'a11y-rtl'],
+  ['demo', DEMO_PAGE_PORT, 'demo'],
+];
 
 /**
  * Browser tests in `e2e/`, run with `pnpm test:browser`. They need Chromium once:
@@ -109,31 +124,14 @@ export default defineConfig({
     },
   ],
   webServer: [
-    {
-      command: 'vite build --config e2e/strict-page/vite.config.ts && vite preview --config e2e/strict-page/vite.config.ts',
-      url: `http://localhost:${STRICT_PAGE_PORT}`,
-    },
-    {
-      command: 'vite build --config e2e/visual/vite.config.ts && vite preview --config e2e/visual/vite.config.ts',
-      url: `http://localhost:${VISUAL_PAGE_PORT}`,
-    },
-    {
-      command: 'vite build --config e2e/heatmap-page/vite.config.ts && vite preview --config e2e/heatmap-page/vite.config.ts',
-      url: `http://localhost:${HEATMAP_PAGE_PORT}`,
-    },
-    {
-      command: 'vite build --config e2e/keyboard-page/vite.config.ts && vite preview --config e2e/keyboard-page/vite.config.ts',
-      url: `http://localhost:${KEYBOARD_PAGE_PORT}`,
-    },
-    {
-      command: 'vite build --config e2e/a11y-rtl-page/vite.config.ts && vite preview --config e2e/a11y-rtl-page/vite.config.ts',
-      url: `http://localhost:${A11Y_RTL_PAGE_PORT}`,
-    },
-    {
-      command: 'vite build --config e2e/demo/vite.config.ts && vite preview --config e2e/demo/vite.config.ts',
-      url: `http://localhost:${DEMO_PAGE_PORT}`,
-    },
-    ...(landing
+    ...pages
+      .filter(([, , project]) => runs(project))
+      .map(([dir, port]) => ({
+        command: `vite build --config e2e/${dir}/vite.config.ts && vite preview --config e2e/${dir}/vite.config.ts`,
+        url: `http://localhost:${port}`,
+      })),
+    // Building the docs site takes a minute or two.
+    ...(runs('landing')
       ? [
           {
             command: `pnpm docs:build && pnpm --filter docs exec vitepress preview --port ${LANDING_PORT}`,

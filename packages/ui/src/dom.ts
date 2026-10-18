@@ -227,6 +227,8 @@ export function popoverToggle(
   const open = () => {
     if (panel) return;
     panel = build();
+    // A reused panel opened again while it still fades out stays (see `fadeOutAndRemove`).
+    panel.inert = false;
     expand(true);
     dispose = onDismiss(wrap, close);
   };
@@ -304,13 +306,20 @@ export function prefersReducedMotion(): boolean {
 /**
  * Internal: removes a closing overlay after a short fade, inert meanwhile, so it does not vanish
  * between frames. At once when the user prefers reduced motion, the platform cannot animate, or
- * nothing is on screen to fade (no layout box).
+ * nothing is on screen to fade (no layout box). The element is left as it was (visible, not
+ * inert), so it can be shown again; clearing `inert` during the fade keeps it in place.
  */
 export function fadeOutAndRemove(el: HTMLElement): void {
   if (typeof el.animate !== 'function' || prefersReducedMotion() || !el.getBoundingClientRect().width) return el.remove();
   el.inert = true;
-  const remove = () => el.remove();
-  el.animate({ opacity: 0 }, { duration: 140, easing: 'ease-in', fill: 'forwards' }).finished.then(remove, remove);
+  const fade = el.animate({ opacity: 0 }, { duration: 140, easing: 'ease-in', fill: 'forwards' });
+  const done = () => {
+    // The fade fills forwards; a reused element would otherwise stay invisible.
+    fade.cancel();
+    if (el.inert) el.remove();
+    el.inert = false;
+  };
+  fade.finished.then(done, done);
 }
 
 /** Shows, hides or toggles a part of the UI, such as the tool rail, the toolbar or the favorites bar. */

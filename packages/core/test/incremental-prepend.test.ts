@@ -355,7 +355,10 @@ describe('prepending a history page', () => {
     expect((line as unknown as { align: { count: number } }).align.count).toBe(n + 2 * PAGE);
   }, 120_000);
 
-  it('ten pages cost less than one setData of the same bars', () => {
+  // Wall time, as a backstop to the test above: a page must not cost about as much as setting every
+  // bar again. The median page, not the sum: the first page grows the storage at the front, and one
+  // GC pause or a busy runner must not decide the result.
+  it('a page costs a small fraction of one setData of the same bars', () => {
     const n = 200_000;
     const PAGE = 500;
     const c = new Chart(fakeContainer(), UTC_OPTIONS);
@@ -377,7 +380,9 @@ describe('prepending a history page', () => {
     main.setData(all);
     frame(c);
     const full = performance.now() - t0;
-    expect(pages.reduce((a, b) => a + b, 0)).toBeLessThan(full);
+    const median = pages.sort((a, b) => a - b)[pages.length / 2]!;
+    // About a fiftieth on a desktop machine; a page that sets every bar again costs as much as the setData.
+    expect(median).toBeLessThan(full / 10);
   }, 60_000);
 });
 

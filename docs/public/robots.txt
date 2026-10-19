@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://charton.dev/sitemap.xml

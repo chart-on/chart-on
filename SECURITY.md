@@ -15,7 +15,7 @@ From 1.0, the latest major gets fixes, and the previous major gets them for six 
 
 **Do not open a public issue, discussion or pull request for a vulnerability.**
 
-Report it privately through the repository's private vulnerability reporting: open the **Security** tab and choose **Report a vulnerability**, or go straight to [the new advisory form](https://github.com/chart-on/charton/security/advisories/new). Only the maintainers can see the report.
+Report it privately through the repository's private vulnerability reporting: open the **Security** tab and choose **Report a vulnerability**, or go straight to [the new advisory form](https://github.com/chart-on/chart-on/security/advisories/new). Only the maintainers can see the report.
 
 A useful report includes:
 

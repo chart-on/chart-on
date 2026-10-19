@@ -267,7 +267,7 @@ Presets that need the shell (`symbolHeader`, `fullscreen`'s default target, `tog
 
 ### Where controls go
 
-The [toolbar layout standard](https://github.com/chart-on/charton/blob/main/roadmap/toolbar-layout.md) assigns every control to one surface. In short:
+The [toolbar layout standard](https://github.com/chart-on/chart-on/blob/main/roadmap/toolbar-layout.md) assigns every control to one surface. In short:
 
 | Surface | Holds |
 | --- | --- |

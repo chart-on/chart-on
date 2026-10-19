@@ -5,11 +5,11 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chart-on/charton.git",
+    "url": "git+https://github.com/chart-on/chart-on.git",
     "directory": "packages/svelte"
   },
-  "homepage": "https://github.com/chart-on/charton#readme",
-  "bugs": "https://github.com/chart-on/charton/issues",
+  "homepage": "https://github.com/chart-on/chart-on#readme",
+  "bugs": "https://github.com/chart-on/chart-on/issues",
   "type": "module",
   "sideEffects": false,
   "engines": {

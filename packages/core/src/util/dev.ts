@@ -50,7 +50,7 @@ export const DEV_WARNING_CODES = [
 export type DevWarningCode = (typeof DEV_WARNING_CODES)[number];
 
 /** Where each warning and error code is explained. */
-export const ERRORS_DOCS_URL = 'https://github.com/chart-on/charton/blob/main/docs/guide/errors.md';
+export const ERRORS_DOCS_URL = 'https://github.com/chart-on/chart-on/blob/main/docs/guide/errors.md';
 
 /** Warning codes already reported in this page load. */
 const reported = new Set<string>();

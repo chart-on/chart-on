@@ -17,7 +17,7 @@ permissions:
 jobs:
   release:
     name: Publish
-    if: github.repository == 'chart-on/charton'
+    if: github.repository == 'chart-on/chart-on'
     runs-on: ubuntu-latest
     permissions:
       contents: write # the release tag and the GitHub release

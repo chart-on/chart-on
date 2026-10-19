@@ -19,7 +19,7 @@ charton ships as eight packages:
 
 ## Install
 
-The packages are not published to npm yet. Until the first release, build them from the [repository](https://github.com/chart-on/charton). Once they are published, install them with:
+The packages are not published to npm yet. Until the first release, build them from the [repository](https://github.com/chart-on/chart-on). Once they are published, install them with:
 
 ```bash
 pnpm add @chart-on/core
@@ -37,7 +37,7 @@ The container needs a size. The chart fills it and follows resizes automatically
 <div id="chart" style="height: 480px"></div>
 ```
 
-Every example in these docs is a module whose `mount(el)` draws into an element and returns a clean-up function; in your app, `el` is that `#chart` element. The chart below runs exactly the code under it. `sampleBars` makes up [sample data](https://github.com/chart-on/charton/blob/main/docs/examples/sample-data.ts) in the same shape as yours:
+Every example in these docs is a module whose `mount(el)` draws into an element and returns a clean-up function; in your app, `el` is that `#chart` element. The chart below runs exactly the code under it. `sampleBars` makes up [sample data](https://github.com/chart-on/chart-on/blob/main/docs/examples/sample-data.ts) in the same shape as yours:
 
 <!-- example: first-chart -->
 

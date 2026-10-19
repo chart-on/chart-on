@@ -2962,7 +2962,7 @@ export const emojiTool: DrawingToolDef;
 export const englishLocalizer: Localizer;
 
 // @public
-export const ERRORS_DOCS_URL = "https://github.com/chart-on/charton/blob/main/docs/guide/errors.md";
+export const ERRORS_DOCS_URL = "https://github.com/chart-on/chart-on/blob/main/docs/guide/errors.md";
 
 // @public
 export interface ExtendedHoursLineOptions extends ReferenceLineOptions {

@@ -20,6 +20,6 @@ The tool needs drawings on the chart and the indicator needs indicators: create 
 4. Set `requires` to the core versions you test against, and keep `@chart-on/core` a peer dependency so the app's copy is used.
 5. `pnpm build` writes `dist/`; `pnpm test` runs the tests in `test/` against a fake browser from `@chart-on/core/testing`.
 
-See [Plugins](https://github.com/chart-on/charton/blob/main/docs/guide/plugins.md) for the context `install` gets, and for publishing.
+See [Plugins](https://github.com/chart-on/chart-on/blob/main/docs/guide/plugins.md) for the context `install` gets, and for publishing.
 
 Licensed under Apache-2.0, like charton. You may license your own plugin as you choose.

@@ -27,7 +27,7 @@ export const LOADS: Rule[] = [
 ];
 
 /** Absolute URLs allowed in built files: XML namespaces and documentation links in messages, never fetched. */
-export const URL_ALLOWED = ['http://www.w3.org/', 'https://github.com/chart-on/charton/'];
+export const URL_ALLOWED = ['http://www.w3.org/', 'https://github.com/chart-on/chart-on/'];
 
 /** `file:line: why` for every rule that matches a line. */
 function scanLines(file: string, lines: string[], rules: Rule[]): string[] {

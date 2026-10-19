@@ -21,7 +21,7 @@ A version is `major.minor.patch`. While charton is before 1.0, the minor number 
 | Minor | 0.4.0: may contain breaking changes | 1.4.0: backwards-compatible additions |
 | Major | 1.0.0: the stable API | 2.0.0: breaking changes |
 
-A breaking change is anything that can stop working code: a removed or renamed export, option, event, method, CSS class or variable; a type that no longer accepts what it did; or a changed default or behaviour that apps rely on. New optional options, exports and events are not breaking. The full rules are in [the contributing guide](https://github.com/chart-on/charton/blob/main/CONTRIBUTING.md#deprecations-and-breaking-changes).
+A breaking change is anything that can stop working code: a removed or renamed export, option, event, method, CSS class or variable; a type that no longer accepts what it did; or a changed default or behaviour that apps rely on. New optional options, exports and events are not breaking. The full rules are in [the contributing guide](https://github.com/chart-on/chart-on/blob/main/CONTRIBUTING.md#deprecations-and-breaking-changes).
 
 Breaking changes are announced before they land. A deprecated API keeps working for at least one minor release before 1.0 (until the next major from 1.0), and development builds log one `charton [deprecated]` warning per API, linking to its entry on the [upgrading page](../upgrading/). Production builds log nothing.
 
@@ -80,8 +80,8 @@ Widen the range (`'^0.3.0 || ^0.4.0'`) once you have tested the plugin against t
 
 Every release is described in three places:
 
-- [`CHANGELOG.md`](https://github.com/chart-on/charton/blob/main/CHANGELOG.md): one line per change, naming the package, grouped by release.
+- [`CHANGELOG.md`](https://github.com/chart-on/chart-on/blob/main/CHANGELOG.md): one line per change, naming the package, grouped by release.
 - [Upgrading](../upgrading/): the deprecated APIs with their replacements, and for each release that changes the public API the code to change, with before and after examples.
-- [GitHub releases](https://github.com/chart-on/charton/releases): one per version, tagged `v0.3.1`, with that version's changelog.
+- [GitHub releases](https://github.com/chart-on/chart-on/releases): one per version, tagged `v0.3.1`, with that version's changelog.
 
 To upgrade across several releases, read the upgrading page from your current version up, and fix the `charton [deprecated]` warnings your development build logs before moving to the release that removes them.

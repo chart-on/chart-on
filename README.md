@@ -9,7 +9,7 @@
 Candles, heatmaps, order flow, indicators and drawing tools, drawn with WebGL2.<br>
 Use the engine with your own UI, or add the ready-made one. Written in TypeScript.
 
-[![CI](https://github.com/chart-on/charton/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chart-on/charton/actions/workflows/ci.yml)
+[![CI](https://github.com/chart-on/chart-on/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chart-on/chart-on/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Status: pre-1.0](https://img.shields.io/badge/status-pre--1.0-orange.svg)](#status-and-install)
 [![TypeScript: strict](https://img.shields.io/badge/TypeScript-strict-3178c6.svg?logo=typescript&logoColor=white)](tsconfig.base.json)
@@ -423,9 +423,9 @@ The guides live in [`docs/guide`](docs/guide/) and the runnable examples in [`do
 
 Contributions are welcome. Every change starts from a GitHub issue: claim it, branch as `feat/<issue>-short-name`, and open one pull request per issue with `Closes #<issue>`. [`CONTRIBUTING.md`](CONTRIBUTING.md) explains the workflow, setup and conventions, and AI coding agents follow [`AGENTS.md`](AGENTS.md).
 
-New to the code? Start with an issue labelled [good first issue](https://github.com/chart-on/charton/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) or [help wanted](https://github.com/chart-on/charton/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+New to the code? Start with an issue labelled [good first issue](https://github.com/chart-on/chart-on/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) or [help wanted](https://github.com/chart-on/chart-on/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
-Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md). Usage questions go to Discussions rather than issues; see [`SUPPORT.md`](SUPPORT.md). Thanks to [everyone who has contributed](https://github.com/chart-on/charton/graphs/contributors).
+Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md). Usage questions go to Discussions rather than issues; see [`SUPPORT.md`](SUPPORT.md). Thanks to [everyone who has contributed](https://github.com/chart-on/chart-on/graphs/contributors).
 
 ## Security
 

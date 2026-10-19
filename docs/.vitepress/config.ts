@@ -54,7 +54,7 @@ export default defineConfig({
   },
   themeConfig: {
     logo: '/logo.svg',
-    socialLinks: [{ icon: 'github', link: 'https://github.com/chart-on/charton' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/chart-on/chart-on' }],
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'Examples', link: '/guide/examples' },

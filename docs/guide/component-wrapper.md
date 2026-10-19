@@ -193,8 +193,8 @@ In frameworks without server components, where each page renders on the server a
 
 Two small apps in the repository show the components in use:
 
-- [`examples/react-bundler`](https://github.com/chart-on/charton/tree/main/examples/react-bundler): the widget in a client-rendered app, with a theme switch and a crosshair readout through `on`.
-- [`examples/react-ssr`](https://github.com/chart-on/charton/tree/main/examples/react-ssr): `<Chart>` rendered to HTML on the server and hydrated in the browser, served by a small Node server.
+- [`examples/react-bundler`](https://github.com/chart-on/chart-on/tree/main/examples/react-bundler): the widget in a client-rendered app, with a theme switch and a crosshair readout through `on`.
+- [`examples/react-ssr`](https://github.com/chart-on/chart-on/tree/main/examples/react-ssr): `<Chart>` rendered to HTML on the server and hydrated in the browser, served by a small Node server.
 
 CI builds both and renders the server example in Node with `node scripts/check-examples.mjs`.
 

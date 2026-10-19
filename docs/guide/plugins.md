@@ -87,7 +87,7 @@ const frameCounter: ChartPlugin = {
 
 ## Writing and publishing a plugin
 
-The repository has a starter package, [`examples/plugin-starter`](https://github.com/chart-on/charton/tree/main/examples/plugin-starter): one drawing tool and one indicator, its own build, and tests that use [`@chart-on/core/testing`](./testing). The repository builds and tests it on every change, so a change to the plugin contract shows up there first. Copy it to start a plugin of your own.
+The repository has a starter package, [`examples/plugin-starter`](https://github.com/chart-on/chart-on/tree/main/examples/plugin-starter): one drawing tool and one indicator, its own build, and tests that use [`@chart-on/core/testing`](./testing). The repository builds and tests it on every change, so a change to the plugin contract shows up there first. Copy it to start a plugin of your own.
 
 - **Name** the package `charton-plugin-<what-it-does>` (or `@scope/charton-plugin-<…>`) and add the `charton-plugin` keyword, so people can find it.
 - **Prefix ids** with the package name: drawing tool types and indicator ids such as `acme-measure-kit/ruler`, so they never clash with the built-ins or with other plugins.

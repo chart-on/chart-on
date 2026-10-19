@@ -189,8 +189,8 @@ To skip server rendering for a page altogether, for example a page that only mak
 
 Two small apps in the repository show the components in use:
 
-- [`examples/svelte-bundler`](https://github.com/chart-on/charton/tree/main/examples/svelte-bundler): the widget in a client-rendered app, with a theme switch, `fitContent()` through `bind:shell` and a crosshair readout through `on`.
-- [`examples/svelte-ssr`](https://github.com/chart-on/charton/tree/main/examples/svelte-ssr): `<Chart>` rendered to HTML on the server and hydrated in the browser, served by a small Node server.
+- [`examples/svelte-bundler`](https://github.com/chart-on/chart-on/tree/main/examples/svelte-bundler): the widget in a client-rendered app, with a theme switch, `fitContent()` through `bind:shell` and a crosshair readout through `on`.
+- [`examples/svelte-ssr`](https://github.com/chart-on/chart-on/tree/main/examples/svelte-ssr): `<Chart>` rendered to HTML on the server and hydrated in the browser, served by a small Node server.
 
 CI builds both and renders the server example in Node with `node scripts/check-examples.mjs`.
 

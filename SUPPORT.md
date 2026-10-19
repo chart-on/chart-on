@@ -7,12 +7,12 @@ The issue tracker holds planned work: bugs with steps to reproduce and agreed fe
 | You want to | Go to |
 | --- | --- |
 | Learn how to use the chart | The [documentation](docs/index.md), starting with [Getting started](docs/guide/getting-started.md) and the [examples](docs/guide/examples.md) |
-| Ask how to do something, or why something behaves as it does | [Discussions, Q&A](https://github.com/chart-on/charton/discussions/categories/q-a) |
-| Suggest an idea that is not ready to be an issue | [Discussions, Ideas](https://github.com/chart-on/charton/discussions/categories/ideas) |
-| Share something you built | [Discussions, Show and tell](https://github.com/chart-on/charton/discussions/categories/show-and-tell) |
-| Announce or find a data adapter, indicator or plugin | [Discussions, Plugins and adapters](https://github.com/chart-on/charton/discussions/categories/plugins-and-adapters), and see [Community plugins](docs/guide/community-plugins.md) |
-| Report a bug you can reproduce | The [bug report form](https://github.com/chart-on/charton/issues/new?template=bug.yml) |
-| Propose a feature with a clear scope | The [feature request form](https://github.com/chart-on/charton/issues/new?template=feature.yml) |
+| Ask how to do something, or why something behaves as it does | [Discussions, Q&A](https://github.com/chart-on/chart-on/discussions/categories/q-a) |
+| Suggest an idea that is not ready to be an issue | [Discussions, Ideas](https://github.com/chart-on/chart-on/discussions/categories/ideas) |
+| Share something you built | [Discussions, Show and tell](https://github.com/chart-on/chart-on/discussions/categories/show-and-tell) |
+| Announce or find a data adapter, indicator or plugin | [Discussions, Plugins and adapters](https://github.com/chart-on/chart-on/discussions/categories/plugins-and-adapters), and see [Community plugins](docs/guide/community-plugins.md) |
+| Report a bug you can reproduce | The [bug report form](https://github.com/chart-on/chart-on/issues/new?template=bug.yml) |
+| Propose a feature with a clear scope | The [feature request form](https://github.com/chart-on/chart-on/issues/new?template=feature.yml) |
 | Report a security vulnerability | Privately, as described in [`SECURITY.md`](SECURITY.md). Never in public |
 | Report behaviour that breaks the [code of conduct](CODE_OF_CONDUCT.md) | The maintainers, privately, as described there |
 

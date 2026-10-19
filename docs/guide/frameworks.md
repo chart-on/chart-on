@@ -69,7 +69,7 @@ Or as a module:
 </script>
 ```
 
-`charton` holds every export of `@chart-on/core` and `@chart-on/ui`, so the rest of this guide applies unchanged: `createChart(...)` becomes `charton.createChart(...)`. A complete page is in [`examples/script-tag/index.html`](https://github.com/chart-on/charton/blob/main/examples/script-tag/index.html).
+`charton` holds every export of `@chart-on/core` and `@chart-on/ui`, so the rest of this guide applies unchanged: `createChart(...)` becomes `charton.createChart(...)`. A complete page is in [`examples/script-tag/index.html`](https://github.com/chart-on/chart-on/blob/main/examples/script-tag/index.html).
 
 Browsers load module scripts only over `http(s)`, so `charton.js` needs a local server, while `charton.iife.js` also works from `file://`.
 

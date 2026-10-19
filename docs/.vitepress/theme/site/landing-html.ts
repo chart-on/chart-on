@@ -7,7 +7,7 @@ import { APPEARANCES } from './appearance';
 import { heroArt } from './hero-art';
 import { measured, measurements } from './measurements';
 
-export const REPO = 'https://github.com/chart-on/charton';
+export const REPO = 'https://github.com/chart-on/chart-on';
 /** Project name, also the footer wordmark. */
 const NAME = 'charton';
 const EMAIL = 'contact@charton.dev';

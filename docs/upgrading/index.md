@@ -4,7 +4,7 @@ description: "Deprecated APIs with their replacements, and what changed in each 
 
 # Upgrading
 
-How the public API changes between releases, and what to do about it. The rules behind this page are in [the contributing guide](https://github.com/chart-on/charton/blob/main/CONTRIBUTING.md#deprecations-and-breaking-changes).
+How the public API changes between releases, and what to do about it. The rules behind this page are in [the contributing guide](https://github.com/chart-on/chart-on/blob/main/CONTRIBUTING.md#deprecations-and-breaking-changes).
 
 - A deprecated API keeps working until the removal release named in its entry. Development builds log one `charton [deprecated]` warning per API per page load, linking to its entry below; production builds log nothing.
 - Each entry shows the old and the new code.

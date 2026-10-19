@@ -8,6 +8,10 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 
 - `@chart-on/core`, `@chart-on/ui`, `@chart-on/locales`: the project logo is a small corner badge that links to the project site (#42). With `features.attributionLogo` on (the default), the chart no longer draws the mark in the centre of the main pane or inside the built-in watermark. It shows a faint link to `https://charton.dev` at the bottom of the plot on the start side; on hover or keyboard focus it shows in full with the name "charton" beside the mark. Its accessible name is the new `attribution` message, translated in the seven locale packs. Screenshots draw the mark and `charton.dev` text in the same corner (`watermark: false` leaves them out). The UI shell's **Logo** switch moved from the appearance panel's Watermark section to its Background section. **Deprecated**: the watermark's `logo` option, removed in 0.3 (see [upgrading](docs/upgrading/index.md#logo-on-watermarkoptions)). Sizes (gzip, production): a plain `createChart` app 85,482 to 85,891 B (+409 B), the script-tag build 354,505 to 354,984 B (+479 B, budget raised from 354,816 to 355,072 B), `@chart-on/ui` `dist/index.js` 105,353 to 105,359 B (+6 B).
 
+### Fixed
+
+- `@chart-on/ui`: in rail flyouts that group tools into sections, each row's hover and active highlight spans the menu width (#45). A tool button inside a section's block box shrank to its icon and label when the shell had no favourites; sections are now grids, so their rows stretch. Sizes (gzip, production): `style.css` 12,800 to 12,795 B (-5 B). No public API change.
+
 ## 0.1.0 (2026-10-19)
 
 The first release on npm. This entry describes what each package contains, and the [guides](docs/guide/getting-started.md) cover the details. **Changed** lists what changed for code built from the repository before the release.

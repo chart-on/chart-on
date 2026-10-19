@@ -4,6 +4,10 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 
 ## Unreleased
 
+### Added
+
+- `@chart-on/core`: quick measure (#43). With `chart.drawings.quickMeasure = true`, Shift+click on an empty part of a pane, with no tool active, starts a temporary date and price measurement that follows the pointer; the next click fixes it, and the click after that, `Escape` or focus leaving the chart removes it (`clearMeasure()` from code). It is no drawing: not saved, copied or undoable, and it fires no `drawings:change`. Shift+drag still draws a selection box. Off by default, pointer only. Sizes (gzip, production): the script-tag build 354,505 to 354,798 B (+293 B), within its budget; a plain `createChart` app is unchanged.
+
 ## 0.1.0 (2026-10-19)
 
 The first release on npm. This entry describes what each package contains, and the [guides](docs/guide/getting-started.md) cover the details. **Changed** lists what changed for code built from the repository before the release.

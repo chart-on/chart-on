@@ -46,6 +46,10 @@ export function installDrawings(ctx: PluginContext, tools: readonly DrawingToolD
       })
     : null;
   if (clipboard) ctx.onDispose(() => clipboard.destroy());
+  // Focus leaving the chart clears a quick measurement, as Escape does.
+  const blur = (e: FocusEvent) => chart.root.contains(e.relatedTarget as Node | null) || manager.clearMeasure();
+  chart.root.addEventListener('focusout', blur);
+  ctx.onDispose(() => chart.root.removeEventListener('focusout', blur));
   let sync = () => syncDrawActions(chart, manager, drawActions);
   const feature: DrawingsFeature = { manager, key: (e) => clipboard?.key(e) ?? false, toolsChange: () => sync(), ...drawingsGlue(chart, internals, manager) };
   ctx.onDispose(host.provideFeature('drawings', feature));

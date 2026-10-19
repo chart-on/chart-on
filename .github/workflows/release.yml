@@ -1,0 +1,71 @@
+name: Release
+
+# On every push to main: while changesets are pending, keep the "Version packages" pull request
+# up to date; once it is merged, publish the new version to npm and create its GitHub release.
+# The steps are in CONTRIBUTING.md#releases.
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Version or publish
+    if: github.repository == 'chart-on/charton'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # the version branch, the release tag and the GitHub release
+      pull-requests: write # the "Version packages" pull request
+      id-token: write # npm trusted publishing
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      # Version comes from the packageManager field in package.json.
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      # pnpm publish hands the packed tarball to npm, and trusted publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@latest
+      - run: pnpm install --frozen-lockfile
+
+      - name: Open or update the version pull request
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          version-script: pnpm version-packages
+          commit-message: 'chore: version packages'
+          pr-title: 'chore: version packages'
+
+      # Runs only with no pending changesets. A version is released once it has a CHANGELOG.md
+      # section and no GitHub release yet; a failed run is retried by the next push, since
+      # changeset publish skips the packages npm already has.
+      - name: Publish a new version
+        if: steps.changesets.outputs.has-changesets == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Only until trusted publishing is set up for every package (CONTRIBUTING.md#releases).
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          version=$(node -p "require('./packages/core/package.json').version")
+          if gh release view "v$version" > /dev/null 2>&1; then
+            echo "v$version is already released."
+            exit 0
+          fi
+          if ! node scripts/version-packages.mjs notes "$version" > "$RUNNER_TEMP/notes.md" 2> /dev/null; then
+            echo "CHANGELOG.md has no $version section yet: nothing to release."
+            exit 0
+          fi
+          pnpm release
+          gh release create "v$version" --target "$GITHUB_SHA" --title "v$version" --notes-file "$RUNNER_TEMP/notes.md"

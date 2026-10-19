@@ -5,14 +5,19 @@ import Example from './Example.vue';
 import MarkdownLink from './MarkdownLink.vue';
 import Landing from './site/Landing.vue';
 import { installSearchSuggestions } from './search-suggestions';
+import { installSmoothScroll } from './smooth-scroll';
+import 'lenis/dist/lenis.css';
 import './custom.css';
 import './site/site.css';
 
 export default {
   extends: DefaultTheme,
   Layout: () => h(DefaultTheme.Layout, null, { 'doc-footer-before': () => h(MarkdownLink) }),
-  enhanceApp({ app }) {
-    if (inBrowser) installSearchSuggestions();
+  enhanceApp({ app, router }) {
+    if (inBrowser) {
+      installSearchSuggestions();
+      void installSmoothScroll(router);
+    }
     app.component('Example', Example);
     app.component('Landing', Landing);
     // Async, so only the playground page downloads it and the compiler it loads.

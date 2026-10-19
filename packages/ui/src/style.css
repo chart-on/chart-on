@@ -3331,14 +3331,10 @@
   color: var(--pc-ink);
 }
 
-/* A destructive icon button, such as a trash icon: the danger colour dialogs and menus use. After the buttons it overrides. */
-.pc-danger,
-.pc-danger:hover {
-  color: var(--pc-down);
-}
-
+/* A destructive icon button, such as a trash icon: neutral until hovered, then the danger colour dialogs and menus use. After the buttons it overrides. */
 .pc-danger:hover {
   background: color-mix(in srgb, var(--pc-down) 14%, transparent);
+  color: var(--pc-down);
 }
 
 /* The Add button shows on the active row only. */

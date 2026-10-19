@@ -1616,7 +1616,7 @@ export function contrastRatio(foreground: string, background: string): number;
 export function contrastText(background: string): string;
 
 // @public
-export const CORE_VERSION = "0.1.0";
+export const CORE_VERSION = "0.1.1";
 
 // @public
 export type CoreMessageKey = keyof typeof defaultMessages;

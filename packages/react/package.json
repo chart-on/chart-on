@@ -1,6 +1,6 @@
 {
   "name": "@chart-on/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Components and hooks that mount @chart-on/core charts and @chart-on/ui shells in component-based apps, with server rendering support.",
   "license": "Apache-2.0",
   "repository": {

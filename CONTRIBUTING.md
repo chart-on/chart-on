@@ -108,6 +108,15 @@ Refs #10
 
 Charton is vendor-neutral. Refer to other products, companies and exchanges by their role ("an exchange", "a broker", "a market data provider"), not by name, in code, comments, docs, demo data, commit messages, branch names, issues and PRs.
 
+There is one exception. The `/preview` docs page credits the market data provider and the library it reads live data through, by name, because the maintainers asked for that credit in [#3](https://github.com/chart-on/charton/issues/3). The exception covers only:
+
+- the credit banner in `docs/.vitepress/theme/Preview.vue`
+- the data-source code and its comment in `docs/.vitepress/theme/preview.ts`
+- the market data library's dependency in the private `docs` package
+- the issue and PR that added the page (#3, PR #12)
+
+Everything else stays vendor-neutral, including the other docs pages, the demo and the examples. A new exception needs its own issue agreeing to it first.
+
 ### Independent design and implementation
 
 Charton is designed and written independently, and every contribution must be your own work. Do not copy, port, translate or closely paraphrase another project's source, bundles, type declarations, shaders, CSS, colour palettes, font stacks, icons, SVG paths, images, documentation or sample data. Design API names, option shapes and file layout from charton's own requirements. Standard industry terms (OHLC, candle, crosshair, bar spacing, log scale) are shared vocabulary and fine to use. To propose a behaviour, describe it in the issue in terms of what users need, and implement from that description. If you are unsure whether something is original enough, raise it in the issue before committing.

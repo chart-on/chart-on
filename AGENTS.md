@@ -35,7 +35,7 @@ All four must pass. Report failures honestly, never paper over them. When `pnpm 
 
 ## Hard rules
 
-- **Vendor-neutral language.** Refer to other products, companies and exchanges by their role ("an exchange", "a market data provider"), not by name, in code, comments, docs, demo data, commits, branch names, issues and PRs.
+- **Vendor-neutral language.** Refer to other products, companies and exchanges by their role ("an exchange", "a market data provider"), not by name, in code, comments, docs, demo data, commits, branch names, issues and PRs. The `/preview` data-source credit is the one agreed exception; see [`CONTRIBUTING.md`](CONTRIBUTING.md#vendor-neutral-language) and leave it as it is.
 - **Documented defaults.** Default values, level sets, orderings, labels and keyboard shortcuts each follow a stated rule, written next to the data (see `CONTRIBUTING.md`). A change that replaces such values adds their hashes to `packages/core/test/retired-palette.ts`.
 - **Do not add dependencies** to `@chart-on/core` without agreement in the issue. The engine stays framework-free.
 - **Do not edit generated output** (`dist/`) or the lockfile by hand.

@@ -37,6 +37,13 @@ describe('rail flyout row style', () => {
     expect(rules('.pc-symbol-search-list .pc-symbol-search-star').join('')).toMatch(/align-self: stretch;/);
   });
 
+  it('stretches the rows of a sectioned flyout across the menu width', () => {
+    // A bare button in a block box shrinks to its content; a grid stretches it.
+    const section = rules('.pc-rail-section').join('');
+    expect(section).toMatch(/display: grid;/);
+    expect(section).not.toMatch(/justify-items/);
+  });
+
   it('leaves the shared menu item highlight unchanged', () => {
     expect(rules('.pc-popover-item:hover').join('')).toMatch(/background: var\(--pc-hover\);/);
     expect(rules('.pc-popover-item.is-active').join('')).toMatch(/background: var\(--pc-accent-soft\);/);

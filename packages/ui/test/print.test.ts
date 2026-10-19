@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { Chart, ScreenshotOptions } from '@charton/core';
+import type { Chart, ScreenshotOptions } from '@chart-on/core';
 import { printChart, PRINT_VIEW_CLASS, PRINTING_CLASS } from '../src/print';
 
 interface Node {

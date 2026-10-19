@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { moonPhase, SYNODIC_MONTH } from '@charton/ta';
-import { inputFields, resolveInputs, type Bar, type BarArrays, type IndicatorDef, type InputValue } from '@charton/core';
+import { moonPhase, SYNODIC_MONTH } from '@chart-on/ta';
+import { inputFields, resolveInputs, type Bar, type BarArrays, type IndicatorDef, type InputValue } from '@chart-on/core';
 import { indicatorTitle, validateIndicatorDef } from '../../core/src/indicators/indicator';
 import { IndicatorRunner } from '../../core/src/indicators/runner';
 import {

@@ -80,7 +80,7 @@ describe('indicators as a plugin', () => {
     expect(error.context).toEqual({ call: 'indicators', plugin: 'indicators()' });
     // A plugin's indicator needs them too, and the failed install leaves nothing behind.
     expect(thrown(() => c.install(halfPlugin())).code).toBe('not-registered');
-    expect(c.installedPlugins).toEqual(['@charton/core/layouts']);
+    expect(c.installedPlugins).toEqual(['@chart-on/core/layouts']);
     // The access options are kept for an indicators plugin installed later.
     expect(c.options.access.allow).toBe(onlyHalf);
     expect(c.options.access.limits).toEqual({ indicators: 2 });
@@ -105,7 +105,7 @@ describe('indicators as a plugin', () => {
     expect(c.panes).toHaveLength(3);
     expect(Array.from(added.values.value!).slice(0, 2)).toEqual([50, 50.5]);
 
-    c.uninstall('@charton/core/indicators');
+    c.uninstall('@chart-on/core/indicators');
     expect(thrown(() => c.indicators).code).toBe('not-registered');
     // Its series goes and its pane stays, empty, in its place; the saved state stays for a later install and for layouts.
     expect(c.panes).toHaveLength(3);
@@ -124,7 +124,7 @@ describe('indicators as a plugin', () => {
     expect(c.indicators.limit).toBe(1);
 
     // The definition plugin and indicators can go in either order.
-    c.uninstall('@charton/core/indicators');
+    c.uninstall('@chart-on/core/indicators');
     expect(c.uninstall('test-half')).toBe(true);
     c.install(core.indicators());
     expect(c.indicators.getDefinitions()).toEqual([]);
@@ -184,7 +184,7 @@ describe('indicators as a plugin', () => {
       plain.loadLayout({ ...saved, indicators });
       plain.install(core.indicators());
       plain.install(halfPlugin());
-      expect(plain.installedPlugins).toEqual(['@charton/core/layouts', '@charton/core/indicators', 'test-half']);
+      expect(plain.installedPlugins).toEqual(['@chart-on/core/layouts', '@chart-on/core/indicators', 'test-half']);
       expect(plain.indicators.getAll().map((i) => i.type)).toEqual(typeof indicators === 'string' ? [] : ['test/half']);
     }
   });
@@ -279,7 +279,7 @@ describe('compared symbols as a plugin', () => {
     expect(c.getPriceScaleMode()).toBe('percent');
     expect(c.panes).toHaveLength(2);
 
-    c.uninstall('@charton/core/comparisons');
+    c.uninstall('@chart-on/core/comparisons');
     expect(c.compared).toEqual([]);
     expect(c.panes).toHaveLength(1);
     expect(c.panes[0]!.series.map((s) => s.kind)).toEqual(['candles']);

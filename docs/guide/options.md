@@ -80,7 +80,7 @@ All animations also respect `prefers-reduced-motion`.
 ## Timezones and sessions
 
 ```ts
-import type { SessionSchedule } from '@charton/core';
+import type { SessionSchedule } from '@chart-on/core';
 
 const regularHours: SessionSchedule = {
   weekly: {
@@ -123,7 +123,7 @@ The default is `ALWAYS_OPEN` (every day, `00:00`–`24:00`), which draws no sess
 Schedules are plain objects, so a schedule that repeats the same hours is built with ordinary code:
 
 ```ts
-import { ALWAYS_OPEN, type SessionSchedule } from '@charton/core';
+import { ALWAYS_OPEN, type SessionSchedule } from '@chart-on/core';
 
 // The same hours Monday to Friday.
 const weekdays = (start: string, end: string): SessionSchedule => {

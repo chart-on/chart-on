@@ -7,7 +7,7 @@
 -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { createChart } from '@charton/core';
+  import { createChart } from '@chart-on/core';
   import { provideChart } from './context.js';
   import { readInputs, startEngine, stopEngine, type Engine } from './sync.js';
   import { watchEngine } from './watch.svelte.js';

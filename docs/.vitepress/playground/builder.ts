@@ -20,9 +20,9 @@ export type BuilderStyle = (typeof STYLES)[number][0];
 interface Addon {
   id: string;
   label: string;
-  /** Names imported from `@charton/core`. */
+  /** Names imported from `@chart-on/core`. */
   core?: string[];
-  /** A name imported from `@charton/indicators`. */
+  /** A name imported from `@chart-on/indicators`. */
   indicator?: string;
   /** Names imported from `./sample-data`. */
   sampleData?: string[];
@@ -82,8 +82,8 @@ export function buildCode(style: BuilderStyle, chosen: ReadonlySet<string>): str
   const series = style === 'candles' ? "{ title: 'SAMPLE' }" : `{ title: 'SAMPLE', style: '${style}' }`;
 
   const lines = [
-    `import { ${core.join(', ')} } from '@charton/core';`,
-    ...(indicators.length ? [`import { ${indicators.join(', ')} } from '@charton/indicators';`] : []),
+    `import { ${core.join(', ')} } from '@chart-on/core';`,
+    ...(indicators.length ? [`import { ${indicators.join(', ')} } from '@chart-on/indicators';`] : []),
     "import type { ExampleContext } from './types';",
     `import { ${sample.join(', ')} } from './sample-data';`,
     '',

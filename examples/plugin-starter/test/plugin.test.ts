@@ -1,7 +1,7 @@
 // Tests the way a plugin package would: only the public API and the test kit.
 import { afterEach, describe, expect, it } from 'vitest';
-import { createChart, drawings, indicators, type Chart } from '@charton/core';
-import { flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+import { createChart, drawings, indicators, type Chart } from '@chart-on/core';
+import { flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
 import { midpoint, priceTag, starterPlugin } from '../src/index';
 
 const env = installTestEnvironment();

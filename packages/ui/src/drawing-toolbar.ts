@@ -1,4 +1,4 @@
-import type { Chart, Drawing, DrawingStyle, Rect } from '@charton/core';
+import type { Chart, Drawing, DrawingStyle, Rect } from '@chart-on/core';
 import { Copy, Group, ListOrdered, Lock, LockOpen, Settings, SlidersHorizontal, Trash2, Ungroup } from 'lucide';
 import { iconButton } from './controls';
 import { h, markActive, icon, isChartNavKey, isolateFromChart, nameButton, popoverToggle, type IconSource } from './dom';

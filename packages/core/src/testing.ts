@@ -1,6 +1,6 @@
 /**
  * Test support for apps and adapters built on the chart, published as
- * `@charton/core/testing`. Nothing in the main entry imports it.
+ * `@chart-on/core/testing`. Nothing in the main entry imports it.
  */
 export { testDataSource } from './data/conformance';
 export type { DataSourceCheckOptions } from './data/conformance';

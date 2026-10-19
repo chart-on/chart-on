@@ -2,7 +2,7 @@
  * A small reader for the parts of a stylesheet the theme builder needs: the
  * custom properties each rule declares. Not a general CSS parser: it knows
  * rules, at-rule blocks, comments and quoted strings, which is all
- * `@charton/ui/style.css` and an exported theme block use.
+ * `@chart-on/ui/style.css` and an exported theme block use.
  */
 
 /** One style rule: its selectors (whitespace collapsed, double quotes as single) and its custom properties. */

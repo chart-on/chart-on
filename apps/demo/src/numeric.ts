@@ -1,4 +1,4 @@
-import { createNumericChart, crispLine, depthCurve, type BookLevel, type NumericChart, type NumericPrimitive } from '@charton/core';
+import { createNumericChart, crispLine, depthCurve, type BookLevel, type NumericChart, type NumericPrimitive } from '@chart-on/core';
 import { light, theme } from './page-theme';
 import { expose } from './expose';
 

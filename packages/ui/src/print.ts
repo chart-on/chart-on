@@ -1,4 +1,4 @@
-import type { Chart, ScreenshotOptions } from '@charton/core';
+import type { Chart, ScreenshotOptions } from '@chart-on/core';
 import { chartPng } from './clipboard';
 
 /**

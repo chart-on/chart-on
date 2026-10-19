@@ -1,6 +1,6 @@
 import { build, type Rollup } from 'vite';
 import { describe, expect, it } from 'vitest';
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 
 // Locale packs are opt-in: an app that imports none ships none of their text, and an app that
 // imports one ships only that one. Checked on what a bundler keeps, with each pack's own
@@ -33,8 +33,8 @@ async function bundle(code: string): Promise<string> {
     logLevel: 'silent',
     resolve: {
       alias: {
-        '@charton/core': path('../../core/src/index.ts'),
-        '@charton/ui': path('../../ui/src/index.ts'),
+        '@chart-on/core': path('../../core/src/index.ts'),
+        '@chart-on/ui': path('../../ui/src/index.ts'),
       },
     },
     plugins: [{ name: 'locale-pack-entry', resolveId: (id) => (id === 'entry' ? ENTRY : null), load: (id) => (id === ENTRY ? code : null) }],
@@ -56,7 +56,7 @@ describe('locale packs', () => {
 
   it('stay out of a chart with the default shell', async () => {
     const code = await bundle(
-      "import { createChart } from '@charton/core';\nimport { createChartShell } from '@charton/ui';\nconsole.log(createChart, createChartShell);\n",
+      "import { createChart } from '@chart-on/core';\nimport { createChartShell } from '@chart-on/ui';\nconsole.log(createChart, createChartShell);\n",
     );
     expect(code).toContain('createChartShell');
     expect(packsIn(code)).toEqual([]);

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { builtInColorPresets, ChartError, points, sharedContext, type Chart } from '@charton/core';
+import { builtInColorPresets, ChartError, points, sharedContext, type Chart } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { contextBudget } from '../../core/src/gl/context-budget';
 import { createChartGrid, moveEdge, sanitizeSizes, type ChartGrid, type ChartGridOptions } from '../src/grid';
@@ -85,7 +85,7 @@ describe('createChartGrid', () => {
   it('adds the shared context plugin to a cell\'s own plugin list, once', () => {
     const g = grid({ layout: '2x1', cell: (i) => ({ ...bare, chart: { plugins: i === 0 ? [points()] : [sharedContext(), points()] } }) });
     expect(g.charts.every((c) => c.options.gl === 'shared')).toBe(true);
-    expect(g.charts.map((c) => c.installedPlugins.filter((name) => name === '@charton/core/shared-context'))).toEqual([['@charton/core/shared-context'], ['@charton/core/shared-context']]);
+    expect(g.charts.map((c) => c.installedPlugins.filter((name) => name === '@chart-on/core/shared-context'))).toEqual([['@chart-on/core/shared-context'], ['@chart-on/core/shared-context']]);
     expect(contextBudget.held).toBe(1);
   });
 

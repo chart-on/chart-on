@@ -1,4 +1,4 @@
-import type { Chart, MessageParams } from '@charton/core';
+import type { Chart, MessageParams } from '@chart-on/core';
 import { ChevronDown, ChevronRight, Eye, EyeOff, Lock, LockOpen, Trash2 } from 'lucide';
 import { h, icon, inlineKey } from './dom';
 import { keyOf, shellText, type ShellMessageKey } from './messages';
@@ -55,7 +55,7 @@ const kindKey = (node: ObjectTreeNode) => keyOf('objectTreeKind', node.kind);
  * selection, Ctrl/Cmd+A for all, Enter or F2 to rename, Delete to remove,
  * H to show or hide, L to lock, Alt+Up/Down to reorder, Ctrl/Cmd+Z and
  * Ctrl/Cmd+Y (or Shift+Z) for undo and redo.
- * Requires `@charton/ui/style.css`.
+ * Requires `@chart-on/ui/style.css`.
  */
 export function createObjectTree(host: HTMLElement, chart: Chart, options: ObjectTreeOptions = {}): ObjectTreeHandle {
   const msg = (key: ShellMessageKey, params?: MessageParams) => shellText(chart, key, params);

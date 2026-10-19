@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createDepthLane } from '@charton/core';
+import { createDepthLane } from '@chart-on/core';
 import { fakeContainer, runFrame } from '../../core/test/fake-dom';
 import { createDepthLadder, depthLadderRows } from '../src/depth-ladder';
 

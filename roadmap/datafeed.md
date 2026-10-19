@@ -105,7 +105,7 @@ A reset without a range → clear series cache, refetch visible range with `limi
 
 Indicators and dependent panes (volume, CVD) must update from the same merged bar (see custom-series.md).
 
-### WebSocket adapter (helper in core or a separate `@charton/feeds` package)
+### WebSocket adapter (helper in core or a separate `@chart-on/feeds` package)
 
 ```ts
 const source = createWebSocketDataSource({

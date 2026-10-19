@@ -155,7 +155,7 @@ chart.onContextMenu((ctx) => [                // ctx: { time, price, pane, drawi
 ]);
 ```
 
-Renderer lives in `@charton/ui` (same popover component as menus). Core only emits `contextmenu` with ctx; UI renders. Without UI package, apps render their own.
+Renderer lives in `@chart-on/ui` (same popover component as menus). Core only emits `contextmenu` with ctx; UI renders. Without UI package, apps render their own.
 
 ## 5. Events to expose
 
@@ -207,7 +207,7 @@ Goal: one place (CSS) controls both UI and canvas colors. No build-time CSS tool
 ### Canvas reads CSS
 
 ```ts
-import { themeFromCss } from '@charton/core';
+import { themeFromCss } from '@chart-on/core';
 chart.applyOptions({ theme: themeFromCss(shell.el) });   // getComputedStyle → ChartTheme
 ```
 

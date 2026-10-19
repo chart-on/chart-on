@@ -2,7 +2,7 @@
  * Controls for the form dialog's input kinds, and `registerInput` for adding
  * kinds or replacing the built-in ones.
  */
-import type { Localizer } from '@charton/core';
+import type { Localizer } from '@chart-on/core';
 import { createColorControl } from './color-control';
 import { h } from './dom';
 import { createListbox } from './listbox';

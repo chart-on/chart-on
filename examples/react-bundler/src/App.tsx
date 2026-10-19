@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
-import { createMockDataSource } from '@charton/core';
-import type { ChartShell as Shell } from '@charton/ui';
-import { ChartShell } from '@charton/react/shell';
+import { createMockDataSource } from '@chart-on/core';
+import type { ChartShell as Shell } from '@chart-on/ui';
+import { ChartShell } from '@chart-on/react/shell';
 
 /** The widget with synthetic data, a theme switch and a crosshair readout. */
 export function App() {

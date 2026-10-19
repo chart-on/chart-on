@@ -1,4 +1,4 @@
-import type { Chart, Indicator, IntervalRange, Series } from '@charton/core';
+import type { Chart, Indicator, IntervalRange, Series } from '@chart-on/core';
 import { ArrowDown, ArrowUp, ChartCandlestick, Clock, Combine, Copy, Ruler, Settings, SquarePlus, Trash2 } from 'lucide';
 import type { ContextMenuItem } from './context-menu';
 import { keyOf, shellText, type Localized, type ShellMessageKey } from './messages';

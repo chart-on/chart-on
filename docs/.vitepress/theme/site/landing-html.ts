@@ -11,7 +11,7 @@ export const REPO = 'https://github.com/chart-on/charton';
 /** Project name, also the footer wordmark. */
 const NAME = 'charton';
 const EMAIL = 'contact@charton.dev';
-const INSTALL = 'pnpm add @charton/core';
+const INSTALL = 'pnpm add @chart-on/core';
 /** The credit line people can paste near their chart. */
 const CREDIT = '<a href="https://charton.dev">Charts by charton</a>';
 
@@ -47,7 +47,7 @@ export const SNIPPETS: { id: string; label: string; code: string }[] = [
   {
     id: 'candles',
     label: 'Candles',
-    code: `import { createChart } from '@charton/core';
+    code: `import { createChart } from '@chart-on/core';
 
 const chart = createChart(document.getElementById('chart')!);
 chart.addCandles({ title: 'BTC/USD' }).setData(bars);
@@ -56,7 +56,7 @@ chart.fitContent();`,
   {
     id: 'live',
     label: 'Live data',
-    code: `import { createChart, createWebSocketDataSource, dataSource } from '@charton/core';
+    code: `import { createChart, createWebSocketDataSource, dataSource } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [dataSource()] });
 chart.addCandles();
@@ -68,7 +68,7 @@ await chart.setSymbol('BTC/USD', '1m');`,
   {
     id: 'indicators',
     label: 'Indicators',
-    code: `import { builtinIndicators, rsiIndicator } from '@charton/indicators';
+    code: `import { builtinIndicators, rsiIndicator } from '@chart-on/indicators';
 
 for (const def of builtinIndicators) chart.indicators.register(def);
 chart.indicators.add('bbands');
@@ -89,7 +89,7 @@ chart.drawings.update(line.id, { text: 'Resistance', locked: true });`,
   {
     id: 'panes',
     label: 'Panes',
-    code: `import { volumeOf } from '@charton/core';
+    code: `import { volumeOf } from '@chart-on/core';
 
 chart.addCandles().setData(bars);
 
@@ -100,7 +100,7 @@ chart.addHistogram({ title: 'Volume', follow: volumeOf }, pane);`,
   {
     id: 'theme',
     label: 'Theming',
-    code: `import { builtInColorPresets, presetTheme } from '@charton/core';
+    code: `import { builtInColorPresets, presetTheme } from '@chart-on/core';
 
 const paper = builtInColorPresets.find((p) => p.id === 'paper-ink')!;
 chart.applyOptions({ theme: presetTheme(paper, 'light') });
@@ -111,7 +111,7 @@ chart.applyOptions({ theme: { up: '#3d8bd9', down: '#e07b39' } });`,
   {
     id: 'testing',
     label: 'Testing',
-    code: `import { describeScene, flushFrames, installTestEnvironment } from '@charton/core/testing';
+    code: `import { describeScene, flushFrames, installTestEnvironment } from '@chart-on/core/testing';
 
 const env = installTestEnvironment({ width: 960, height: 540 });
 const chart = createChart(env.container());
@@ -129,7 +129,7 @@ export const CUSTOM_LAYERS: { id: string; label: string; file: string; on: boole
     label: 'Indicator',
     file: 'regime.ts',
     on: true,
-    code: `import { ema } from '@charton/ta';
+    code: `import { ema } from '@chart-on/ta';
 
 const regime: IndicatorDef<{ length: number }> = {
   id: 'trend-regime',
@@ -261,14 +261,14 @@ const PAN_SPEEDS = [1, 10, 100, 1000];
 const FLOW_VIEWS = ['Liquidity heatmap', 'Depth lane', 'Footprint', 'Volume profile', 'TPO profile', 'Large trades'];
 
 const PACKAGES = [
-  ['@charton/core', 'The engine: canvases, scales, series, data sources, drawings.'],
-  ['@charton/ui', 'Optional shell: toolbar, drawing rail, dialogs and themes.'],
-  ['@charton/indicators', 'Built-in indicators, opt in one by one.'],
-  ['@charton/ta', 'Technical-analysis helpers for writing your own.'],
-  ['@charton/locales', 'Translations of the built-in text, one language at a time.'],
-  ['@charton/react', 'Component wrapper.'],
-  ['@charton/vue', 'Component wrapper.'],
-  ['@charton/svelte', 'Component wrapper.'],
+  ['@chart-on/core', 'The engine: canvases, scales, series, data sources, drawings.'],
+  ['@chart-on/ui', 'Optional shell: toolbar, drawing rail, dialogs and themes.'],
+  ['@chart-on/indicators', 'Built-in indicators, opt in one by one.'],
+  ['@chart-on/ta', 'Technical-analysis helpers for writing your own.'],
+  ['@chart-on/locales', 'Translations of the built-in text, one language at a time.'],
+  ['@chart-on/react', 'Component wrapper.'],
+  ['@chart-on/vue', 'Component wrapper.'],
+  ['@chart-on/svelte', 'Component wrapper.'],
 ];
 
 const FOOTER_LINKS: [string, [string, string][]][] = [

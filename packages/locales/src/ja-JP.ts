@@ -1,4 +1,4 @@
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 import type { PackMessages } from './types';
 
 /**
@@ -7,15 +7,15 @@ import type { PackMessages } from './types';
  * has one plural form, so the plain keys cover every count.
  *
  * ```ts
- * import { jaJP } from '@charton/locales/ja-JP';
- * // The chart needs the localization() plugin (or builtins()) from @charton/core.
+ * import { jaJP } from '@chart-on/locales/ja-JP';
+ * // The chart needs the localization() plugin (or builtins()) from @chart-on/core.
  * chart.applyOptions({ localization: jaJP });
  * ```
  */
 export const jaJP: LocalizationOptions = {
   locale: 'ja-JP',
   messages: {
-    // Chart (@charton/core)
+    // Chart (@chart-on/core)
     chartLabel: 'チャート',
     chartLabelSymbol: '{symbol} のチャート',
     scrollToLatest: '最新の足へスクロール',
@@ -136,7 +136,7 @@ export const jaJP: LocalizationOptions = {
     positionRiskReward: 'リスクリワード {ratio}',
     timezoneLocal: 'ローカル（{zone}、{offset}）',
 
-    // Shell (@charton/ui)
+    // Shell (@chart-on/ui)
     menuLabel: 'チャートメニュー',
     menuAppearance: '外観',
     appearanceWatermarkText: '名前',
@@ -638,7 +638,7 @@ export const jaJP: LocalizationOptions = {
     clusterShort: 'ショート',
     pickerSelected: '{count} 件選択中',
 
-    // Chart settings and appearance panel (@charton/ui, from `chartSettingsSchema` and `appearanceSections`)
+    // Chart settings and appearance panel (@chart-on/ui, from `chartSettingsSchema` and `appearanceSections`)
     'settings.series': '系列',
     'settings.series.bodies': '実体',
     'setting.theme.up': '上昇',

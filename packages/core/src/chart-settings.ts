@@ -280,7 +280,7 @@ export const chartSettingsSchema: readonly ChartSettingSection[] = [
             when: legendOn,
           },
           { path: 'features.legendButtons', label: 'Row buttons', kind: 'boolean', when: legendOn },
-          { path: 'marketStatus', label: 'Market status', kind: 'boolean', when: legendOn, plugin: '@charton/core/market-status' },
+          { path: 'marketStatus', label: 'Market status', kind: 'boolean', when: legendOn, plugin: '@chart-on/core/market-status' },
         ],
       },
       {
@@ -328,7 +328,7 @@ export const chartSettingsSchema: readonly ChartSettingSection[] = [
         fields: [
           { path: 'features.lastValueLabels', label: 'Last value labels', kind: 'boolean' },
           // Says what the label shows, the time left in the newest bar, rather than when the bar closes.
-          { path: 'features.countdown', label: 'Time left in bar', kind: 'boolean', when: showLastValues, plugin: '@charton/core/countdown' },
+          { path: 'features.countdown', label: 'Time left in bar', kind: 'boolean', when: showLastValues, plugin: '@chart-on/core/countdown' },
         ],
       },
       {

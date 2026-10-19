@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart } from '@charton/core';
+import { Chart } from '@chart-on/core';
 import { dispatch, documentListeners, fakeContainer, fireWindowResize, installFakeDom } from '../../core/test/fake-dom';
 import { iconButton } from '../src/controls';
 import { createToolbar } from '../src/toolbar';

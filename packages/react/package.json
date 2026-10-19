@@ -1,7 +1,7 @@
 {
-  "name": "@charton/react",
+  "name": "@chart-on/react",
   "version": "0.1.0",
-  "description": "Components and hooks that mount @charton/core charts and @charton/ui shells in component-based apps, with server rendering support.",
+  "description": "Components and hooks that mount @chart-on/core charts and @chart-on/ui shells in component-based apps, with server rendering support.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -40,18 +40,18 @@
     "typecheck": "tsc -p ."
   },
   "peerDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "react": ">=18"
   },
   "peerDependenciesMeta": {
-    "@charton/ui": {
+    "@chart-on/ui": {
       "optional": true
     }
   },
   "devDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "happy-dom": "^21.0.1",

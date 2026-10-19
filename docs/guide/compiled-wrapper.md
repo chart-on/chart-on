@@ -1,28 +1,28 @@
 ---
-description: "Mount the chart or the shell with @charton/svelte: components and an action whose props apply in place, bindings or context helpers for the instance, events as callbacks, and server rendering."
+description: "Mount the chart or the shell with @chart-on/svelte: components and an action whose props apply in place, bindings or context helpers for the instance, events as callbacks, and server rendering."
 ---
 
 # Compiled component wrapper
 
-`@charton/svelte` wraps the engine and the shell as components, an action and context helpers for apps built with a compiler-based component framework (version 5.18 or later, with runes), including apps whose app framework renders every page on the server first. It follows the [wrapper contract](./frameworks#the-wrapper-contract): the chart is created when the component mounts and destroyed when it unmounts, and changing a prop updates the chart in place instead of creating a new one.
+`@chart-on/svelte` wraps the engine and the shell as components, an action and context helpers for apps built with a compiler-based component framework (version 5.18 or later, with runes), including apps whose app framework renders every page on the server first. It follows the [wrapper contract](./frameworks#the-wrapper-contract): the chart is created when the component mounts and destroyed when it unmounts, and changing a prop updates the chart in place instead of creating a new one.
 
 | Export | From | What it is |
 | --- | --- | --- |
-| `<Chart>` | `@charton/svelte` | The engine alone, in a `div`. |
-| `use:chart` | `@charton/svelte` | The engine in an element of your own, for minimal set-ups. |
-| `useChart()` | `@charton/svelte` | The `Chart` of the nearest `<Chart>` or `<ChartShell>`, as `.current`. |
-| `<ChartShell>` | `@charton/svelte/shell` | The widget: toolbar, drawing rail, bottom bar and the chart. |
-| `useChartShell()` | `@charton/svelte/shell` | The `ChartShell` of the nearest `<ChartShell>`, as `.current`. |
+| `<Chart>` | `@chart-on/svelte` | The engine alone, in a `div`. |
+| `use:chart` | `@chart-on/svelte` | The engine in an element of your own, for minimal set-ups. |
+| `useChart()` | `@chart-on/svelte` | The `Chart` of the nearest `<Chart>` or `<ChartShell>`, as `.current`. |
+| `<ChartShell>` | `@chart-on/svelte/shell` | The widget: toolbar, drawing rail, bottom bar and the chart. |
+| `useChartShell()` | `@chart-on/svelte/shell` | The `ChartShell` of the nearest `<ChartShell>`, as `.current`. |
 
 ## Install
 
 ```bash
-pnpm add @charton/svelte @charton/core
+pnpm add @chart-on/svelte @chart-on/core
 # Only for <ChartShell>:
-pnpm add @charton/ui
+pnpm add @chart-on/ui
 ```
 
-The framework (version 5.18 or later), `@charton/core` and `@charton/ui` are peer dependencies: the app installs them once and the wrapper uses the app's copies. `@charton/ui` is optional, because `<ChartShell>` lives in its own entry, `@charton/svelte/shell`. An app that only imports `@charton/svelte` never loads it.
+The framework (version 5.18 or later), `@chart-on/core` and `@chart-on/ui` are peer dependencies: the app installs them once and the wrapper uses the app's copies. `@chart-on/ui` is optional, because `<ChartShell>` lives in its own entry, `@chart-on/svelte/shell`. An app that only imports `@chart-on/svelte` never loads it.
 
 The package ships its components as source, with the types already taken out, as the framework's packages usually do: the app's own compiler builds them, for the browser and for the server, with the same version and settings as the rest of the app. The framework's bundler plugin picks them up through the `svelte` export condition; nothing needs configuring.
 
@@ -32,8 +32,8 @@ Give the component a height; the chart fills its container. `class`, `style` and
 
 ```svelte
 <script lang="ts">
-  import { createMockDataSource, dataSource as dataSourcePlugin } from '@charton/core';
-  import { Chart } from '@charton/svelte';
+  import { createMockDataSource, dataSource as dataSourcePlugin } from '@chart-on/core';
+  import { Chart } from '@chart-on/svelte';
 
   let { symbol }: { symbol: string } = $props();
   // Created once per component instance: a new source reloads the data.
@@ -63,8 +63,8 @@ With `bind:chart`:
 
 ```svelte
 <script lang="ts">
-  import type { Chart as ChartInstance } from '@charton/core';
-  import { Chart } from '@charton/svelte';
+  import type { Chart as ChartInstance } from '@chart-on/core';
+  import { Chart } from '@chart-on/svelte';
 
   let chart: ChartInstance | null = $state.raw(null);
 </script>
@@ -80,8 +80,8 @@ With `useChart()` in a component rendered inside `<Chart>`. Its `current` is nul
 ```svelte
 <!-- Candles.svelte -->
 <script lang="ts">
-  import type { Bar } from '@charton/core';
-  import { useChart } from '@charton/svelte';
+  import type { Bar } from '@chart-on/core';
+  import { useChart } from '@chart-on/svelte';
 
   let { bars }: { bars: Bar[] } = $props();
   const chart = useChart();
@@ -130,8 +130,8 @@ For a page that needs only the engine and no children, `use:chart` mounts it in 
 
 ```svelte
 <script lang="ts">
-  import { createMockDataSource, type Chart as ChartInstance } from '@charton/core';
-  import { chart } from '@charton/svelte';
+  import { createMockDataSource, type Chart as ChartInstance } from '@chart-on/core';
+  import { chart } from '@chart-on/svelte';
 
   let { symbol }: { symbol: string } = $props();
   const dataSource = createMockDataSource();
@@ -150,8 +150,8 @@ Actions run only in the browser, so the action is as safe in server-rendered pag
 
 ```svelte
 <script lang="ts">
-  import { ChartShell } from '@charton/svelte/shell';
-  import '@charton/ui/style.css';
+  import { ChartShell } from '@chart-on/svelte/shell';
+  import '@chart-on/ui/style.css';
 
   let { dark }: { dark: boolean } = $props();
 </script>

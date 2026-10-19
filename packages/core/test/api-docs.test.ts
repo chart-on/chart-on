@@ -4,22 +4,22 @@ import ts from 'typescript';
 
 /** Package entries whose exports are public API. */
 const ENTRIES = {
-  '@charton/core': new URL('../src/index.ts', import.meta.url),
-  '@charton/core/testing': new URL('../src/testing.ts', import.meta.url),
-  '@charton/ui': new URL('../../ui/src/index.ts', import.meta.url),
-  '@charton/ui/templates': new URL('../../ui/src/templates.ts', import.meta.url),
-  '@charton/ta': new URL('../../ta/src/index.ts', import.meta.url),
-  '@charton/indicators': new URL('../../indicators/src/index.ts', import.meta.url),
-  '@charton/react': new URL('../../react/src/index.ts', import.meta.url),
-  '@charton/react/shell': new URL('../../react/src/shell.ts', import.meta.url),
-  '@charton/vue': new URL('../../vue/src/index.ts', import.meta.url),
-  '@charton/vue/shell': new URL('../../vue/src/shell.ts', import.meta.url),
+  '@chart-on/core': new URL('../src/index.ts', import.meta.url),
+  '@chart-on/core/testing': new URL('../src/testing.ts', import.meta.url),
+  '@chart-on/ui': new URL('../../ui/src/index.ts', import.meta.url),
+  '@chart-on/ui/templates': new URL('../../ui/src/templates.ts', import.meta.url),
+  '@chart-on/ta': new URL('../../ta/src/index.ts', import.meta.url),
+  '@chart-on/indicators': new URL('../../indicators/src/index.ts', import.meta.url),
+  '@chart-on/react': new URL('../../react/src/index.ts', import.meta.url),
+  '@chart-on/react/shell': new URL('../../react/src/shell.ts', import.meta.url),
+  '@chart-on/vue': new URL('../../vue/src/index.ts', import.meta.url),
+  '@chart-on/vue/shell': new URL('../../vue/src/shell.ts', import.meta.url),
 };
 
 /** The main entry points of each package entry, which keep a short `@example`. */
 const EXAMPLES: [URL, string[]][] = [
   [
-    ENTRIES['@charton/core'],
+    ENTRIES['@chart-on/core'],
     [
       'createChart',
       'builtins',
@@ -32,9 +32,9 @@ const EXAMPLES: [URL, string[]][] = [
       'IndicatorDef',
     ],
   ],
-  [ENTRIES['@charton/core/testing'], ['installTestEnvironment']],
-  [ENTRIES['@charton/ui'], ['createChartShell', 'createChartGrid', 'createToolbar']],
-  [ENTRIES['@charton/ui/templates'], ['drawingTemplates']],
+  [ENTRIES['@chart-on/core/testing'], ['installTestEnvironment']],
+  [ENTRIES['@chart-on/ui'], ['createChartShell', 'createChartGrid', 'createToolbar']],
+  [ENTRIES['@chart-on/ui/templates'], ['drawingTemplates']],
 ];
 
 interface EntryExports {
@@ -58,7 +58,7 @@ function entryExports(entry: URL): EntryExports {
     skipLibCheck: true,
     noEmit: true,
     // Workspace imports resolve to source, so re-exports between packages keep their docs before a build.
-    paths: { '@charton/core': [fileURLToPath(ENTRIES['@charton/core'])] },
+    paths: { '@chart-on/core': [fileURLToPath(ENTRIES['@chart-on/core'])] },
   });
   const checker = program.getTypeChecker();
   const entrySymbol = checker.getSymbolAtLocation(program.getSourceFile(file)!)!;

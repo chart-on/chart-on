@@ -1,11 +1,11 @@
-# @charton/core
+# @chart-on/core
 
 WebGL2 financial chart engine: candles, heatmaps, panes, drawing tools.
 
 Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/core
+npm install @chart-on/core
 ```
 
 - [Getting started](https://github.com/chart-on/charton/blob/main/docs/guide/getting-started.md)

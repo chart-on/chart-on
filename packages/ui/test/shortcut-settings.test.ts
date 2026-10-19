@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createChart, type Chart } from '@charton/core';
+import { createChart, type Chart } from '@chart-on/core';
 import { fakeWebgl2 } from '../../core/src/testing/environment';
 import { createChartSettings, type ChartSettingsStorage } from '../src/chart-settings';
 import { createShortcutSettings, isReservedShortcut, recordedShortcut, type ShortcutSettingsOptions } from '../src/shortcut-settings';

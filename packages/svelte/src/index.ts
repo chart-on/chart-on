@@ -1,7 +1,7 @@
 /**
- * Components, an action and context helpers for `@charton/core`. The widget
- * component is in the `@charton/svelte/shell` entry, so apps that use only the
- * engine do not need `@charton/ui`.
+ * Components, an action and context helpers for `@chart-on/core`. The widget
+ * component is in the `@chart-on/svelte/shell` entry, so apps that use only the
+ * engine do not need `@chart-on/ui`.
  */
 export { default as Chart } from './Chart.svelte';
 export { chart } from './action.js';

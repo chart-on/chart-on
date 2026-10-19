@@ -4,11 +4,11 @@
  * `(el, { dark }) => cleanUp`, and imports the packages by name.
  */
 import type * as TypeScript from 'typescript';
-import * as core from '@charton/core';
-import * as ui from '@charton/ui';
-import * as indicators from '@charton/indicators';
-import * as ta from '@charton/ta';
-import '@charton/ui/style.css';
+import * as core from '@chart-on/core';
+import * as ui from '@chart-on/ui';
+import * as indicators from '@chart-on/indicators';
+import * as ta from '@chart-on/ta';
+import '@chart-on/ui/style.css';
 import * as sampleData from '../../examples/sample-data';
 import type { ExampleContext } from '../../examples/types';
 
@@ -60,12 +60,12 @@ function tracked<A extends unknown[], T extends Destroyable>(make: (...args: A) 
 /** What the code can import: the packages, and the docs examples' helpers so gallery code runs unchanged. */
 function modulesFor(live: Set<Destroyable>): Record<string, unknown> {
   return {
-    '@charton/core': { ...core, createChart: tracked(core.createChart, live) },
-    '@charton/ui': { ...ui, createChartShell: tracked(ui.createChartShell, live) },
+    '@chart-on/core': { ...core, createChart: tracked(core.createChart, live) },
+    '@chart-on/ui': { ...ui, createChartShell: tracked(ui.createChartShell, live) },
     // Loaded with the playground already.
-    '@charton/ui/style.css': {},
-    '@charton/indicators': indicators,
-    '@charton/ta': ta,
+    '@chart-on/ui/style.css': {},
+    '@chart-on/indicators': indicators,
+    '@chart-on/ta': ta,
     './sample-data': sampleData,
     // Types only; nothing to load.
     './types': {},

@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
-import { createChart } from '@charton/core';
-import { installTestEnvironment, sampleBars } from '@charton/core/testing';
-import { appearanceOf, createAppearance, createChartSettings, type ShellDirection, type ShellPalette, type ShellTheme } from '@charton/ui';
+import { createChart } from '@chart-on/core';
+import { installTestEnvironment, sampleBars } from '@chart-on/core/testing';
+import { appearanceOf, createAppearance, createChartSettings, type ShellDirection, type ShellPalette, type ShellTheme } from '@chart-on/ui';
 import { demoSettings } from '../src/app-settings';
 
 const env = installTestEnvironment({ width: 960, height: 540 });

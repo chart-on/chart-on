@@ -1,4 +1,4 @@
-import { englishLocalizer, formatCountdown, type Localizer, type SessionBands, type SessionLaneState } from '@charton/core';
+import { englishLocalizer, formatCountdown, type Localizer, type SessionBands, type SessionLaneState } from '@chart-on/core';
 import { h, placePopover } from './dom';
 import { shellText } from './messages';
 

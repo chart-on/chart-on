@@ -1,4 +1,4 @@
-import { withAlpha, type Primitive } from '@charton/core';
+import { withAlpha, type Primitive } from '@chart-on/core';
 
 /**
  * Shades intraday bars outside [startHour, endHour) UTC. A small example of a

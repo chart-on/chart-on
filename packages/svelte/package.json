@@ -1,7 +1,7 @@
 {
-  "name": "@charton/svelte",
+  "name": "@chart-on/svelte",
   "version": "0.1.0",
-  "description": "Components, an action and context helpers that mount @charton/core charts and @charton/ui shells in compiled component apps, with server rendering support.",
+  "description": "Components, an action and context helpers that mount @chart-on/core charts and @chart-on/ui shells in compiled component apps, with server rendering support.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -41,18 +41,18 @@
     "typecheck": "svelte-check --tsconfig ./tsconfig.json"
   },
   "peerDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "svelte": "^5.18.0"
   },
   "peerDependenciesMeta": {
-    "@charton/ui": {
+    "@chart-on/ui": {
       "optional": true
     }
   },
   "devDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "@sveltejs/package": "^2.5.8",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "happy-dom": "^21.0.1",

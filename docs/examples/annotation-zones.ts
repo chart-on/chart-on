@@ -1,4 +1,4 @@
-import { annotations, createChart } from '@charton/core';
+import { annotations, createChart } from '@chart-on/core';
 import type { ExampleContext } from './types';
 import { HOUR, sampleBars } from './sample-data';
 

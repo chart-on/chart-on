@@ -8,7 +8,7 @@ import {
   type IntervalRange,
   type NotificationKind,
   type StorageAdapter,
-} from '@charton/core';
+} from '@chart-on/core';
 import { LayoutTemplate, Pencil, Plus, Trash2 } from 'lucide';
 import { confirmDialog, findIn } from './dialog';
 import type { FormDialog } from './form-dialog';
@@ -69,7 +69,7 @@ const preset = (name: string, indicators: [type: string, pane: number, inputs?: 
   },
 });
 
-/** The built-in presets, made of indicators from `@charton/indicators`. */
+/** The built-in presets, made of indicators from `@chart-on/indicators`. */
 export const indicatorTemplatePresets: readonly IndicatorTemplate[] = [
   preset('Trend', [['sma', 0, { length: 20 }], ['sma', 0, { length: 50 }], ['dmi', 1]]),
   preset('Momentum', [['rsi', 1], ['macd', 2]]),

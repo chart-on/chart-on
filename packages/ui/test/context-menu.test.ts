@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart, type ChartContextMenuEvent, type IndicatorDef, type Series } from '@charton/core';
+import { Chart, type ChartContextMenuEvent, type IndicatorDef, type Series } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createAppearance } from '../src/appearance';
 import {

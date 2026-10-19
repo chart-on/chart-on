@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createChart, type Chart, type IndicatorDef, type StorageAdapter, type TemplateKind } from '@charton/core';
+import { createChart, type Chart, type IndicatorDef, type StorageAdapter, type TemplateKind } from '@chart-on/core';
 import { fakeWebgl2 } from '../../core/src/testing/environment';
 import type { CommandEntry } from '../src/command-palette-model';
 import { openDrawingSettings } from '../src/drawing-settings';

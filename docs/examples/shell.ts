@@ -1,5 +1,5 @@
-import { createChartShell } from '@charton/ui';
-import '@charton/ui/style.css';
+import { createChartShell } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

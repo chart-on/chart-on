@@ -1,4 +1,4 @@
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 import type { PackMessages } from './types';
 
 /**
@@ -7,15 +7,15 @@ import type { PackMessages } from './types';
  * drawing tools. Chinese has one plural form, so the plain keys cover every count.
  *
  * ```ts
- * import { zhTW } from '@charton/locales/zh-TW';
- * // The chart needs the localization() plugin (or builtins()) from @charton/core.
+ * import { zhTW } from '@chart-on/locales/zh-TW';
+ * // The chart needs the localization() plugin (or builtins()) from @chart-on/core.
  * chart.applyOptions({ localization: zhTW });
  * ```
  */
 export const zhTW: LocalizationOptions = {
   locale: 'zh-TW',
   messages: {
-    // Chart (@charton/core)
+    // Chart (@chart-on/core)
     chartLabel: '圖表',
     chartLabelSymbol: '{symbol} 圖表',
     scrollToLatest: '捲動到最新的 K 棒',
@@ -136,7 +136,7 @@ export const zhTW: LocalizationOptions = {
     positionRiskReward: '風險報酬比 {ratio}',
     timezoneLocal: '本地（{zone}，{offset}）',
 
-    // Shell (@charton/ui)
+    // Shell (@chart-on/ui)
     menuLabel: '圖表選單',
     menuAppearance: '外觀',
     appearanceWatermarkText: '名稱',
@@ -638,7 +638,7 @@ export const zhTW: LocalizationOptions = {
     clusterShort: '做空',
     pickerSelected: '已選取 {count} 個',
 
-    // Chart settings and appearance panel (@charton/ui, from `chartSettingsSchema` and `appearanceSections`)
+    // Chart settings and appearance panel (@chart-on/ui, from `chartSettingsSchema` and `appearanceSections`)
     'settings.series': '系列',
     'settings.series.bodies': '實體',
     'setting.theme.up': '上漲',

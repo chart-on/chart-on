@@ -5,7 +5,7 @@ import {
   type ShellDirection,
   type ShellPalette,
   type ShellTheme,
-} from '@charton/ui';
+} from '@chart-on/ui';
 import { DEMO_LOCALES } from './locales';
 
 /** What the demo's Appearance settings read and write: the shell's theme, accessibility and direction. */

@@ -1,7 +1,7 @@
 {
-  "name": "@charton/locales",
+  "name": "@chart-on/locales",
   "version": "0.1.0",
-  "description": "Opt-in translations of the @charton/core and @charton/ui built-in text, one entry per language.",
+  "description": "Opt-in translations of the @chart-on/core and @chart-on/ui built-in text, one entry per language.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -63,10 +63,10 @@
     "typecheck": "tsc -p ."
   },
   "peerDependencies": {
-    "@charton/core": "workspace:^"
+    "@chart-on/core": "workspace:^"
   },
   "devDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^"
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^"
   }
 }

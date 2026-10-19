@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, lightTheme, type IndicatorDef } from '@charton/core';
-import { builtinIndicators, macdIndicator, rsiIndicator } from '@charton/indicators';
+import { Chart, lightTheme, type IndicatorDef } from '@chart-on/core';
+import { builtinIndicators, macdIndicator, rsiIndicator } from '@chart-on/indicators';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { chooseOption, chosenLabel, listOptions } from './listbox';
 import type { FormDialog } from '../src/form-dialog';

@@ -1,6 +1,6 @@
 <!--
   The batteries-included widget: toolbar, drawing rail, bottom bar and the
-  chart, in a `div`. Import `@charton/ui/style.css` once in the app. The shell
+  chart, in a `div`. Import `@chart-on/ui/style.css` once in the app. The shell
   is created when the component mounts and destroyed when it unmounts; prop
   changes update it in place. `class`, `style` and other attributes go to the
   `div`. `bind:shell` and `bind:chart` reach the shell and its chart, and
@@ -9,7 +9,7 @@
 -->
 <script lang="ts">
   import { onMount, untrack } from 'svelte';
-  import { createChartShell, type ChartShell, type ChartShellOptions, type ShellEvents, type ShellFeatures, type ShellPalette, type ShellTheme } from '@charton/ui';
+  import { createChartShell, type ChartShell, type ChartShellOptions, type ShellEvents, type ShellFeatures, type ShellPalette, type ShellTheme } from '@chart-on/ui';
   import { provideChart } from './context.js';
   import { provideShell } from './shell-context.js';
   import type { ChartShellProps } from './shell-types.js';

@@ -53,9 +53,9 @@ Run **`pnpm typecheck`, `pnpm test`, `pnpm build` and `pnpm api:check`** before 
 
 | Path | What lives there |
 | --- | --- |
-| `packages/core` | `@charton/core`: framework-free engine (WebGL2 + Canvas2D rendering, scales, series, drawings, interaction) |
+| `packages/core` | `@chart-on/core`: framework-free engine (WebGL2 + Canvas2D rendering, scales, series, drawings, interaction) |
 | `packages/core/test` | Unit tests (vitest) for core logic |
-| `packages/ui` | `@charton/ui`: vanilla TS shell (toolbar, tool rail, bottom bar, menus) and `style.css` |
+| `packages/ui` | `@chart-on/ui`: vanilla TS shell (toolbar, tool rail, bottom bar, menus) and `style.css` |
 | `apps/demo` | Playground with synthetic data; resolves packages from source for instant reloads |
 | `e2e` | Browser tests (Playwright): the strict-policy page, keyboard, focus and accessibility-tree tests, and screenshot tests, run with `pnpm test:browser` |
 | `docs` | Documentation site (VitePress); `pnpm docs:dev` serves it, live examples render real charts from source |
@@ -107,9 +107,9 @@ Design data is designed too: default values and level sets, menu and catalogue o
 
 Breaking or notable API changes must be called out in the PR description under an **API notes** heading, and reflected in `README.md`.
 
-Every public entry of a published package (`@charton/core`, `@charton/core/testing`, `@charton/ui`, `@charton/react/shell` and so on) has an API report in [`etc/`](etc/), written by API Extractor from the built declarations: each export with its full signature, plus warnings such as a type that is used but not exported (`ae-forgotten-export`). After `pnpm build`, `pnpm api:check` fails when a report no longer matches the API; CI runs it. When the change is intended, run `pnpm api:report` and commit the updated report, so the API change shows up as a diff in review.
+Every public entry of a published package (`@chart-on/core`, `@chart-on/core/testing`, `@chart-on/ui`, `@chart-on/react/shell` and so on) has an API report in [`etc/`](etc/), written by API Extractor from the built declarations: each export with its full signature, plus warnings such as a type that is used but not exported (`ae-forgotten-export`). After `pnpm build`, `pnpm api:check` fails when a report no longer matches the API; CI runs it. When the change is intended, run `pnpm api:report` and commit the updated report, so the API change shows up as a diff in review.
 
-`@charton/core/internal` re-exports engine internals that the main entry leaves out, such as the `Pane` and `Timeline` classes, for tests and code that reach below the public API. It has no stability promise and no page in the API reference. Plugin-author APIs (primitives, custom series, the drawing tool contract) stay in the main entry; a type that public signatures use stays nameable there, as a type if its class moves.
+`@chart-on/core/internal` re-exports engine internals that the main entry leaves out, such as the `Pane` and `Timeline` classes, for tests and code that reach below the public API. It has no stability promise and no page in the API reference. Plugin-author APIs (primitives, custom series, the drawing tool contract) stay in the main entry; a type that public signatures use stays nameable there, as a type if its class moves.
 
 The API reference on the docs site is generated from the same doc comments: `pnpm api:docs` writes it as Markdown into `docs/api/` (not checked in), and `pnpm docs:dev` and `pnpm docs:build` run it first.
 
@@ -149,8 +149,8 @@ A maintainer cuts a release when the pending changesets should go out:
 
 Publishing authenticates with npm trusted publishing (OIDC), so no npm token is stored. It can only be configured for a package that already exists on npm, so the first release is set up once:
 
-1. Create the `charton` organization on npm, owned by the maintainers, with two-factor authentication required.
-2. Add a granular npm access token with publish rights to the `@charton` scope as the `NPM_TOKEN` repository secret.
+1. The packages publish under the `@chart-on` scope of the `chart-on` npm account (the `@charton` scope belongs to another account). Require two-factor authentication on it, and convert it to an organization when more maintainers need publish rights.
+2. Add a granular npm access token with publish rights to the `@chart-on` scope as the `NPM_TOKEN` repository secret.
 3. Release 0.1.0: in a PR, run `node scripts/version-packages.mjs` (the packages are already at 0.1.0, so there is no changeset to version), review the notes and merge it.
 4. For each package on npm, add `chart-on/charton` with the workflow `release.yml` as trusted publisher, and set publishing access to require two-factor authentication and disallow tokens.
 5. Delete the `NPM_TOKEN` secret and revoke the token.
@@ -163,11 +163,11 @@ The published packages (`packages/*`) declare the fields bundlers and type check
 
 ### Bundle size budget
 
-After `pnpm build`, `pnpm size` measures the built bundles and fails when one is over its budget in [`scripts/size-budget.json`](scripts/size-budget.json): `@charton/core`, `@charton/ui` (its modules and stylesheet) and the single-file browser build. It measures what an app ships: each built JavaScript file is minified with `process.env.NODE_ENV` set to `"production"`, so development-only code folds away the way it does in an app's production build, then gzipped. Stylesheets and Svelte components are gzipped as built. It also bundles small apps from the built core (`bundles`, named by what they import, such as `createChart` with a data source) and checks what they cost after tree shaking. CI runs it. Budgets sit about 10% above the current sizes, rounded up to a quarter KiB. When a change needs more room, run `pnpm size --update` to reset every budget to the current size plus 10%, commit the JSON file, and say in the PR what grew and why. The `createChart` bundle is the minimal chart from the [scope](roadmap/design-principles.md#scope), a chart with no plugins and no data source. It has no fixed size target; when a change moves a part out of it, lower its budget by what was saved.
+After `pnpm build`, `pnpm size` measures the built bundles and fails when one is over its budget in [`scripts/size-budget.json`](scripts/size-budget.json): `@chart-on/core`, `@chart-on/ui` (its modules and stylesheet) and the single-file browser build. It measures what an app ships: each built JavaScript file is minified with `process.env.NODE_ENV` set to `"production"`, so development-only code folds away the way it does in an app's production build, then gzipped. Stylesheets and Svelte components are gzipped as built. It also bundles small apps from the built core (`bundles`, named by what they import, such as `createChart` with a data source) and checks what they cost after tree shaking. CI runs it. Budgets sit about 10% above the current sizes, rounded up to a quarter KiB. When a change needs more room, run `pnpm size --update` to reset every budget to the current size plus 10%, commit the JSON file, and say in the PR what grew and why. The `createChart` bundle is the minimal chart from the [scope](roadmap/design-principles.md#scope), a chart with no plugins and no data source. It has no fixed size target; when a change moves a part out of it, lower its budget by what was saved.
 
 The budget is a ceiling, not an allowance. Every change should be as small as it can be: reuse existing helpers, build only what the issue asks for, keep optional features as opt-in exports that tree-shake away, prefer platform APIs (`Intl`, typed arrays) to hand-rolled code, and delete code your change leaves unused. Put the gzip change of each bundle (`pnpm size` on `main` and on your branch) in the PR. Growth over 1 KiB gzip in any bundle needs a reason there, and `pnpm size --update` comes only after trying to make the change smaller.
 
-To see where the size goes, run `pnpm size:report` after `pnpm build`. It reads the built `@charton/core` and `@charton/ui` modules with their source maps and lists the largest source modules: the minified bytes each one contributes, and how much the gzipped file would shrink without them. It also totals each folder and warns when a module is bundled from two paths (two copies of a package). Pass `--top <n>` for more rows, or the path of another built file, such as `packages/ui/dist/browser/charton.js`.
+To see where the size goes, run `pnpm size:report` after `pnpm build`. It reads the built `@chart-on/core` and `@chart-on/ui` modules with their source maps and lists the largest source modules: the minified bytes each one contributes, and how much the gzipped file would shrink without them. It also totals each folder and warns when a module is bundled from two paths (two copies of a package). Pass `--top <n>` for more rows, or the path of another built file, such as `packages/ui/dist/browser/charton.js`.
 
 The package builds minify their output fully, keeping only the pure annotations bundlers need for tree shaking, and strip comments and spacing from the GLSL shaders (`scripts/build-shrink.ts`). `packages/core/test/build-shrink.test.ts` checks that the shaders keep their tokens and lines.
 

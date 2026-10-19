@@ -1,11 +1,11 @@
-# @charton/react
+# @chart-on/react
 
-Components and hooks that mount @charton/core charts and @charton/ui shells in component-based apps, with server rendering support.
+Components and hooks that mount @chart-on/core charts and @chart-on/ui shells in component-based apps, with server rendering support.
 
 Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/react @charton/core @charton/ui react
+npm install @chart-on/react @chart-on/core @chart-on/ui react
 ```
 
 - [Component wrapper guide](https://github.com/chart-on/charton/blob/main/docs/guide/component-wrapper.md)

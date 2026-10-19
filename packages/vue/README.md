@@ -1,11 +1,11 @@
-# @charton/vue
+# @chart-on/vue
 
-Components and composables that mount @charton/core charts and @charton/ui shells in Vue apps, with server rendering support.
+Components and composables that mount @chart-on/core charts and @chart-on/ui shells in Vue apps, with server rendering support.
 
 Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/vue @charton/core @charton/ui vue
+npm install @chart-on/vue @chart-on/core @chart-on/ui vue
 ```
 
 - [Template wrapper guide](https://github.com/chart-on/charton/blob/main/docs/guide/template-wrapper.md)

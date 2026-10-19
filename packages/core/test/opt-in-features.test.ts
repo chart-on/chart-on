@@ -108,32 +108,32 @@ describe('opt-in features', () => {
     expect(full.addDepthLane().options.width).toBe(80);
     expect(full.drawings.getTools().map((t) => t.type)).toEqual(core.builtinTools.map((t) => t.type));
     expect(full.installedPlugins).toEqual([
-      '@charton/core/data-source',
-      '@charton/core/indicators',
-      '@charton/core/comparisons',
-      '@charton/core/annotations',
-      '@charton/core/trading',
-      '@charton/core/heatmap',
-      '@charton/core/volume-profile',
-      '@charton/core/points',
-      '@charton/core/viewport-bounds',
-      '@charton/core/depth-lane',
-      '@charton/core/replay',
-      '@charton/core/drawings',
-      '@charton/core/stats-overlay',
-      '@charton/core/source-markers',
-      '@charton/core/adjustments',
-      '@charton/core/watermark',
-      '@charton/core/layouts',
-      '@charton/core/reference-lines',
-      '@charton/core/price-styles',
-      '@charton/core/grouping',
-      '@charton/core/last-point-pulse',
-      '@charton/core/localization',
-      '@charton/core/countdown',
-      '@charton/core/image-capture',
-      '@charton/core/market-status',
-      '@charton/core/shared-context',
+      '@chart-on/core/data-source',
+      '@chart-on/core/indicators',
+      '@chart-on/core/comparisons',
+      '@chart-on/core/annotations',
+      '@chart-on/core/trading',
+      '@chart-on/core/heatmap',
+      '@chart-on/core/volume-profile',
+      '@chart-on/core/points',
+      '@chart-on/core/viewport-bounds',
+      '@chart-on/core/depth-lane',
+      '@chart-on/core/replay',
+      '@chart-on/core/drawings',
+      '@chart-on/core/stats-overlay',
+      '@chart-on/core/source-markers',
+      '@chart-on/core/adjustments',
+      '@chart-on/core/watermark',
+      '@chart-on/core/layouts',
+      '@chart-on/core/reference-lines',
+      '@chart-on/core/price-styles',
+      '@chart-on/core/grouping',
+      '@chart-on/core/last-point-pulse',
+      '@chart-on/core/localization',
+      '@chart-on/core/countdown',
+      '@chart-on/core/image-capture',
+      '@chart-on/core/market-status',
+      '@chart-on/core/shared-context',
     ]);
     expect(thrown(() => plain.drawings).code).toBe('not-registered');
     expect(thrown(() => plain.addHeatmap()).code).toBe('not-registered');
@@ -386,7 +386,7 @@ describe('opt-in features', () => {
     const b = chart({ gl: 'shared', plugins: [core.sharedContext()] });
     expect(renderer(a)).toBe(renderer(b));
     // Installed ahead of the others, so the chart joins the context before they come.
-    expect(a.installedPlugins[0]).toBe('@charton/core/shared-context');
+    expect(a.installedPlugins[0]).toBe('@chart-on/core/shared-context');
     expect(a.options.gl).toBe('shared');
     const missing = () => warn.mock.calls.filter(([message]) => String(message).includes('shared-context-missing'));
     expect(missing()).toEqual([]);
@@ -449,7 +449,7 @@ describe('opt-in features', () => {
     expect(missing.code).toBe('not-registered');
     expect(missing.context).toEqual({ call: 'captureImage', plugin: 'imageCapture()' });
     const uninstall = c.install(core.imageCapture());
-    expect(c.installedPlugins).toEqual(['@charton/core/image-capture']);
+    expect(c.installedPlugins).toEqual(['@chart-on/core/image-capture']);
     // The test DOM's canvases cannot encode, so check the composited canvas `captureImage` encodes.
     const composite = (o: object) => (c as unknown as { composite(o: object): { width: number } | null }).composite(o);
     expect(composite({ caption: 'Caption', padding: 4 })?.width).toBeGreaterThan(0);
@@ -561,7 +561,7 @@ describe('opt-in features', () => {
 
   it('localization() given at creation applies the option there', () => {
     const c = chart({ plugins: [core.localization()], localization: { locale: 'de-DE' } });
-    expect(c.installedPlugins).toEqual(['@charton/core/localization']);
+    expect(c.installedPlugins).toEqual(['@chart-on/core/localization']);
     expect(c.localization.locale).toBe('de-DE');
     expect(c.localization.number(1.5, 1)).toBe('1,5');
   });
@@ -626,7 +626,7 @@ describe('opt-in features', () => {
     expect(c.drawings.tool).toBe('hline');
     c.drawings.unregister('hline');
     expect(c.actions.has('draw-hline')).toBe(false);
-    c.uninstall('@charton/core/drawings');
+    c.uninstall('@chart-on/core/drawings');
     expect(c.actions.has('draw-trendline')).toBe(false);
     expect(c.actions.has('delete-drawings')).toBe(false);
     expect(thrown(() => c.drawings).code).toBe('not-registered');
@@ -839,7 +839,7 @@ describe('opt-in features', () => {
     const line = manager.add({ type: 'hline', pane: 0, points: [{ time: 300, price: 1 }], style: {} });
     manager.select(line.id);
     manager.setTool('trendline');
-    c.uninstall('@charton/core/drawings');
+    c.uninstall('@chart-on/core/drawings');
     expect(manager.tool).toBeNull();
     expect(manager.selection).toEqual([]);
     expect(manager.isBusy).toBe(false);
@@ -852,10 +852,10 @@ describe('opt-in features', () => {
     const types = (c: { drawings: { getTools(): DrawingToolDef[] } }) => c.drawings.getTools().map((t) => t.type);
     // Drawings first: the plugin's undo finds nothing to take the tool from.
     const a = chart({ plugins: [core.drawings(), marks] });
-    a.uninstall('@charton/core/drawings');
+    a.uninstall('@chart-on/core/drawings');
     a.install(core.drawings());
     expect(types(a)).toEqual(['mark']);
-    a.uninstall('@charton/core/drawings');
+    a.uninstall('@chart-on/core/drawings');
     a.uninstall('marks');
     a.install(core.drawings());
     expect(types(a)).toEqual([]);
@@ -863,7 +863,7 @@ describe('opt-in features', () => {
     const b = chart({ plugins: [core.drawings(), marks] });
     b.uninstall('marks');
     expect(types(b)).toEqual([]);
-    b.uninstall('@charton/core/drawings');
+    b.uninstall('@chart-on/core/drawings');
     expect(error).not.toHaveBeenCalled();
     error.mockRestore();
   });

@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createChart, type Chart } from '@charton/core';
-import { builtinIndicators } from '@charton/indicators';
+import { createChart, type Chart } from '@chart-on/core';
+import { builtinIndicators } from '@chart-on/indicators';
 import { fakeWebgl2 } from '../../core/src/testing/environment';
 import { createFavorites } from '../src/favorites';
 import { createIndicatorPicker, type IndicatorPickerOptions } from '../src/indicator-picker';

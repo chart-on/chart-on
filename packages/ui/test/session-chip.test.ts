@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createSessionBands, type SessionLane, type SessionLaneState } from '@charton/core';
+import { createSessionBands, type SessionLane, type SessionLaneState } from '@chart-on/core';
 import { installFakeDom } from '../../core/test/fake-dom';
 import { createSessionChip, sessionChipLabel, sessionStatusText } from '../src/session-chip';
 

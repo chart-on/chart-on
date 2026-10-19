@@ -1,4 +1,4 @@
-import { formatCompact, type DepthBook, type DepthLane, type Localizer } from '@charton/core';
+import { formatCompact, type DepthBook, type DepthLane, type Localizer } from '@chart-on/core';
 import { h } from './dom';
 import { shellText } from './messages';
 
@@ -61,7 +61,7 @@ export function depthLadderRows(book: DepthBook, depth: number): DepthLadderRow[
  * Panel listing a depth lane's levels as a price ladder, asks above bids,
  * each row shaded by its size. Built only on the lane's public handle, so it
  * works with any lane the app feeds. Updates at most once per animation frame.
- * Requires `@charton/ui/style.css`.
+ * Requires `@chart-on/ui/style.css`.
  */
 export function createDepthLadder(host: HTMLElement, lane: DepthLane, options: DepthLadderOptions = {}): DepthLadderHandle {
   const title = options.title ?? shellText(options, 'ladderTitle');

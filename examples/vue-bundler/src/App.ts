@@ -1,6 +1,6 @@
 import { defineComponent, h, markRaw, ref } from 'vue';
-import { createMockDataSource } from '@charton/core';
-import { ChartShell, type ChartShellExposed } from '@charton/vue/shell';
+import { createMockDataSource } from '@chart-on/core';
+import { ChartShell, type ChartShellExposed } from '@chart-on/vue/shell';
 
 /** The widget with synthetic data, a theme switch and a crosshair readout. */
 export const App = defineComponent({

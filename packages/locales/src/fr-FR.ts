@@ -1,4 +1,4 @@
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 import type { PackMessages } from './types';
 
 /**
@@ -8,15 +8,15 @@ import type { PackMessages } from './types';
  * for every other number.
  *
  * ```ts
- * import { frFR } from '@charton/locales/fr-FR';
- * // The chart needs the localization() plugin (or builtins()) from @charton/core.
+ * import { frFR } from '@chart-on/locales/fr-FR';
+ * // The chart needs the localization() plugin (or builtins()) from @chart-on/core.
  * chart.applyOptions({ localization: frFR });
  * ```
  */
 export const frFR: LocalizationOptions = {
   locale: 'fr-FR',
   messages: {
-    // Chart (@charton/core)
+    // Chart (@chart-on/core)
     chartLabel: 'Graphique',
     chartLabelSymbol: 'Graphique de {symbol}',
     scrollToLatest: 'Aller à la barre la plus récente',
@@ -139,7 +139,7 @@ export const frFR: LocalizationOptions = {
     positionRiskReward: 'R/R {ratio}',
     timezoneLocal: 'Heure locale ({zone}, {offset})',
 
-    // Shell (@charton/ui)
+    // Shell (@chart-on/ui)
     menuLabel: 'Menu du graphique',
     menuAppearance: 'Apparence',
     appearanceWatermarkText: 'Nom',
@@ -647,7 +647,7 @@ export const frFR: LocalizationOptions = {
     'pickerSelected.one': '{count} sélectionné',
     'pickerSelected.many': '{count} de sélectionnés',
 
-    // Chart settings and appearance panel (@charton/ui, from `chartSettingsSchema` and `appearanceSections`)
+    // Chart settings and appearance panel (@chart-on/ui, from `chartSettingsSchema` and `appearanceSections`)
     'settings.series': 'Série',
     'settings.series.bodies': 'Corps',
     'setting.theme.up': 'Hausse',

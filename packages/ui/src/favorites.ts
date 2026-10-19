@@ -1,4 +1,4 @@
-import type { Chart, Rect, SettingsAdapter } from '@charton/core';
+import type { Chart, Rect, SettingsAdapter } from '@chart-on/core';
 import { Grip, RectangleHorizontal, RectangleVertical } from 'lucide';
 import { iconButton } from './controls';
 import { h, markActive, icon, isolateFromChart, type Visibility } from './dom';

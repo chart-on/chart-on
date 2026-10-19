@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseColor } from '@charton/core';
+import { parseColor } from '@chart-on/core';
 import css from '../src/style.css?raw';
 
 /** Custom properties set by the first block that opens with `selector`. */

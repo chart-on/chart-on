@@ -1,4 +1,4 @@
-import { PriceBarBuilder, createChart, priceStyles, type Bar, type CandleStyle, type Chart, type PriceBarOptions } from '@charton/core';
+import { PriceBarBuilder, createChart, priceStyles, type Bar, type CandleStyle, type Chart, type PriceBarOptions } from '@chart-on/core';
 
 export interface PriceChart {
   chart: Chart;

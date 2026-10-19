@@ -4,13 +4,13 @@ description: "One to eight linked chart shells in resizable cells, with layout p
 
 # Chart grid
 
-`createChartGrid` from `@charton/ui` puts one to eight [shells](./ui-shell) in a grid of resizable cells. The charts are in a [link group](./link-groups), so the crosshair, pan and zoom follow across them, and one toolbar above the grid acts on the active chart.
+`createChartGrid` from `@chart-on/ui` puts one to eight [shells](./ui-shell) in a grid of resizable cells. The charts are in a [link group](./link-groups), so the crosshair, pan and zoom follow across them, and one toolbar above the grid acts on the active chart.
 
 <!-- example: chart-grid -->
 
 ```ts
-import { createChartGrid } from '@charton/ui';
-import '@charton/ui/style.css';
+import { createChartGrid } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 const grid = createChartGrid(el, {
   layout: '2x2',                       // preset, see below; default '1x1'
@@ -70,7 +70,7 @@ grid.on('active:change', ({ shell }) => {
 The `gridLayout()` [preset](./ui-shell#presets) is a layout menu that switches `grid.setLayout` and follows `layout:change` by itself:
 
 ```ts
-import { createChartGrid, gridLayout } from '@charton/ui';
+import { createChartGrid, gridLayout } from '@chart-on/ui';
 
 const grid = createChartGrid(el, { layout: '2x2', toolbar: [gridLayout(['1x1', '2x1', '2x2'])] });
 ```

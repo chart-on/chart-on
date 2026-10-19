@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { build, type Rollup } from 'vite';
 
-/** Minified bundle of `code` for `NODE_ENV` `env`, with `@charton/core` and `@charton/ui` from source. */
+/** Minified bundle of `code` for `NODE_ENV` `env`, with `@chart-on/core` and `@chart-on/ui` from source. */
 async function bundle(code: string, env = 'production'): Promise<string> {
   const id = '\0entry';
   const result = (await build({
@@ -11,8 +11,8 @@ async function bundle(code: string, env = 'production'): Promise<string> {
     define: { 'process.env.NODE_ENV': JSON.stringify(env) },
     resolve: {
       alias: {
-        '@charton/core': new URL('../src/index.ts', import.meta.url).pathname,
-        '@charton/ui': new URL('../../ui/src/index.ts', import.meta.url).pathname,
+        '@chart-on/core': new URL('../src/index.ts', import.meta.url).pathname,
+        '@chart-on/ui': new URL('../../ui/src/index.ts', import.meta.url).pathname,
       },
     },
     plugins: [{ name: 'entry', resolveId: (s) => (s === 'entry' ? id : null), load: (s) => (s === id ? code : null) }],
@@ -39,8 +39,8 @@ const DEV_ONLY = [
 ];
 
 const APP = `
-  import { createChart } from '@charton/core';
-  import { createChartShell } from '@charton/ui';
+  import { createChart } from '@chart-on/core';
+  import { createChartShell } from '@chart-on/ui';
   const chart = createChart(document.body, { barSpacing: 6 });
   chart.addCandles({ upColor: '#0f0' });
   createChartShell(document.body, { theme: 'dark' });

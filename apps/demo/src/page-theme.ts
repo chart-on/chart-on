@@ -1,4 +1,4 @@
-import { builtInColorPresets, presetTheme, type ChartTheme } from '@charton/core';
+import { builtInColorPresets, presetTheme, type ChartTheme } from '@chart-on/core';
 import './page.css';
 
 // The extra demo pages wear Paper & Ink, the shell's default colour preset, so

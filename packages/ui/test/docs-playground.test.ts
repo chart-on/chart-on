@@ -4,7 +4,7 @@ import ts from 'typescript';
 import { countingWebgl2, fakeContainer } from '../../core/test/fake-dom';
 import { describeError, PlaygroundSyntaxError, run, transpile } from '../../../docs/.vitepress/playground/runner';
 import { codeHash, decodeCode, encodeCode, encodedFromHash } from '../../../docs/.vitepress/playground/share';
-import { ChartError } from '@charton/core';
+import { ChartError } from '@chart-on/core';
 
 const sources = import.meta.glob<string>(
   ['../../../docs/examples/*.ts', '!../../../docs/examples/index.ts', '!../../../docs/examples/types.ts', '!../../../docs/examples/sample-data.ts'],
@@ -78,7 +78,7 @@ describe('playground runner', () => {
     const { el, released } = countingContainer();
     const js = transpile(
       ts,
-      `import { createChart } from '@charton/core';
+      `import { createChart } from '@chart-on/core';
        export default function mount(el: HTMLElement) {
          createChart(el);
          const kept = createChart(el);
@@ -96,7 +96,7 @@ describe('playground runner', () => {
     const { el, released } = countingContainer();
     const failing = transpile(
       ts,
-      `import { createChart } from '@charton/core';
+      `import { createChart } from '@chart-on/core';
        export default function mount(el: HTMLElement) {
          createChart(el);
          const chart = createChart(el);
@@ -124,7 +124,7 @@ describe('playground runner', () => {
   it('explains unknown imports and a missing default export', () => {
     const el = fakeContainer();
     expect(() => run(transpile(ts, "import 'left-pad';\nexport default () => () => {};"), el, { dark: true })).toThrow(
-      /Cannot import "left-pad".*@charton\/core/,
+      /Cannot import "left-pad".*@chart-on\/core/,
     );
     expect(() => run(transpile(ts, 'export const x = 1;'), el, { dark: true })).toThrow(/default export/);
   });

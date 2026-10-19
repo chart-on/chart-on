@@ -19,7 +19,7 @@ import {
   themeFromCss,
   type ChartTheme,
   type CssPropertyReader,
-} from '@charton/core';
+} from '@chart-on/core';
 import { resolveCssVars } from '../../../packages/core/src/util/css';
 import { parseRules, ruleVars } from './css';
 
@@ -228,7 +228,7 @@ export function exportCss(b: Builder, state: BuilderState, className = DEFAULT_C
   }
   const selector = `.${className}.pc-shell`;
   const parts = [
-    `/* Load after @charton/ui/style.css, then add the class: createChartShell(el, { className: '${className}' }). */`,
+    `/* Load after @chart-on/ui/style.css, then add the class: createChartShell(el, { className: '${className}' }). */`,
   ];
   if (dark.size > 0) parts.push(`${selector} {\n${sortedBlock(b, dark, '  ')}\n}`);
   if (light.size > 0) {

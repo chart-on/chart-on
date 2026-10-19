@@ -7,7 +7,7 @@ import {
   lightTheme,
   type ChartTheme,
   type LocalizationOptions,
-} from '@charton/core';
+} from '@chart-on/core';
 import css from '../src/style.css?raw';
 import { fakeContainer } from '../../core/test/fake-dom';
 import {
@@ -84,7 +84,7 @@ describe('style.css palette', () => {
   });
 });
 
-/** Every locale pack in `@charton/locales`, each exporting its `LocalizationOptions`. */
+/** Every locale pack in `@chart-on/locales`, each exporting its `LocalizationOptions`. */
 const packs = import.meta.glob<Record<string, LocalizationOptions>>('../../locales/src/*-*.ts', { eager: true });
 
 const shells: ChartShell[] = [];

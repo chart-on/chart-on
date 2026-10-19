@@ -37,8 +37,8 @@ afterAll(() => {
 
 describe('importing on a server', () => {
   it.each([
-    ['@charton/vue', () => import('@charton/vue')],
-    ['@charton/vue/shell', () => import('@charton/vue/shell')],
+    ['@chart-on/vue', () => import('@chart-on/vue')],
+    ['@chart-on/vue/shell', () => import('@chart-on/vue/shell')],
   ])(
     '%s touches no browser global',
     async (_name, load) => {

@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createElement, StrictMode, type ReactElement } from 'react';
-import { createMockDataSource } from '@charton/core';
-import type { ChartShell as ShellInstance } from '@charton/ui';
-import { useChart } from '@charton/react';
-import { ChartShell, useChartShell, type ChartShellProps } from '@charton/react/shell';
+import { createMockDataSource } from '@chart-on/core';
+import type { ChartShell as ShellInstance } from '@chart-on/ui';
+import { useChart } from '@chart-on/react';
+import { ChartShell, useChartShell, type ChartShellProps } from '@chart-on/react/shell';
 import { installBrowser, type Browser } from './browser';
 import { render } from './render';
 

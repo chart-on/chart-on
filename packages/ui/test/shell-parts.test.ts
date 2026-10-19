@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { annotations, Chart, replay, trading } from '@charton/core';
+import { annotations, Chart, replay, trading } from '@chart-on/core';
 import { fakeContainer, installFakeDom } from '../../core/test/fake-dom';
 import { clusterList } from '../src/cluster-list';
 import { commandPalette, commandPaletteToolbarItem } from '../src/command-palette';

@@ -1,4 +1,4 @@
-import { alignSteps, formingSteps, type BarArrays, type IndicatorDef, type Interval } from '@charton/core';
+import { alignSteps, formingSteps, type BarArrays, type IndicatorDef, type Interval } from '@chart-on/core';
 
 /**
  * An RSI computed on another, longer interval's bars (daily by default) and

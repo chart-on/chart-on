@@ -1,4 +1,4 @@
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import { Check, Command } from 'lucide';
 import { commandScore, rankCommands, type CommandEntry, type CommandSource } from './command-palette-model';
 import { h, icon } from './dom';

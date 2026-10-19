@@ -23,9 +23,9 @@
     "typecheck": "tsc -p ."
   },
   "peerDependencies": {
-    "@charton/core": "workspace:^"
+    "@chart-on/core": "workspace:^"
   },
   "devDependencies": {
-    "@charton/core": "workspace:^"
+    "@chart-on/core": "workspace:^"
   }
 }

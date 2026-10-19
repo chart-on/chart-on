@@ -7,7 +7,7 @@ description: "Bundle drawing tools, indicators, custom series and primitives int
 A plugin bundles extensions, such as drawing tools, indicators, custom series and primitives, behind one install step. Everything a plugin adds is removed again when it is uninstalled, so an app can switch a feature pack on and off, and a package on npm can say which core versions it works with.
 
 ```ts
-import type { ChartPlugin } from '@charton/core';
+import type { ChartPlugin } from '@chart-on/core';
 
 export const measureKit: ChartPlugin = {
   name: 'acme-measure-kit',
@@ -39,10 +39,10 @@ uninstall();            // or chart.uninstall('acme-measure-kit')
 | `onFrame(observer)` | Watches the chart's frames: see [Frame observers](#frame-observers) | The observer stops being called |
 | `onDispose(fn)` | Runs `fn` on uninstall | |
 
-`ctx.chart` is the chart and `ctx.coreVersion` its version. `ctx.host(name)` returns what a layer above the chart offers plugins: the [UI shell](./ui-shell) offers `'shell'`, which `shellOf(ctx)` from `@charton/ui` wraps so the toolbar items a plugin adds are removed with it:
+`ctx.chart` is the chart and `ctx.coreVersion` its version. `ctx.host(name)` returns what a layer above the chart offers plugins: the [UI shell](./ui-shell) offers `'shell'`, which `shellOf(ctx)` from `@chart-on/ui` wraps so the toolbar items a plugin adds are removed with it:
 
 ```ts
-import { shellOf } from '@charton/ui';
+import { shellOf } from '@chart-on/ui';
 
 install(ctx) {
   ctx.registerDrawingTool(rulerTool);
@@ -66,7 +66,7 @@ install(ctx) {
 `request` runs on every redraw request, crosshair moves included, and the others on every drawn frame, so keep them cheap.
 
 ```ts
-import type { ChartPlugin } from '@charton/core';
+import type { ChartPlugin } from '@chart-on/core';
 
 const frameCounter: ChartPlugin = {
   name: 'acme-frame-counter',
@@ -87,11 +87,11 @@ const frameCounter: ChartPlugin = {
 
 ## Writing and publishing a plugin
 
-The repository has a starter package, [`examples/plugin-starter`](https://github.com/chart-on/charton/tree/main/examples/plugin-starter): one drawing tool and one indicator, its own build, and tests that use [`@charton/core/testing`](./testing). The repository builds and tests it on every change, so a change to the plugin contract shows up there first. Copy it to start a plugin of your own.
+The repository has a starter package, [`examples/plugin-starter`](https://github.com/chart-on/charton/tree/main/examples/plugin-starter): one drawing tool and one indicator, its own build, and tests that use [`@chart-on/core/testing`](./testing). The repository builds and tests it on every change, so a change to the plugin contract shows up there first. Copy it to start a plugin of your own.
 
 - **Name** the package `charton-plugin-<what-it-does>` (or `@scope/charton-plugin-<…>`) and add the `charton-plugin` keyword, so people can find it.
 - **Prefix ids** with the package name: drawing tool types and indicator ids such as `acme-measure-kit/ruler`, so they never clash with the built-ins or with other plugins.
-- **Depend on core as a peer**: `"peerDependencies": { "@charton/core": "^0.1.0" }`, and keep it external in your build, so the app's copy of the chart is the one your plugin registers with. `@charton/ui` is an optional peer if you use `shellOf`.
+- **Depend on core as a peer**: `"peerDependencies": { "@chart-on/core": "^0.1.0" }`, and keep it external in your build, so the app's copy of the chart is the one your plugin registers with. `@chart-on/ui` is an optional peer if you use `shellOf`.
 - **Version** with semantic versioning, and keep `requires` to the core versions you test against; a minor core release can add to the contract, a major one can change it.
 - **License** your plugin as you choose. charton is Apache-2.0; a plugin that copies code from this repository keeps its notices.
 

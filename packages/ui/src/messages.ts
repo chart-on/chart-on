@@ -1,4 +1,4 @@
-import { defaultMessages, englishLocalizer, pluralText, type Localizer, type MessageParams } from '@charton/core';
+import { defaultMessages, englishLocalizer, pluralText, type Localizer, type MessageParams } from '@chart-on/core';
 
 /**
  * The shell's built-in English text, by message key. Override any of them

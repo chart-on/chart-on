@@ -9,7 +9,7 @@ export interface ColorPresetVariant {
   primary: string;
   /** Chart theme values that win over the derived ones, for anything the derivation gets wrong. */
   overrides?: Partial<ChartTheme>;
-  /** Shell CSS custom properties (`--pc-*`) that win over the derived ones. Used by `@charton/ui`. */
+  /** Shell CSS custom properties (`--pc-*`) that win over the derived ones. Used by `@chart-on/ui`. */
   tokens?: Readonly<Record<string, string>>;
 }
 

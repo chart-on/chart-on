@@ -14,7 +14,7 @@ The part before the message names the call that took the value. Each warning is 
 
 ## Development warnings
 
-Development builds check the options passed to `createChart`, `applyOptions`, `addPane`, every `add*` series call and `series.applyOptions`, drawing styles in `drawings.add` and `drawings.update`, and `createChartShell` and `shell.applyFeatures` in `@charton/ui`. Production builds skip the checks and leave them out of the bundle: any bundler that replaces `process.env.NODE_ENV` with `'production'` drops them (most do in a production build). Code loaded without a bundler has no `process` and stays quiet. The script-tag build is a production build: it leaves the checks out, also when a bundler imports it.
+Development builds check the options passed to `createChart`, `applyOptions`, `addPane`, every `add*` series call and `series.applyOptions`, drawing styles in `drawings.add` and `drawings.update`, and `createChartShell` and `shell.applyFeatures` in `@chart-on/ui`. Production builds skip the checks and leave them out of the bundle: any bundler that replaces `process.env.NODE_ENV` with `'production'` drops them (most do in a production build). Code loaded without a bundler has no `process` and stays quiet. The script-tag build is a production build: it leaves the checks out, also when a bundler imports it.
 
 The checks never change what the chart does: an unknown key is still ignored and a wrong value is still used as given, as in production.
 

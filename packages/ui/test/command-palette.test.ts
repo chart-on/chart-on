@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { rsiIndicator as rsiDef } from '@charton/indicators';
+import { rsiIndicator as rsiDef } from '@chart-on/indicators';
 import { dispatch, fakeContainer, installFakeDom } from '../../core/test/fake-dom';
 import { commandPalette, commandPaletteToolbarItem } from '../src/command-palette';
 import type { CommandEntry } from '../src/command-palette-model';

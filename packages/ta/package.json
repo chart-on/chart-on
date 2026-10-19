@@ -1,5 +1,5 @@
 {
-  "name": "@charton/ta",
+  "name": "@chart-on/ta",
   "version": "0.1.0",
   "description": "Technical-analysis helpers over Float64Array for chart indicators.",
   "license": "Apache-2.0",

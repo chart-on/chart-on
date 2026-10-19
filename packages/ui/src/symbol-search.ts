@@ -1,4 +1,4 @@
-import type { Chart, MessageParams } from '@charton/core';
+import type { Chart, MessageParams } from '@chart-on/core';
 import { Star } from 'lucide';
 import { button, segmentedTabs } from './controls';
 import type { FavoritesList } from './favorites';

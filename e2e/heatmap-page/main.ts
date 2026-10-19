@@ -1,6 +1,6 @@
-import { builtins, createChart, darkTheme, lightTheme, type CellReduce, type Chart, type HeatmapSeries } from '@charton/core';
-import { seededRandom } from '@charton/core/internal';
-import { sampleBars } from '@charton/core/testing';
+import { builtins, createChart, darkTheme, lightTheme, type CellReduce, type Chart, type HeatmapSeries } from '@chart-on/core';
+import { seededRandom } from '@chart-on/core/internal';
+import { sampleBars } from '@chart-on/core/testing';
 
 /**
  * Heatmap scenes for ../heatmap.spec.ts and bench.ts, picked with `?scene=`:

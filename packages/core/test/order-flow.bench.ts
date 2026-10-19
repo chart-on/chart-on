@@ -9,8 +9,8 @@
  * Canvas2D paint comes on top in a browser.
  */
 import { afterAll, describe, test, type TestContext } from 'vitest';
-import { Chart, footprintFromRows, footprintSeries, tpoColumns, tpoSeries, type FootprintBar, type FootprintLevel } from '@charton/core';
-import { driveFrames, flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+import { Chart, footprintFromRows, footprintSeries, tpoColumns, tpoSeries, type FootprintBar, type FootprintLevel } from '@chart-on/core';
+import { driveFrames, flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
 import { seededRandom } from '../src/util/random';
 
 const env = installTestEnvironment({ width: 1280, height: 720 });

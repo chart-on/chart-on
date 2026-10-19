@@ -1,7 +1,7 @@
 {
-  "name": "@charton/vue",
+  "name": "@chart-on/vue",
   "version": "0.1.0",
-  "description": "Components and composables that mount @charton/core charts and @charton/ui shells in Vue apps, with server rendering support.",
+  "description": "Components and composables that mount @chart-on/core charts and @chart-on/ui shells in Vue apps, with server rendering support.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -40,18 +40,18 @@
     "typecheck": "tsc -p ."
   },
   "peerDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "vue": "^3.5.0"
   },
   "peerDependenciesMeta": {
-    "@charton/ui": {
+    "@chart-on/ui": {
       "optional": true
     }
   },
   "devDependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "happy-dom": "^21.0.1",
     "vue": "^3.5.0"
   }

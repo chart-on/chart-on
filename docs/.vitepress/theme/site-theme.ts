@@ -3,8 +3,8 @@
  * variant swaps the two colours, matching custom.css. Used by the landing
  * page, the examples, the playground and the preview page.
  */
-import { builtInColorPresets, presetTheme, type ChartTheme } from '@charton/core';
-import { presetShellTokens } from '@charton/ui';
+import { builtInColorPresets, presetTheme, type ChartTheme } from '@chart-on/core';
+import { presetShellTokens } from '@chart-on/ui';
 
 const paperInk = builtInColorPresets.find((p) => p.id === 'paper-ink')!;
 

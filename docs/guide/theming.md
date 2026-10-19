@@ -19,7 +19,7 @@ To try colors without writing code, use the [theme builder](../theme-builder): i
 | `highContrastLightTheme` | White canvas, black text, stronger lines |
 
 ```ts
-import { createChart, lightTheme } from '@charton/core';
+import { createChart, lightTheme } from '@chart-on/core';
 
 const chart = createChart(el, { theme: lightTheme });
 ```
@@ -181,7 +181,7 @@ chart.on('appearance:change', ({ theme, grid }) => save({ up: theme.up, grid }))
 `themeFromCss(el)` builds a `ChartTheme` from the tokens on an element. It reads them through computed style, so inherited values and `var()` references work.
 
 ```ts
-import { createChart, themeFromCss } from '@charton/core';
+import { createChart, themeFromCss } from '@chart-on/core';
 
 const chart = createChart(el, { theme: themeFromCss(el) });
 // After changing the variables:
@@ -231,7 +231,7 @@ createChartShell(el, { chart: { theme: { up: '#22c55e' } } }); // --pc-up is ign
 The shell lets users change chart colors, each with its own opacity, in an Appearance panel: Candles (body, wick and border for rising and falling bars), Background, Grid (each direction's visibility, line style and color), Scales and text, Crosshair and Watermark. Changes preview live; each section has a Reset, and Reset all drops every override. Open it from a toolbar button or from code:
 
 ```ts
-import { appearanceToolbarItem, createChartShell } from '@charton/ui';
+import { appearanceToolbarItem, createChartShell } from '@chart-on/ui';
 
 const shell = createChartShell(el, { toolbar: [/* ... */ appearanceToolbarItem()] });
 shell.appearance?.open();
@@ -250,7 +250,7 @@ Saved choices are checked when they are loaded, from any storage: unknown keys a
 
 `shell.appearance` also sets overrides from code: `set({ theme: { up: '#22c55e' }, grid: { vertical: { visible: false } } })` merges them (an `undefined` value removes one), `reset('candles')` or `reset()` drops them, and `overrides` reads them. Colors changed through `chart.applyOptions` show up in an open panel straight away, and a later change in the panel only touches the keys it overrides, so it does not undo them.
 
-The swatch-and-opacity picker is `createColorControl({ label, value, onInput, onCommit })`, for use in your own settings UI: `onInput` fires on every change for a live preview, `onCommit` once when the picker closes after a change. Without `swatches`, it offers `defaultSwatches`: a neutral row, then rows of ten hues from light to dark, one hue per column. The grid is one Tab stop; the arrow keys move by swatch and by row, Home and End jump to the ends. Outside the shell, `createAppearance(chart, { baseTheme, storage, storageKey, presets, onOpenChange })` adds overrides, presets and the panel to any chart; `onOpenChange(open)` reports when the panel opens or closes, e.g. to update a toolbar button. `isColor(value)` from `@charton/core` checks a color before you store or apply it.
+The swatch-and-opacity picker is `createColorControl({ label, value, onInput, onCommit })`, for use in your own settings UI: `onInput` fires on every change for a live preview, `onCommit` once when the picker closes after a change. Without `swatches`, it offers `defaultSwatches`: a neutral row, then rows of ten hues from light to dark, one hue per column. The grid is one Tab stop; the arrow keys move by swatch and by row, Home and End jump to the ends. Outside the shell, `createAppearance(chart, { baseTheme, storage, storageKey, presets, onOpenChange })` adds overrides, presets and the panel to any chart; `onOpenChange(open)` reports when the panel opens or closes, e.g. to update a toolbar button. `isColor(value)` from `@chart-on/core` checks a color before you store or apply it.
 
 | Variable | Role |
 | --- | --- |
@@ -299,7 +299,7 @@ Paper & Ink is the default until the user picks something else. The variant foll
 `appearance.presets` replaces the list or turns it off, and `appearance.defaultPreset` picks the starting preset (null for the plain theme). Mix the exported built-ins with your own; a variant's `overrides` fixes chart colours and `tokens` shell variables the derivation gets wrong:
 
 ```ts
-import { builtInColorPresets, type ColorPreset } from '@charton/core';
+import { builtInColorPresets, type ColorPreset } from '@chart-on/core';
 
 const brand: ColorPreset = {
   id: 'brand',
@@ -316,10 +316,10 @@ createChartShell(el, { appearance: { presets: [brand, ...builtInColorPresets], d
 createChartShell(other, { appearance: { presets: false } }); // no section, saved preset ignored
 ```
 
-From code, `shell.setColorPreset('deep-ocean')` applies one and `setColorPreset(null)` goes back to the default theme; `shell.colorPreset` is the current id, and the shell emits `preset:change` with it. Without the shell, `presetTheme(preset, mode)` from `@charton/core` gives the full chart theme of one variant (pass a third argument to start from your own base theme, such as one with `colorSafeUpDown`), and `presetShellTokens(preset, mode)` from `@charton/ui` the matching `--pc-*` variables:
+From code, `shell.setColorPreset('deep-ocean')` applies one and `setColorPreset(null)` goes back to the default theme; `shell.colorPreset` is the current id, and the shell emits `preset:change` with it. Without the shell, `presetTheme(preset, mode)` from `@chart-on/core` gives the full chart theme of one variant (pass a third argument to start from your own base theme, such as one with `colorSafeUpDown`), and `presetShellTokens(preset, mode)` from `@chart-on/ui` the matching `--pc-*` variables:
 
 ```ts
-import { builtInColorPresets, presetTheme } from '@charton/core';
+import { builtInColorPresets, presetTheme } from '@chart-on/core';
 
 chart.applyOptions({ theme: presetTheme(builtInColorPresets[0], 'dark') });
 ```
@@ -354,12 +354,12 @@ Two presets for users who need more than the default palette.
 
 **High contrast.** `highContrastDarkTheme` and `highContrastLightTheme` are complete themes: text and muted text reach at least 7:1 on the canvas (WCAG AAA), price labels at least 4.5:1, and every series, line and grid separator at least 3:1. Their heatmap ramps keep the same lightness ordering as the default ones, with bigger steps.
 
-To check your own colors, `contrastRatio(foreground, background)` from `@charton/core` returns the WCAG ratio (1 to 21), blending a translucent foreground over the background first. Normal-size text needs 4.5 for AA, 7 for AAA. The [theme builder](../theme-builder) shows these ratios as you edit.
+To check your own colors, `contrastRatio(foreground, background)` from `@chart-on/core` returns the WCAG ratio (1 to 21), blending a translucent foreground over the background first. Normal-size text needs 4.5 for AA, 7 for AAA. The [theme builder](../theme-builder) shows these ratios as you edit.
 
 **Colour-safe up and down.** `colorSafeUpDown.dark` and `colorSafeUpDown.light` replace the rising and falling colours (and the ask line, which follows the down colour) with a blue and orange pair that also differs in lightness. It stays clearly apart for protanopia, deuteranopia and tritanopia, where the default mint and coral get closer. Merge the one matching your canvas into any theme, including the high-contrast ones:
 
 ```ts
-import { colorSafeUpDown, highContrastDarkTheme } from '@charton/core';
+import { colorSafeUpDown, highContrastDarkTheme } from '@chart-on/core';
 
 chart.applyOptions({ theme: colorSafeUpDown.dark });
 chart.applyOptions({ theme: { ...highContrastDarkTheme, ...colorSafeUpDown.dark } });
@@ -391,7 +391,7 @@ The demo has both switches under View → Accessibility.
 The UI shell applies it on its own while the mode is on, over the app's theme and the user's colour overrides, and switches back when it turns off (`theme:change` fires both ways). Its stylesheet turns focus rings and panel edges, drawn with shadows elsewhere, into outlines, and marks pressed and selected controls with `Highlight`. Without the shell, follow the media query yourself:
 
 ```ts
-import { darkTheme, forcedColorsTheme } from '@charton/core';
+import { darkTheme, forcedColorsTheme } from '@chart-on/core';
 
 const forced = matchMedia('(forced-colors: active)');
 const applyForced = () => chart.applyOptions({ theme: (forced.matches && forcedColorsTheme(darkTheme)) || darkTheme });
@@ -421,7 +421,7 @@ shell.setTheme('dark');
 
 `theme:change` fires when `setTheme` changes the theme, when the OS scheme changes while the theme is `system`, and when re-reading the CSS tokens (see above) changes the chart colors. Use it to rebuild anything derived from the theme, such as per-point colors.
 
-To restyle one scheme, override its tokens in a stylesheet loaded after `@charton/ui/style.css`. Cover `system` mode too, which has no attribute:
+To restyle one scheme, override its tokens in a stylesheet loaded after `@chart-on/ui/style.css`. Cover `system` mode too, which has no attribute:
 
 ```css
 .pc-shell[data-theme='light'] {

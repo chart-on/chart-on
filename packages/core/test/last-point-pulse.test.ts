@@ -126,7 +126,7 @@ describe('last-point pulse', () => {
     for (let i = 0; i < 5; i++) runFrame((now += 16));
     expect(pendingFrames()).toBeGreaterThan(0);
     const draws = vi.spyOn(PulseClock.prototype, 'draw');
-    c.uninstall('@charton/core/last-point-pulse');
+    c.uninstall('@chart-on/core/last-point-pulse');
     // The redraw the uninstall asked for draws no ring, and nothing more is asked for.
     expect(drive()).toBeLessThanOrEqual(1);
     expect(draws).not.toHaveBeenCalled();

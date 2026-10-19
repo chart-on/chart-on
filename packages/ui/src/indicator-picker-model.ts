@@ -1,8 +1,8 @@
-import { matchRank, type IndicatorDef } from '@charton/core';
+import { matchRank, type IndicatorDef } from '@chart-on/core';
 import { localJson } from './local-json';
 import { normalize, rankBy } from './picker-model';
 
-export { matchRank, searchIndicators } from '@charton/core';
+export { matchRank, searchIndicators } from '@chart-on/core';
 
 /** Where an indicator draws: on the price pane or in a pane of its own. */
 export type IndicatorPlacement = 'overlay' | 'pane';

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 
 /** The chart of the nearest `<Chart>` or `<ChartShell>`; null before mount and on a server. */
 export const ChartContext = createContext<Chart | null>(null);

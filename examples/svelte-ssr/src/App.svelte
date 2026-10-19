@@ -4,8 +4,8 @@
   hydration, when the component mounts.
 -->
 <script lang="ts">
-  import { createMockDataSource } from '@charton/core';
-  import { Chart } from '@charton/svelte';
+  import { createMockDataSource } from '@chart-on/core';
+  import { Chart } from '@chart-on/svelte';
 
   const intervals = ['1m', '1h', '1d'] as const;
 

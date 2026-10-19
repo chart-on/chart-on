@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { createChart, englishLocalizer, localization, type Chart } from '@charton/core';
+import { createChart, englishLocalizer, localization, type Chart } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import { deDE } from '../src/de-DE';
 
@@ -14,7 +14,7 @@ describe('a locale pack', () => {
 
     const chart = createChart(fakeContainer(), { plugins: [localization()], localization: deDE });
     charts.push(chart);
-    expect(chart.installedPlugins).toEqual(['@charton/core/localization']);
+    expect(chart.installedPlugins).toEqual(['@chart-on/core/localization']);
     expect(chart.localization.locale).toBe('de-DE');
     expect(chart.localization.price(1234.5, 2)).toBe('1234,50');
     expect(chart.localization.text('scrollToLatest')).toBe(deDE.messages!.scrollToLatest);

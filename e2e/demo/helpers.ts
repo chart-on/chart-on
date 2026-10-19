@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import type { Chart, Seasonality } from '@charton/core';
-import type { ChartGrid, ChartShell } from '@charton/ui';
+import type { Chart, Seasonality } from '@chart-on/core';
+import type { ChartGrid, ChartShell } from '@chart-on/ui';
 
 /**
  * Shared steps of the demo tests: open a page in a colour scheme, read the

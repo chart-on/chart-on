@@ -1,4 +1,4 @@
-import type { CandleStyle } from '@charton/core';
+import type { CandleStyle } from '@chart-on/core';
 import type { IconNode } from './dom';
 
 // Original icons on a 24-unit grid, stroked with currentColor like the rest of

@@ -1,5 +1,5 @@
-import type { CoreMessageKey } from '@charton/core';
-import type { ShellMessageKey } from '@charton/ui';
+import type { CoreMessageKey } from '@chart-on/core';
+import type { ShellMessageKey } from '@chart-on/ui';
 
 /**
  * The messages of a locale pack: every built-in core and shell key, so a key

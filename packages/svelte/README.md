@@ -1,11 +1,11 @@
-# @charton/svelte
+# @chart-on/svelte
 
-Components, an action and context helpers that mount @charton/core charts and @charton/ui shells in compiled component apps, with server rendering support.
+Components, an action and context helpers that mount @chart-on/core charts and @chart-on/ui shells in compiled component apps, with server rendering support.
 
 Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/svelte @charton/core @charton/ui svelte
+npm install @chart-on/svelte @chart-on/core @chart-on/ui svelte
 ```
 
 - [Compiled wrapper guide](https://github.com/chart-on/charton/blob/main/docs/guide/compiled-wrapper.md)

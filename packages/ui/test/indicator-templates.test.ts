@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createChart, createLocalStorageAdapter, type Chart, type StorageAdapter, type TemplateKind } from '@charton/core';
-import { builtinIndicators } from '@charton/indicators';
+import { createChart, createLocalStorageAdapter, type Chart, type StorageAdapter, type TemplateKind } from '@chart-on/core';
+import { builtinIndicators } from '@chart-on/indicators';
 import { fakeWebgl2 } from '../../core/src/testing/environment';
 import {
   createIndicatorTemplates,

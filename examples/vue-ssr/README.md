@@ -1,6 +1,6 @@
 # Component wrapper: server rendering example
 
-A chart (`<Chart>` from `@charton/vue`) rendered to HTML on the server and hydrated in the browser, with no application framework on top. The components are render functions, so no compiler plugin is needed:
+A chart (`<Chart>` from `@chart-on/vue`) rendered to HTML on the server and hydrated in the browser, with no application framework on top. The components are render functions, so no compiler plugin is needed:
 
 - `src/App.ts` renders the same markup on both sides. On the server, `<Chart>` is only its container `div`; the chart is created in the browser after hydration.
 - `src/entry-server.ts` renders the app to a string with `renderToString` from `vue/server-renderer`.

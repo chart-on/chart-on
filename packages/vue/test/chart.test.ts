@@ -2,7 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createSSRApp, defineComponent, h, isProxy, KeepAlive, nextTick, onWatcherCleanup, shallowRef, watch } from 'vue';
 import { renderToString } from 'vue/server-renderer';
-import { createMockDataSource, Chart as CoreChart, type Chart as ChartInstance } from '@charton/core';
+import { createMockDataSource, Chart as CoreChart, type Chart as ChartInstance } from '@chart-on/core';
 import { Chart, useChart, type ChartExposed, type ChartProps } from '../src/index';
 import { plainCopy, sameValue } from '../src/sync';
 import { installBrowser, type Browser } from './browser';

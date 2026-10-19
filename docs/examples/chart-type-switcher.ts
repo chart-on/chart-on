@@ -1,6 +1,6 @@
-import type { CandleStyle } from '@charton/core';
-import { createChartShell } from '@charton/ui';
-import '@charton/ui/style.css';
+import type { CandleStyle } from '@chart-on/core';
+import { createChartShell } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

@@ -1,10 +1,10 @@
 ---
-description: "What a charton version number promises, why every @charton package shares one version, which ranges to depend on, and where to read what changed."
+description: "What a charton version number promises, why every @chart-on package shares one version, which ranges to depend on, and where to read what changed."
 ---
 
 # Versioning
 
-The `@charton/*` packages follow [semantic versioning](https://semver.org/) and are released together. This page covers what a version number tells you and how to keep an app on compatible versions:
+The `@chart-on/*` packages follow [semantic versioning](https://semver.org/) and are released together. This page covers what a version number tells you and how to keep an app on compatible versions:
 
 - [What a version promises](#what-a-version-promises): which releases can break your code.
 - [One version for every package](#one-version-for-every-package): why the packages move in lockstep.
@@ -25,37 +25,37 @@ A breaking change is anything that can stop working code: a removed or renamed e
 
 Breaking changes are announced before they land. A deprecated API keeps working for at least one minor release before 1.0 (until the next major from 1.0), and development builds log one `charton [deprecated]` warning per API, linking to its entry on the [upgrading page](../upgrading/). Production builds log nothing.
 
-One entry has no stability promise: `@charton/core/internal`, which exposes engine internals for tests and experiments.
+One entry has no stability promise: `@chart-on/core/internal`, which exposes engine internals for tests and experiments.
 
 ## One version for every package
 
-`@charton/core`, `@charton/ui`, `@charton/indicators`, `@charton/locales`, `@charton/ta`, `@charton/react`, `@charton/vue` and `@charton/svelte` always share one version. A release bumps all of them, even the ones whose code did not change, so the rule for staying compatible is simple: **install the same version of every `@charton/*` package you use.**
+`@chart-on/core`, `@chart-on/ui`, `@chart-on/indicators`, `@chart-on/locales`, `@chart-on/ta`, `@chart-on/react`, `@chart-on/vue` and `@chart-on/svelte` always share one version. A release bumps all of them, even the ones whose code did not change, so the rule for staying compatible is simple: **install the same version of every `@chart-on/*` package you use.**
 
-The packages that build on core declare it as a peer dependency (`@charton/ui`, the indicators, the locale packs and the framework wrappers), so your app has a single copy of the engine. A mismatch shows up as a peer dependency warning at install time.
+The packages that build on core declare it as a peer dependency (`@chart-on/ui`, the indicators, the locale packs and the framework wrappers), so your app has a single copy of the engine. A mismatch shows up as a peer dependency warning at install time.
 
 To move every package to the newest release at once:
 
 ```sh
-pnpm update --latest "@charton/*"
-# or: npm install @charton/core@latest @charton/ui@latest
+pnpm update --latest "@chart-on/*"
+# or: npm install @chart-on/core@latest @chart-on/ui@latest
 ```
 
 ## Depending on charton
 
 ### Apps
 
-Package managers write a caret range by default (`"@charton/core": "^0.3.1"`), and it is the right choice before and after 1.0. A caret range never crosses the release that may break:
+Package managers write a caret range by default (`"@chart-on/core": "^0.3.1"`), and it is the right choice before and after 1.0. A caret range never crosses the release that may break:
 
 | Range | Accepts | Excludes |
 | --- | --- | --- |
 | `^0.3.1` | 0.3.1 to 0.3.x | 0.4.0, which may break |
 | `^1.3.1` | 1.3.1 to 1.x.x | 2.0.0 |
 
-So `pnpm update` without `--latest` takes fixes and additions only, and moving to a release that may break is a deliberate edit of the range. Use the same range for every `@charton/*` package.
+So `pnpm update` without `--latest` takes fixes and additions only, and moving to a release that may break is a deliberate edit of the range. Use the same range for every `@chart-on/*` package.
 
 ### Plugins and packages that build on charton
 
-A plugin declares the core versions it works with in its `requires` range, which `chart.install` checks against the running core's `CORE_VERSION`, and lists `@charton/core` as a peer dependency rather than a dependency, so the app's copy is used. Use a caret range from the oldest version you tested:
+A plugin declares the core versions it works with in its `requires` range, which `chart.install` checks against the running core's `CORE_VERSION`, and lists `@chart-on/core` as a peer dependency rather than a dependency, so the app's copy is used. Use a caret range from the oldest version you tested:
 
 ```ts
 export const myPlugin: ChartPlugin = {
@@ -70,7 +70,7 @@ export const myPlugin: ChartPlugin = {
 
 ```json
 {
-  "peerDependencies": { "@charton/core": "^0.3.0" }
+  "peerDependencies": { "@chart-on/core": "^0.3.0" }
 }
 ```
 

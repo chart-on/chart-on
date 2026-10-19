@@ -1,4 +1,4 @@
-import type { Bar, ChartTheme, PointItem } from '@charton/core';
+import type { Bar, ChartTheme, PointItem } from '@chart-on/core';
 import { rng } from './data';
 
 /** A simulated large print: when, at what price, how big, and which side took liquidity. */

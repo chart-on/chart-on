@@ -37,7 +37,7 @@ All four must pass. Report failures honestly, never paper over them. When `pnpm 
 
 - **Vendor-neutral language.** Refer to other products, companies and exchanges by their role ("an exchange", "a market data provider"), not by name, in code, comments, docs, demo data, commits, branch names, issues and PRs.
 - **Documented defaults.** Default values, level sets, orderings, labels and keyboard shortcuts each follow a stated rule, written next to the data (see `CONTRIBUTING.md`). A change that replaces such values adds their hashes to `packages/core/test/retired-palette.ts`.
-- **Do not add dependencies** to `@charton/core` without agreement in the issue. The engine stays framework-free.
+- **Do not add dependencies** to `@chart-on/core` without agreement in the issue. The engine stays framework-free.
 - **Do not edit generated output** (`dist/`) or the lockfile by hand.
 
 ## Keep the packages light
@@ -46,7 +46,7 @@ Every byte in a published package ships to every app that embeds the chart. Writ
 
 - **Reuse before writing.** Search `packages/*/src` for an existing helper (maths, colour, formatting, DOM, GL buffers) before adding one. Extend it instead of writing a near-copy.
 - **Build only what the issue asks for.** No speculative options, abstractions, fallbacks or "might need it later" code paths.
-- **Keep optional features tree-shakeable.** A feature a minimal `createChart` does not use (extra series types, drawing tools, indicators) is an opt-in export, not registered from module top level. No top-level side effects; the packages declare `sideEffects: false` (only `@charton/ui` lists its CSS). `packages/core/test/tree-shaking.test.ts` checks what a consumer keeps.
+- **Keep optional features tree-shakeable.** A feature a minimal `createChart` does not use (extra series types, drawing tools, indicators) is an opt-in export, not registered from module top level. No top-level side effects; the packages declare `sideEffects: false` (only `@chart-on/ui` lists its CSS). `packages/core/test/tree-shaking.test.ts` checks what a consumer keeps.
 - **Prefer the platform.** Use `Intl`, typed arrays and built-in DOM and WebGL2 APIs instead of hand-rolled equivalents.
 - **Prefer data to code.** A table and a loop beat repeated branches that differ only in values.
 - **Delete what your change makes dead:** unused exports, helpers, options and CSS rules.
@@ -56,7 +56,7 @@ Every byte in a published package ships to every app that embeds the chart. Writ
 
 These are settled. Do not revisit them without an issue discussing the change.
 
-- **Architecture:** a headless engine (`@charton/core`, usable on its own with any UI) plus an optional batteries-included widget (`@charton/ui`). Core must not depend on the UI package.
+- **Architecture:** a headless engine (`@chart-on/core`, usable on its own with any UI) plus an optional batteries-included widget (`@chart-on/ui`). Core must not depend on the UI package.
 - **Rendering:** WebGL2 is required. Do not add a Canvas2D fallback for the GPU-rendered series.
 - **License:** Apache-2.0.
 - **Independent implementation:** all code is written for this repository; do not copy or adapt code from other projects, whatever their license. Public documentation, papers and standard domain knowledge are good sources: work from the concepts and implement them in the project's own design. New APIs follow `roadmap/design-principles.md`.

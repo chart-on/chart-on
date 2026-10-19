@@ -23,12 +23,12 @@ export default defineConfig({
   preview: { port: STRICT_PAGE_PORT, strictPort: true, headers: { 'Content-Security-Policy': STRICT_POLICY } },
   resolve: {
     alias: {
-      '@charton/core': src('../../packages/core/src/index.ts'),
-      // Before `@charton/ui`, which would otherwise take it as a path inside its entry.
-      '@charton/ui/style.css': src('../../packages/ui/src/style.css'),
-      '@charton/ui': src('../../packages/ui/src/index.ts'),
-      '@charton/ta': src('../../packages/ta/src/index.ts'),
-      '@charton/indicators': src('../../packages/indicators/src/index.ts'),
+      '@chart-on/core': src('../../packages/core/src/index.ts'),
+      // Before `@chart-on/ui`, which would otherwise take it as a path inside its entry.
+      '@chart-on/ui/style.css': src('../../packages/ui/src/style.css'),
+      '@chart-on/ui': src('../../packages/ui/src/index.ts'),
+      '@chart-on/ta': src('../../packages/ta/src/index.ts'),
+      '@chart-on/indicators': src('../../packages/indicators/src/index.ts'),
     },
   },
 });

@@ -18,10 +18,10 @@ import {
   type ObjectTreeHandle,
   type ShellTheme,
   type SymbolSearchResult,
-} from '@charton/ui';
-import { drawingTemplates, indicatorDefaults, indicatorTemplates } from '@charton/ui/templates';
+} from '@chart-on/ui';
+import { drawingTemplates, indicatorDefaults, indicatorTemplates } from '@chart-on/ui/templates';
 // Explicit, as the docs ask: a production build skips the stylesheet import inside the UI entry (#446).
-import '@charton/ui/style.css';
+import '@chart-on/ui/style.css';
 import {
   DEFAULT_AUTOSAVE_REASONS,
   autosave,
@@ -53,8 +53,8 @@ import {
   utcDaySession,
   volumeOf,
   volumeProfile as volumeProfilePlugin,
-} from '@charton/core';
-import { builtinIndicators } from '@charton/indicators';
+} from '@chart-on/core';
+import { builtinIndicators } from '@chart-on/indicators';
 import type {
   Bar,
   Chart,
@@ -71,7 +71,7 @@ import type {
   SourceMarker,
   Time,
   VolumeProfileSeries,
-} from '@charton/core';
+} from '@chart-on/core';
 import {
   AlignHorizontalJustifyEnd,
   CalendarRange,

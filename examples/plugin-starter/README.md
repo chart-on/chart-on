@@ -16,9 +16,9 @@ The tool needs drawings on the chart and the indicator needs indicators: create 
 
 1. Copy this folder out of the repository and rename the package (`charton-plugin-<what-it-does>`). Keep the `charton-plugin` keyword so people can find it.
 2. Change `ID` in `src/index.ts` to the package name: every tool type and indicator id starts with it.
-3. Replace the tool and the indicator with your own, and register them in `install`. Add toolbar items with `shellOf(ctx)` from `@charton/ui` if your plugin has a button.
-4. Set `requires` to the core versions you test against, and keep `@charton/core` a peer dependency so the app's copy is used.
-5. `pnpm build` writes `dist/`; `pnpm test` runs the tests in `test/` against a fake browser from `@charton/core/testing`.
+3. Replace the tool and the indicator with your own, and register them in `install`. Add toolbar items with `shellOf(ctx)` from `@chart-on/ui` if your plugin has a button.
+4. Set `requires` to the core versions you test against, and keep `@chart-on/core` a peer dependency so the app's copy is used.
+5. `pnpm build` writes `dist/`; `pnpm test` runs the tests in `test/` against a fake browser from `@chart-on/core/testing`.
 
 See [Plugins](https://github.com/chart-on/charton/blob/main/docs/guide/plugins.md) for the context `install` gets, and for publishing.
 

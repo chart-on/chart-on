@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, volumeOf, type DataSource, type IndicatorDef, type LineSeries, type SymbolInfo } from '@charton/core';
+import { Chart, volumeOf, type DataSource, type IndicatorDef, type LineSeries, type SymbolInfo } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { chooseOption } from './listbox';
 import type { FormDialog } from '../src/form-dialog';

@@ -1,11 +1,11 @@
-# @charton/locales
+# @chart-on/locales
 
-Opt-in translations of the @charton/core and @charton/ui built-in text, one entry per language.
+Opt-in translations of the @chart-on/core and @chart-on/ui built-in text, one entry per language.
 
 Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/locales @charton/core
+npm install @chart-on/locales @chart-on/core
 ```
 
 - [Localization guide](https://github.com/chart-on/charton/blob/main/docs/guide/localization.md)

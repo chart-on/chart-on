@@ -19,7 +19,7 @@ Report it privately through the repository's private vulnerability reporting: op
 
 A useful report includes:
 
-- the affected package (`@charton/core`, `@charton/ui`, `@charton/ta`, `@charton/indicators`, `@charton/locales`, `@charton/react`, `@charton/vue`, `@charton/svelte`) and version;
+- the affected package (`@chart-on/core`, `@chart-on/ui`, `@chart-on/ta`, `@chart-on/indicators`, `@chart-on/locales`, `@chart-on/react`, `@chart-on/vue`, `@chart-on/svelte`) and version;
 - what an attacker controls (data from a data source, drawing text, a saved layout, options) and what they can achieve;
 - steps or a minimal page that reproduces it, with the browser and OS;
 - any fix or mitigation you have in mind.

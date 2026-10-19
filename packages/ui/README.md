@@ -1,11 +1,11 @@
-# @charton/ui
+# @chart-on/ui
 
-Config-driven toolbar, drawing tool rail and shell for @charton/core.
+Config-driven toolbar, drawing tool rail and shell for @chart-on/core.
 
 Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/ui @charton/core
+npm install @chart-on/ui @chart-on/core
 ```
 
 - [UI shell guide](https://github.com/chart-on/charton/blob/main/docs/guide/ui-shell.md)

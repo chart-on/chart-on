@@ -103,7 +103,7 @@ Beyond `color`, `lineWidth`, `lineStyle`, `fill` and `fontSize`, `DrawingStyle` 
 Draw text with `drawingFont(size, env.theme.fontFamily, style)` and measure it with `env.measureText(text, size, style)`: both read `bold` and `italic` the same way, so hit boxes match the text.
 
 ```ts
-import { drawingFont, pointInRect, type DrawingToolDef } from '@charton/core';
+import { drawingFont, pointInRect, type DrawingToolDef } from '@chart-on/core';
 
 const note: DrawingToolDef = {
   type: 'note',
@@ -129,10 +129,10 @@ const note: DrawingToolDef = {
 
 ## Helpers
 
-`@charton/core` exports geometry helpers for hit testing: `distToSegment`, `rayEnd`, `pointInRect`, `normalizedRect`.
+`@chart-on/core` exports geometry helpers for hit testing: `distToSegment`, `rayEnd`, `pointInRect`, `normalizedRect`.
 
 ```ts
-import { distToSegment } from '@charton/core';
+import { distToSegment } from '@chart-on/core';
 
 hitTest(d, p) {
   const [a, b] = d.points;
@@ -155,8 +155,8 @@ And render helpers that apply the drawing's style:
 Give the tool a `group` and `toolRailItems` / `defaultRailItems` put it in that group's flyout:
 
 ```ts
-import { builtinTools } from '@charton/core';
-import { defaultRailItems } from '@charton/ui';
+import { builtinTools } from '@chart-on/core';
+import { defaultRailItems } from '@chart-on/ui';
 
 createChartShell(el, { rail: defaultRailItems([...builtinTools, priceBand]) });
 ```
@@ -164,7 +164,7 @@ createChartShell(el, { rail: defaultRailItems([...builtinTools, priceBand]) });
 Or place it yourself:
 
 ```ts
-import { drawingIcons } from '@charton/ui';
+import { drawingIcons } from '@chart-on/ui';
 
 createChartShell(el, {
   rail: [{ type: 'cursor' }, { type: 'tool', tool: 'price-band', icon: drawingIcons['price-range'] }],

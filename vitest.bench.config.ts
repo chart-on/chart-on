@@ -11,9 +11,9 @@ const core = process.env.CHARTON_BENCH_CORE ?? fileURLToPath(new URL('./packages
 export default defineConfig({
   resolve: {
     alias: {
-      // Before `@charton/core`, which would otherwise take it as a path inside its entry.
-      '@charton/core/testing': `${core}/testing.js`,
-      '@charton/core': `${core}/index.js`,
+      // Before `@chart-on/core`, which would otherwise take it as a path inside its entry.
+      '@chart-on/core/testing': `${core}/testing.js`,
+      '@chart-on/core': `${core}/index.js`,
     },
   },
   test: {

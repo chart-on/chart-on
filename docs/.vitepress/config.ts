@@ -155,13 +155,13 @@ export default defineConfig({
     // Resolve workspace packages to source so docs always match the code.
     resolve: {
       alias: [
-        { find: '@charton/core/internal', replacement: src('../../packages/core/src/internal.ts') },
-        { find: '@charton/core', replacement: src('../../packages/core/src/index.ts') },
-        // Before `@charton/ui`, which would otherwise take it as a path inside its entry.
-        { find: '@charton/ui/style.css', replacement: src('../../packages/ui/src/style.css') },
-        { find: '@charton/ui', replacement: src('../../packages/ui/src/index.ts') },
-        { find: '@charton/ta', replacement: src('../../packages/ta/src/index.ts') },
-        { find: '@charton/indicators', replacement: src('../../packages/indicators/src/index.ts') },
+        { find: '@chart-on/core/internal', replacement: src('../../packages/core/src/internal.ts') },
+        { find: '@chart-on/core', replacement: src('../../packages/core/src/index.ts') },
+        // Before `@chart-on/ui`, which would otherwise take it as a path inside its entry.
+        { find: '@chart-on/ui/style.css', replacement: src('../../packages/ui/src/style.css') },
+        { find: '@chart-on/ui', replacement: src('../../packages/ui/src/index.ts') },
+        { find: '@chart-on/ta', replacement: src('../../packages/ta/src/index.ts') },
+        { find: '@chart-on/indicators', replacement: src('../../packages/indicators/src/index.ts') },
         // The default theme's sun/moon switch becomes the landing footer's scheme picker.
         { find: /^.*\/VPSwitchAppearance\.vue$/, replacement: src('./theme/AppearancePicker.vue') },
       ],

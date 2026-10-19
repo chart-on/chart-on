@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { Chart, type ChartContextMenuEvent } from '@charton/core';
+import { Chart, type ChartContextMenuEvent } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import { defaultContextMenuItems, type ContextMenuItem } from '../src/context-menu';
 import { createReplayControls } from '../src/replay';

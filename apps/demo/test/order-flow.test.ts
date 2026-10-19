@@ -1,7 +1,7 @@
 // The order-flow page under the test environment: synthetic trades in, footprint and TPO data out.
 import { afterAll, expect, it, vi } from 'vitest';
-import type { Chart, CustomSeries, FootprintBar, TpoColumn } from '@charton/core';
-import { flushFrames, installTestEnvironment } from '@charton/core/testing';
+import type { Chart, CustomSeries, FootprintBar, TpoColumn } from '@chart-on/core';
+import { flushFrames, installTestEnvironment } from '@chart-on/core/testing';
 
 const env = installTestEnvironment({ width: 960, height: 400 });
 afterAll(() => {

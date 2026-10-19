@@ -110,7 +110,7 @@ chart.once('data:loaded', ({ bars }) => console.log(bars.length));
 Errors the chart raises are `ChartError`s with a stable `code` to branch on, a `context` object with details such as the symbol, and, when the error came from somewhere else, that original error as `cause`.
 
 ```ts
-import { ChartError } from '@charton/core';
+import { ChartError } from '@chart-on/core';
 
 chart.on('data:error', ({ error }) => {
   if (error.code === 'unknown-symbol') showNotFound(error.context.symbol);
@@ -200,7 +200,7 @@ To keep the visible range, symbol, interval or timezone in step too, put the cha
 ## Screenshot and data export
 
 ```ts
-import { toCSV } from '@charton/core';
+import { toCSV } from '@chart-on/core';
 
 // A PNG Blob at device pixel ratio: background, watermark, series, drawings, axes and legend.
 // null when the chart has no size, the GPU context is lost or encoding fails.
@@ -246,18 +246,18 @@ The image is composited when you call `captureImage`, so it shows the chart at t
 
 Without `background`, `padding` or `caption` the image matches the screen, dark or light theme alike. With any of them, the background is painted once under the whole image, so a translucent one is not doubled where the chart is.
 
-To copy the image, `@charton/ui` has `copyChartImage(chart, options?)`. It takes the same options except `type` and `quality` (clipboards take PNG) and returns a promise that rejects when the browser cannot copy images, the user denies it, or the chart cannot be captured. Like `captureImage`, it needs the `imageCapture()` plugin (the UI shell adds it); without it the promise rejects with the `not-registered` `ChartError`. Call it from a click or key press, since browsers only allow clipboard writes that start from one. `canCopyImage()` says whether the browser supports it, for example to hide the button.
+To copy the image, `@chart-on/ui` has `copyChartImage(chart, options?)`. It takes the same options except `type` and `quality` (clipboards take PNG) and returns a promise that rejects when the browser cannot copy images, the user denies it, or the chart cannot be captured. Like `captureImage`, it needs the `imageCapture()` plugin (the UI shell adds it); without it the promise rejects with the `not-registered` `ChartError`. Call it from a click or key press, since browsers only allow clipboard writes that start from one. `canCopyImage()` says whether the browser supports it, for example to hide the button.
 
-To print, `@charton/ui` has `printChart(chart, options?)`. It captures the chart (the same options as `copyChartImage`, defaulting to `theme: 'light'`, `caption: true` and `scale: 2`), adds a print-only view of the image to the page and opens the browser's print dialog. The page looks the same on screen; while printing, its stylesheet hides everything else and fits the image to the page. The view is removed when the dialog closes, and the promise resolves then; it rejects when the chart cannot be captured or the browser refuses to print. Outside the UI shell it needs the `imageCapture()` plugin: without it the promise rejects with the `not-registered` `ChartError`. It needs `@charton/ui/style.css`, which holds the print rules.
+To print, `@chart-on/ui` has `printChart(chart, options?)`. It captures the chart (the same options as `copyChartImage`, defaulting to `theme: 'light'`, `caption: true` and `scale: 2`), adds a print-only view of the image to the page and opens the browser's print dialog. The page looks the same on screen; while printing, its stylesheet hides everything else and fits the image to the page. The view is removed when the dialog closes, and the promise resolves then; it rejects when the chart cannot be captured or the browser refuses to print. Outside the UI shell it needs the `imageCapture()` plugin: without it the promise rejects with the `not-registered` `ChartError`. It needs `@chart-on/ui/style.css`, which holds the print rules.
 
 ```ts
-import { printChart } from '@charton/ui';
+import { printChart } from '@chart-on/ui';
 
 printButton.onclick = () => printChart(chart).catch((e) => showToast(String(e)));
 ```
 
 ```ts
-import { canCopyImage, copyChartImage } from '@charton/ui';
+import { canCopyImage, copyChartImage } from '@chart-on/ui';
 
 copyButton.hidden = !canCopyImage();
 copyButton.onclick = () => copyChartImage(chart, { scale: 2 }).catch((e) => showToast(String(e)));

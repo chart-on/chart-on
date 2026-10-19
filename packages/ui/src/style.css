@@ -1344,14 +1344,15 @@
   transform: scaleX(-1);
 }
 
-/* A rail flyout's section; a long flyout flows them into columns (`--pc-rail-columns`), never splitting one. */
+/* A rail flyout's section; a long flyout flows them into columns (`--pc-rail-columns`), never splitting one.
+   A grid, so each row stretches across the menu width: a bare button in a block box shrinks to its content. */
 .pc-rail-section {
-  padding-bottom: var(--pc-space-2);
   break-inside: avoid;
+  display: grid;
 }
 
-.pc-rail-section:last-child {
-  padding-bottom: 0;
+.pc-rail-section:not(:last-child) {
+  padding-bottom: var(--pc-space-2);
 }
 
 /* The untitled section of tools outside the table: a divider keeps them apart from the section above. */

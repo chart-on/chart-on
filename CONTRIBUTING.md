@@ -4,6 +4,17 @@ Thanks for helping build charton. This guide covers how work is coordinated, how
 
 Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md). Questions go to Discussions rather than issues: see [`SUPPORT.md`](SUPPORT.md). Report vulnerabilities privately as described in [`SECURITY.md`](SECURITY.md).
 
+## Maintainers
+
+| Maintainer | GitHub |
+| --- | --- |
+| Chia | [@sherwinchia](https://github.com/sherwinchia) |
+| Boy Sugijakko | [@boysugi20](https://github.com/boysugi20) |
+
+The maintainers are the only members of the `chart-on` GitHub organization and the only people with write access to this repository. They triage and assign issues, review and merge pull requests, cut releases ([Releases](#releases)) and own the `@chart-on/*` packages on npm.
+
+Everyone else takes part through issues, Discussions and pull requests from a fork: open or comment on an issue, claim it, and send the change as a pull request that a maintainer reviews. Nobody, maintainers included, pushes to `main` directly: a ruleset lets changes land only through a pull request, after the CI checks pass (typecheck, tests and build, the browser tests and the framework examples), and blocks force pushes and deleting the branch. A maintainer may merge their own pull request once it is green. Workflows on pull requests from first-time contributors run after a maintainer approves them.
+
 ## Workflow: every change starts from an issue
 
 Issues are how we avoid two people building the same thing, and how scope gets agreed before code is written.
@@ -27,7 +38,7 @@ Issues are how we avoid two people building the same thing, and how scope gets a
 6. **Open one pull request per issue** with `Closes #<issue>` in the description, and fill in the PR template.
 7. **Review and merge.** A maintainer reviews. Address feedback with new commits so reviewers can see what changed.
 
-Never commit directly to `main`.
+Never commit directly to `main`; the [ruleset](#maintainers) rejects it.
 
 ### Keeping your branch current
 
@@ -135,25 +146,40 @@ All published packages (`packages/*`) share one version and are released togethe
 
 A PR that changes a published package records two things:
 
-- **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` by the rules above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none, and neither do changes merged before 0.1.0 is published: they ship in 0.1.0.
+- **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` by the rules above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none.
 - **A changelog line** under **Unreleased** in [`CHANGELOG.md`](CHANGELOG.md) for user-facing changes (features, fixes, deprecations, breaking changes), one line each, naming the package. A release moves those lines under its version.
 
 ### Releases
 
-A maintainer cuts a release when the pending changesets should go out:
+Releases are cut by a [maintainer](#maintainers) whenever the changes on `main` should reach npm: there is no fixed schedule. Every release publishes all eight packages at one new version, then creates a GitHub release `v<version>` whose notes are that version's `CHANGELOG.md` section. Pushes to `main` that are not a release publish nothing.
 
-1. **Version.** On a branch from an up-to-date `main` (`chore/<issue>-release-<version>`), run `pnpm version-packages`. `changeset version` bumps every package to the next version and deletes the changesets; `scripts/version-packages.mjs` sets `CORE_VERSION` (with its line in `etc/core.api.md`), moves the **Unreleased** notes of `CHANGELOG.md` and of the upgrading page under the new version, dated today, and points the changelog's upgrading links at it. Review and edit the notes, then open a pull request titled `chore: release <version>`.
-2. **Publish.** Merging it runs [`.github/workflows/release.yml`](.github/workflows/release.yml). On a push to `main` with no pending changesets, when the current version has a section in `CHANGELOG.md` and no GitHub release yet, it runs `pnpm release` (build, `pnpm check:packages`, then `changeset publish`, which runs `pnpm publish` for each package npm does not have yet, so `workspace:` ranges become real versions), then creates the GitHub release `v<version>` with that changelog section. Every other push publishes nothing. A failed publish is retried by the next push to `main`. Fix the date in the notes if the pull request merges on a later day.
+#### Releasing an update
 
-Publishing authenticates with npm trusted publishing (OIDC), so no npm token is stored. It can only be configured for a package that already exists on npm, so the first release is set up once:
+1. **Check what is pending.** Every PR that changed a published package added a changeset to `.changeset/` and a line under **Unreleased** in `CHANGELOG.md` ([Versioning and changelog](#versioning-and-changelog)). `pnpm changeset status --verbose` prints the next version of every package: the highest type among the pending changesets (`patch` gives 0.1.0 to 0.1.1, `minor` gives 0.1.0 to 0.2.0). If it lists no packages, there is nothing to release.
+2. **Open a release issue** titled `Release <version>`, as for any other change, and claim it.
+3. **Version the packages** on a branch from an up-to-date `main`:
 
-1. The packages publish under the `@chart-on` scope of the `chart-on` npm account (the `@charton` scope belongs to another account). Require two-factor authentication on it, and convert it to an organization when more maintainers need publish rights.
-2. Add a granular npm access token with publish rights to the `@chart-on` scope as the `NPM_TOKEN` repository secret.
-3. Merge the release PR for 0.1.0 (#21), whose notes `node scripts/version-packages.mjs` moved; the packages were already at 0.1.0, so it has no changeset.
-4. For each package on npm, add `chart-on/chart-on` with the workflow `release.yml` as trusted publisher, and set publishing access to require two-factor authentication and disallow tokens.
-5. Delete the `NPM_TOKEN` secret and revoke the token.
+   ```bash
+   git switch -c chore/<issue>-release-<version> origin/main
+   pnpm install
+   pnpm version-packages
+   ```
 
-To publish by hand instead (for step 3 when no token is wanted), log in with `npm login` and run `pnpm release` from an up-to-date `main` at the release commit; the next workflow run then only creates the GitHub release.
+   `changeset version` bumps every package to the new version and deletes the changesets. `scripts/version-packages.mjs` then sets `CORE_VERSION` (with its line in `etc/core.api.md`), moves the **Unreleased** notes of `CHANGELOG.md` and of the [upgrading page](docs/upgrading/index.md) under the new version, dated today, and points the changelog's upgrading links at it.
+4. **Edit the notes.** Read the new `CHANGELOG.md` section as a user would: one line per change, naming the package, with breaking changes and deprecations linked to their upgrading entries. It becomes the GitHub release text.
+5. **Check and open the pull request.** Run `pnpm typecheck`, `pnpm build`, `pnpm test`, `pnpm api:check` and `pnpm check:packages`, and `node scripts/version-packages.mjs notes <version>` to print the release notes. Open a pull request titled `chore: release <version>` with `Closes #<issue>`. Nothing else goes in it.
+6. **Merge it.** Fix the date in `## <version> (<date>)` first if it merges on a later day. Merging runs [`.github/workflows/release.yml`](.github/workflows/release.yml): on a push to `main` with no pending changesets, when the current version has a `CHANGELOG.md` section and no GitHub release yet, it runs `pnpm release` (build, `pnpm check:packages`, then `changeset publish`, which runs `pnpm publish` for each package npm does not have yet, so `workspace:` ranges become real versions) and creates the GitHub release.
+7. **Check the release.** The **Release** workflow run on the merge commit is green, the GitHub release `v<version>` exists, and every package shows the new version: `npm view @chart-on/core version` (and the same for `ui`, `indicators`, `locales`, `ta`, `react`, `vue` and `svelte`). A first version of a new package can take a few minutes to show up on the public registry.
+
+**When a publish fails**, read the `Publish` step of the run. `changeset publish` skips the packages npm already has, so after fixing the cause, rerun the workflow (`gh run rerun <run id>`, or the **Re-run jobs** button): it publishes the rest and creates the GitHub release. A version npm has accepted can never be published again, even after unpublishing it, so never fix a broken release by reusing its number: release the fix as the next patch. `npm deprecate @chart-on/<package>@<version> "<reason>"` marks a bad version so installs warn about it.
+
+**To publish by hand** (when the workflow cannot), a maintainer who is an owner on npm logs in with `npm login`, checks out `main` at the release commit and runs `pnpm release`; npm asks for two-factor authentication. The next workflow run then only creates the GitHub release; rerun the last one to get it at once.
+
+#### npm setup
+
+- **Scope and owners.** The packages publish under the `@chart-on` scope, which belongs to the `chart-on` npm account (the `@charton` scope belongs to another account). The maintainers are the packages' owners (`npm owner ls @chart-on/core`); add or remove one with `npm owner add <npm user> @chart-on/<package>` or `npm owner rm`, for all eight packages. Every owner account has two-factor authentication with a security key or passkey (npm no longer sets up authenticator-app codes).
+- **Trusted publishing.** The workflow publishes with npm trusted publishing (OIDC), so no npm token is stored anywhere: npm checks that the request comes from `release.yml` in this repository. Each package's **Settings** page on npmjs.com has the trusted publisher (GitHub Actions, organization `chart-on`, repository `chart-on`, workflow `release.yml`, no environment), and its publishing access is set to require two-factor authentication and disallow tokens. Renaming the repository or the workflow file breaks publishing until the trusted publisher of every package is updated. Trusted publishing needs npm 11.5.1 or later, which the workflow installs.
+- **New packages.** Trusted publishing can only be configured for a package that already exists on npm. The first version of a new package is published by hand (above) by an owner, then its trusted publisher and publishing access are set like the others before the next release.
 
 ### Package manifests
 

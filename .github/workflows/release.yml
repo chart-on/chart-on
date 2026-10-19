@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # the release tag and the GitHub release
-      id-token: write # npm trusted publishing
+      id-token: write # npm trusted publishing: no npm token is stored (CONTRIBUTING.md#npm-setup)
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
@@ -62,8 +62,6 @@ jobs:
         if: steps.check.outputs.version
         env:
           GH_TOKEN: ${{ github.token }}
-          # Only until trusted publishing is set up for every package (CONTRIBUTING.md#releases).
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           VERSION: ${{ steps.check.outputs.version }}
         run: |
           pnpm release

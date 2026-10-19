@@ -44,6 +44,7 @@ const readText = (file) => readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
 
 if (manifests.length === 0) problems.push('no published packages found under packages/');
 const browsers = JSON.stringify(manifests[0]?.pkg.browserslist);
+const version = manifests[0]?.pkg.version;
 
 for (const { dir, pkg } of manifests) {
   const name = pkg.name ?? relative(root, dir);
@@ -53,6 +54,8 @@ for (const { dir, pkg } of manifests) {
   for (const field of ['name', 'version', 'description', 'homepage', 'bugs']) {
     if (!pkg[field]) fail(`missing "${field}"`);
   }
+  // The packages release in lockstep (.changeset/config.json), so they share one version.
+  if (pkg.version !== version) fail(`"version" ${pkg.version} differs from the other packages' ${version}`);
   if (pkg.license !== 'Apache-2.0') fail('"license" must be "Apache-2.0"');
   if (pkg.type !== 'module') fail('"type" must be "module"');
   if (pkg.repository?.url !== REPOSITORY) fail(`"repository.url" must be "${REPOSITORY}"`);

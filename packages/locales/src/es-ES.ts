@@ -20,6 +20,7 @@ export const esES: LocalizationOptions = {
     chartLabel: 'Gráfico',
     chartLabelSymbol: 'Gráfico de {symbol}',
     scrollToLatest: 'Ir a la barra más reciente',
+    attribution: 'Hecho con charton',
     statusLoading: 'Cargando…',
     statusNoData: 'Sin datos',
     statusError: 'No se pudieron cargar los datos',

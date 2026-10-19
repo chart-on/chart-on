@@ -36,7 +36,11 @@ export interface ChartFeatures {
    * `recognizeSketch`. Off by default.
    */
   sketch: boolean;
-  /** A small project logo at the top end of the main pane, linking to the project site. On by default; set it to `false` to hide it. */
+  /**
+   * A small project logo at the bottom of the plot on the start side, linking
+   * to the project site; screenshots show the mark and the site's name there.
+   * On by default; set it to `false` to hide it.
+   */
   attributionLogo: boolean;
 }
 

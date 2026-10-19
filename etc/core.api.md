@@ -2146,6 +2146,7 @@ export const defaultMessages: {
     readonly chartLabel: "Chart";
     readonly chartLabelSymbol: "{symbol} chart";
     readonly scrollToLatest: "Scroll to the most recent bar";
+    readonly attribution: "Made with charton";
     readonly statusLoading: "Loading…";
     readonly statusNoData: "No data";
     readonly statusError: "Could not load data";
@@ -7474,6 +7475,7 @@ export interface WatermarkOptions {
     } | null;
     lines: (string | WatermarkLine)[];
     lineSizes: (number | null)[];
+    // @deprecated
     logo: boolean;
     margin: number;
     opacity: number;

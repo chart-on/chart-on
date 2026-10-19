@@ -19,6 +19,7 @@ export const idID: LocalizationOptions = {
     chartLabel: 'Grafik',
     chartLabelSymbol: 'Grafik {symbol}',
     scrollToLatest: 'Gulir ke bar terbaru',
+    attribution: 'Dibuat dengan charton',
     statusLoading: 'Memuat…',
     statusNoData: 'Tidak ada data',
     statusError: 'Gagal memuat data',

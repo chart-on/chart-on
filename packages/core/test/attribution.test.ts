@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fakeContainer } from './fake-dom';
 import { Chart, type ChartOptionsPatch } from '../src/chart';
-import { watermark } from '../src/builtins';
-import { ATTRIBUTION_SIZE, createAttributionLoader, drawAttributionMark } from '../src/attribution';
+import { localization, watermark } from '../src/builtins';
+import { createAttributionLoader, drawAttributionMark } from '../src/attribution';
+import { ROOT_RULE } from '../src/root-style';
 
 type Call = { op: string; args: unknown[]; fillStyle: unknown };
 
@@ -64,42 +65,101 @@ describe('drawAttributionMark', () => {
   });
 });
 
-describe('attribution mark on a chart', () => {
-  it('is drawn by default in the centre of the main pane, in the watermark colour', () => {
+type FakeEl = {
+  tagName: string;
+  className: string;
+  href: string;
+  target: string;
+  rel: string;
+  title: string;
+  textContent: string;
+  style: Record<string, string>;
+  children: FakeEl[];
+  getAttribute(k: string): string | null;
+  dispatch(type: string, event?: Record<string, unknown>): void;
+};
+
+/** The chart's attribution badge, if it has made one. */
+const badgeOf = (c: Chart) => (c.root as unknown as FakeEl).children.find((e) => e.className === 'pc-attribution');
+
+describe('attribution badge on a chart', () => {
+  it('links to the project site from the bottom of the start side, drawing nothing on the canvas', () => {
     const c = chart();
     expect(c.options.features.attributionLogo).toBe(true);
-    const drawn = frame(c);
-    expect(drawn).toHaveLength(1);
-    const { x, y, size, color } = drawn[0]!;
-    const pane = c.panes[0]!;
-    expect(size).toBe(Math.min(ATTRIBUTION_SIZE, c.plotWidth / 3, pane.height / 3));
-    expect(x + size / 2).toBeCloseTo(c.plotWidth / 2, 0);
-    expect(y + size / 2).toBeCloseTo(pane.top + pane.height / 2, 0);
-    expect(color).toBe(c.theme.watermark);
-    // Nothing in the DOM: no link, nothing to click.
-    expect((c.root as unknown as { children: { tagName: string }[] }).children.some((e) => e.tagName === 'a')).toBe(false);
+    expect(frame(c)).toEqual([]);
+    const b = badgeOf(c)!;
+    expect([b.tagName, b.href, b.target, b.rel]).toEqual(['a', 'https://charton.dev', '_blank', 'noopener']);
+    expect(b.getAttribute('aria-label')).toBe('Made with charton');
+    expect([b.style.position, b.style.display]).toEqual(['absolute', 'flex']);
+    expect(b.style.left).toBe(`${c.plotLeft + 8}px`);
+    expect(b.style.right).toBe('');
+    expect(b.style.bottom).toBe(`${c.height - c.plotHeight + 8}px`);
+    expect(b.style.color).toBe(c.theme.textMuted);
+    // The mark, then the name.
+    expect(b.children.map((e) => e.tagName)).toEqual(['svg', 'span']);
+    expect(b.children[1]!.textContent).toBe('charton');
   });
 
   it('hides when the flag is off, at creation and at runtime', () => {
-    expect(frame(chart({ features: { attributionLogo: false } }))).toEqual([]);
+    const off = chart({ features: { attributionLogo: false } });
+    frame(off);
+    expect(badgeOf(off)).toBeUndefined();
     const c = chart();
+    frame(c);
     c.applyOptions({ features: { attributionLogo: false } });
-    expect(frame(c)).toEqual([]);
+    frame(c);
+    expect(badgeOf(c)!.style.display).toBe('none');
     c.applyOptions({ features: { attributionLogo: true } });
-    expect(frame(c)).toHaveLength(1);
+    frame(c);
+    expect(badgeOf(c)!.style.display).toBe('flex');
   });
 
-  it('moves into the watermark while the plugin watermark shows', () => {
-    const c = chart({ plugins: [watermark()] });
-    expect(c.watermark.options.logo).toBe(true);
-    c.applyOptions({ features: { watermark: true } });
-    // The watermark draws it; the chart does not draw a second one.
-    const drawn = frame(c);
-    expect(drawn).toHaveLength(1);
-    expect(drawn[0]!.color).toBe(c.theme.watermark);
-    c.applyOptions({ features: { attributionLogo: false } });
+  it('sits out the loading indicator', () => {
+    const c = chart();
+    frame(c);
+    c.setStatus({ kind: 'loading' });
+    frame(c);
+    expect(badgeOf(c)!.style.display).toBe('none');
+    c.setStatus(null);
+    frame(c);
+    expect(badgeOf(c)!.style.display).toBe('flex');
+  });
+
+  it('moves to the bottom right in a right-to-left chart', () => {
+    const c = chart({ direction: 'rtl' });
+    frame(c);
+    const b = badgeOf(c)!;
+    expect(b.style.left).toBe('');
+    expect(b.style.right).toBe(`${c.width - c.plotLeft - c.plotWidth + 8}px`);
+  });
+
+  it('shows its name on hover and keyboard focus through the chart stylesheet, and a press on it does not start a pan', () => {
+    expect(ROOT_RULE).toContain(':where(.pc-attribution){');
+    expect(ROOT_RULE).toContain('opacity:0.6');
+    expect(ROOT_RULE).toContain(':where(.pc-attribution) span{display:none}');
+    expect(ROOT_RULE).toContain(':where(.pc-attribution:hover,.pc-attribution:focus-visible){opacity:1;background:var(--pc-root-background)}');
+    expect(ROOT_RULE).toContain(':where(.pc-attribution:hover,.pc-attribution:focus-visible) span{display:inline}');
+    const c = chart();
+    frame(c);
+    const stop = vi.fn();
+    badgeOf(c)!.dispatch('pointerdown', { stopPropagation: stop });
+    expect(stop).toHaveBeenCalled();
+  });
+
+  it('follows the theme and the localization', () => {
+    const c = chart({ plugins: [localization()] });
+    frame(c);
+    c.applyOptions({ theme: { textMuted: '#123456' }, localization: { messages: { attribution: 'Gemacht mit charton' } } });
+    const b = badgeOf(c)!;
+    expect(b.style.color).toBe('#123456');
+    expect(b.getAttribute('aria-label')).toBe('Gemacht mit charton');
+  });
+
+  it('leaves the built-in watermark without the mark', () => {
+    const c = chart({ plugins: [watermark()], features: { watermark: true } });
     expect(c.watermark.options.logo).toBe(false);
     expect(frame(c)).toEqual([]);
+    expect(badgeOf(c)!.style.display).toBe('flex');
   });
 });
 

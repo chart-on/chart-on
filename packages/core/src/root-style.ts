@@ -8,16 +8,27 @@
  * The sheet is a constructed stylesheet adopted by the document (or the shadow
  * root the chart lives in), which a strict `style-src` allows. Where the browser
  * cannot do that, the root is styled inline as before.
+ *
+ * The same sheet styles the logo badge (`.pc-attribution`): faint at rest,
+ * and on hover or keyboard focus full, on the chart background, with the
+ * project name shown beside the mark. Without the sheet the badge is an
+ * unstyled link showing the mark and the name.
  */
 
+import { BADGE_ALPHA, BADGE_GAP, BADGE_HEIGHT } from './attribution';
 import { parseColor } from './util/color';
 
 /** Runtime values (background, touch-action) reach the rule through these inline variables. */
 const VARS = { background: '--pc-root-background', touchAction: '--pc-root-touch-action' } as const;
 
+/** The badge while hovered or focused from the keyboard. */
+const BADGE_OPEN = ':where(.pc-attribution:hover,.pc-attribution:focus-visible)';
+
 export const ROOT_RULE =
   ':where(.pc-chart) { width: 100%; height: 100%; outline: none; -webkit-user-select: none; user-select: none; ' +
-  `touch-action: var(${VARS.touchAction}, none); background: var(${VARS.background}, transparent); }`;
+  `touch-action: var(${VARS.touchAction}, none); background: var(${VARS.background}, transparent); }` +
+  `:where(.pc-attribution){z-index:3;align-items:center;gap:${BADGE_GAP}px;height:${BADGE_HEIGHT}px;padding:0 4px;border-radius:6px;text-decoration:none;opacity:${BADGE_ALPHA}}` +
+  `${BADGE_OPEN}{opacity:1;background:var(${VARS.background})}:where(.pc-attribution) span{display:none}${BADGE_OPEN} span{display:inline}`;
 
 /** Inline fallback where the rule cannot be adopted. */
 const INLINE = { width: '100%', height: '100%', outline: 'none', userSelect: 'none', touchAction: 'none' };

@@ -170,6 +170,18 @@ describe('layoutWatermark', () => {
     expect(layoutWatermark(ctx, env(), opts())).toBeNull();
   });
 
+  it('warns once that the logo option is deprecated, when an app sets it', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const mark = createWatermark();
+    mark.applyOptions({ logo: false });
+    expect(warn).not.toHaveBeenCalled();
+    mark.applyOptions({ logo: true });
+    createWatermark({ logo: true });
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/^charton \[deprecated\]: .*docs\/upgrading\/index\.md#logo-on-watermarkoptions\)$/);
+    warn.mockRestore();
+  });
+
   it('sizes the author line and each line by position, over the lines given', () => {
     const { ctx } = recordingContext();
     const layout = layoutWatermark(

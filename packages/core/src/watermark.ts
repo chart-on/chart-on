@@ -4,6 +4,10 @@ import { parseColor } from './util/color';
 import { fillText, resolveFont } from './typography';
 import { clampLow } from './util/math';
 import { ATTRIBUTION_SIZE, drawAttributionMark } from './attribution';
+import { devDeprecated, isDev } from './util/dev';
+
+// Bundlers replace `process.env.NODE_ENV`; module-local so it never clashes with Node's typings.
+declare const process: { env: { NODE_ENV?: string } };
 
 /**
  * Watermark: large, faint text and/or an image behind the series. It is an
@@ -53,8 +57,9 @@ export interface WatermarkOptions {
    */
   lineSizes: (number | null)[];
   /**
-   * Draw the project mark above the image and text, in the text colour. The
-   * chart sets it on the `watermark()` plugin's watermark from `features.attributionLogo`.
+   * Draw the project mark above the image and text, in the text colour.
+   *
+   * @deprecated The chart shows its attribution as a corner badge (`features.attributionLogo`) and no longer sets this. It is removed in 0.3.
    */
   logo: boolean;
   /** Image drawn above the text (a logo, say). Loading images are drawn once loaded. */
@@ -129,12 +134,18 @@ const MIN_FONT = 4;
 /** Longest author line, in characters. */
 const AUTHOR_MAX = 40;
 
+/** Development builds: say once that the deprecated `logo` option is set. */
+function warnLogo(options: Partial<WatermarkOptions>): void {
+  if (options.logo) devDeprecated('the watermark logo option is deprecated: the chart shows its attribution as a corner badge (features.attributionLogo)', 'logo-on-watermarkoptions');
+}
+
 /**
  * Create a watermark: large, faint text and an optional image behind the
  * series. Attach it with `chart.attachPrimitive`; `follow` keeps its lines on
  * the symbol and interval the chart loads.
  */
 export function createWatermark(options: Partial<WatermarkOptions> = {}): Watermark {
+  if (/* @__PURE__ */ isDev() && process.env.NODE_ENV !== 'production') warnLogo(options);
   let opts: WatermarkOptions = { ...defaultWatermarkOptions, ...options };
   let host: PrimitiveHost | null = null;
   let pendingImage: CanvasImageSource | null = null;
@@ -167,6 +178,7 @@ export function createWatermark(options: Partial<WatermarkOptions> = {}): Waterm
       host = null;
     },
     applyOptions(next) {
+      if (/* @__PURE__ */ isDev() && process.env.NODE_ENV !== 'production') warnLogo(next);
       opts = { ...opts, ...next };
       watchImage();
       host?.requestRedraw();

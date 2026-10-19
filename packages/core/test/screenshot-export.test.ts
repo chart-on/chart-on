@@ -251,7 +251,8 @@ describe('screenshot caption', () => {
   it('names a UTC chart UTC, takes custom text and leaves the header out when false', async () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(now);
-    const { c } = recorded();
+    // No attribution: the site's name beside the mark is text too.
+    const { c } = recorded({ features: { attributionLogo: false } });
     const image: string[] = [];
     const canvases = imageCanvases(image);
     await c.captureImage({ caption: true, legend: false });
@@ -263,6 +264,24 @@ describe('screenshot caption', () => {
     await c.captureImage({ caption: false, legend: false });
     expect(image.some((l) => l.startsWith('image fillText('))).toBe(false);
     expect(canvases[2]!.height).toBe(600 * window.devicePixelRatio);
+  });
+
+  it('names the project site beside the mark where the badge sits, unless the flag or the watermark option leaves it out', async () => {
+    const { c } = recorded();
+    const image: string[] = [];
+    imageCanvases(image);
+    await c.captureImage({ legend: false });
+    const text = image.filter((l) => l.startsWith('image fillText('));
+    // Mark (14 px) and a 5 px gap after the badge's 8 px margin and 4 px padding; centred 19 px above the time axis.
+    expect(text).toEqual([`image fillText(charton.dev,${c.plotLeft + 31},${c.plotHeight - 19})`]);
+    expect(image).toContain('image globalAlpha=0.6');
+    expect(image).toContain(`image fillStyle=${c.theme.textMuted}`);
+    image.length = 0;
+    await c.captureImage({ legend: false, watermark: false });
+    expect(image.some((l) => l.includes('charton.dev'))).toBe(false);
+    c.applyOptions({ features: { attributionLogo: false } });
+    await c.captureImage({ legend: false });
+    expect(image.some((l) => l.includes('charton.dev'))).toBe(false);
   });
 
   it('draws the caption in the capture theme over the image background', async () => {

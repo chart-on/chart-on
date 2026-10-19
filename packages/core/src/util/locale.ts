@@ -65,6 +65,7 @@ export const defaultMessages = {
   chartLabel: 'Chart',
   chartLabelSymbol: '{symbol} chart',
   scrollToLatest: 'Scroll to the most recent bar',
+  attribution: 'Made with charton',
   statusLoading: 'Loading…',
   statusNoData: 'No data',
   statusError: 'Could not load data',

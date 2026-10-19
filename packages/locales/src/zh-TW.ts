@@ -19,6 +19,7 @@ export const zhTW: LocalizationOptions = {
     chartLabel: '圖表',
     chartLabelSymbol: '{symbol} 圖表',
     scrollToLatest: '捲動到最新的 K 棒',
+    attribution: '使用 charton 製作',
     statusLoading: '載入中…',
     statusNoData: '沒有資料',
     statusError: '無法載入資料',

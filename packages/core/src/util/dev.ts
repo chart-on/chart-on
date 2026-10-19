@@ -49,6 +49,25 @@ export const DEV_WARNING_CODES = [
 /** Code of a warning development builds log; see `DEV_WARNING_CODES`. */
 export type DevWarningCode = (typeof DEV_WARNING_CODES)[number];
 
+/** Where each deprecated API has an entry with its replacement. */
+export const UPGRADING_DOCS_URL = 'https://github.com/chart-on/chart-on/blob/main/docs/upgrading/index.md';
+
+/**
+ * Say once per page load, in development builds only, that a deprecated API
+ * is in use; `id` is the anchor of its entry on the upgrading page. Callers
+ * guard the call like `devWarn`'s, so production bundles drop it.
+ */
+export function devDeprecated(message: string, id: string): void {
+  try {
+    if (process.env.NODE_ENV !== 'production' && !reported.has(`deprecated:${id}`)) {
+      reported.add(`deprecated:${id}`);
+      console.warn(`charton [deprecated]: ${message} (${UPGRADING_DOCS_URL}#${id})`);
+    }
+  } catch {
+    // No `process` (loaded without a bundler): stay quiet, like `isDev`.
+  }
+}
+
 /** Where each warning and error code is explained. */
 export const ERRORS_DOCS_URL = 'https://github.com/chart-on/chart-on/blob/main/docs/guide/errors.md';
 

@@ -19,6 +19,7 @@ export const zhCN: LocalizationOptions = {
     chartLabel: '图表',
     chartLabelSymbol: '{symbol} 图表',
     scrollToLatest: '滚动到最新K线',
+    attribution: '使用 charton 制作',
     statusLoading: '加载中…',
     statusNoData: '暂无数据',
     statusError: '无法加载数据',

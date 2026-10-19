@@ -22,6 +22,8 @@ export interface CaptureHost {
   layout(): void;
   /** The crosshair layer needs drawing. */
   cursorDirty(): void;
+  /** Draw the attribution in chart css px, where the badge sits (`features.attributionLogo`). */
+  drawAttribution(ctx: CanvasRenderingContext2D): void;
 }
 
 /** The chart members a capture reads and sets: TypeScript-private, so reached through this view. */
@@ -141,6 +143,11 @@ export function compositeImage(chart: Chart, host: CaptureHost, options: Screens
     if (options.legend ?? c.options.legend.visible) {
       ctx.setTransform(ratio, 0, 0, ratio, left, top);
       drawLegend(ctx, hide ? { ...host.legendFrame(c.timeline.lastIndex), idle: true } : host.legendFrame());
+    }
+    // The badge is a link, not part of a layer: an image names the site instead.
+    if (c.capture.watermark && c.options.features.attributionLogo) {
+      ctx.setTransform(ratio, 0, 0, ratio, left, top);
+      host.drawAttribution(ctx);
     }
   } finally {
     c.hideCrosshair = false;

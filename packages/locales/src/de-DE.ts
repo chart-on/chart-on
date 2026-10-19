@@ -19,6 +19,7 @@ export const deDE: LocalizationOptions = {
     chartLabel: 'Chart',
     chartLabelSymbol: 'Chart von {symbol}',
     scrollToLatest: 'Zum neuesten Balken',
+    attribution: 'Erstellt mit charton',
     statusLoading: 'Wird geladen…',
     statusNoData: 'Keine Daten',
     statusError: 'Daten konnten nicht geladen werden',

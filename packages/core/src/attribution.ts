@@ -1,5 +1,39 @@
 /** Side of the project mark at full size, css px. */
 export const ATTRIBUTION_SIZE = 48;
+/** The project site: the badge links to it, and screenshots name it beside the mark. */
+export const ATTRIBUTION_SITE = 'charton.dev';
+/** Side of the mark in the badge and in screenshots, css px. */
+export const BADGE_MARK = 14;
+/** Height of the badge, css px; the mark is centred in it. */
+export const BADGE_HEIGHT = 22;
+/** Space between the mark and the text beside it, css px. */
+export const BADGE_GAP = 5;
+/** Opacity of the badge at rest, and of the mark and text in screenshots. */
+export const BADGE_ALPHA = 0.6;
+
+/**
+ * The logo badge: a link to the project site holding the mark and the
+ * project name. Its look, and the name shown on hover or focus, come from the chart's stylesheet (`ROOT_RULE`); the chart places
+ * it, colours it and sets its accessible name.
+ */
+export function createAttributionBadge(): HTMLAnchorElement {
+  const a = document.createElement('a');
+  a.className = 'pc-attribution';
+  // Written out so the strict-policy scan of the build sees the one remote URL it allows.
+  a.href = 'https://charton.dev';
+  a.target = '_blank';
+  a.rel = 'noopener';
+  // Layout-critical only; the rest is overridable from CSS.
+  a.style.position = 'absolute';
+  // No Tab stop: keys move between the chart's own areas; screen readers still list the link.
+  a.tabIndex = -1;
+  // A press on the link is not the start of a pan.
+  a.addEventListener('pointerdown', (e) => e.stopPropagation());
+  const name = document.createElement('span');
+  name.textContent = 'charton';
+  a.append(createAttributionLoader(BADGE_MARK, true), name);
+  return a;
+}
 
 /**
  * Fill the project mark in `color`, `size` css px square with its top left at

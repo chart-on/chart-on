@@ -19,6 +19,7 @@ export const jaJP: LocalizationOptions = {
     chartLabel: 'チャート',
     chartLabelSymbol: '{symbol} のチャート',
     scrollToLatest: '最新の足へスクロール',
+    attribution: 'charton で作成',
     statusLoading: '読み込み中…',
     statusNoData: 'データがありません',
     statusError: 'データを読み込めませんでした',

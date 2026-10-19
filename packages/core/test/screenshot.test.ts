@@ -27,7 +27,7 @@ function fakeChart(size = { width: 200, height: 100 }) {
     ...size,
     dpr: 2,
     renderer: { isLost: false },
-    options: { legend: { visible: false }, maxGlDpr: 2 },
+    options: { legend: { visible: false }, maxGlDpr: 2, features: { attributionLogo: false } },
     theme: { background: '#000000' },
     sceneDirty: false,
     bottom: 'bottom',
@@ -44,8 +44,8 @@ function screenshot(chart: ReturnType<typeof fakeChart>, options?: Parameters<Ch
   // It has none of the chart's ES private (`#name`) members, and reading one throws a
   // TypeError ("Receiver must be an instance of class Chart"). So these options are not
   // covered here: a `theme` other than the chart's (#captureTheme, #useTheme, #layout),
-  // `caption: true` (#captionText), a `scale` above the device or GPU ratio (#sizeCanvases)
-  // and `legend: true` (#legendIndex). The Chart members this path reads must not become ES
+  // `caption: true` (#captionText), a `scale` above the device or GPU ratio (#sizeCanvases),
+  // `legend: true` (#legendIndex) and `features.attributionLogo` (#drawAttribution). The Chart members this path reads must not become ES
   // private (destroyed, paused, renderer, sceneDirty, render, bottom, glCanvas, top,
   // imageCapture, ...).
   const instance: Chart = Object.assign(Object.create(Chart.prototype) as object, chart) as unknown as Chart;

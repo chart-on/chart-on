@@ -235,7 +235,7 @@ The image is composited when you call `captureImage`, so it shows the chart at t
 | `legend` | the `legend` feature | Paint the series legend onto the image |
 | `crosshair` | `false` | Include the crosshair and its labels |
 | `scale` | device pixel ratio | Image pixels per CSS pixel. Above the device pixel ratio the chart is redrawn at that ratio for the capture (the GPU series too, past `maxGlDpr`) and the screen is restored before the browser paints. The longest side is kept within 8192 pixels |
-| `watermark` | `true` | Include the [watermark](./watermark) when the chart shows one |
+| `watermark` | `true` | Include the [watermark](./watermark) when the chart shows one, and the mark and `charton.dev` text that stand in for the [logo badge](./features#logo-badge) |
 | `drawings` | `true` | Include drawings |
 | `annotations` | `true` | Include markers, price lines, trade lines and their axis labels |
 | `background` | theme background | A CSS color, or `'transparent'` for an image with an alpha channel (PNG or WebP; JPEG shows black). A color the chart cannot read falls back to the theme background |

@@ -26,8 +26,11 @@ export const LOADS: Rule[] = [
   [/@import\b|@font-face\b|url\(\s*['"]?(https?:|\/\/)/, 'loads a remote resource from CSS'],
 ];
 
-/** Absolute URLs allowed in built files: XML namespaces and documentation links in messages, never fetched. */
-export const URL_ALLOWED = ['http://www.w3.org/', 'https://github.com/chart-on/chart-on/'];
+/**
+ * Absolute URLs allowed in built files, none of them fetched: XML namespaces,
+ * documentation links in messages, and the project site the logo badge links to.
+ */
+export const URL_ALLOWED = ['http://www.w3.org/', 'https://github.com/chart-on/chart-on/', 'https://charton.dev'];
 
 /** `file:line: why` for every rule that matches a line. */
 function scanLines(file: string, lines: string[], rules: Rule[]): string[] {

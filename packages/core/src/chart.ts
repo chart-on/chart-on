@@ -21,7 +21,16 @@ import {
 } from './scales';
 import { Pane, axisColumns, layoutPanes, removalMap, reorder, visibleAxes, type PaneOptions } from './pane';
 import { PaneControls, PANE_BUTTONS_BOTTOM, type PaneAction } from './pane-controls';
-import { ATTRIBUTION_SIZE, createAttributionLoader, drawAttributionMark } from './attribution';
+import {
+  ATTRIBUTION_SITE,
+  BADGE_ALPHA,
+  BADGE_GAP,
+  BADGE_HEIGHT,
+  BADGE_MARK,
+  createAttributionBadge,
+  createAttributionLoader,
+  drawAttributionMark,
+} from './attribution';
 import { defaultChartFeatures, resolveFeatures, type ChartFeatures } from './features';
 import { checkAccess, defaultAccessOptions, type AccessOptions } from './access';
 import type { Watermark } from './watermark';
@@ -766,7 +775,7 @@ export interface ScreenshotOptions {
    * image from a standard display. Lowered so that no side exceeds 8192 pixels.
    */
   scale?: number;
-  /** Include the watermark. Default true (it shows when the chart shows it). */
+  /** Include the watermark and the attribution (`features.attributionLogo`). Default true (they show when the chart shows them). */
   watermark?: boolean;
   /** Include drawings. Default true. */
   drawings?: boolean;
@@ -1304,6 +1313,9 @@ interface PaneTicks {
 /** Scroll-to-newest button: its size, and its distance from the plot's bottom-right corner. */
 const SCROLL_BUTTON_SIZE = 28;
 const SCROLL_BUTTON_MARGIN = 12;
+/** Attribution badge: its distance from the plot's bottom corner on the start side, and the smallest plot it shows in (css px). */
+const BADGE_MARGIN = 8;
+const BADGE_MIN_PLOT = { width: 200, height: 100 };
 /** Space (css px) between a price axis label and the plot side of its column. */
 const AXIS_LABEL_INSET = 8;
 /** Height (css px) of the band under the time labels that time-axis marks draw in. */
@@ -1597,6 +1609,9 @@ export class Chart implements SeriesHost {
   #statusHidden = false;
   private statusEl: HTMLDivElement | null = null;
   #scrollButtonShown = false;
+  /** The attribution badge (`features.attributionLogo`), made the first time it shows. */
+  #badge: HTMLAnchorElement | null = null;
+  #badgeShown = false;
   readonly #clock: ReturnType<typeof setInterval>;
   #scaleStateKeys = new WeakMap<Pane, Map<string, string>>();
   /** Price-axis columns on each side; the right side always keeps one. */
@@ -2922,6 +2937,7 @@ export class Chart implements SeriesHost {
       const failure = this.#followAll(this.mainBars, 'reset');
       this.#styleRoot();
       this.#styleScrollButton();
+      if (this.#badge) this.#dressBadge(this.#badge);
       this.#forEachSeries((s) => s.rebuild());
       if (failure) throw failure.error;
     }
@@ -2943,10 +2959,8 @@ export class Chart implements SeriesHost {
     }
     // Only when the flag is set, so a watermark attached by hand survives other options.
     if (options.features?.watermark !== undefined) this.#syncWatermark();
-    if (options.features?.attributionLogo !== undefined) {
-      this.#optIn.watermark?.applyOptions({ logo: this.#flags.attributionLogo });
-      this.invalidate();
-    }
+    // The next scene frame shows or hides the badge.
+    if (options.features?.attributionLogo !== undefined) this.invalidate();
     if (process.env.NODE_ENV !== 'production') {
       this.#watermarkNeeded(options);
       this.#countdownNeeded(options);
@@ -2985,6 +2999,7 @@ export class Chart implements SeriesHost {
     const label = localizer.text('scrollToLatest');
     this.#scrollButton.title = label;
     this.#scrollButton.setAttribute('aria-label', label);
+    if (this.#badge) this.#dressBadge(this.#badge);
     this.#description.setLabel(this.dataController?.symbol?.name ?? null, this.#accessibleName());
     // Labels change width with the language: re-measure the axes.
     this.#syncAxisWidths();
@@ -4675,6 +4690,7 @@ export class Chart implements SeriesHost {
       legendFrame: (index) => this.#legendFrame(index),
       layout: () => this.#layout(),
       cursorDirty: () => (this.#cursorDirty = true),
+      drawAttribution: (ctx) => this.#drawAttribution(ctx),
     }, options);
   }
 
@@ -4991,8 +5007,6 @@ export class Chart implements SeriesHost {
   #syncWatermark(on = this.#flags.watermark): void {
     const watermark = this.#optIn.watermark;
     if (!watermark) return;
-    // The plugin's watermark draws the mark above its lines while it shows.
-    if (watermark.options.logo !== this.#flags.attributionLogo) watermark.applyOptions({ logo: this.#flags.attributionLogo });
     // Read the registry: the watermark may have been attached or detached by hand.
     const attached = this.primitives.all.some((e) => e.primitive === watermark);
     if (on === attached) return;
@@ -5062,6 +5076,7 @@ export class Chart implements SeriesHost {
     this.#scrollButton.style.left = end === 'left' ? `${cols.left * widths.left + lanes.left + SCROLL_BUTTON_MARGIN}px` : '';
     this.#scrollButton.style.right = end === 'right' ? `${cols.right * widths.right + lanes.right + SCROLL_BUTTON_MARGIN}px` : '';
     this.#scrollButton.style.bottom = `${this.#timeAxisSize() + SCROLL_BUTTON_MARGIN}px`;
+    if (this.#badge) this.#placeBadge(this.#badge);
     const slots = layoutPanes(this.panes, this.plotHeight, this.#maximized ? this.panes.indexOf(this.#maximized) : -1);
     const from = this.panes.map((p) => ({ top: p.top, height: p.height }));
     // Ease when only the split changed (not on resize or the first layout).
@@ -5351,6 +5366,7 @@ export class Chart implements SeriesHost {
       this.#shared?.copy();
       this.#copyStatic();
       this.#updateScrollButton();
+      this.#updateBadge();
       this.#lap(null);
     }
     if (overlay) {
@@ -5752,6 +5768,40 @@ export class Chart implements SeriesHost {
     if (!show && this.root.ownerDocument.activeElement === this.#scrollButton) this.root.focus();
   }
 
+  /** Whether the attribution shows: the flag is on, the loading indicator is not, and the plot fits it. */
+  #badgeFits(): boolean {
+    return this.#flags.attributionLogo && !this.#spinning() && this.plotWidth >= BADGE_MIN_PLOT.width && this.plotHeight >= BADGE_MIN_PLOT.height;
+  }
+
+  /** Show or hide the attribution badge, making it the first time it shows. */
+  #updateBadge(): void {
+    const show = this.#badgeFits();
+    if (show === this.#badgeShown) return;
+    this.#badgeShown = show;
+    if (!this.#badge) {
+      const b = (this.#badge = createAttributionBadge());
+      this.#dressBadge(b);
+      this.#placeBadge(b);
+      this.root.appendChild(b);
+    }
+    this.#badge.style.display = show ? 'flex' : 'none';
+  }
+
+  /** The badge's accessible name, colour and font, from the localization and the theme. */
+  #dressBadge(b: HTMLAnchorElement): void {
+    b.setAttribute('aria-label', this.#localizer.text('attribution'));
+    b.style.color = this.theme.textMuted;
+    b.style.font = fontCss(this.#font());
+  }
+
+  /** At the bottom of the start side, across the plot from the scroll button. */
+  #placeBadge(b: HTMLAnchorElement): void {
+    const start = this.#mainSide === 'right';
+    b.style.left = start ? `${this.plotLeft + BADGE_MARGIN}px` : '';
+    b.style.right = start ? '' : `${this.width - this.plotLeft - this.plotWidth + BADGE_MARGIN}px`;
+    b.style.bottom = `${this.#timeAxisSize() + BADGE_MARGIN}px`;
+  }
+
   private ctx(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error(/* @__PURE__ */ isDev() && process.env.NODE_ENV !== 'production' ? '2D canvas context unavailable' : '');
@@ -5837,26 +5887,30 @@ export class Chart implements SeriesHost {
       if (this.capture?.drawings !== false && this.drawingLayer?.below) this.drawingLayer.render(ctx, i, this.plotWidth, pane.height, true);
       ctx.restore();
     });
-    this.#drawAttribution(ctx);
     this.#drawPrimitiveLayer(ctx, 'below');
     ctx.restore();
   }
 
   /**
-   * The project mark in the centre of the main pane while `features.attributionLogo`
-   * is on, in the watermark colour. The `watermark()` plugin's watermark draws
-   * it above its lines instead while it is attached; screenshots that leave
-   * the watermark out leave the mark out too, and so does the loading indicator.
+   * A screenshot's attribution, where the badge sits: the mark and the site's
+   * name, which an image cannot link to, in the muted text colour. `ctx` is in
+   * chart css px.
    */
   #drawAttribution(ctx: CanvasRenderingContext2D): void {
-    const pane = this.panes[0];
-    if (!this.#flags.attributionLogo || this.capture?.watermark === false || this.#spinning() || !pane || pane.height <= 0 || pane.collapsed) return;
-    const watermark = this.#optIn.watermark;
-    if (watermark && this.primitives.all.some((e) => e.primitive === watermark)) return;
-    const size = Math.min(ATTRIBUTION_SIZE, this.plotWidth / 3, pane.height / 3);
-    if (size < 4) return;
-    const snap = (v: number) => Math.round(v * this.dpr) / this.dpr;
-    drawAttributionMark(ctx, snap((this.plotWidth - size) / 2), snap(pane.top + (pane.height - size) / 2), size, this.theme.watermark);
+    if (!this.#badgeFits()) return;
+    ctx.save();
+    ctx.globalAlpha = BADGE_ALPHA;
+    ctx.font = fontCss(this.#font());
+    ctx.fillStyle = this.theme.textMuted;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    // The badge's padding is 4 px each side.
+    const width = BADGE_MARK + BADGE_GAP + ctx.measureText(ATTRIBUTION_SITE).width;
+    const x = this.#mainSide === 'right' ? this.plotLeft + BADGE_MARGIN + 4 : this.plotLeft + this.plotWidth - BADGE_MARGIN - 4 - width;
+    const mid = this.plotHeight - BADGE_MARGIN - BADGE_HEIGHT / 2;
+    drawAttributionMark(ctx, x, mid - BADGE_MARK / 2, BADGE_MARK, this.theme.textMuted);
+    ctx.fillText(ATTRIBUTION_SITE, x + BADGE_MARK + BADGE_GAP, mid);
+    ctx.restore();
   }
 
   /** Out-of-session shading and trading-day breaks behind the series. */

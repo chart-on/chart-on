@@ -125,7 +125,7 @@ Some add-on code still ships in the default bundles while it moves out. The full
 ## Status and install
 
 > [!NOTE]
-> charton is pre-1.0 and not on npm yet. Until the first release, build the packages from this repository (see [Develop](#develop)). The API can still change between minor releases; the [upgrading guide](docs/upgrading/index.md) lists every change.
+> charton is pre-1.0 and not on npm yet. Until the first release, build the packages from this repository (see [Develop](#develop)). The API can still change between minor releases ([versioning](docs/guide/versioning.md)); the [upgrading guide](docs/upgrading/index.md) lists every change.
 
 <!-- TODO(#725): add the install lines (pnpm add @charton/core, @charton/ui and the others) once the npm scope is claimed and 0.1.0 is published, and drop the note above. -->
 
@@ -415,6 +415,7 @@ The guides live in [`docs/guide`](docs/guide/) and the runnable examples in [`do
 - Making it yours: [theming](docs/guide/theming.md), [localization](docs/guide/localization.md), [accessibility](docs/guide/accessibility.md) and [frameworks](docs/guide/frameworks.md).
 - [Testing](docs/guide/testing.md): `@charton/core/testing` gives you deterministic sample data, frame control and scene snapshots for your own tests.
 - [Upgrading](docs/upgrading/index.md): every API change between releases.
+- [Versioning](docs/guide/versioning.md): what each release can change, and keeping every `@charton/*` package on one version.
 
 <!-- TODO(#719): link the published docs site once it is deployed. -->
 

@@ -33,7 +33,7 @@ Only `position: relative` and `overflow: hidden` stay inline, since the canvases
 ## Lifecycle
 
 ```ts
-import { createChart, createMockDataSource, dataSource } from '@charton/core';
+import { createChart, createMockDataSource, dataSource } from '@chart-on/core';
 
 const el = document.getElementById('chart')!;
 // 1. Create: options can be set now or later. `dataSource()` lets it load through a source.
@@ -68,7 +68,7 @@ Call `chart.resize()` yourself only for changes the observer cannot see:
 Each chart is independent: its own canvases, WebGL context, data and options. Create as many as you need and destroy each one. To keep their crosshair, view, symbol or interval in step, put them in a [link group](./link-groups).
 
 ```ts
-import { createChart, createMockDataSource, dataSource } from '@charton/core';
+import { createChart, createMockDataSource, dataSource } from '@chart-on/core';
 
 const source = createMockDataSource();
 const charts = (['1h', '4h', '1d'] as const).map((interval, i) => {
@@ -90,7 +90,7 @@ for (const chart of charts) chart.destroy();
 `createChart(el, { gl: 'shared' })` draws through one WebGL context shared by every chart created that way, so a dashboard or a multi-chart layout can hold any number of interactive charts:
 
 ```ts
-import { createChart, sharedContext } from '@charton/core';
+import { createChart, sharedContext } from '@chart-on/core';
 
 const charts = cells.map((cell) => createChart(cell, { gl: 'shared', plugins: [sharedContext()] }));
 ```

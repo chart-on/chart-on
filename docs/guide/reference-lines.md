@@ -17,7 +17,7 @@ Reference lines are optional horizontal lines on the main series, each with its 
 | `extendedHours` | The newest price while the newest bar is outside the session (pre or post session) |
 
 ```ts
-import { createChart, referenceLines } from '@charton/core';
+import { createChart, referenceLines } from '@chart-on/core';
 
 const chart = createChart(el, {
   plugins: [referenceLines()],

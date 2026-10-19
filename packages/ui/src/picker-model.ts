@@ -2,9 +2,9 @@
  * The DOM-free parts of the picker dialog: item types, search ranking and the
  * debounced, paged, abortable search controller.
  */
-import { matchScore } from '@charton/core';
+import { matchScore } from '@chart-on/core';
 
-export { matchScore, matchTiers } from '@charton/core';
+export { matchScore, matchTiers } from '@chart-on/core';
 
 /** A row of the picker. */
 export interface PickerItem {

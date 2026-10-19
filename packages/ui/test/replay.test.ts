@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart } from '@charton/core';
+import { Chart } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createReplayControls, isReplaying, replayToolbarItem, toggleReplay, topClearOf } from '../src/replay';
 import { createBottomBar, wallTime } from '../src/bottombar';
 import { createToolbar } from '../src/toolbar';
-import { emitPointer, flushFrames, installTestEnvironment } from '@charton/core/testing';
+import { emitPointer, flushFrames, installTestEnvironment } from '@chart-on/core/testing';
 
 const charts: Chart[] = [];
 afterEach(() => {
@@ -203,7 +203,7 @@ describe('restart from a clicked bar', () => {
     const c = chart();
     const controls = createReplayControls(c);
     c.replay.start(600);
-    expect(c.uninstall('@charton/core/replay')).toBe(true);
+    expect(c.uninstall('@chart-on/core/replay')).toBe(true);
     const errors = vi.fn();
     c.on('chart:error', errors);
     click(c, 4);

@@ -25,7 +25,7 @@ import {
   type ChartTheme,
   type ColorPreset,
   type Indicator,
-} from '@charton/core';
+} from '@chart-on/core';
 import { h } from './dom';
 import { mountToolbar, type ToolbarHandle, type ToolbarItem, type ToolbarOptions } from './toolbar';
 import { defaultRailItems, mountToolRail, type RailItem, type ToolRailHandle } from './rail';
@@ -149,7 +149,7 @@ export interface ChartShellOptions {
    * Settings dialog for a drawing, opened from the drawing toolbar's Settings
    * button or by double-clicking the drawing (text tools edit their text
    * instead). Default true; an object turns it on with those options, such as
-   * the template menu of `@charton/ui/templates`.
+   * the template menu of `@chart-on/ui/templates`.
    */
   drawingSettings?: boolean | DrawingSettingsOptions;
   /**
@@ -159,7 +159,7 @@ export interface ChartShellOptions {
    * symbols and plain series open a style panel (`seriesSettings`). Rows with
    * nothing to set show no settings button. Default true; an object turns it
    * on with a control in the indicator panel's header, such as the template
-   * menu of `@charton/ui/templates`.
+   * menu of `@chart-on/ui/templates`.
    */
   indicatorSettings?: boolean | Pick<IndicatorSettingsOptions, 'headerControl'>;
   /**
@@ -389,12 +389,12 @@ export function shellPartsOf(chart: Chart): ShellParts | undefined {
 
 /**
  * Shell layout: toolbar on top, tool rail on the left, chart with a bottom bar.
- * Requires `@charton/ui/style.css`.
+ * Requires `@chart-on/ui/style.css`.
  *
  * @example
  * ```ts
- * import { createChartShell, intervals } from '@charton/ui';
- * import '@charton/ui/style.css';
+ * import { createChartShell, intervals } from '@chart-on/ui';
+ * import '@chart-on/ui/style.css';
  *
  * const { chart } = createChartShell(el, { toolbar: [intervals(['1m', '1h', '1d'])] });
  * chart.addCandles({ title: 'Price' }).setData(bars);

@@ -7,7 +7,7 @@ description: "Overlay each year's path through the same calendar window, with th
 A seasonality view lays the same calendar window (a year, a quarter or a month) of several years on top of each other. Each year is one line, normalised to a common start, so you can see whether a market tends to rise or fall at certain times of year. An optional average path, with the range of the years shaded around it, sums them up.
 
 ```ts
-import { createChart, createSeasonality, dataSource } from '@charton/core';
+import { createChart, createSeasonality, dataSource } from '@chart-on/core';
 
 const chart = createChart(container, { plugins: [dataSource()] });
 chart.setDataSource(source);

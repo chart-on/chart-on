@@ -15,11 +15,11 @@ From 1.0, the latest major gets fixes, and the previous major gets them for six 
 
 **Do not open a public issue, discussion or pull request for a vulnerability.**
 
-Report it privately through the repository's private vulnerability reporting: open the **Security** tab and choose **Report a vulnerability**, or go straight to [the new advisory form](https://github.com/chart-on/charton/security/advisories/new). Only the maintainers can see the report.
+Report it privately through the repository's private vulnerability reporting: open the **Security** tab and choose **Report a vulnerability**, or go straight to [the new advisory form](https://github.com/chart-on/chart-on/security/advisories/new). Only the maintainers can see the report.
 
 A useful report includes:
 
-- the affected package (`@charton/core`, `@charton/ui`, `@charton/ta`, `@charton/indicators`, `@charton/locales`, `@charton/react`, `@charton/vue`, `@charton/svelte`) and version;
+- the affected package (`@chart-on/core`, `@chart-on/ui`, `@chart-on/ta`, `@chart-on/indicators`, `@chart-on/locales`, `@chart-on/react`, `@chart-on/vue`, `@chart-on/svelte`) and version;
 - what an attacker controls (data from a data source, drawing text, a saved layout, options) and what they can achieve;
 - steps or a minimal page that reproduces it, with the browser and OS;
 - any fix or mitigation you have in mind.

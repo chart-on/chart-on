@@ -1,5 +1,5 @@
 import { createElement, forwardRef, useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { createChart, type Chart as CoreChart, type ChartEvents } from '@charton/core';
+import { createChart, type Chart as CoreChart, type ChartEvents } from '@chart-on/core';
 import { ChartContext } from './context';
 import { clearEvents, keepUnset, syncChart, syncEvents, type ChartEventHandlers, type ChartInputs } from './sync';
 

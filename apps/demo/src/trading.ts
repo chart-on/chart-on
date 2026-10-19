@@ -1,5 +1,5 @@
-import { button, iconButton } from '@charton/ui';
-import type { BarMarker, BracketPart, CandleSeries, Chart, OrderCreateEvent, OrderSide, TradeLine, TradeLinePart } from '@charton/core';
+import { button, iconButton } from '@chart-on/ui';
+import type { BarMarker, BracketPart, CandleSeries, Chart, OrderCreateEvent, OrderSide, TradeLine, TradeLinePart } from '@chart-on/core';
 import { HandCoins, X } from 'lucide';
 
 const PART_NAMES: Record<TradeLinePart, string> = { entry: 'entry', takeProfit: 'take profit', stopLoss: 'stop loss' };

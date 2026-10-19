@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart } from '@charton/core';
+import { Chart } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { h, isolateFromChart } from '../src/dom';
 import { createReplayControls } from '../src/replay';

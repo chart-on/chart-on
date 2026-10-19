@@ -118,7 +118,7 @@ export interface SourceInputDef extends FormInputBase<string> {
  *
  * ```ts
  * interface StepperInputDef extends FormInputBase<number> { kind: 'stepper'; max?: number }
- * declare module '@charton/ui' {
+ * declare module '@chart-on/ui' {
  *   interface FormInputKinds { stepper: StepperInputDef }
  * }
  * ```

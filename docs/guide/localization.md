@@ -9,7 +9,7 @@ The `localization` chart option sets the language of the numbers, dates and buil
 The option takes effect with the `localization()` [plugin](./features#opt-in-features), which `builtins()` includes. A chart without it keeps the built-in English (`englishLocalizer`), so an app that stays in English leaves the `Intl` code out. The option is still checked at the call, and development builds warn once ([`localization-missing`](./errors#localization-missing)) when it asks for anything.
 
 ```ts
-import { createChart, localization } from '@charton/core';
+import { createChart, localization } from '@chart-on/core';
 
 const chart = createChart(container, {
   plugins: [localization()],
@@ -36,15 +36,15 @@ chart.applyOptions({ localization: { locale: 'fr-FR' } });
 
 ## Locale packs
 
-`@charton/locales` has ready-made translations of every built-in message of `@charton/core` and `@charton/ui`, including the built-in drawing tool names. Each language is its own entry, a `LocalizationOptions` object with `locale` and `messages`, so a bundle holds only the languages it imports, and an app that stays in English ships none.
+`@chart-on/locales` has ready-made translations of every built-in message of `@chart-on/core` and `@chart-on/ui`, including the built-in drawing tool names. Each language is its own entry, a `LocalizationOptions` object with `locale` and `messages`, so a bundle holds only the languages it imports, and an app that stays in English ships none.
 
 ```sh
-pnpm add @charton/locales
+pnpm add @chart-on/locales
 ```
 
 ```ts
-import { createChart, localization } from '@charton/core';
-import { zhCN } from '@charton/locales/zh-CN';
+import { createChart, localization } from '@chart-on/core';
+import { zhCN } from '@chart-on/locales/zh-CN';
 
 // A pack applies through the localization() plugin, which builtins() includes.
 const chart = createChart(el, { plugins: [localization()] });
@@ -53,13 +53,13 @@ chart.applyOptions({ localization: zhCN });
 
 | Entry | Export | Language |
 | --- | --- | --- |
-| `@charton/locales/de-DE` | `deDE` | German |
-| `@charton/locales/es-ES` | `esES` | Spanish |
-| `@charton/locales/fr-FR` | `frFR` | French |
-| `@charton/locales/id-ID` | `idID` | Indonesian |
-| `@charton/locales/ja-JP` | `jaJP` | Japanese |
-| `@charton/locales/zh-CN` | `zhCN` | Chinese, Simplified |
-| `@charton/locales/zh-TW` | `zhTW` | Chinese, Traditional (Taiwan) |
+| `@chart-on/locales/de-DE` | `deDE` | German |
+| `@chart-on/locales/es-ES` | `esES` | Spanish |
+| `@chart-on/locales/fr-FR` | `frFR` | French |
+| `@chart-on/locales/id-ID` | `idID` | Indonesian |
+| `@chart-on/locales/ja-JP` | `jaJP` | Japanese |
+| `@chart-on/locales/zh-CN` | `zhCN` | Chinese, Simplified |
+| `@chart-on/locales/zh-TW` | `zhTW` | Chinese, Traditional (Taiwan) |
 
 To change single messages, or add your own keys, spread the pack's `messages` and replace the ones you need. Other fields, such as `hourCycle`, go next to it:
 
@@ -69,7 +69,7 @@ chart.applyOptions({
 });
 ```
 
-The packs translate the chart settings dialog and the appearance panel (the `settings.`, `setting.` and `appearance.` keys below), but not indicator text from `@charton/indicators`, colour preset names (`preset.<id>`) or price source names (`source.<value>`) yet; those stay in English. The translations have not been reviewed by a fluent speaker yet: corrections are welcome.
+The packs translate the chart settings dialog and the appearance panel (the `settings.`, `setting.` and `appearance.` keys below), but not indicator text from `@chart-on/indicators`, colour preset names (`preset.<id>`) or price source names (`source.<value>`) yet; those stay in English. The translations have not been reviewed by a fluent speaker yet: corrections are welcome.
 
 To add a language, add `src/<tag>.ts` to `packages/locales` with the tag's export in its `package.json`, typed with `satisfies PackMessages`. The coverage test then checks it like the others: every core, shell and tool key, every key built from `chartSettingsSchema` and `appearanceSections`, and no unknown ones, the same `{placeholder}` names as the English text, and the plural forms (`<key>.one`, `<key>.few`, ...) that `Intl.PluralRules` lists for the tag. The plain key serves as the `other` form. `railMoreGroup`, `appearanceResetSection` and `appearanceShow` may use `{name}`, the name as written, in place of the lower-case `{group}` or `{lower}`, for languages that capitalize nouns.
 
@@ -104,7 +104,7 @@ Typed prices parse back in the same language: a price format from `chart.localiz
 
 ## Messages
 
-Every built-in string has a key. The core keys and their English text are exported as `defaultMessages`; the shell's are `defaultShellMessages` from `@charton/ui`. `{name}` in a message marks a value filled in at run time.
+Every built-in string has a key. The core keys and their English text are exported as `defaultMessages`; the shell's are `defaultShellMessages` from `@chart-on/ui`. `{name}` in a message marks a value filled in at run time.
 
 ```ts
 chart.applyOptions({
@@ -171,7 +171,7 @@ messages: {
 }
 ```
 
-`pluralText(chart.localization, key, count, params)` from `@charton/core` does the same for your own messages.
+`pluralText(chart.localization, key, count, params)` from `@chart-on/core` does the same for your own messages.
 
 ### Panels, dialogs and pickers
 

@@ -1,4 +1,4 @@
-import { createChart, volumeProfile } from '@charton/core';
+import { createChart, volumeProfile } from '@chart-on/core';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

@@ -38,14 +38,14 @@ async function singleModuleUi(): Promise<string> {
         write: false,
         minify: false,
         lib: { entry: `${uiSrc}index.ts`, formats: ['es'] },
-        rollupOptions: { external: ['@charton/core'] },
+        rollupOptions: { external: ['@chart-on/core'] },
       },
     }),
   );
 }
 
 /**
- * An app importing `imports` from `@charton/ui`, read from the sources, or from `built` (the UI as
+ * An app importing `imports` from `@chart-on/ui`, read from the sources, or from `built` (the UI as
  * one module) when given. The core comes from its sources; both packages are side-effect free
  * apart from the UI's stylesheet, as their manifests say.
  */
@@ -56,15 +56,15 @@ async function bundle(imports: string[], built?: string): Promise<string> {
       root: repoRoot,
       configFile: false,
       logLevel: 'silent',
-      resolve: { alias: { '@charton/core': `${coreSrc}index.ts`, ...(built ? {} : { '@charton/ui': `${uiSrc}index.ts` }) } },
+      resolve: { alias: { '@chart-on/core': `${coreSrc}index.ts`, ...(built ? {} : { '@chart-on/ui': `${uiSrc}index.ts` }) } },
       plugins: [
         {
           name: 'ui-tree-shaking-entry',
           enforce: 'pre',
-          resolveId: (id) => (id === 'entry' ? ENTRY : built && id === '@charton/ui' ? SINGLE : null),
+          resolveId: (id) => (id === 'entry' ? ENTRY : built && id === '@chart-on/ui' ? SINGLE : null),
           load: (id) =>
             id === ENTRY
-              ? `import { ${imports.join(', ')} } from '@charton/ui';\nconsole.log(${imports.join(', ')});\n`
+              ? `import { ${imports.join(', ')} } from '@chart-on/ui';\nconsole.log(${imports.join(', ')});\n`
               : id === SINGLE
                 ? built
                 : null,

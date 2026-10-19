@@ -1,4 +1,4 @@
-import type { Chart, CrosshairEvent, ValuesAt } from '@charton/core';
+import type { Chart, CrosshairEvent, ValuesAt } from '@chart-on/core';
 import { shownLegends } from './datawindow';
 import { h } from './dom';
 
@@ -84,7 +84,7 @@ export function pointerTooltipContent(data: ValuesAt): HTMLElement {
  * a long-press inspects (see the chart's `touchInspect` option) or the
  * crosshair is locked, so a plain pan does not flash it. The legend and the
  * data window carry the same values for assistive technology, so it is
- * hidden from it. Requires `@charton/ui/style.css` (`--pc-tip-*` tokens).
+ * hidden from it. Requires `@chart-on/ui/style.css` (`--pc-tip-*` tokens).
  */
 export function createPointerTooltip(chart: Chart, options: PointerTooltipOptions = {}): PointerTooltipHandle {
   const format = options.format ?? pointerTooltipContent;

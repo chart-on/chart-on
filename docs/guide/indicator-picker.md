@@ -4,15 +4,15 @@ description: "A searchable indicator catalogue with categories, favourites and r
 
 # Indicator picker
 
-`@charton/ui` includes an indicator picker: a searchable catalogue of every registered indicator, grouped by category, with descriptions, favourites and recently added indicators. Picking a row adds the indicator and keeps the dialog open, so adding several, or a second moving average, takes one click each. It is built only on the public `chart.indicators` API.
+`@chart-on/ui` includes an indicator picker: a searchable catalogue of every registered indicator, grouped by category, with descriptions, favourites and recently added indicators. Picking a row adds the indicator and keeps the dialog open, so adding several, or a second moving average, takes one click each. It is built only on the public `chart.indicators` API.
 
 ## With the shell
 
 The shell creates the picker unless `indicatorPicker: false`. Open it from the toolbar preset, from code, or by typing `/` on the focused chart:
 
 ```ts
-import { createChartShell, indicatorPickerToolbarItem } from '@charton/ui';
-import { builtinIndicators } from '@charton/indicators';
+import { createChartShell, indicatorPickerToolbarItem } from '@chart-on/ui';
+import { builtinIndicators } from '@chart-on/indicators';
 
 const shell = createChartShell(el, {
   toolbar: [indicatorPickerToolbarItem() /* , ... */],
@@ -28,7 +28,7 @@ shell.indicatorPicker?.open();      // or open('rsi') with a query
 ## On its own
 
 ```ts
-import { createIndicatorPicker } from '@charton/ui';
+import { createIndicatorPicker } from '@chart-on/ui';
 
 const picker = createIndicatorPicker(chart, { container: shellElement });
 picker.open();
@@ -125,7 +125,7 @@ The picker follows `chart.indicators.setAccess()` and `setLimit()`, and updates 
 The star on a row adds it to the favourites, which come first in the All tab and in their category. To keep both lists with the user's other preferences, pass a `SettingsAdapter`, such as the one from `createLocalStorageAdapter` or one backed by your server; the lists are stored as JSON under the key `indicator-picker`:
 
 ```ts
-import { createLocalStorageAdapter } from '@charton/core';
+import { createLocalStorageAdapter } from '@chart-on/core';
 
 createChartShell(el, { indicatorPicker: { settings: createLocalStorageAdapter({ prefix: 'my-app:' }).settings } });
 ```
@@ -166,7 +166,7 @@ A live region announces result counts and what was added, removed or starred. Th
 An indicator template is an [indicator set](./indicators#indicator-sets) with a name: the user's indicators with their panes, saved once and applied to any chart in one step. The shell creates the template UI (`indicatorTemplates: false` leaves it out); `indicatorTemplatesToolbarItem()` is a toolbar menu with **Save indicator template…** and **Open template…**:
 
 ```ts
-import { createChartShell, indicatorPickerToolbarItem, indicatorTemplatesToolbarItem } from '@charton/ui';
+import { createChartShell, indicatorPickerToolbarItem, indicatorTemplatesToolbarItem } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   toolbar: [indicatorPickerToolbarItem(), indicatorTemplatesToolbarItem() /* , ... */],
@@ -183,7 +183,7 @@ Without the shell, `createIndicatorTemplates(chart, options)` returns the same h
 The **dialog** reuses the picker dialog: a search box that searches every source, a category sidebar and a list of rows. Each row shows the template's name and a one-line summary of its indicators grouped by pane, such as `SMA 20, SMA 50 · DMI 14`, followed by its interval scope (`for 1m–15m`) when it has one. The categories come from three sources:
 
 - **My templates:** the user's, from the storage adapter. Their rows have Rename and Delete buttons. Delete asks for confirmation first in a small dialog over the list, since it cannot be undone; Cancel, Escape or a press outside it keeps the template. Rename saves under the new name, then removes the old one; if removing fails, a notification says the old copy was kept. A rename that only changes letter case (`Trend` to `trend`) removes the old name only when the adapter still lists it after the save, so an adapter that matches names without case keeps its one entry.
-- **Technicals:** read-only presets, `indicatorTemplatePresets` by default (trend, momentum, volatility and volume sets made of indicators from `@charton/indicators`). Pass `presets` to replace them, or `[]` for none.
+- **Technicals:** read-only presets, `indicatorTemplatePresets` by default (trend, momentum, volatility and volume sets made of indicators from `@chart-on/indicators`). Pass `presets` to replace them, or `[]` for none.
 - **Collections:** templates an app or a package registers for a chart, each under its own category:
 
 ```ts

@@ -4,7 +4,7 @@
  * without a rule fails to compile. Built on first use behind a `NODE_ENV`
  * test that bundlers fold, so production bundles drop it.
  */
-import { ChartError, checkOptions, either, int, num, oneOf, shape, type Chart, type LinkGroupOptions, type OptionShape } from '@charton/core';
+import { ChartError, checkOptions, either, int, num, oneOf, shape, type Chart, type LinkGroupOptions, type OptionShape } from '@chart-on/core';
 import type { AppearanceOptions } from './appearance';
 import type { BottomBarOptions } from './bottombar';
 import type { ChartSettingsOptions } from './chart-settings';
@@ -215,7 +215,7 @@ export function devRequirePlugin(chart: Chart, part: string, plugin: string): vo
   try {
     if (process.env.NODE_ENV !== 'production') {
       checking = true;
-      if (!chart.installedPlugins.includes(`@charton/core/${plugin}`)) {
+      if (!chart.installedPlugins.includes(`@chart-on/core/${plugin}`)) {
         throw new ChartError(
           'not-registered',
           `${part}() needs the ${plugin}() plugin: create the chart with it in its plugins (or builtins()), or call chart.install(${plugin}())`,

@@ -1,6 +1,6 @@
-import { createMockDataSource, type Interval, type LinkGroupOptions } from '@charton/core';
-import { commandPalette, createChartGrid, gridLayout, toasts } from '@charton/ui';
-import '@charton/ui/style.css';
+import { createMockDataSource, type Interval, type LinkGroupOptions } from '@chart-on/core';
+import { commandPalette, createChartGrid, gridLayout, toasts } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 import { expose } from './expose';
 
 // Up to eight linked charts, each on its own random walk. The toolbar acts on the active chart.

@@ -1,4 +1,4 @@
-import type { Chart, ChartStatus } from '@charton/core';
+import type { Chart, ChartStatus } from '@chart-on/core';
 import { h } from './dom';
 
 /** App content for a shell slot: an element, or a function that builds one from the shell's chart. */

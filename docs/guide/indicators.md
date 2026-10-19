@@ -9,7 +9,7 @@ An indicator is a plain object: declared inputs and outputs plus a pure `compute
 Indicators are [opt-in](./features#opt-in-features): `chart.indicators` needs the `indicators()` plugin (or `builtins()`), and throws a [`not-registered`](./errors#not-registered) `ChartError` without it. The UI shell adds it for you.
 
 ```ts
-import { createChart, indicators } from '@charton/core';
+import { createChart, indicators } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [indicators()] });
 ```
@@ -30,7 +30,7 @@ chart.indicators.getAll();         // every indicator on the chart
 
 Search includes definitions denied by the access rules, as `getDefinitions()` does. A picker decides whether to hide or disable them before using `add()`, which enforces access. Unregistered definitions leave the results immediately.
 
-`searchIndicators(defs, query, { nameOf })` ranks any list of definitions the same way, by the names `nameOf` gives (for example in the chart's language; the definition's own name still matches), and `matchRank(def, query, { name })` scores one (lower is better, `null` for no match, tiers in `matchTiers`). Both are exported by `@charton/core` and re-exported by `@charton/ui`, whose [indicator picker](./indicator-picker#search) and its command palette source rank with them. `matchScore(item, query, { typos })` is the same matcher for any `{ id, label, keywords, description }` item; it is the [picker dialog's](./dialogs#picker-dialog) ranking.
+`searchIndicators(defs, query, { nameOf })` ranks any list of definitions the same way, by the names `nameOf` gives (for example in the chart's language; the definition's own name still matches), and `matchRank(def, query, { name })` scores one (lower is better, `null` for no match, tiers in `matchTiers`). Both are exported by `@chart-on/core` and re-exported by `@chart-on/ui`, whose [indicator picker](./indicator-picker#search) and its command palette source rank with them. `matchScore(item, query, { typos })` is the same matcher for any `{ id, label, keywords, description }` item; it is the [picker dialog's](./dialogs#picker-dialog) ranking.
 
 ## Copies and intervals
 
@@ -48,14 +48,14 @@ sma.setVisibleOn(null);                               // every interval again
 
 ## Built-in indicators
 
-`@charton/indicators` ships common indicators as ready-made definitions, built on the [technical-analysis helpers](./technical-analysis):
+`@chart-on/indicators` ships common indicators as ready-made definitions, built on the [technical-analysis helpers](./technical-analysis):
 
 ```bash
-pnpm add @charton/indicators
+pnpm add @chart-on/indicators
 ```
 
 ```ts
-import { bollingerIndicator, builtinIndicators, rsiIndicator } from '@charton/indicators';
+import { bollingerIndicator, builtinIndicators, rsiIndicator } from '@chart-on/indicators';
 
 for (const def of builtinIndicators) chart.indicators.register(def); // e.g. for a picker
 chart.indicators.add('bbands');
@@ -87,13 +87,13 @@ The main line of each indicator follows the theme's line colour until you set it
 
 ## Writing one
 
-Build `compute` and `update` from the [technical-analysis helpers](./technical-analysis) in `@charton/ta` rather than hand-written loops:
+Build `compute` and `update` from the [technical-analysis helpers](./technical-analysis) in `@chart-on/ta` rather than hand-written loops:
 
 <!-- example: custom-indicator -->
 
 `src` holds the bars as parallel `Float64Array` columns: `time`, `open`, `high`, `low`, `close` and `volume` (NaN when a bar has none). `compute` returns one array of `src.length` per plot id.
 
-`lookback(inputs)` is optional: the number of bars before the first valid value (the warm-up). Every helper in `@charton/ta` has a matching `<name>Lookback`. With a [data source](./data-sources), the chart adds the largest lookback of its indicators to the bars it requests on the first load, and asks for older history that many bars earlier while scrolling back, so the warm-up stays off screen. `indicator.lookback` and `chart.indicators.lookback` report the current values.
+`lookback(inputs)` is optional: the number of bars before the first valid value (the warm-up). Every helper in `@chart-on/ta` has a matching `<name>Lookback`. With a [data source](./data-sources), the chart adds the largest lookback of its indicators to the bars it requests on the first load, and asks for older history that many bars earlier while scrolling back, so the warm-up stays off screen. `indicator.lookback` and `chart.indicators.lookback` report the current values.
 
 The legend title defaults to `name` followed by every number and source input ("SMA 20 close"). Set `title(inputs)` to show only what matters, e.g. `` title: ({ length }) => `RSI ${length}` ``.
 
@@ -229,7 +229,7 @@ chart.indicators.add('my-lib/vwap-bands', { length: 20 });
 chart.indicators.unregister('my-lib/vwap-bands');
 ```
 
-- The `id` is what saved state refers to, so keep it stable. Indicators shipped in a package prefix it with the package name, `my-lib/vwap-bands`, so they don't clash with other packages or with the built-ins (`sma`, `rsi`...). The built-ins in `@charton/indicators` are the one exception: as first-party definitions they keep short, bare ids, and no other package should use a bare id.
+- The `id` is what saved state refers to, so keep it stable. Indicators shipped in a package prefix it with the package name, `my-lib/vwap-bands`, so they don't clash with other packages or with the built-ins (`sma`, `rsi`...). The built-ins in `@chart-on/indicators` are the one exception: as first-party definitions they keep short, bare ids, and no other package should use a bare id.
 - Registering an id that another definition already has throws. Registering the same object again does nothing, so a hot reload or a second `register` call is harmless.
 - `add` takes an id or a definition. A definition that isn't registered yet is registered on the way, so a one-off indicator is a single call.
 - `unregister` doesn't remove the indicators using that definition. They become pending placeholders (below) and come back when it is registered again.
@@ -377,10 +377,10 @@ A removed indicator's handle keeps the inputs, visibility and `serialize()` resu
 
 On `setData` (including history prepends and interval reloads) the chart runs `compute` over every bar. On a live tick or a newly appended bar it calls `update` for the last bar only. `update` writes into `out` at `index` and may read earlier values, so recurrences such as an EMA continue from `out.ema[index - 1]`. Extra arrays returned by `compute` are kept and passed back to `update`, which is the place for running state like the average gain and loss of an RSI. The SMA above keeps its source this way, so a derived source such as `hlc3` is not rebuilt on every tick.
 
-Each helper in `@charton/ta` has a single-bar form that matches this contract. Helpers with running state take a `state` object; return its arrays from `compute` and pass them back to the single-bar form:
+Each helper in `@chart-on/ta` has a single-bar form that matches this contract. Helpers with running state take a `state` object; return its arrays from `compute` and pass them back to the single-bar form:
 
 ```ts
-import { rsi, rsiAt } from '@charton/ta';
+import { rsi, rsiAt } from '@chart-on/ta';
 
 compute(src, { length }) {
   const n = src.length;
@@ -405,7 +405,7 @@ If `compute` or `update` throws, or `compute` returns no result or an array that
 Some indicators are not a function of the main bars: open interest, funding rates, on-chain metrics, sentiment. Give the definition a `fetch` (history) and optionally a `subscribe` (live rows), and name the values of each row with `fields`. The chart owns the data lifecycle. `compute` stays a pure function and receives the fetched values as its third argument, aligned with the bars.
 
 ```ts
-import type { IndicatorDef } from '@charton/core';
+import type { IndicatorDef } from '@chart-on/core';
 
 // `api` stands for your own client.
 const openInterest: IndicatorDef<{ venue: number }> = {
@@ -455,7 +455,7 @@ External data needs a [data source](./data-sources). With bars pushed through `s
 An indicator can read the bars of a longer interval than the chart's, for example an RSI on daily bars while the chart shows 5-minute bars. List the intervals in `intervals`; `compute` and `update` get their bars as a fourth (sixth) argument, keyed by interval. Two pure helpers put values computed on those bars back onto the chart's bars.
 
 ```ts
-import { alignSteps, formingSteps, type IndicatorDef, type Interval } from '@charton/core';
+import { alignSteps, formingSteps, type IndicatorDef, type Interval } from '@chart-on/core';
 
 const dailyClose: IndicatorDef<{ interval: string; closedOnly: boolean }> = {
   id: 'my-lib/higher-close',
@@ -513,7 +513,7 @@ For values that never use later data, use `formingSteps` or `closedOnly`. The de
 The opt-in `higherIntervalBars()` plugin adds an overlay indicator, `higher-interval-bars`, that draws each bar of a longer interval behind the chart's bars: a range box from its high to its low and a body box from its open to its close, both spanning the chart bars it holds, coloured by direction. It reads its bars through `intervals`, so the boxes load, page and update live as described above, and the forming box follows every tick.
 
 ```ts
-import { createChart, higherIntervalBars } from '@charton/core';
+import { createChart, higherIntervalBars } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [higherIntervalBars()] }); // or chart.install(higherIntervalBars())
 chart.indicators.add('higher-interval-bars', { interval: '1h' });   // hourly boxes on a 5-minute chart

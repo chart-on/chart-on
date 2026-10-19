@@ -213,7 +213,7 @@ export interface DataSourceFeature {
 }
 
 /** @internal Name of the `sharedContext()` plugin: a chart created with `gl: 'shared'` installs it first, to join the context. */
-export const SHARED_CONTEXT = '@charton/core/shared-context';
+export const SHARED_CONTEXT = '@chart-on/core/shared-context';
 
 /** @internal What the `sharedContext()` plugin gives a chart created with `gl: 'shared'`: the page's shared WebGL context to join. */
 export interface SharedContextFeature {

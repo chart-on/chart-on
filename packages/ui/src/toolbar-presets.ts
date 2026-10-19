@@ -17,7 +17,7 @@ import {
   type Series,
   type SymbolInfo,
   type Time,
-} from '@charton/core';
+} from '@chart-on/core';
 import { Camera, Eye, EyeOff, FileSpreadsheet, GitCompareArrows, LayoutGrid, Maximize, PanelLeft, Printer, Redo2, Search, Undo2 } from 'lucide';
 import { captureMissing } from './clipboard';
 import type { MenuOption } from './controls';

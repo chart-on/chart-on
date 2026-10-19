@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/indicators": "workspace:^",
-    "@charton/locales": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/indicators": "workspace:^",
+    "@chart-on/locales": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "lucide": "^1.55.0"
   }
 }

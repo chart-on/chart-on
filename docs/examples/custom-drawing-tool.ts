@@ -1,4 +1,4 @@
-import { createChart, drawings, type DrawingToolDef } from '@charton/core';
+import { createChart, drawings, type DrawingToolDef } from '@chart-on/core';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

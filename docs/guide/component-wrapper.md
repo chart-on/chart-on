@@ -1,27 +1,27 @@
 ---
-description: "Mount the chart or the shell as components with @charton/react: props updated in place, a ref or hook for the instance, events as callbacks, and server rendering."
+description: "Mount the chart or the shell as components with @chart-on/react: props updated in place, a ref or hook for the instance, events as callbacks, and server rendering."
 ---
 
 # Component wrapper
 
-`@charton/react` wraps the engine and the shell as components for apps built with a component-based UI framework, including apps that render on a server first. It follows the [wrapper contract](./frameworks#the-wrapper-contract): the chart is created when the component mounts and destroyed when it unmounts, and changing a prop updates the chart in place instead of creating a new one.
+`@chart-on/react` wraps the engine and the shell as components for apps built with a component-based UI framework, including apps that render on a server first. It follows the [wrapper contract](./frameworks#the-wrapper-contract): the chart is created when the component mounts and destroyed when it unmounts, and changing a prop updates the chart in place instead of creating a new one.
 
 | Export | From | What it is |
 | --- | --- | --- |
-| `<Chart>` | `@charton/react` | The engine alone, in a `div`. |
-| `useChart()` | `@charton/react` | The `Chart` of the nearest `<Chart>` or `<ChartShell>`. |
-| `<ChartShell>` | `@charton/react/shell` | The widget: toolbar, drawing rail, bottom bar and the chart. |
-| `useChartShell()` | `@charton/react/shell` | The `ChartShell` of the nearest `<ChartShell>`. |
+| `<Chart>` | `@chart-on/react` | The engine alone, in a `div`. |
+| `useChart()` | `@chart-on/react` | The `Chart` of the nearest `<Chart>` or `<ChartShell>`. |
+| `<ChartShell>` | `@chart-on/react/shell` | The widget: toolbar, drawing rail, bottom bar and the chart. |
+| `useChartShell()` | `@chart-on/react/shell` | The `ChartShell` of the nearest `<ChartShell>`. |
 
 ## Install
 
 ```bash
-pnpm add @charton/react @charton/core
+pnpm add @chart-on/react @chart-on/core
 # Only for <ChartShell>:
-pnpm add @charton/ui
+pnpm add @chart-on/ui
 ```
 
-The framework (version 18 or later), `@charton/core` and `@charton/ui` are peer dependencies: the app installs them once and the wrapper uses the app's copies. `@charton/ui` is optional, because `<ChartShell>` lives in its own entry, `@charton/react/shell`. An app that only imports `@charton/react` never loads it.
+The framework (version 18 or later), `@chart-on/core` and `@chart-on/ui` are peer dependencies: the app installs them once and the wrapper uses the app's copies. `@chart-on/ui` is optional, because `<ChartShell>` lives in its own entry, `@chart-on/react/shell`. An app that only imports `@chart-on/react` never loads it.
 
 ## The engine
 
@@ -29,8 +29,8 @@ Give the component a height; the chart fills its container.
 
 ```tsx
 import { useMemo } from 'react';
-import { createMockDataSource, dataSource } from '@charton/core';
-import { Chart } from '@charton/react';
+import { createMockDataSource, dataSource } from '@chart-on/core';
+import { Chart } from '@chart-on/react';
 
 // Plugins are read once, at creation: create the list once.
 const plugins = [dataSource()];
@@ -71,8 +71,8 @@ With a ref:
 
 ```tsx
 import { useRef } from 'react';
-import type { Chart as ChartInstance } from '@charton/core';
-import { Chart } from '@charton/react';
+import type { Chart as ChartInstance } from '@chart-on/core';
+import { Chart } from '@chart-on/react';
 
 export function ChartWithButton() {
   const chart = useRef<ChartInstance | null>(null);
@@ -89,8 +89,8 @@ With `useChart()` in a child. The child renders once with null, then again with 
 
 ```tsx
 import { useEffect } from 'react';
-import type { Bar } from '@charton/core';
-import { Chart, useChart } from '@charton/react';
+import type { Bar } from '@chart-on/core';
+import { Chart, useChart } from '@chart-on/react';
 
 function Candles({ bars }: { bars: Bar[] }) {
   const chart = useChart();
@@ -135,8 +135,8 @@ A new callback for the same event is used straight away without subscribing agai
 `<ChartShell>` mounts the full shell. Import its stylesheet once in the app.
 
 ```tsx
-import { ChartShell } from '@charton/react/shell';
-import '@charton/ui/style.css';
+import { ChartShell } from '@chart-on/react/shell';
+import '@chart-on/ui/style.css';
 
 export function Terminal({ dark }: { dark: boolean }) {
   return (
@@ -174,8 +174,8 @@ The built files start with the `'use client'` marker, so frameworks that split s
 ```tsx
 'use client';
 import { useMemo } from 'react';
-import { createMockDataSource } from '@charton/core';
-import { Chart } from '@charton/react';
+import { createMockDataSource } from '@chart-on/core';
+import { Chart } from '@chart-on/react';
 
 export function LiveChart({ symbol }: { symbol: string }) {
   const dataSource = useMemo(() => createMockDataSource(), []);
@@ -193,8 +193,8 @@ In frameworks without server components, where each page renders on the server a
 
 Two small apps in the repository show the components in use:
 
-- [`examples/react-bundler`](https://github.com/chart-on/charton/tree/main/examples/react-bundler): the widget in a client-rendered app, with a theme switch and a crosshair readout through `on`.
-- [`examples/react-ssr`](https://github.com/chart-on/charton/tree/main/examples/react-ssr): `<Chart>` rendered to HTML on the server and hydrated in the browser, served by a small Node server.
+- [`examples/react-bundler`](https://github.com/chart-on/chart-on/tree/main/examples/react-bundler): the widget in a client-rendered app, with a theme switch and a crosshair readout through `on`.
+- [`examples/react-ssr`](https://github.com/chart-on/chart-on/tree/main/examples/react-ssr): `<Chart>` rendered to HTML on the server and hydrated in the browser, served by a small Node server.
 
 CI builds both and renders the server example in Node with `node scripts/check-examples.mjs`.
 

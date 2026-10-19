@@ -38,8 +38,8 @@ afterAll(() => {
 
 describe('importing on a server', () => {
   it.each([
-    ['@charton/svelte', () => import('@charton/svelte')],
-    ['@charton/svelte/shell', () => import('@charton/svelte/shell')],
+    ['@chart-on/svelte', () => import('@chart-on/svelte')],
+    ['@chart-on/svelte/shell', () => import('@chart-on/svelte/shell')],
   ])(
     '%s touches no browser global',
     async (_name, load) => {

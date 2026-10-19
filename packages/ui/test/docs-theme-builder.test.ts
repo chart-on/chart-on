@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 import { describe, expect, it } from 'vitest';
-import { chartThemeTokens, chartTypographyTokens, darkTheme, lightTheme, themeFromCss, type ChartTheme } from '@charton/core';
+import { chartThemeTokens, chartTypographyTokens, darkTheme, lightTheme, themeFromCss, type ChartTheme } from '@chart-on/core';
 import css from '../src/style.css?raw';
 import docsTheming from '../../../docs/guide/theming.md?raw';
 import { declarations, parseRules, ruleVars } from '../../../docs/.vitepress/theme-builder/css';

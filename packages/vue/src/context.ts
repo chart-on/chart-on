@@ -1,5 +1,5 @@
 import { inject, shallowRef, type InjectionKey, type ShallowRef } from 'vue';
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 
 /** The chart of the nearest `<Chart>` or `<ChartShell>`; null before mount and on a server. */
 export const chartKey: InjectionKey<Readonly<ShallowRef<Chart | null>>> = Symbol('charton-chart');

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createChart, type Chart } from '@charton/core';
+import { createChart, type Chart } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import { copyChartImage } from '../src/clipboard';
 import { printChart } from '../src/print';
@@ -81,7 +81,7 @@ describe('image capture in the UI shell', () => {
     const shell = createChartShell(fakeContainer(), { chart: { plugins: [] } });
     shells.push(shell);
     const chart = shell.chart;
-    expect(chart.installedPlugins).toContain('@charton/core/image-capture');
+    expect(chart.installedPlugins).toContain('@chart-on/core/image-capture');
     chart.addCandles().setData(Array.from({ length: 20 }, (_, i) => ({ time: i * 60, open: 1, high: 2, low: 0, close: 1 })));
     const png = new Blob(['png'], { type: 'image/png' });
     const downloads: string[] = [];

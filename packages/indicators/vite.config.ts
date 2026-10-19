@@ -5,7 +5,7 @@ import pkg from './package.json' with { type: 'json' };
 export default defineConfig({
   build: {
     lib: { entry: 'src/index.ts', formats: ['es'], fileName: 'index' },
-    rollupOptions: { external: ['@charton/core', '@charton/ta'] },
+    rollupOptions: { external: ['@chart-on/core', '@chart-on/ta'] },
     target: buildTargets(pkg.browserslist),
     sourcemap: true,
     emptyOutDir: true,

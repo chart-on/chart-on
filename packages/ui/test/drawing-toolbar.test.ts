@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { Chart, DrawingManager, FIB_LEVELS, TimeScale, darkTheme, levelColor, type Drawing, type Rect } from '@charton/core';
-import { Pane, Timeline } from '@charton/core/internal';
+import { Chart, DrawingManager, FIB_LEVELS, TimeScale, darkTheme, levelColor, type Drawing, type Rect } from '@chart-on/core';
+import { Pane, Timeline } from '@chart-on/core/internal';
 import { fakeContainer, installFakeDom } from '../../core/test/fake-dom';
 import { levelsEditor, patchLevel, styleFieldControl, type StyleFieldContext } from '../src/drawing-style-controls';
 import { settingsFieldValue } from '../src/drawing-settings';

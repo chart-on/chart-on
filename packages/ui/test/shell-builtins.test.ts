@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { builtinTools, drawingTools, heatmap, marketStatus } from '@charton/core';
+import { builtinTools, drawingTools, heatmap, marketStatus } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import * as rail from '../src/rail';
 import { createChartShell, type ChartShell } from '../src/shell';
@@ -42,14 +42,14 @@ describe('shell plugins', () => {
     expect(shell.chart.addHeatmap().kind).toBe('heatmap');
     expect(shell.chart.addVolumeProfile().kind).toBe('volumeProfile');
     // builtins(), which the shell gives its chart by default, brings the reference lines.
-    expect(shell.chart.installedPlugins).toContain('@charton/core/reference-lines');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/price-styles');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/grouping');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/last-point-pulse');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/localization');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/countdown');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/image-capture');
-    expect(shell.chart.installedPlugins).toContain('@charton/core/market-status');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/reference-lines');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/price-styles');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/grouping');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/last-point-pulse');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/localization');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/countdown');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/image-capture');
+    expect(shell.chart.installedPlugins).toContain('@chart-on/core/market-status');
     expect(railTools(mount).sort()).toEqual(builtinTools.map((t) => t.type).sort());
   });
 
@@ -74,19 +74,19 @@ describe('shell plugins', () => {
     shells.push(shell);
     // Before the app's plugins, so those can register indicators and drawing tools.
     expect(shell.chart.installedPlugins).toEqual([
-      '@charton/core/data-source',
-      '@charton/core/indicators',
-      '@charton/core/comparisons',
-      '@charton/core/drawings',
-      '@charton/core/annotations',
-      '@charton/core/replay',
-      '@charton/core/source-markers',
-      '@charton/core/adjustments',
-      '@charton/core/watermark',
-      '@charton/core/layouts',
-      '@charton/core/image-capture',
-      '@charton/core/heatmap',
-      '@charton/core/trading',
+      '@chart-on/core/data-source',
+      '@chart-on/core/indicators',
+      '@chart-on/core/comparisons',
+      '@chart-on/core/drawings',
+      '@chart-on/core/annotations',
+      '@chart-on/core/replay',
+      '@chart-on/core/source-markers',
+      '@chart-on/core/adjustments',
+      '@chart-on/core/watermark',
+      '@chart-on/core/layouts',
+      '@chart-on/core/image-capture',
+      '@chart-on/core/heatmap',
+      '@chart-on/core/trading',
     ]);
     expect(shell.chart.indicators.getAll()).toEqual([]);
     expect(shell.chart.drawings.getTools()).toEqual([]);
@@ -98,8 +98,8 @@ describe('shell plugins', () => {
   it('does not add the market status or the countdown to a list of the app’s own', () => {
     const shell = createChartShell(fakeContainer(), { chart: { plugins: [heatmap()] } });
     shells.push(shell);
-    expect(shell.chart.installedPlugins).not.toContain('@charton/core/market-status');
-    expect(shell.chart.installedPlugins).not.toContain('@charton/core/countdown');
+    expect(shell.chart.installedPlugins).not.toContain('@chart-on/core/market-status');
+    expect(shell.chart.installedPlugins).not.toContain('@chart-on/core/countdown');
     expect(() => shell.chart.marketStatus()).toThrow(expect.objectContaining({ code: 'not-registered' }));
     // Added by the app, it works in the shell.
     shell.chart.install(marketStatus());

@@ -45,12 +45,12 @@ type FeatureHost = {
 };
 const host = (chart: Chart) => chart as unknown as FeatureHost;
 /** Name of both drawings plugins: a chart has one. */
-const DRAWINGS = '@charton/core/drawings';
+const DRAWINGS = '@chart-on/core/drawings';
 
 /** Plugin that adds `chart.addHeatmap`: the heatmap series, its GPU program and hover inspector. */
 export function heatmap(): ChartPlugin {
   return {
-    name: '@charton/core/heatmap',
+    name: '@chart-on/core/heatmap',
     version: CORE_VERSION,
     install: (ctx) => {
       let inspector: HeatmapInspector | null = null;
@@ -76,7 +76,7 @@ export function heatmap(): ChartPlugin {
 /** Plugin that adds `chart.addVolumeProfile`. */
 export function volumeProfile(): ChartPlugin {
   return {
-    name: '@charton/core/volume-profile',
+    name: '@chart-on/core/volume-profile',
     version: CORE_VERSION,
     install: (ctx) =>
       host(ctx.chart).provideFeature('volumeProfile', {
@@ -91,7 +91,7 @@ export function volumeProfile(): ChartPlugin {
  */
 export function points(): ChartPlugin {
   return {
-    name: '@charton/core/points',
+    name: '@chart-on/core/points',
     version: CORE_VERSION,
     install: ({ chart }) =>
       host(chart).provideFeature('points', {
@@ -107,7 +107,7 @@ export function points(): ChartPlugin {
  */
 export function viewportBounds(): ChartPlugin {
   return {
-    name: '@charton/core/viewport-bounds',
+    name: '@chart-on/core/viewport-bounds',
     version: CORE_VERSION,
     install: ({ chart }) => {
       const feature = viewportBoundsFeature(chart);
@@ -143,7 +143,7 @@ export function sharedContext(): ChartPlugin {
  */
 export function depthLane(): ChartPlugin {
   return {
-    name: '@charton/core/depth-lane',
+    name: '@chart-on/core/depth-lane',
     version: CORE_VERSION,
     install: (ctx) => host(ctx.chart).provideFeature('depthLane', { create: createDepthLane, measure: measureLanes, draw: drawLanes }),
   };
@@ -157,7 +157,7 @@ export function depthLane(): ChartPlugin {
  */
 export function statsOverlay(): ChartPlugin {
   return {
-    name: '@charton/core/stats-overlay',
+    name: '@chart-on/core/stats-overlay',
     version: CORE_VERSION,
     install: (ctx) => {
       const stats = new FrameStats(ctx.chart);
@@ -176,7 +176,7 @@ export function statsOverlay(): ChartPlugin {
  */
 export function dataSource(): ChartPlugin {
   return {
-    name: '@charton/core/data-source',
+    name: '@chart-on/core/data-source',
     version: CORE_VERSION,
     install: (ctx) =>
       host(ctx.chart).provideFeature('dataSource', { connect: connectSource }),
@@ -191,7 +191,7 @@ export function dataSource(): ChartPlugin {
  */
 export function sourceMarkers(): ChartPlugin {
   return {
-    name: '@charton/core/source-markers',
+    name: '@chart-on/core/source-markers',
     version: CORE_VERSION,
     install: (ctx) =>
       host(ctx.chart).provideFeature('sourceMarkers', {
@@ -209,7 +209,7 @@ export function sourceMarkers(): ChartPlugin {
  */
 export function adjustments(): ChartPlugin {
   return {
-    name: '@charton/core/adjustments',
+    name: '@chart-on/core/adjustments',
     version: CORE_VERSION,
     install: (ctx) =>
       host(ctx.chart).provideFeature('adjustments', {
@@ -251,7 +251,7 @@ export function drawingTools(tools: readonly DrawingToolDef[] = builtinTools): C
  */
 export function annotations(): ChartPlugin {
   return {
-    name: '@charton/core/annotations',
+    name: '@chart-on/core/annotations',
     version: CORE_VERSION,
     install: ({ chart }) => host(chart).provideFeature('annotations', new AnnotationManager(annotationHost(chart, host(chart).internals()))),
   };
@@ -266,7 +266,7 @@ export function annotations(): ChartPlugin {
  */
 export function trading(): ChartPlugin {
   return {
-    name: '@charton/core/trading',
+    name: '@chart-on/core/trading',
     version: CORE_VERSION,
     install: ({ chart }) => {
       const layer = chart.annotationLayer ?? notInstalled('trading()', 'annotations()');
@@ -284,10 +284,10 @@ export function trading(): ChartPlugin {
  * Plugin that adds indicators (`chart.indicators`): definitions, the
  * indicators on the chart, their series, sets and undo steps, and saved
  * indicators in layouts. Indicator definitions themselves come from the app
- * or other plugins, e.g. `@charton/indicators`.
+ * or other plugins, e.g. `@chart-on/indicators`.
  */
 export function indicators(): ChartPlugin {
-  return { name: '@charton/core/indicators', version: CORE_VERSION, install: (ctx) => installIndicators(ctx.chart) };
+  return { name: '@chart-on/core/indicators', version: CORE_VERSION, install: (ctx) => installIndicators(ctx.chart) };
 }
 
 /**
@@ -295,7 +295,7 @@ export function indicators(): ChartPlugin {
  * symbols (or pairs of them) from the data source next to the main one.
  */
 export function comparisons(): ChartPlugin {
-  return { name: '@charton/core/comparisons', version: CORE_VERSION, install: (ctx) => installComparisons(ctx.chart) };
+  return { name: '@chart-on/core/comparisons', version: CORE_VERSION, install: (ctx) => installComparisons(ctx.chart) };
 }
 
 /**
@@ -306,7 +306,7 @@ export function comparisons(): ChartPlugin {
  */
 export function watermark(): ChartPlugin {
   return {
-    name: '@charton/core/watermark',
+    name: '@chart-on/core/watermark',
     version: CORE_VERSION,
     install: ({ chart, onDispose }) => {
       const mark = createWatermark();
@@ -327,7 +327,7 @@ export function watermark(): ChartPlugin {
  */
 export function layouts(): ChartPlugin {
   return {
-    name: '@charton/core/layouts',
+    name: '@chart-on/core/layouts',
     version: CORE_VERSION,
     install: ({ chart }) => host(chart).provideFeature('layouts', { serialize: serializeLayout, load: loadLayout }),
   };
@@ -341,7 +341,7 @@ export function layouts(): ChartPlugin {
  */
 export function referenceLines(): ChartPlugin {
   return {
-    name: '@charton/core/reference-lines',
+    name: '@chart-on/core/reference-lines',
     version: CORE_VERSION,
     install: ({ chart, onDispose }) => {
       const lines = new ReferenceLines({
@@ -378,7 +378,7 @@ export function referenceLines(): ChartPlugin {
  */
 export function priceStyles(): ChartPlugin {
   return {
-    name: '@charton/core/price-styles',
+    name: '@chart-on/core/price-styles',
     version: CORE_VERSION,
     install: ({ chart }) => host(chart).provideFeature('priceStyles', (series, release) => new PriceStyles(series, release)),
   };
@@ -391,7 +391,7 @@ export function priceStyles(): ChartPlugin {
  * single bars.
  */
 export function grouping(): ChartPlugin {
-  return { name: '@charton/core/grouping', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('grouping', new Grouping(chart)) };
+  return { name: '@chart-on/core/grouping', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('grouping', new Grouping(chart)) };
 }
 
 /**
@@ -401,7 +401,7 @@ export function grouping(): ChartPlugin {
  * kept but draws nothing.
  */
 export function lastPointPulse(): ChartPlugin {
-  return { name: '@charton/core/last-point-pulse', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('pulse', (still) => new PulseClock(still)) };
+  return { name: '@chart-on/core/last-point-pulse', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('pulse', (still) => new PulseClock(still)) };
 }
 
 /**
@@ -410,7 +410,7 @@ export function lastPointPulse(): ChartPlugin {
  * it `captureImage` throws a `not-registered` error.
  */
 export function imageCapture(): ChartPlugin {
-  return { name: '@charton/core/image-capture', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('imageCapture', compositeImage) };
+  return { name: '@chart-on/core/image-capture', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('imageCapture', compositeImage) };
 }
 
 /**
@@ -420,7 +420,7 @@ export function imageCapture(): ChartPlugin {
  * `not-registered` error and the option shows nothing.
  */
 export function marketStatus(): ChartPlugin {
-  return { name: '@charton/core/market-status', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('marketStatus', marketStatusFeature) };
+  return { name: '@chart-on/core/market-status', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('marketStatus', marketStatusFeature) };
 }
 
 /**
@@ -429,7 +429,7 @@ export function marketStatus(): ChartPlugin {
  * but shows nothing.
  */
 export function countdown(): ChartPlugin {
-  return { name: '@charton/core/countdown', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('countdown', barCountdown) };
+  return { name: '@chart-on/core/countdown', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('countdown', barCountdown) };
 }
 
 /**
@@ -440,7 +440,7 @@ export function countdown(): ChartPlugin {
  * (`englishLocalizer`), and the option is only checked.
  */
 export function localization(): ChartPlugin {
-  return { name: '@charton/core/localization', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('localizer', createLocalizer) };
+  return { name: '@chart-on/core/localization', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('localizer', createLocalizer) };
 }
 
 /**
@@ -448,7 +448,7 @@ export function localization(): ChartPlugin {
  * bars after a chosen one, then reveal them by step or on a timer.
  */
 export function replay(): ChartPlugin {
-  return { name: '@charton/core/replay', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('replay', new Replay(host(chart).internals())) };
+  return { name: '@chart-on/core/replay', version: CORE_VERSION, install: ({ chart }) => host(chart).provideFeature('replay', new Replay(host(chart).internals())) };
 }
 
 /**
@@ -462,7 +462,7 @@ export function replay(): ChartPlugin {
  *
  * @example
  * ```ts
- * import { builtins, createChart, drawingTools } from '@charton/core';
+ * import { builtins, createChart, drawingTools } from '@chart-on/core';
  *
  * const chart = createChart(el, { plugins: builtins() });
  * // Or only what the app uses:

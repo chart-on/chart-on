@@ -1,4 +1,4 @@
-import type { IndicatorDef } from '@charton/core';
+import type { IndicatorDef } from '@chart-on/core';
 
 /**
  * A sample of an OHLC plot: Heikin-Ashi candles computed from the chart's

@@ -10,7 +10,7 @@ import {
   type FootprintSeriesOptions,
   type Interval,
   type TradeTick,
-} from '@charton/core';
+} from '@chart-on/core';
 import { light, theme } from './page-theme';
 import { rng } from './data';
 import { expose } from './expose';

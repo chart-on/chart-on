@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { colorSafeUpDown, darkTheme, lightTheme } from '@charton/core';
+import { colorSafeUpDown, darkTheme, lightTheme } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import { createChartShell, type ChartShell } from '../src/shell';
 

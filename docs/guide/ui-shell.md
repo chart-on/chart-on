@@ -4,11 +4,11 @@ description: "The optional UI shell: top toolbar, drawing-tool rail and bottom b
 
 # Shell, toolbar and rail
 
-`@charton/ui` wraps a core chart with a top toolbar, a left drawing-tool rail and an optional bottom bar. Toolbar and rail are plain config arrays. With no options the shell is minimal: a small toolbar (`defaultToolbarItems()`), the rail, and no bottom bar. For several linked shells side by side, see [Chart grid](./chart-grid).
+`@chart-on/ui` wraps a core chart with a top toolbar, a left drawing-tool rail and an optional bottom bar. Toolbar and rail are plain config arrays. With no options the shell is minimal: a small toolbar (`defaultToolbarItems()`), the rail, and no bottom bar. For several linked shells side by side, see [Chart grid](./chart-grid).
 
 ```ts
-import { clusterList, commandPalette, createChartShell, draftEditor, favorites, replayControls, symbolSearch, toasts, toolbarCustomization } from '@charton/ui';
-import '@charton/ui/style.css';
+import { clusterList, commandPalette, createChartShell, draftEditor, favorites, replayControls, symbolSearch, toasts, toolbarCustomization } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 const shell = createChartShell(el, {
   chart: { barSpacing: 10 },  // core ChartOptions
@@ -82,7 +82,7 @@ The symbol search, the command palette, favourite tools, toasts, toolbar customi
 | `replayControls` | `replayControls()` | On the default toolbar, the strip is there anyway; with an own `toolbar`, a replay runs without it, so drive it from your own controls |
 
 ```ts
-import { commandPalette, createChartShell, favorites, symbolSearch, toasts, toolbarCustomization } from '@charton/ui';
+import { commandPalette, createChartShell, favorites, symbolSearch, toasts, toolbarCustomization } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   toolbar: { items, customize: toolbarCustomization({ locked: ['symbol'] }) },
@@ -98,7 +98,7 @@ The handles (`shell.symbolSearch`, `shell.commandPalette`, `shell.favorites`, `s
 The trading and replay parts work on a core plugin: the draft editor and the cluster list on `trading()`, the replay strip on `replay()`. `builtins()` has both, and the shell adds them when your own plugin list leaves them out. Called on a chart without its plugin, a part throws a [`not-registered`](./errors#not-registered) error naming it in development builds.
 
 ```ts
-import { clusterList, createChartShell, draftEditor, replayControls, replayToolbarItem } from '@charton/ui';
+import { clusterList, createChartShell, draftEditor, replayControls, replayToolbarItem } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   toolbar: [/* your items, */ replayToolbarItem()],
@@ -227,7 +227,7 @@ A menu option can carry a `section`, shown as a heading above the option when it
 Ready-made items for common controls. Each returns a plain item, so spread it to change any field:
 
 ```ts
-import { chartStyle, compare, fullscreen, hideMenu, intervals, screenshot, settingsToolbarItem, symbolHeader, toggleRail, toggleVisibility, undoRedo } from '@charton/ui';
+import { chartStyle, compare, fullscreen, hideMenu, intervals, screenshot, settingsToolbarItem, symbolHeader, toggleRail, toggleVisibility, undoRedo } from '@chart-on/ui';
 
 const toolbar: ToolbarItem[] = [
   symbolHeader(),
@@ -267,7 +267,7 @@ Presets that need the shell (`symbolHeader`, `fullscreen`'s default target, `tog
 
 ### Where controls go
 
-The [toolbar layout standard](https://github.com/chart-on/charton/blob/main/roadmap/toolbar-layout.md) assigns every control to one surface. In short:
+The [toolbar layout standard](https://github.com/chart-on/chart-on/blob/main/roadmap/toolbar-layout.md) assigns every control to one surface. In short:
 
 | Surface | Holds |
 | --- | --- |
@@ -314,8 +314,8 @@ Ids must be unique: `add`, `setItems` and the initial list throw on duplicates, 
 Pass an options object instead of the fixed item array, with the `toolbarCustomization` part, to let users choose toolbar actions. It works the same on `createToolbar` and on a [chart grid](./chart-grid)'s toolbar:
 
 ```ts
-import { createChartShell, toolbarCustomization } from '@charton/ui';
-import { createLocalStorageAdapter } from '@charton/core';
+import { createChartShell, toolbarCustomization } from '@chart-on/ui';
+import { createLocalStorageAdapter } from '@chart-on/core';
 
 const settings = createLocalStorageAdapter({ prefix: 'my-chart:' }).settings;
 const shell = createChartShell(el, {
@@ -362,7 +362,7 @@ Default rail: cursor (with a flyout of the crosshair and the plain pointer, `cro
 Build your own:
 
 ```ts
-import { defaultRailItems } from '@charton/ui';
+import { defaultRailItems } from '@chart-on/ui';
 import { Magnet } from 'lucide';
 
 createChartShell(el, {
@@ -412,7 +412,7 @@ With the `favorites` part, each tool in a rail flyout has a star. Starred tools 
 - Tools the access rule refuses drop out of the bar but stay starred, and so do saved tools the chart does not register.
 
 ```ts
-import { createChartShell, favorites } from '@charton/ui';
+import { createChartShell, favorites } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   favorites: favorites({
@@ -462,7 +462,7 @@ The shell's own surfaces use these kinds:
 `favoriteIntervals` takes the options of `intervals` except `display`, and `favoriteChartStyles` the styles of `chartStyle`; use them in place of those presets. Their buttons follow the order the entries were starred in. Without the `favorites` part they show every entry as a button and no menu. Each starred symbol is looked up through the search source (`search(symbol)`, taking the result whose `symbol` matches). One the source no longer finds is listed as unavailable: greyed out, not selectable, still starred, and its star removes it. With the `favorites` part, the indicator picker keeps its favourites in `of('indicator')` instead of its own storage, and moves the ones it had saved there once.
 
 ```ts
-import { createChartShell, favoriteChartStyles, favoriteIntervals, favorites } from '@charton/ui';
+import { createChartShell, favoriteChartStyles, favoriteIntervals, favorites } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   toolbar: [favoriteIntervals(['1m', '5m', '15m', '1h', '4h', '1d', '1w']), favoriteChartStyles()],
@@ -518,7 +518,7 @@ The search is fuzzy: `fc` finds "Fit content" by its initials and `lkdr` finds "
 Pass the `commandPalette` part to get it in the shell. `shell.commandPalette` is its handle, null without the part:
 
 ```ts
-import { commandPalette, createChartShell } from '@charton/ui';
+import { commandPalette, createChartShell } from '@chart-on/ui';
 
 const shell = createChartShell(el, { commandPalette: commandPalette() });
 shell.commandPalette?.open(); // or open('zoom') with a query
@@ -531,7 +531,7 @@ shell.applyFeatures({ commandPalette: false }); // turn it and its shortcut off 
 With the [indicator picker](./indicator-picker#command-palette) on, the shell adds its **Indicators** source, which adds the picked indicator, and the picker's **Search everything** footer opens the palette with the picker's query; an app source with the id `indicators` replaces it. Apps add their own entries, such as symbols, as sources. Each source is a category beside **Actions**. A source returns entries for the query: a list the palette filters and ranks, or a promise for a server-side search (set `ranked: true` to keep the source's order). The `signal` aborts when the query changes or the palette closes. A source that fails is skipped; the others stay listed.
 
 ```ts
-import type { CommandSource } from '@charton/ui';
+import type { CommandSource } from '@chart-on/ui';
 
 const symbols: CommandSource = {
   id: 'symbols',
@@ -584,7 +584,7 @@ The bottom bar is off by default. `bottomBar: true` shows its default items (go 
 The bottom bar holds items as the [toolbar](#toolbar) does: the same item types, `align`, `group`, `priority` and `hidden` fields, the same "more" menu when it runs out of room, and the same handle (`shell.bottomBar` is a `ToolbarHandle`, so `add`, `update`, `remove` and `setItems` work on it). Its controls are presets that work in either bar, and any toolbar item works in the bottom bar. Menus, forms and tooltips open downwards in the top toolbar and upwards in the bottom bar.
 
 ```ts
-import { clock, goToDate, scaleMode, screenshot, timezoneMenu } from '@charton/ui';
+import { clock, goToDate, scaleMode, screenshot, timezoneMenu } from '@chart-on/ui';
 
 // Go to date, the timezone and the price scale in the top toolbar, and no bottom bar.
 createChartShell(el, {
@@ -647,7 +647,7 @@ createChartShell(el, {
 | `clock` | `true` | Clock in the chart's `timezone`, with its UTC offset. Clicking it (or Enter or Space) opens the [chart settings](#chart-settings) on their **Time** section; with `settings: false` it opens the `timezones` menu instead, and without that menu it is plain text. Settings or a menu made after the clock are found within a second |
 | `goToDate` | `true` | "Go to" chip: a date and an optional time in the chart's `timezone`; Enter goes there with `chart.goToTime`, paging in history as needed. The `go-to-date` action on `chart.actions` opens it too; it has no default key, so bind one with `setKeys`. Escape closes it |
 | `scaleToggles` | `'menu'` | The main pane's scale mode (linear, log, percent) and auto-fit: one menu (`'menu'`, or `true`), a radio group with the auto-fit toggle beside it (`'inline'`), or none (`false`) |
-| `timezones` | none | `{ options, value? }`. Picking an option sets the chart's `timezone` to its value (an IANA zone or `'local'`). The menu follows timezone changes made elsewhere, such as in the chart settings. `timezoneChoices()` from `@charton/core` lists every zone with its offset, if you want a longer menu |
+| `timezones` | none | `{ options, value? }`. Picking an option sets the chart's `timezone` to its value (an IANA zone or `'local'`). The menu follows timezone changes made elsewhere, such as in the chart settings. `timezoneChoices()` from `@chart-on/core` lists every zone with its offset, if you want a longer menu |
 | `sessions` | none | `{ options, value? }`. Picking an option sets the chart's `session` to its `session` schedule and shades time outside it. An option without `session` means always open, with no shading |
 | `sessionBands` | none | A [session bands](./session-bands) primitive. Adds a chip with a dot per lane, solid while that lane is open, which opens a list with countdowns to each lane's next open or close. It follows lanes added, removed or recoloured at runtime. Attach the bands to the chart yourself to draw them |
 
@@ -681,7 +681,7 @@ Colours come from the theme variables `--pc-navigator-line`, `--pc-navigator-win
 `replayToolbarItem()` is a `view`-group button for [bar replay](./replay): press it, then click the bar to start from; press it again to stop (or, while picking, to cancel). While a replay runs, a shell with the `replayControls: replayControls()` [part](#optional-parts), or on the default toolbar, shows a floating strip at the top of the chart with back one bar, play or pause, next bar, speed (1, 2, 5 or 10 bars per second), random bar and exit. Random bar restarts at another random bar with at least 100 bars before it and 50 after (disabled on shorter series). While picking the starting bar, the strip shows only random bar and exit, so a replay can start at a random bar without clicking one. While the replay is paused or has reached its last bar, a click on a bar restarts it from there, still paused and at the same speed; a drag still pans.
 
 ```ts
-import { createChartShell, replayControls, replayToolbarItem } from '@charton/ui';
+import { createChartShell, replayControls, replayToolbarItem } from '@chart-on/ui';
 
 createChartShell(el, { toolbar: [/* your items, */ replayToolbarItem()], replayControls: replayControls() });
 ```
@@ -693,7 +693,7 @@ Without the shell: `createReplayControls(chart)`. `toggleReplay(chart)` and `isR
 A panel listing every visible series value at the crosshair, or the newest bar, formatted like the legend. It is not positioned, so place it yourself, for example over the chart stage:
 
 ```ts
-import { createDataWindow } from '@charton/ui';
+import { createDataWindow } from '@chart-on/ui';
 
 const stage = shell.chart.root.parentElement!; // not chart.root: its pointer handlers would pan underneath
 const dataWindow = createDataWindow(stage, shell.chart, { title: 'Data window' });
@@ -711,13 +711,13 @@ The panel is a labelled region and can take focus. With focus, `←` / `→` ste
 A settings dialog with the options users change less than once a session, in six sections, one per thing the user adjusts and ordered from the data to the chrome around it: **Series** (rising and falling body colors, wicks, borders, hollow falling bodies, body width, coloring by the previous close, the split and dividend [adjustment](./data-sources#splits-and-dividends)), **Readout** (what shows values under the pointer: the legend's on/off, values, position, change, arrows, idle values, row buttons and market status, and the crosshair's mode, color, lines and axis labels), **Axes** (last value labels, time left in bar, axis lines and tick marks, label width, text and label colors), **Time** (the timezone: Local and UTC, then every zone the browser knows with its current UTC offset, in a searchable list; seconds in times, trading day dividers, session shading, and the data source's [markers](./data-sources#markers) on the time axis with their color; the bottom bar clock opens this section), **Background** (background, each grid direction, watermark) and **Markers** (the split and dividend markers and the data source's [markers](./data-sources#markers) on bars, last since only some data sources supply them). Edits apply as the user makes them; Ok keeps them, Cancel or Escape puts the chart back, and **Reset to defaults** returns to your app's options. The shell creates it; open it with `settingsToolbarItem()`, a `view`-group cog that goes beside the screenshot button, or from code:
 
 ```ts
-import { createChartShell, settingsToolbarItem } from '@charton/ui';
+import { createChartShell, settingsToolbarItem } from '@chart-on/ui';
 
 const shell = createChartShell(el, { toolbar: [/* your items, */ settingsToolbarItem()] });
 shell.settings?.open('readout'); // optionally at a section
 ```
 
-The dialog is generated from `chartSettingsSchema`, plain data exported by `@charton/core`: sections of groups of fields, each naming the option it edits by a dotted path (`legend.mode`, `crosshair.vertical.visible`, `theme.up`, `features.watermark`, or `series.wicks` for the main series) with its kind (`boolean`, `select`, `number`, `slider` or `color`), label and choices (a `select` with more than 20 gets a search box). `readChartSetting(chart, field)` and `applyChartSettings(chart, { [path]: value })` read and write those paths through `applyOptions`, so a field needs no code of its own. Pass `sections` to hide, reorder or add sections; any chart option path works as a field:
+The dialog is generated from `chartSettingsSchema`, plain data exported by `@chart-on/core`: sections of groups of fields, each naming the option it edits by a dotted path (`legend.mode`, `crosshair.vertical.visible`, `theme.up`, `features.watermark`, or `series.wicks` for the main series) with its kind (`boolean`, `select`, `number`, `slider` or `color`), label and choices (a `select` with more than 20 gets a search box). `readChartSetting(chart, field)` and `applyChartSettings(chart, { [path]: value })` read and write those paths through `applyOptions`, so a field needs no code of its own. Pass `sections` to hide, reorder or add sections; any chart option path works as a field:
 
 ```ts
 createChartShell(el, {
@@ -775,7 +775,7 @@ createChartShell(el, {
 `createShortcutSettings(chart, host, options)` lets users change the chart's [shortcuts](./interaction#actions-and-shortcuts). It is opt-in, so apps that do not call it do not ship it; while it exists, the chart settings dialog has a **Keyboard shortcuts…** button that opens it:
 
 ```ts
-import { createChartShell, createShortcutSettings } from '@charton/ui';
+import { createChartShell, createShortcutSettings } from '@chart-on/ui';
 
 const shell = createChartShell(el, { /* ... */ });
 const shortcuts = createShortcutSettings(shell.chart, shell.el);
@@ -791,7 +791,7 @@ The user's changes, on top of your app's keymap when it is created, are saved to
 The shell can show the visible data as an accessible table: a panel over the chart holding [`chart.describeTable`](./interaction#data-table), with a caption, column and row headers, and every value in its series' format. `tableViewToolbarItem()` is a `view`-group button that opens and closes it; `shell.tableView` does the same from code.
 
 ```ts
-import { createChartShell, tableViewToolbarItem } from '@charton/ui';
+import { createChartShell, tableViewToolbarItem } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   toolbar: [/* your items, */ tableViewToolbarItem()],
@@ -811,7 +811,7 @@ Opening it moves focus to the table, which scrolls with the arrow keys; `Escape`
 A panel listing the panes and, in each, its series, indicators and drawings (topmost drawing first). Each row shows, hides, locks, renames, removes and reorders its object through the public chart API, so drawing edits are undo steps (bulk actions on a multi-selection are one step) and everything saves with [layouts](./layouts) like edits made on the chart. Selecting drawing rows selects those drawings on the chart (several at once with a multi-selection), and selecting drawings on the chart selects their rows. Focusing a selected indicator row selects that indicator on the chart instead (see [Selecting](./indicators#selecting)). Like the data window it is not positioned:
 
 ```ts
-import { createObjectTree } from '@charton/ui';
+import { createObjectTree } from '@chart-on/ui';
 
 const tree = createObjectTree(stage, shell.chart, { title: 'Object tree' });
 tree.el.style.cssText = 'position:absolute; top:8px; left:8px; bottom:8px; z-index:3';
@@ -899,7 +899,7 @@ const toolbar: ToolbarItem[] = [
 
   ```css
   @layer reset, charton;
-  @import '@charton/ui/style.css' layer(charton);
+  @import '@chart-on/ui/style.css' layer(charton);
   ```
 
   Inside a layer, the shell no longer outranks your element resets by specificity, so keep resets in a layer listed before `charton`, as above.
@@ -912,8 +912,8 @@ The chart root inside the stage is styled by core: see [the container](./embeddi
 Toolbar and rail work on their own with any core chart. Indicators, compared symbols, drawings, annotations and the built-in drawing tools are [opt-in](./features#opt-in-features) in core, so give the chart the plugins, as the shell does. So is image capture: the `screenshot()` and `print()` presets need `imageCapture()` (in `builtins()`). The rail offers the tools the chart has:
 
 ```ts
-import { builtins, createChart } from '@charton/core';
-import { createToolbar, createToolRail } from '@charton/ui';
+import { builtins, createChart } from '@chart-on/core';
+import { createToolbar, createToolRail } from '@chart-on/ui';
 
 const chart = createChart(chartEl, { plugins: builtins() });
 createToolbar(topEl, chart, items);
@@ -939,7 +939,7 @@ The Settings button, or a double click on a drawing, opens a settings dialog wit
 Outside the shell:
 
 ```ts
-import { createDrawingSettings, createDrawingToolbar, openDrawingSettings } from '@charton/ui';
+import { createDrawingSettings, createDrawingToolbar, openDrawingSettings } from '@chart-on/ui';
 
 const settings = createDrawingSettings(chart, hostEl); // opens on double click
 createDrawingToolbar(chart, { onSettings: (id) => settings.open(id) });
@@ -948,11 +948,11 @@ openDrawingSettings(chart, hostEl, id); // one dialog, returns a FormDialog or n
 
 #### Drawing templates
 
-Style templates are an opt-in add-on in their own entry, `@charton/ui/templates`, so apps that leave them out do not ship them. `drawingTemplates()` is a header control that adds a **Template** menu to the drawing settings dialog, and `indicatorTemplates()` adds the same menu to the [indicator settings](#indicator-settings) panel:
+Style templates are an opt-in add-on in their own entry, `@chart-on/ui/templates`, so apps that leave them out do not ship them. `drawingTemplates()` is a header control that adds a **Template** menu to the drawing settings dialog, and `indicatorTemplates()` adds the same menu to the [indicator settings](#indicator-settings) panel:
 
 ```ts
-import { createChartShell } from '@charton/ui';
-import { drawingTemplates, indicatorTemplates } from '@charton/ui/templates';
+import { createChartShell } from '@chart-on/ui';
+import { drawingTemplates, indicatorTemplates } from '@chart-on/ui/templates';
 
 createChartShell(el, {
   drawingSettings: { headerControl: drawingTemplates({ storage }) },
@@ -971,7 +971,7 @@ The same menu can make a tool's or an indicator's settings the default for new o
 For indicators, `indicatorDefaults({ storage })` keeps one default per indicator id: its inputs and plot styles, with the definition's `version`. Pass it to `indicatorTemplates({ defaults })` for the menu items, and its `initialState` to the [indicator picker](./indicator-picker#on-its-own), so indicators added from the picker or the command palette start from the saved default:
 
 ```ts
-import { drawingTemplates, indicatorDefaults, indicatorTemplates } from '@charton/ui/templates';
+import { drawingTemplates, indicatorDefaults, indicatorTemplates } from '@chart-on/ui/templates';
 
 const defaults = indicatorDefaults({ storage }); // storage defaults to createLocalStorageAdapter()
 createChartShell(el, {
@@ -1007,7 +1007,7 @@ Rows with nothing to set show no settings button: a histogram coloured point by 
 Outside the shell:
 
 ```ts
-import { createIndicatorSettings, createSeriesSettings, indicatorSettingsForm, openIndicatorSettings, openSeriesStyleSettings, seriesSettingsForm } from '@charton/ui';
+import { createIndicatorSettings, createSeriesSettings, indicatorSettingsForm, openIndicatorSettings, openSeriesStyleSettings, seriesSettingsForm } from '@chart-on/ui';
 
 const settings = createIndicatorSettings(chart, stageEl); // opens on series:settings for indicators
 settings.open(indicator);

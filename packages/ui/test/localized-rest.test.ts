@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, createDepthLane, createLocalizer, createSessionBands, type IndicatorDef, type SessionLane, type SessionLaneState } from '@charton/core';
+import { Chart, createDepthLane, createLocalizer, createSessionBands, type IndicatorDef, type SessionLane, type SessionLaneState } from '@chart-on/core';
 import { dispatch, fakeContainer, installFakeDom } from '../../core/test/fake-dom';
 import { createChartSettings } from '../src/chart-settings';
 import { createDepthLadder } from '../src/depth-ladder';

@@ -1,4 +1,4 @@
-import type { Chart, ChartContextMenuEvent, PriceScaleMode } from '@charton/core';
+import type { Chart, ChartContextMenuEvent, PriceScaleMode } from '@chart-on/core';
 import { ChevronRight, ChevronsRight, ClipboardCopy, Copy, Group, Lock, LockOpen, Minus, Palette, RotateCcw, Trash2, Ungroup } from 'lucide';
 import { appearanceOf } from './appearance';
 import { clipboardApi } from './clipboard';

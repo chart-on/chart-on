@@ -1,4 +1,4 @@
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import { shellText } from './messages';
 import type { SymbolSearchDialog } from './symbol-search';
 import { isSearchKey } from './symbol-search-model';

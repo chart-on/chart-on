@@ -9,9 +9,9 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/indicators": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/indicators": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "@codemirror/commands": "6.11.1",
     "@codemirror/lang-javascript": "6.2.5",
     "@codemirror/language": "6.12.4",

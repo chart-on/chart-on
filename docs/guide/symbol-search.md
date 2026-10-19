@@ -4,12 +4,12 @@ description: "The symbol search dialog: search box, filters, paging and keyboard
 
 # Symbol search
 
-`@charton/ui` includes a symbol search dialog: a search box over a list of results, with optional exchange and type filters, paging and full keyboard control. It reads from any object with a `search` method, so a data source can be passed in as is.
+`@chart-on/ui` includes a symbol search dialog: a search box over a list of results, with optional exchange and type filters, paging and full keyboard control. It reads from any object with a `search` method, so a data source can be passed in as is.
 
 ## With the shell
 
 ```ts
-import { createChartShell, symbolHeader, symbolSearch } from '@charton/ui';
+import { createChartShell, symbolHeader, symbolSearch } from '@chart-on/ui';
 
 const shell = createChartShell(el, {
   toolbar: [
@@ -45,7 +45,7 @@ shell.chart.actions.setKeys('symbol-search', []); // turn it off
 The `symbolHeader()` preset keeps its tooltip ("Symbol search (/)") and `aria-keyshortcuts` in step with the action's keys, including later rebinding. For a header you build yourself, `showShortcut` does the same:
 
 ```ts
-import { showShortcut } from '@charton/ui';
+import { showShortcut } from '@chart-on/ui';
 
 const stop = showShortcut(symbolButton, shell.chart, 'symbol-search');
 ```
@@ -55,7 +55,7 @@ const stop = showShortcut(symbolButton, shell.chart, 'symbol-search');
 ## On its own
 
 ```ts
-import { createSymbolSearch } from '@charton/ui';
+import { createSymbolSearch } from '@chart-on/ui';
 
 const search = createSymbolSearch(shell.el, { source, onSelect, openOnTyping: chart.root });
 search.open('AB'); // open with a query

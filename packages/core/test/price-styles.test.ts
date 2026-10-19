@@ -218,7 +218,7 @@ describe('price styles without the plugin', () => {
       const drawer = (series as unknown as { priceStyle: Parameters<typeof owner>[0] }).priceStyle;
       expect(owner(drawer as never).gpu).not.toBeNull();
       const before = counting.deleted.buffer;
-      c.uninstall('@charton/core/price-styles');
+      c.uninstall('@chart-on/core/price-styles');
       expect(render()).toEqual([]);
       expect(owner(drawer as never).gpu).toBeNull();
       expect(counting.deleted.buffer).toBeGreaterThan(before);

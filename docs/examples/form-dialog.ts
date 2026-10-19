@@ -1,4 +1,4 @@
-import type { Bar, LineStyle } from '@charton/core';
+import type { Bar, LineStyle } from '@chart-on/core';
 import {
   createChartShell,
   createFormDialog,
@@ -8,8 +8,8 @@ import {
   type FormSchema,
   type FormValues,
   type InputRenderer,
-} from '@charton/ui';
-import '@charton/ui/style.css';
+} from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 
@@ -21,7 +21,7 @@ interface StepperInputDef extends FormInputBase<number> {
 }
 
 // Tell the schema types about the new kind.
-declare module '@charton/ui' {
+declare module '@chart-on/ui' {
   interface FormInputKinds {
     stepper: StepperInputDef;
   }

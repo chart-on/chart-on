@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, colorSafeUpDown, contrastText, darkTheme, type Drawing, type DrawingToolDef, FIB_LEVELS, lightTheme, withAlpha } from '@charton/core';
+import { Chart, colorSafeUpDown, contrastText, darkTheme, type Drawing, type DrawingToolDef, FIB_LEVELS, lightTheme, withAlpha } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { chooseOption } from './listbox';
 import { changedStyle, createDrawingSettings, drawingSettingsForm, drawingVisibilityForm, openDrawingSettings } from '../src/drawing-settings';

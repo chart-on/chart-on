@@ -1,15 +1,15 @@
-import type { LocalizationOptions } from '@charton/core';
-import { deDE } from '@charton/locales/de-DE';
-import { esES } from '@charton/locales/es-ES';
-import { frFR } from '@charton/locales/fr-FR';
-import { idID } from '@charton/locales/id-ID';
-import { jaJP } from '@charton/locales/ja-JP';
-import { zhCN } from '@charton/locales/zh-CN';
-import { zhTW } from '@charton/locales/zh-TW';
+import type { LocalizationOptions } from '@chart-on/core';
+import { deDE } from '@chart-on/locales/de-DE';
+import { esES } from '@chart-on/locales/es-ES';
+import { frFR } from '@chart-on/locales/fr-FR';
+import { idID } from '@chart-on/locales/id-ID';
+import { jaJP } from '@chart-on/locales/ja-JP';
+import { zhCN } from '@chart-on/locales/zh-CN';
+import { zhTW } from '@chart-on/locales/zh-TW';
 
 /**
  * Languages the demo's settings dialog switches between: the built-in English,
- * English (US) for its formats only, and the `@charton/locales` packs, which
+ * English (US) for its formats only, and the `@chart-on/locales` packs, which
  * translate the chart and the shell. Numbers and dates come from `Intl`.
  */
 export const DEMO_LOCALES: readonly { value: string; label: string; options: LocalizationOptions }[] = [

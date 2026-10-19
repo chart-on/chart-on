@@ -12,7 +12,7 @@ import {
   type LineStyle,
   type PlotDef,
   type PlotStyle,
-} from '@charton/core';
+} from '@chart-on/core';
 import { h } from './dom';
 import { createListbox } from './listbox';
 import { createFormDialog, type FormDialog } from './form-dialog';
@@ -274,7 +274,7 @@ export interface IndicatorSettingsOptions {
   /**
    * A control for the panel's header, made when the panel opens and destroyed
    * when it closes; null for none. The template menu of
-   * `@charton/ui/templates` (`indicatorTemplates()`) is one.
+   * `@chart-on/ui/templates` (`indicatorTemplates()`) is one.
    */
   headerControl?: (context: IndicatorSettingsContext) => { readonly el: HTMLElement; destroy(): void } | null;
 }

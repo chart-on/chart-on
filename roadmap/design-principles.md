@@ -10,7 +10,7 @@ These lists describe the target. Some add-on code still ships in the default cor
 
 Two terms are used below:
 
-- **Core** is the feature set this project treats as the library itself. It lives in `@charton/core` and `@charton/ui`.
+- **Core** is the feature set this project treats as the library itself. It lives in `@chart-on/core` and `@chart-on/ui`.
 - **Minimal chart** is what `createChart` with no plugins ships. It is a subset of core. It has no fixed size target: its `createChart` budget in `scripts/size-budget.json` (production mode, gzip) only goes down as parts move out, and [shrinking it further](#future-work-a-smaller-minimal-chart) is future work.
 
 **Core, in the minimal chart:**
@@ -22,14 +22,14 @@ Two terms are used below:
 - Theming, legend and accessibility
 - The plugin contracts for indicators, drawings, annotations and custom series
 
-**Core, as opt-in exports of `@charton/core`:**
+**Core, as opt-in exports of `@chart-on/core`:**
 
 - The data source API with generic adapters (REST, WebSocket, CSV, mock)
 - Saved layouts: `serializeLayout`, `loadLayout`, `autosave` and `loadLastLayout` (`layouts()`)
 - Bar grouping when zoomed out: the `grouping` option (`grouping()`)
 - Built-in plugins: indicators with a small built-in set, drawings and their tools, compare, and annotations for markers, price lines, zones, bands and text labels. Data source marks, time marks, corporate action markers and indicator shape plots draw through these annotations.
 
-**Core, in `@charton/ui`:** a thin, replaceable toolbar, drawing rail, indicator picker and settings dialog.
+**Core, in `@chart-on/ui`:** a thin, replaceable toolbar, drawing rail, indicator picker and settings dialog.
 
 **Add-ons.** Everything else, for example:
 
@@ -99,7 +99,7 @@ Until then, size work is ordinary work: a change that moves a part out of the mi
 - **Render into the host page:** no iframes, no separately hosted static files, no injected stylesheet URLs. Ship ES modules with types.
 - **Explicit handles:** every chart is an object the app holds. No global singleton and no hidden "active chart".
 - **Adapters, not fixed protocols:** storage, data and screenshots go through small interfaces the app implements. The library never assumes a server API. Screenshots return a `Blob`; the app decides where it goes.
-- **Headless first:** `@charton/core` works with any UI. `@charton/ui` is an optional layer built only on the public core API.
+- **Headless first:** `@chart-on/core` works with any UI. `@chart-on/ui` is an optional layer built only on the public core API.
 
 ## Errors and validation
 

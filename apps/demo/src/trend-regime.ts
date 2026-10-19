@@ -1,4 +1,4 @@
-import type { IndicatorDef } from '@charton/core';
+import type { IndicatorDef } from '@chart-on/core';
 
 /**
  * A sample of three plot types: the highest high and lowest low of the last

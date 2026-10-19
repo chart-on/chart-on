@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { Chart, ScreenshotOptions } from '@charton/core';
+import type { Chart, ScreenshotOptions } from '@chart-on/core';
 import { canCopyImage, copyChartImage } from '../src/clipboard';
 
 /** A clipboard item that keeps what it was given. */

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import type { ChartShell } from '@charton/ui';
+import type { ChartShell } from '@chart-on/ui';
 import { KEYBOARD_PAGE_PORT } from './keyboard-page/vite.config';
 import { pageReady } from './keyboard-page/ready';
 

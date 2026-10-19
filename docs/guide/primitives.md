@@ -7,7 +7,7 @@ description: "Plugins that draw on a pane or a series, such as shading, alert li
 A primitive is a plugin that draws on the chart: background shading, alert lines, markers, volume profiles, watermarks. It is a plain object attached to a pane or a series; every member is optional.
 
 ```ts
-import { crispLine, type Primitive } from '@charton/core';
+import { crispLine, type Primitive } from '@chart-on/core';
 
 /** A horizontal alert line with a price-axis label. */
 function alertLine(price: number, color = '#f59e0b'): Primitive {

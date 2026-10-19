@@ -1,4 +1,4 @@
-import type { Chart, Indicator, IndicatorAddOptions, IndicatorDef, IndicatorState, SettingsAdapter } from '@charton/core';
+import type { Chart, Indicator, IndicatorAddOptions, IndicatorDef, IndicatorState, SettingsAdapter } from '@chart-on/core';
 import { Activity, ChartCandlestick, PanelBottom, Plus, Settings, Star, Trash2 } from 'lucide';
 import type { CommandSource } from './command-palette-model';
 import type { FavoritesList } from './favorites';
@@ -98,7 +98,7 @@ export interface IndicatorPickerOptions {
   /**
    * The inputs and plot styles an indicator added from the picker starts
    * with, or null for its definition's defaults, e.g. a saved default from
-   * `indicatorDefaults()` of `@charton/ui/templates`. The picker waits for a
+   * `indicatorDefaults()` of `@chart-on/ui/templates`. The picker waits for a
    * promise, and a rejected one adds with the definition's defaults. Inputs
    * go to `add`, which refuses invalid ones like any add. Plot styles apply
    * right after it, as their own undo step; ones the indicator refuses are

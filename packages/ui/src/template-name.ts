@@ -1,4 +1,4 @@
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import { createFormDialog, type FormDialog } from './form-dialog';
 import { shellText, type ShellMessageKey } from './messages';
 

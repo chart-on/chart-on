@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, it, onTestFinished, vi } from 'vitest';
-import { builtinTools, Chart, type DrawingToolDef } from '@charton/core';
+import { builtinTools, Chart, type DrawingToolDef } from '@chart-on/core';
 import { dispatch, fakeContainer, installFakeDom } from '../../core/test/fake-dom';
 import { overflowMore } from '../src/controls';
 import { h } from '../src/dom';

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ALWAYS_OPEN, Chart, zoneOf, type SessionSchedule } from '@charton/core';
+import { ALWAYS_OPEN, Chart, zoneOf, type SessionSchedule } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { applyRange, clockText, createBottomBar, defaultRanges, sessionPatch, type BottomBarHandle, type BottomBarOptions } from '../src/bottombar';
 import { createChartSettings } from '../src/chart-settings';

@@ -10,7 +10,7 @@ charton is built to run on pages with a strict content security policy (CSP), wi
 
 - **No code evaluation:** no `eval`, `new Function` or string timers, so `script-src` needs no `'unsafe-eval'`.
 - **No markup parsing:** every element, including icons, is built with DOM calls (`createElement`, `createElementNS`), and text goes through `textContent` or the canvas. Icons you give as SVG markup strings are read the same way: the UI package builds only drawing elements from them and drops scripts, links, event handlers, inline styles and external references. Series titles, drawing text, symbol names and other text from your app or your data source show as text, never as markup. So `require-trusted-types-for 'script'` passes with no policy of your own.
-- **No inline style markup:** styles are set on `element.style` (the CSSOM), which `style-src` without `'unsafe-inline'` allows. The chart root's base rule is a constructed stylesheet (`new CSSStyleSheet()`, adopted by the document), also CSSOM, so it needs no directive either. `@charton/ui`'s look comes from its stylesheet file.
+- **No inline style markup:** styles are set on `element.style` (the CSSOM), which `style-src` without `'unsafe-inline'` allows. The chart root's base rule is a constructed stylesheet (`new CSSStyleSheet()`, adopted by the document), also CSSOM, so it needs no directive either. `@chart-on/ui`'s look comes from its stylesheet file.
 - **No requests of its own:** no fonts (system font stacks), no remote icons or images, no workers, no analytics. The only requests are the ones your [data source](./data-sources) makes; the built-in REST and WebSocket adapters call the URLs you give them.
 
 The repository checks this on every change:
@@ -36,7 +36,7 @@ require-trusted-types-for 'script';
 | Directive | Why the chart needs it |
 | --- | --- |
 | `script-src` | Your bundle, which includes charton. Nothing inline, nothing evaluated |
-| `style-src` | Only if you use `@charton/ui`: its stylesheet, loaded as a file (`import '@charton/ui/style.css'` through your bundler, or a `<link>`). Core needs none |
+| `style-src` | Only if you use `@chart-on/ui`: its stylesheet, loaded as a file (`import '@chart-on/ui/style.css'` through your bundler, or a `<link>`). Core needs none |
 | `img-src` | Only for images you supply: symbol logos in the [symbol search](./symbol-search) (`logo` URLs, which it shows in `<img>` elements) and any image you load for a [watermark](./watermark) or a drawing. `data:` if those are data URLs, and for the `icon` drawing tool, which draws its SVG markup as a data URL. `captureImage()` draws into a canvas and needs nothing |
 | `connect-src` | Your data source's HTTP and WebSocket hosts |
 

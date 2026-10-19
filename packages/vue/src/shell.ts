@@ -1,5 +1,5 @@
 import { defineComponent, h, inject, markRaw, onActivated, onDeactivated, onMounted, onUnmounted, provide, shallowRef, watch, type InjectionKey, type PropType, type ShallowRef } from 'vue';
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import {
   createChartShell,
   type ChartShell as CoreShell,
@@ -8,7 +8,7 @@ import {
   type ShellFeatures,
   type ShellPalette,
   type ShellTheme,
-} from '@charton/ui';
+} from '@chart-on/ui';
 import { chartKey } from './context';
 import { chartProps, clearEvents, handledNames, plainCopy, readInputs, sameValue, startEngine, syncEvents, watchEngine, type ChartEventHandlers, type ChartInputs, type Engine } from './sync';
 
@@ -69,7 +69,7 @@ function creationOptions(props: ChartShellProps, chart: ChartInputs['options'], 
 
 /**
  * The batteries-included widget: toolbar, drawing rail, bottom bar and the
- * chart, in a `div`. Import `@charton/ui/style.css` once in the app. The shell
+ * chart, in a `div`. Import `@chart-on/ui/style.css` once in the app. The shell
  * is created when the component mounts and destroyed when it unmounts; prop
  * changes update it in place. `class`, `style` and other attributes go to the
  * `div`. The default slot renders inside it, where `useChart()` returns the

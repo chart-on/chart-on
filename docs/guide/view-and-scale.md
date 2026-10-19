@@ -73,7 +73,7 @@ Viewport bounds are [opt-in](./features#opt-in-features): create the chart with 
 Grouping comes with the `grouping()` [plugin](./features#opt-in-features), which `builtins()` includes. Without it the `grouping` option is kept but bars draw singly, zooming stops at `minBarSpacing`, `chart.grouping` is null, and development builds warn once ([`grouping-missing`](./errors#grouping-missing)).
 
 ```ts
-import { createChart, grouping } from '@charton/core';
+import { createChart, grouping } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [grouping()], grouping: { mode: 'pixel' } });
 chart.fitContent(); // true for any number of bars

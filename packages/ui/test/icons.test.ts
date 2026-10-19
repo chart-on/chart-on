@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { builtinTools, type CandleStyle } from '@charton/core';
+import { builtinTools, type CandleStyle } from '@chart-on/core';
 import { chartTypeIcons, drawingIcons, groupIcons } from '../src/icons';
 import { toolIcons } from '../src/rail';
 

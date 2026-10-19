@@ -343,7 +343,7 @@ describe('chart.history', () => {
   it('takes the drawing steps away with the drawings plugin', () => {
     const c = chart();
     hline(c, 10);
-    c.uninstall('@charton/core/drawings');
+    c.uninstall('@chart-on/core/drawings');
     expect(c.history.canUndo).toBe(false);
   });
 

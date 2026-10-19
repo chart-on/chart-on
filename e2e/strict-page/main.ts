@@ -1,7 +1,7 @@
-import { builtins, createChart, darkTheme, lightTheme, type Chart } from '@charton/core';
-import { builtinIndicators } from '@charton/indicators';
-import { createChartShell, symbolSearch } from '@charton/ui';
-import '@charton/ui/style.css';
+import { builtins, createChart, darkTheme, lightTheme, type Chart } from '@chart-on/core';
+import { builtinIndicators } from '@chart-on/indicators';
+import { createChartShell, symbolSearch } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 /**
  * Runs the demo's scenarios under the strict policy in vite.config.ts: a core chart with

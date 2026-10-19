@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createLocalizer, darkTheme, TimeScale } from '@charton/core';
-import { Pane, Timeline } from '@charton/core/internal';
+import { createLocalizer, darkTheme, TimeScale } from '@chart-on/core';
+import { Pane, Timeline } from '@chart-on/core/internal';
 import type { AnnotationHost } from '../../core/src/annotations/manager';
 import { tradingManager } from '../../core/test/trading-manager';
 import { canCancel, clusterRowText } from '../src/cluster-list';

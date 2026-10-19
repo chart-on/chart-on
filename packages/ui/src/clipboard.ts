@@ -1,4 +1,4 @@
-import type { Chart, ScreenshotOptions } from '@charton/core';
+import type { Chart, ScreenshotOptions } from '@chart-on/core';
 
 /** Screenshot options for an image on the clipboard: always PNG, the one image type browsers accept there. */
 export type ClipboardImageOptions = Omit<ScreenshotOptions, 'type' | 'quality'>;

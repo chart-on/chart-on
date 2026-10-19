@@ -11,7 +11,7 @@ The chart ships no exchange connections. Your app reads the book from whatever f
 Depth lanes are [opt-in](./features#opt-in-features): create the chart with the `depthLane()` plugin (or `builtins()`), or call `chart.install(depthLane())` later. Without it, `chart.addDepthLane` throws a [`not-registered`](./errors#not-registered) `ChartError`. The UI shell includes it unless you pick the chart's plugins yourself.
 
 ```ts
-import { createChart, depthLane } from '@charton/core';
+import { createChart, depthLane } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [depthLane()] });
 const lane = chart.addDepthLane({ side: 'right', width: 80 });
@@ -69,10 +69,10 @@ The bars use the `depthBid` and `depthAsk` theme tokens (CSS `--pc-depth-bid` an
 
 ## Ladder panel
 
-`@charton/ui` has a panel that lists the same levels as a price ladder, asks above bids. It reads only the lane's public handle, so it works with any lane:
+`@chart-on/ui` has a panel that lists the same levels as a price ladder, asks above bids. It reads only the lane's public handle, so it works with any lane:
 
 ```ts
-import { createDepthLadder } from '@charton/ui';
+import { createDepthLadder } from '@chart-on/ui';
 
 const ladder = createDepthLadder(panelElement, lane, {
   depth: 10,                               // levels per side

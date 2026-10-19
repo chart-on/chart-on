@@ -1,4 +1,4 @@
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 import type { PackMessages } from './types';
 
 /**
@@ -8,15 +8,15 @@ import type { PackMessages } from './types';
  * every other number.
  *
  * ```ts
- * import { esES } from '@charton/locales/es-ES';
- * // The chart needs the localization() plugin (or builtins()) from @charton/core.
+ * import { esES } from '@chart-on/locales/es-ES';
+ * // The chart needs the localization() plugin (or builtins()) from @chart-on/core.
  * chart.applyOptions({ localization: esES });
  * ```
  */
 export const esES: LocalizationOptions = {
   locale: 'es-ES',
   messages: {
-    // Chart (@charton/core)
+    // Chart (@chart-on/core)
     chartLabel: 'Gráfico',
     chartLabelSymbol: 'Gráfico de {symbol}',
     scrollToLatest: 'Ir a la barra más reciente',
@@ -139,7 +139,7 @@ export const esES: LocalizationOptions = {
     positionRiskReward: 'R/B {ratio}',
     timezoneLocal: 'Hora local ({zone}, {offset})',
 
-    // Shell (@charton/ui)
+    // Shell (@chart-on/ui)
     menuLabel: 'Menú del gráfico',
     menuAppearance: 'Apariencia',
     appearanceWatermarkText: 'Nombre',
@@ -647,7 +647,7 @@ export const esES: LocalizationOptions = {
     'pickerSelected.one': '{count} seleccionado',
     'pickerSelected.many': '{count} de seleccionados',
 
-    // Chart settings and appearance panel (@charton/ui, from `chartSettingsSchema` and `appearanceSections`)
+    // Chart settings and appearance panel (@chart-on/ui, from `chartSettingsSchema` and `appearanceSections`)
     'settings.series': 'Serie',
     'settings.series.bodies': 'Cuerpos',
     'setting.theme.up': 'Al alza',

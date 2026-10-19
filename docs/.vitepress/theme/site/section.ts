@@ -1,5 +1,5 @@
-import type { Chart } from '@charton/core';
-import { seededRandom } from '@charton/core/internal';
+import type { Chart } from '@chart-on/core';
+import { seededRandom } from '@chart-on/core/internal';
 import { siteChartTheme } from '../site-theme';
 
 /** A running landing page section: follows the docs colour scheme and cleans up after itself. */

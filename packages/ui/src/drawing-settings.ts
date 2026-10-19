@@ -11,7 +11,7 @@ import {
   type DrawingToolDef,
   type Interval,
   type IntervalRange,
-} from '@charton/core';
+} from '@chart-on/core';
 import { DEFAULT_LINE_WIDTH, defaultFill, drawnColor, drawnTextColor, fieldLabel, fontSizes, levelsControl, LINE_WIDTHS, lineStyleOptions, positionColor, TOGGLES } from './drawing-style-controls';
 import { createFormDialog, type FormDialog } from './form-dialog';
 import type { InputRenderer } from './form-inputs';
@@ -373,7 +373,7 @@ export interface DrawingSettingsOptions {
   /**
    * A control for the dialog's header, made when the dialog of a drawing with
    * style fields opens and destroyed when it closes; null for none. The
-   * template menu of `@charton/ui/templates` (`drawingTemplates()`) is one.
+   * template menu of `@chart-on/ui/templates` (`drawingTemplates()`) is one.
    */
   headerControl?: (context: DrawingSettingsContext) => { readonly el: HTMLElement; destroy(): void } | null;
 }

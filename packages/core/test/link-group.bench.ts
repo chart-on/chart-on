@@ -8,8 +8,8 @@
  * paint and GPU time come on top in a browser.
  */
 import { afterAll, describe, test } from 'vitest';
-import { Chart, createLinkGroup } from '@charton/core';
-import { driveFrames, emitPointer, flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+import { Chart, createLinkGroup } from '@chart-on/core';
+import { driveFrames, emitPointer, flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
 
 const BARS = 100_000;
 // A 1280 x 720 page split into a 2 x 2 grid.

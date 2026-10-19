@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
 import { useData } from 'vitepress';
-import type { ChartShell, ColorControl } from '@charton/ui';
+import type { ChartShell, ColorControl } from '@chart-on/ui';
 import type { Builder, BuilderState, ContrastCheck, Scheme, Token } from '../theme-builder/model';
 
 type Model = typeof import('../theme-builder/model');
-type Ui = typeof import('@charton/ui');
+type Ui = typeof import('@chart-on/ui');
 
 /** Write the state to the address this long after the last change. */
 const HASH_DELAY_MS = 300;
@@ -246,10 +246,10 @@ onMounted(async () => {
   try {
     const [m, loadedUi, css, data] = await Promise.all([
       import('../theme-builder/model'),
-      import('@charton/ui'),
+      import('@chart-on/ui'),
       import('../../../packages/ui/src/style.css?raw'),
       import('../../examples/sample-data'),
-      import('@charton/ui/style.css'),
+      import('@chart-on/ui/style.css'),
     ]);
     if (disposed) return;
     ui = loadedUi;

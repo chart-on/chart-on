@@ -1,5 +1,5 @@
 import { getContext, hasContext, setContext } from 'svelte';
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 
 /** A value that a component provides and that can change; reading `current` in an effect tracks it. */
 export interface Current<T> {

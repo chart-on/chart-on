@@ -14,8 +14,8 @@
  * calls, instances, uploads, memory) as part of `pnpm test`.
  */
 import { afterAll, describe, test } from 'vitest';
-import { Chart, type ChartOptions } from '@charton/core';
-import { driveFrames, flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+import { Chart, type ChartOptions } from '@chart-on/core';
+import { driveFrames, flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
 
 const MILLION = 1_000_000;
 const env = installTestEnvironment({ width: 1280, height: 720 });

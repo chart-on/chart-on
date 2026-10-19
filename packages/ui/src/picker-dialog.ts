@@ -1,4 +1,4 @@
-import { englishLocalizer, pluralText, type Localizer } from '@charton/core';
+import { englishLocalizer, pluralText, type Localizer } from '@chart-on/core';
 import { Check, Search } from 'lucide';
 import { button, iconButton } from './controls';
 import { dialogButton, focusableIn, nextDialogId, openDialogFrame } from './dialog';

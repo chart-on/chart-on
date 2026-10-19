@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement, StrictMode, useEffect, type ReactElement } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
-import { createMockDataSource, Chart as CoreChart, type Chart as ChartInstance } from '@charton/core';
+import { createMockDataSource, Chart as CoreChart, type Chart as ChartInstance } from '@chart-on/core';
 import { Chart, useChart, type ChartProps } from '../src/index';
 import { installBrowser, type Browser } from './browser';
 import { render } from './render';

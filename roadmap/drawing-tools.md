@@ -227,7 +227,7 @@ Keep `drawings:change` (aggregate, persist on this). Granular events for apps th
 
 `load()` fires only `drawings:change`; listeners re-sync from its payload.
 
-## UI pieces (in `@charton/ui`)
+## UI pieces (in `@chart-on/ui`)
 
 - Rail groups generated from `group` field: `defaultRailItems()` builds one flyout per group.
 - Favorites strip: user pins tools; persisted via settings adapter.

@@ -44,6 +44,6 @@ Hovering a pane shows small buttons for the same actions (move up or down, maxim
 
 `getPaneHeights` returns the panes' stretch weights normalized to sum to 1, not on-screen fractions: a collapsed or hidden pane (also one behind a maximized pane) keeps the weight it returns to. They round-trip through `setPaneHeights`.
 
-A hidden pane keeps its series, indicators and drawings, so showing it again restores it as it was. The main pane cannot be hidden, a hidden pane cannot be maximized, and hiding the maximized pane restores the others. The `toggleVisibility` toolbar preset in `@charton/ui` accepts a pane.
+A hidden pane keeps its series, indicators and drawings, so showing it again restores it as it was. The main pane cannot be hidden, a hidden pane cannot be maximized, and hiding the maximized pane restores the others. The `toggleVisibility` toolbar preset in `@chart-on/ui` accepts a pane.
 
 Every change fires `panes:change` with `{ heights, maximized, collapsed, hidden }`, where `heights` are those same normalized weights. Together they are what a saved layout needs.

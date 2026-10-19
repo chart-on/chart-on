@@ -1,4 +1,4 @@
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 
 /** How long a notice stays up (ms). */
 const NOTICE_MS = 4000;

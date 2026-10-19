@@ -1,7 +1,7 @@
 <!-- A page with one of the components and, inside it, what the context helpers hold while rendering. -->
 <script lang="ts">
-  import { Chart } from '@charton/svelte';
-  import { ChartShell } from '@charton/svelte/shell';
+  import { Chart } from '@chart-on/svelte';
+  import { ChartShell } from '@chart-on/svelte/shell';
   import Contexts from './Contexts.svelte';
 
   let { shell = false }: { shell?: boolean } = $props();

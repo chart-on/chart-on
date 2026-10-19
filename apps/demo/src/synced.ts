@@ -1,4 +1,4 @@
-import { createChart, createLinkGroup, type Bar, type Chart } from '@charton/core';
+import { createChart, createLinkGroup, type Bar, type Chart } from '@chart-on/core';
 
 export interface SyncedChart {
   chart: Chart;

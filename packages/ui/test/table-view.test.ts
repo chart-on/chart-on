@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, type Bar, type CandleSeries } from '@charton/core';
+import { Chart, type Bar, type CandleSeries } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createChartShell } from '../src/shell';
 import { createTableView, tableViewOf, tableViewToolbarItem } from '../src/table-view';

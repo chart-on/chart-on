@@ -9,7 +9,7 @@ A layout is what the user arranged on a chart, as plain JSON: the symbol and int
 Saving and loading come with the `layouts()` [plugin](./features#opt-in-features). `builtins()` includes it and the [UI shell](./ui-shell) adds it; a chart without it throws a [`not-registered`](./errors#not-registered) error from `serializeLayout` and `loadLayout`.
 
 ```ts
-import { createChart, layouts } from '@charton/core';
+import { createChart, layouts } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [layouts()] });
 

@@ -3,7 +3,7 @@
  * page load, so the pictures and the code agree. Not part of the library;
  * in an app these come from your own feed.
  */
-import type { Bar } from '@charton/core';
+import type { Bar } from '@chart-on/core';
 
 /** One hour, the interval of the sample bars. */
 export const HOUR = 3600;

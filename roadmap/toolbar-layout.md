@@ -1,6 +1,6 @@
 # Toolbar layout: where each control goes
 
-Every control in `@charton/ui` and the demo belongs to exactly one surface. Controls on the top bar also belong to one group. This standard stops each new feature from being added to the top bar by default, and it gives hosts that compose their own toolbar the same layout.
+Every control in `@chart-on/ui` and the demo belongs to exactly one surface. Controls on the top bar also belong to one group. This standard stops each new feature from being added to the top bar by default, and it gives hosts that compose their own toolbar the same layout.
 
 End-user toolbar customisation (#39) can reorder items within this standard. It does not change which surface or group an item belongs to.
 

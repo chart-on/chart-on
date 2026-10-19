@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { createMockDataSource } from '@charton/core';
-import { Chart } from '@charton/react';
+import { createMockDataSource } from '@chart-on/core';
+import { Chart } from '@chart-on/react';
 
 const intervals = ['1m', '1h', '1d'] as const;
 

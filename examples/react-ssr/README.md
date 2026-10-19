@@ -1,6 +1,6 @@
 # Component wrapper: server rendering example
 
-A chart (`<Chart>` from `@charton/react`) rendered to HTML on the server and hydrated in the browser, with no application framework on top:
+A chart (`<Chart>` from `@chart-on/react`) rendered to HTML on the server and hydrated in the browser, with no application framework on top:
 
 - `src/App.tsx` renders the same markup on both sides. On the server, `<Chart>` is only its container `div`; the chart is created in the browser after hydration.
 - `src/entry-server.tsx` renders the app to a string with `renderToString`.

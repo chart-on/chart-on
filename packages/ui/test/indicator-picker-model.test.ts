@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import * as core from '@charton/core';
-import type { IndicatorDef } from '@charton/core';
+import * as core from '@chart-on/core';
+import type { IndicatorDef } from '@chart-on/core';
 import {
   categoryLabel,
   categoryOf,

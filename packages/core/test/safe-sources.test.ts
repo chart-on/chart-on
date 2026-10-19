@@ -95,7 +95,7 @@ describe('built files check', () => {
       'const g=new Function(`return this`)();',
       'n.setAttribute(`style`,`color:red`);',
       'const u=`https://cdn.example.com/font.woff2`;',
-      'throw Error(`see https://github.com/chart-on/charton/blob/main/docs/guide/errors.md`)',
+      'throw Error(`see https://github.com/chart-on/chart-on/blob/main/docs/guide/errors.md`)',
       'import(`https://cdn.example.com/x.js`)',
     ].join('\n');
     expect(lines(scanBuilt('index.js', js))).toEqual(['2', '3', '4', '5', '7', '7']);

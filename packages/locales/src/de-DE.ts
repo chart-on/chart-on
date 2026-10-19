@@ -1,4 +1,4 @@
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 import type { PackMessages } from './types';
 
 /**
@@ -7,15 +7,15 @@ import type { PackMessages } from './types';
  * `<key>.one` for one and the plain key for every other number.
  *
  * ```ts
- * import { deDE } from '@charton/locales/de-DE';
- * // The chart needs the localization() plugin (or builtins()) from @charton/core.
+ * import { deDE } from '@chart-on/locales/de-DE';
+ * // The chart needs the localization() plugin (or builtins()) from @chart-on/core.
  * chart.applyOptions({ localization: deDE });
  * ```
  */
 export const deDE: LocalizationOptions = {
   locale: 'de-DE',
   messages: {
-    // Chart (@charton/core)
+    // Chart (@chart-on/core)
     chartLabel: 'Chart',
     chartLabelSymbol: 'Chart von {symbol}',
     scrollToLatest: 'Zum neuesten Balken',
@@ -137,7 +137,7 @@ export const deDE: LocalizationOptions = {
     positionRiskReward: 'CRV {ratio}',
     timezoneLocal: 'Lokal ({zone}, {offset})',
 
-    // Shell (@charton/ui)
+    // Shell (@chart-on/ui)
     menuLabel: 'Chartmenü',
     menuAppearance: 'Darstellung',
     appearanceWatermarkText: 'Name',
@@ -642,7 +642,7 @@ export const deDE: LocalizationOptions = {
     pickerSelected: '{count} ausgewählt',
     'pickerSelected.one': '{count} ausgewählt',
 
-    // Chart settings and appearance panel (@charton/ui, from `chartSettingsSchema` and `appearanceSections`)
+    // Chart settings and appearance panel (@chart-on/ui, from `chartSettingsSchema` and `appearanceSections`)
     'settings.series': 'Reihe',
     'settings.series.bodies': 'Kerzenkörper',
     'setting.theme.up': 'Steigend',

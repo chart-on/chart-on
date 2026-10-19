@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart } from '@charton/core';
+import { Chart } from '@chart-on/core';
 import { dispatch, fakeContainer, runFrame } from '../../core/test/fake-dom';
 import { createPointerTooltip, placePointerTooltip, pointerTooltipContent, type PointerTooltipOptions } from '../src/pointer-tooltip';
 

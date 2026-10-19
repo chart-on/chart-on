@@ -1,7 +1,7 @@
-import { volumeOf } from '@charton/core';
-import { sampleBars } from '@charton/core/testing';
-import { createChartShell, type ChartShell } from '@charton/ui';
-import '@charton/ui/style.css';
+import { volumeOf } from '@chart-on/core';
+import { sampleBars } from '@chart-on/core/testing';
+import { createChartShell, type ChartShell } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 /**
  * Scenes for ../a11y-rtl.spec.ts, each the UI shell with candles, volume and both axes:

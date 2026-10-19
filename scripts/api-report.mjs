@@ -28,11 +28,11 @@ const IGNORED = { logLevel: 'none', addToApiReportFile: false };
 const WIRING = 'what the chart hands the objects it creates, or a plugin to the chart; apps never build these';
 const RENDERER = 'renderer and series internals reached through draw hooks and protected members';
 const INTERNAL_MEMBER = 'used only by members tagged @internal';
-const MAIN_ENTRY = 'a main entry type, imported from @charton/core';
+const MAIN_ENTRY = 'a main entry type, imported from @chart-on/core';
 const PART = 'what a shell part hands the shell or toolbar; apps pass the part without calling it';
-const UI_MAIN_ENTRY = 'a main entry type, imported from @charton/ui';
+const UI_MAIN_ENTRY = 'a main entry type, imported from @chart-on/ui';
 const UNEXPORTED = {
-  '@charton/core': {
+  '@chart-on/core': {
     ...Object.fromEntries(
       [
         'AnnotationHost', 'AnnotationLayer', 'AnnotationLayerHost', 'ChartInternals', 'DrawingHost', 'Emit', 'HandleOwner', 'IndicatorHost',
@@ -48,11 +48,11 @@ const UNEXPORTED = {
     LiveIndicator: INTERNAL_MEMBER,
     PriceWindow: INTERNAL_MEMBER,
   },
-  '@charton/core/testing': Object.fromEntries(['Bar', 'Chart', 'DataSource', 'Interval', 'Time'].map((name) => [name, MAIN_ENTRY])),
-  '@charton/ui': { FavoritesController: PART, ToolbarCustomization: PART },
-  '@charton/ui/templates': { DrawingSettingsOptions: UI_MAIN_ENTRY, IndicatorInitialState: UI_MAIN_ENTRY, IndicatorSettingsOptions: UI_MAIN_ENTRY },
+  '@chart-on/core/testing': Object.fromEntries(['Bar', 'Chart', 'DataSource', 'Interval', 'Time'].map((name) => [name, MAIN_ENTRY])),
+  '@chart-on/ui': { FavoritesController: PART, ToolbarCustomization: PART },
+  '@chart-on/ui/templates': { DrawingSettingsOptions: UI_MAIN_ENTRY, IndicatorInitialState: UI_MAIN_ENTRY, IndicatorSettingsOptions: UI_MAIN_ENTRY },
   // No stability promise; its signatures use main entry types and engine classes.
-  '@charton/core/internal': '*',
+  '@chart-on/core/internal': '*',
 };
 
 /** The types `report` says its entry should export but `UNEXPORTED` does not list, and listed types it no longer reports. */

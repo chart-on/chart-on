@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart } from '@charton/core';
+import { Chart } from '@chart-on/core';
 import { dispatch, documentListeners, fakeContainer } from '../../core/test/fake-dom';
 import { createBottomBar, defaultRanges, type BottomBarHandle } from '../src/bottombar';
 import { createChartGrid, type ChartGrid } from '../src/grid';

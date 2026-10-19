@@ -1,16 +1,16 @@
 ---
-description: "The @charton/ta helpers for writing indicators: averages, volatility, momentum and volume functions."
+description: "The @chart-on/ta helpers for writing indicators: averages, volatility, momentum and volume functions."
 ---
 
 # Technical-analysis helpers
 
-`@charton/ta` is a small library of technical-analysis functions for indicator authors. Custom indicators combine a few helpers instead of hand-written loops, and the built-in indicators use the same helpers, so both run at the same speed and give the same values.
+`@chart-on/ta` is a small library of technical-analysis functions for indicator authors. Custom indicators combine a few helpers instead of hand-written loops, and the built-in indicators use the same helpers, so both run at the same speed and give the same values.
 
 ```bash
-pnpm add @charton/ta
+pnpm add @chart-on/ta
 ```
 
-It has no dependencies, does not import `@charton/core`, and is tree-shakeable: importing `sma` alone adds about 1 kB.
+It has no dependencies, does not import `@chart-on/core`, and is tree-shakeable: importing `sma` alone adds about 1 kB.
 
 ## Conventions
 
@@ -24,7 +24,7 @@ Every helper follows the same rules:
 - **Lengths are validated.** A length that is not an integer of at least 1 throws a `RangeError`, in the array and single-bar forms alike, as do inputs of different lengths.
 
 ```ts
-import { ema, emaAt, rsi, rsiAt } from '@charton/ta';
+import { ema, emaAt, rsi, rsiAt } from '@chart-on/ta';
 
 const out = ema(close, 20);   // full series
 close[close.length - 1] = 105; // the last bar ticks

@@ -1,6 +1,6 @@
 import { toRaw, watch, type PropType } from 'vue';
-import { ERRORS_DOCS_URL } from '@charton/core';
-import type { Chart, ChartEvents, ChartOptionsPatch, DataSource, Interval } from '@charton/core';
+import { ERRORS_DOCS_URL } from '@chart-on/core';
+import type { Chart, ChartEvents, ChartOptionsPatch, DataSource, Interval } from '@chart-on/core';
 
 /** One callback per chart event the app listens to, keyed by the chart's own `noun:verb` names. */
 export type ChartEventHandlers = { [K in keyof ChartEvents]?: (payload: ChartEvents[K]) => void };

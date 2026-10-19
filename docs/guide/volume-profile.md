@@ -82,7 +82,7 @@ Change options later with `profile.applyOptions({ ... })`, hide with `profile.se
 The binning is exported as plain functions, for custom tools or for analysis outside the chart. Pass `out` to reuse its typed arrays, so repeated calls do not allocate.
 
 ```ts
-import { VolumeProfile, computeVolumeProfile } from '@charton/core';
+import { VolumeProfile, computeVolumeProfile } from '@chart-on/core';
 
 const p = computeVolumeProfile(bars, from, to, { rows: 30, valueArea: 70 }); // bars [from, to)
 p.rowPrice(p.poc);                  // POC price (row middle); p.poc is -1 without volume
@@ -102,7 +102,7 @@ computeVolumeProfile(bars, from, to, { rowSize: 5 }, out);
 Volume by price inside each bar, and time-price opportunity (TPO) profiles, have their own helpers. Both also have a chart type, `footprintSeries` and `tpoSeries` (below).
 
 ```ts
-import { createFootprintBuilder, footprintFromRows, footprintImbalances, computeTpoProfiles, tpoLetter } from '@charton/core';
+import { createFootprintBuilder, footprintFromRows, footprintImbalances, computeTpoProfiles, tpoLetter } from '@chart-on/core';
 
 // Footprint: sided trades into price rows per bar, live.
 const footprint = createFootprintBuilder({ interval: '1m', rowSize: 0.25 });
@@ -124,7 +124,7 @@ Footprint bars use the same bucketing as `createBarBuilder`, so they line up wit
 `footprintSeries` draws `FootprintBar`s as a custom series. Pass it to `chart.addCustomSeries`, next to the candles built from the same trades:
 
 ```ts
-import { footprintSeries } from '@charton/core';
+import { footprintSeries } from '@chart-on/core';
 
 const fp = chart.addCustomSeries(footprintSeries, { title: 'Footprint', values: 'split' });
 fp.setData(history);         // FootprintBar[], oldest first
@@ -139,7 +139,7 @@ Each row is a cell shaded by its volume, in the up colour where buying leads and
 `tpoSeries` draws TPO profiles as a custom series. `tpoColumns(bars, options)` takes the same bars and options as `computeTpoProfiles` and gives one item per bar inside a session: the session's profile and the column of it that bar draws. Each session's profile then grows right from its first bar, one TPO per bar slot, and only the columns on screen are drawn. Show it over the same period bars (hide their candles for a profile-only chart):
 
 ```ts
-import { tpoColumns, tpoSeries } from '@charton/core';
+import { tpoColumns, tpoSeries } from '@chart-on/core';
 
 const options = { rowSize: 0.5, timezone, session };
 const tpo = chart.addCustomSeries(tpoSeries, { title: 'TPO' });

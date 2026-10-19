@@ -1,6 +1,6 @@
 # Roadmap docs
 
-Working notes for turning `@charton/core` + `@charton/ui` into a fully customizable trading chart. Each doc lists what exists today, what is missing, and a proposed API that fits the current code.
+Working notes for turning `@chart-on/core` + `@chart-on/ui` into a fully customizable trading chart. Each doc lists what exists today, what is missing, and a proposed API that fits the current code.
 
 | Doc | Covers |
 | --- | --- |
@@ -28,7 +28,7 @@ Working notes for turning `@charton/core` + `@charton/ui` into a fully customiza
 2. **Customization pass** ([customization.md](customization.md)): runtime rail toggle, toolbar `setItems`/`update`/`add`, `toggleVisibility` preset, user toolbar customization, CSS-driven chart theme, light theme. Small, unblocks consumers.
 3. **Persistence** ([persistence.md](persistence.md)): storage adapter, per-symbol drawings, full chart state save/load.
 4. **Drawing tools tier 1** ([drawing-tools.md](drawing-tools.md)): extend plugin contract, add channels, fib retracement/extension, long/short position, price/date range, brush, more text tools.
-5. **Indicators** ([indicators.md](indicators.md)): registry, `@charton/ta` std library, built-in set, then custom indicator packages.
+5. **Indicators** ([indicators.md](indicators.md)): registry, `@chart-on/ta` std library, built-in set, then custom indicator packages.
 6. **More chart styles + custom series plugin** ([custom-series.md](custom-series.md)).
 7. Drawing tools tier 2/3, templates, undo/redo.
 

@@ -6,9 +6,9 @@
   "packageManager": "pnpm@10.33.2",
   "scripts": {
     "dev": "pnpm --filter demo dev",
-    "build": "pnpm --filter @charton/ta build && pnpm --filter @charton/core build && pnpm --filter @charton/indicators build && pnpm --filter @charton/ui build && pnpm --filter @charton/locales build && pnpm --filter @charton/react build && pnpm --filter @charton/vue build && pnpm --filter @charton/svelte build && pnpm --filter charton-plugin-starter build && pnpm --filter demo build",
+    "build": "pnpm --filter @chart-on/ta build && pnpm --filter @chart-on/core build && pnpm --filter @chart-on/indicators build && pnpm --filter @chart-on/ui build && pnpm --filter @chart-on/locales build && pnpm --filter @chart-on/react build && pnpm --filter @chart-on/vue build && pnpm --filter @chart-on/svelte build && pnpm --filter charton-plugin-starter build && pnpm --filter demo build",
     "test": "vitest run",
-    "typecheck": "tsc -p packages/ta && tsc -p packages/core && tsc -p packages/indicators && tsc -p packages/ui && tsc -p packages/locales && tsc -p packages/react && tsc -p packages/vue && pnpm --filter @charton/svelte typecheck && tsc -p apps/demo && tsc -p docs/examples && tsc -p docs/.vitepress/theme/site && tsc -p examples/plugin-starter && tsc -p e2e",
+    "typecheck": "tsc -p packages/ta && tsc -p packages/core && tsc -p packages/indicators && tsc -p packages/ui && tsc -p packages/locales && tsc -p packages/react && tsc -p packages/vue && pnpm --filter @chart-on/svelte typecheck && tsc -p apps/demo && tsc -p docs/examples && tsc -p docs/.vitepress/theme/site && tsc -p examples/plugin-starter && tsc -p e2e",
     "check:packages": "node scripts/check-packages.mjs",
     "check:csp": "node scripts/check-csp.mjs",
     "version-packages": "changeset version && node scripts/version-packages.mjs",

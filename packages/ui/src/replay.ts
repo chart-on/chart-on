@@ -1,4 +1,4 @@
-import { cancelPickBar, pickBar, type Chart, type Rect, type Replay, type ReplayState } from '@charton/core';
+import { cancelPickBar, pickBar, type Chart, type Rect, type Replay, type ReplayState } from '@chart-on/core';
 import { History, Pause, Play, Shuffle, StepBack, StepForward, X } from 'lucide';
 import { iconButton, menuButton } from './controls';
 import { h, isolateFromChart } from './dom';
@@ -54,7 +54,7 @@ function boxIn(el: Element, origin: DOMRect): Rect {
 }
 
 /** The chart's bar replay, or null on a chart without the `replay()` plugin. */
-export const replayOf = (chart: Chart): Replay | null => (chart.installedPlugins.includes('@charton/core/replay') ? chart.replay : null);
+export const replayOf = (chart: Chart): Replay | null => (chart.installedPlugins.includes('@chart-on/core/replay') ? chart.replay : null);
 
 /**
  * Start a replay from a bar the user picks, or stop the running one. While

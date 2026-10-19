@@ -1,4 +1,4 @@
-import type { LocalizationOptions } from '@charton/core';
+import type { LocalizationOptions } from '@chart-on/core';
 import type { PackMessages } from './types';
 
 /**
@@ -7,15 +7,15 @@ import type { PackMessages } from './types';
  * has one plural form, so the plain keys cover every count.
  *
  * ```ts
- * import { idID } from '@charton/locales/id-ID';
- * // The chart needs the localization() plugin (or builtins()) from @charton/core.
+ * import { idID } from '@chart-on/locales/id-ID';
+ * // The chart needs the localization() plugin (or builtins()) from @chart-on/core.
  * chart.applyOptions({ localization: idID });
  * ```
  */
 export const idID: LocalizationOptions = {
   locale: 'id-ID',
   messages: {
-    // Chart (@charton/core)
+    // Chart (@chart-on/core)
     chartLabel: 'Grafik',
     chartLabelSymbol: 'Grafik {symbol}',
     scrollToLatest: 'Gulir ke bar terbaru',
@@ -136,7 +136,7 @@ export const idID: LocalizationOptions = {
     positionRiskReward: 'R:R {ratio}',
     timezoneLocal: 'Lokal ({zone}, {offset})',
 
-    // Shell (@charton/ui)
+    // Shell (@chart-on/ui)
     menuLabel: 'Menu grafik',
     menuAppearance: 'Tampilan',
     appearanceWatermarkText: 'Nama',
@@ -638,7 +638,7 @@ export const idID: LocalizationOptions = {
     clusterShort: 'Short',
     pickerSelected: '{count} dipilih',
 
-    // Chart settings and appearance panel (@charton/ui, from `chartSettingsSchema` and `appearanceSections`)
+    // Chart settings and appearance panel (@chart-on/ui, from `chartSettingsSchema` and `appearanceSections`)
     'settings.series': 'Seri',
     'settings.series.bodies': 'Badan',
     'setting.theme.up': 'Naik',

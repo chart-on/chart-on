@@ -4,13 +4,13 @@ description: "Use the chart without a framework (bundler or script tag), import 
 
 # Frameworks and plain pages
 
-`@charton/core` and `@charton/ui` are plain TypeScript with no framework dependency. This page covers three things:
+`@chart-on/core` and `@chart-on/ui` are plain TypeScript with no framework dependency. This page covers three things:
 
 - [Plain pages](#plain-pages): a bundler, or a single script tag with no build step.
 - [Server rendering](#server-rendering): what is safe to import and call on a server.
 - [The wrapper contract](#the-wrapper-contract): the rules every framework wrapper follows, so components behave the same whichever framework you use. Follow them too when you write your own wrapper.
 
-Ready-made wrappers ship as `@charton/react`, see [Component wrapper](./component-wrapper), `@charton/vue`, see [Template component wrapper](./template-wrapper), and `@charton/svelte`, see [Compiled component wrapper](./compiled-wrapper).
+Ready-made wrappers ship as `@chart-on/react`, see [Component wrapper](./component-wrapper), `@chart-on/vue`, see [Template component wrapper](./template-wrapper), and `@chart-on/svelte`, see [Compiled component wrapper](./compiled-wrapper).
 
 ## Plain pages
 
@@ -19,7 +19,7 @@ Ready-made wrappers ship as `@charton/react`, see [Component wrapper](./componen
 Import the packages as ES modules. Any bundler that understands `package.json` `exports` works, with no plugin or configuration.
 
 ```ts
-import { createChart, createMockDataSource, dataSource } from '@charton/core';
+import { createChart, createMockDataSource, dataSource } from '@chart-on/core';
 
 const chart = createChart(document.getElementById('chart')!, { plugins: [dataSource()] });
 chart.setDataSource(createMockDataSource());
@@ -29,8 +29,8 @@ await chart.setSymbol('DEMO', '1h');
 With the shell, also import its stylesheet once:
 
 ```ts
-import { createChartShell } from '@charton/ui';
-import '@charton/ui/style.css';
+import { createChartShell } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 const shell = createChartShell(document.getElementById('chart')!, { theme: 'system' });
 ```
@@ -69,22 +69,22 @@ Or as a module:
 </script>
 ```
 
-`charton` holds every export of `@charton/core` and `@charton/ui`, so the rest of this guide applies unchanged: `createChart(...)` becomes `charton.createChart(...)`. A complete page is in [`examples/script-tag/index.html`](https://github.com/chart-on/charton/blob/main/examples/script-tag/index.html).
+`charton` holds every export of `@chart-on/core` and `@chart-on/ui`, so the rest of this guide applies unchanged: `createChart(...)` becomes `charton.createChart(...)`. A complete page is in [`examples/script-tag/index.html`](https://github.com/chart-on/chart-on/blob/main/examples/script-tag/index.html).
 
 Browsers load module scripts only over `http(s)`, so `charton.js` needs a local server, while `charton.iife.js` also works from `file://`.
 
-Use the packages instead of this build when you have a bundler: they share one copy of the engine with `@charton/indicators` and plugins, and your bundler leaves out what you do not use.
+Use the packages instead of this build when you have a bundler: they share one copy of the engine with `@chart-on/indicators` and plugins, and your bundler leaves out what you do not use.
 
 ## Server rendering
 
 Frameworks that render on a server import your components there, so importing charton must not need a browser. It doesn't:
 
-- Importing `@charton/core`, `@charton/core/testing`, `@charton/core/internal`, `@charton/ui`, `@charton/indicators` and `@charton/ta` reads no `window`, `document`, `navigator`, storage or WebGL. A test checks this for every entry.
+- Importing `@chart-on/core`, `@chart-on/core/testing`, `@chart-on/core/internal`, `@chart-on/ui`, `@chart-on/indicators` and `@chart-on/ta` reads no `window`, `document`, `navigator`, storage or WebGL. A test checks this for every entry.
 - Pure helpers (formatting, intervals, indicator math, `parseCsv`, layout migration) work on a server.
 - `isWebGL2Supported()` returns `false` on a server instead of throwing.
 - `createChart` and `createChartShell` need a DOM. Call them only in the browser, after the element exists: in the framework's mount hook, never during rendering.
 
-Importing `@charton/ui/style.css` is a stylesheet import; let your framework's CSS handling take care of it, as for any other package stylesheet.
+Importing `@chart-on/ui/style.css` is a stylesheet import; let your framework's CSS handling take care of it, as for any other package stylesheet.
 
 ## The wrapper contract
 
@@ -147,7 +147,7 @@ function forwardEvents(chart: Chart, handlers: () => Partial<Record<keyof ChartE
 
 ### 6. Keep the engine framework-free
 
-A wrapper depends on `@charton/core` (and `@charton/ui` for the shell) as peer dependencies. The engine and the shell never depend on a framework, so they stay usable from plain pages and from every wrapper at once.
+A wrapper depends on `@chart-on/core` (and `@chart-on/ui` for the shell) as peer dependencies. The engine and the shell never depend on a framework, so they stay usable from plain pages and from every wrapper at once.
 
 ### Checklist for wrapper authors
 

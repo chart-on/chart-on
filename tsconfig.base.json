@@ -14,20 +14,20 @@
     "skipLibCheck": true,
     "noEmit": true,
     "paths": {
-      "@charton/core": ["./packages/core/src/index.ts"],
-      "@charton/core/internal": ["./packages/core/src/internal.ts"],
-      "@charton/core/testing": ["./packages/core/src/testing.ts"],
-      "@charton/ui": ["./packages/ui/src/index.ts"],
-      "@charton/ui/templates": ["./packages/ui/src/templates.ts"],
-      "@charton/react": ["./packages/react/src/index.ts"],
-      "@charton/react/shell": ["./packages/react/src/shell.ts"],
-      "@charton/vue": ["./packages/vue/src/index.ts"],
-      "@charton/vue/shell": ["./packages/vue/src/shell.ts"],
-      "@charton/svelte": ["./packages/svelte/src/index.ts"],
-      "@charton/svelte/shell": ["./packages/svelte/src/shell.ts"],
-      "@charton/ta": ["./packages/ta/src/index.ts"],
-      "@charton/indicators": ["./packages/indicators/src/index.ts"],
-      "@charton/locales/*": ["./packages/locales/src/*"]
+      "@chart-on/core": ["./packages/core/src/index.ts"],
+      "@chart-on/core/internal": ["./packages/core/src/internal.ts"],
+      "@chart-on/core/testing": ["./packages/core/src/testing.ts"],
+      "@chart-on/ui": ["./packages/ui/src/index.ts"],
+      "@chart-on/ui/templates": ["./packages/ui/src/templates.ts"],
+      "@chart-on/react": ["./packages/react/src/index.ts"],
+      "@chart-on/react/shell": ["./packages/react/src/shell.ts"],
+      "@chart-on/vue": ["./packages/vue/src/index.ts"],
+      "@chart-on/vue/shell": ["./packages/vue/src/shell.ts"],
+      "@chart-on/svelte": ["./packages/svelte/src/index.ts"],
+      "@chart-on/svelte/shell": ["./packages/svelte/src/shell.ts"],
+      "@chart-on/ta": ["./packages/ta/src/index.ts"],
+      "@chart-on/indicators": ["./packages/indicators/src/index.ts"],
+      "@chart-on/locales/*": ["./packages/locales/src/*"]
     }
   }
 }

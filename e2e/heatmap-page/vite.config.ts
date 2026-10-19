@@ -13,9 +13,9 @@ export default defineConfig({
   preview: { port: HEATMAP_PAGE_PORT, strictPort: true },
   resolve: {
     alias: {
-      '@charton/core/internal': src('../../packages/core/src/internal.ts'),
-      '@charton/core/testing': src('../../packages/core/src/testing.ts'),
-      '@charton/core': src('../../packages/core/src/index.ts'),
+      '@chart-on/core/internal': src('../../packages/core/src/internal.ts'),
+      '@chart-on/core/testing': src('../../packages/core/src/testing.ts'),
+      '@chart-on/core': src('../../packages/core/src/index.ts'),
     },
   },
 });

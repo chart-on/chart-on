@@ -5,8 +5,8 @@
  * packages or guides names them.
  */
 import ccxt from 'ccxt';
-import { createOhlcvDataSource, volumeOf, type Interval } from '@charton/core';
-import { builtinIndicators } from '@charton/indicators';
+import { createOhlcvDataSource, volumeOf, type Interval } from '@chart-on/core';
+import { builtinIndicators } from '@chart-on/indicators';
 import {
   chartStyle,
   clock,
@@ -26,8 +26,8 @@ import {
   symbolSearch,
   toasts,
   undoRedo,
-} from '@charton/ui';
-import '@charton/ui/style.css';
+} from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 import { installShellPalette } from './site-theme';
 
 /** HYPE perpetual, the market the page opens on. */

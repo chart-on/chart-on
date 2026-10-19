@@ -160,7 +160,7 @@ localStorage.keymap = JSON.stringify(chart.actions.keymap); // only the changes
 const errors = chart.actions.setKeymap(JSON.parse(localStorage.keymap)); // invalid entries are left out and returned
 ```
 
-A keymap may name actions registered later, such as your own. To let users rebind shortcuts themselves, `@charton/ui` has a [keyboard shortcuts dialog](./ui-shell#keyboard-shortcuts).
+A keymap may name actions registered later, such as your own. To let users rebind shortcuts themselves, `@chart-on/ui` has a [keyboard shortcuts dialog](./ui-shell#keyboard-shortcuts).
 
 ### Your own actions
 

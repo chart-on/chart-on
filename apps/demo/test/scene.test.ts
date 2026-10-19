@@ -1,8 +1,8 @@
 // An app-side test written the way the testing docs suggest: only the public
-// API and `@charton/core/testing`, no browser and no GPU.
+// API and `@chart-on/core/testing`, no browser and no GPU.
 import { afterEach, expect, it } from 'vitest';
-import { annotations, createChart, volumeOf } from '@charton/core';
-import { describeScene, flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+import { annotations, createChart, volumeOf } from '@chart-on/core';
+import { describeScene, flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
 
 const env = installTestEnvironment({ width: 960, height: 540 });
 afterEach(() => env.uninstall());

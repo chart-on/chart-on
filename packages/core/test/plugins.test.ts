@@ -12,8 +12,8 @@ import type { Primitive } from '../src/primitives';
 import { CORE_VERSION } from '../src/version';
 
 // The tool contributions need drawings, which the charts here get from the `drawings()` plugin.
-const DRAWINGS = '@charton/core/drawings';
-const INDICATORS = '@charton/core/indicators';
+const DRAWINGS = '@chart-on/core/drawings';
+const INDICATORS = '@chart-on/core/indicators';
 const charts: Chart[] = [];
 afterEach(() => charts.splice(0).forEach((c) => c.destroy()));
 

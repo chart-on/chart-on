@@ -48,7 +48,7 @@ describe('package entry', () => {
   });
 });
 
-/** Runtime exports of `@charton/core/internal`: engine internals with no stability promise. */
+/** Runtime exports of `@chart-on/core/internal`: engine internals with no stability promise. */
 const INTERNAL = [
   'COLLAPSED_PANE_HEIGHT', 'Pane', 'Timeline', 'binVolume', 'drawBaseline', 'drawPolyline', 'layoutPanes', 'profileLayout',
   'resolveBaseLevel', 'seededRandom',

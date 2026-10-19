@@ -1,4 +1,4 @@
-import type { Interval } from '@charton/core';
+import type { Interval } from '@chart-on/core';
 import { settingsToolbarItem } from './chart-settings';
 import { indicatorPickerToolbarItem } from './indicator-picker';
 import { indicatorTemplatesToolbarItem } from './indicator-templates';

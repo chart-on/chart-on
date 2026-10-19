@@ -1,4 +1,4 @@
-import { chartThemeTokens, contrastText, isColor, mixColors, presetTheme, withAlpha, type ChartTheme, type ColorPreset, type ColorPresetVariant } from '@charton/core';
+import { chartThemeTokens, contrastText, isColor, mixColors, presetTheme, withAlpha, type ChartTheme, type ColorPreset, type ColorPresetVariant } from '@chart-on/core';
 
 /** Chart theme keys a preset derives, also written as chart tokens so shell CSS that reads them follows. */
 const DERIVED_KEYS = [

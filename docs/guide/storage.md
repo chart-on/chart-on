@@ -12,7 +12,7 @@ The chart never stores anything by itself. [`serializeLayout` and `loadLayout`](
 - a **settings store** for UI preferences, with synchronous reads.
 
 ```ts
-import { autosave, builtins, createChart, createLocalStorageAdapter, layoutEntry, loadLastLayout, perSymbolDrawings } from '@charton/core';
+import { autosave, builtins, createChart, createLocalStorageAdapter, layoutEntry, loadLastLayout, perSymbolDrawings } from '@chart-on/core';
 
 // builtins() brings layouts() for saving and loading, and the drawings that perSymbolDrawings keeps.
 const chart = createChart(el, { plugins: builtins() });
@@ -50,7 +50,7 @@ Every method is async, so a server backend fits, and every method is optional: i
 
 `saveDrawings` gets all the drawings under the key, plus a `delta` of the ids `changed` and `removed` since the last save under that key when the helper knows them. A server can use the delta to update rows one by one and ignore the full list; the built-in adapter ignores the delta.
 
-Templates are named styles a user saves once and reuses. `kind` is `'drawing'` (with the tool type as `scope`), `'indicator'` (with the indicator id as `scope`), `'chart'` (no scope), `'indicator-set'` (a group of indicators with their panes from [`chart.indicators.serializeSet()`](./indicators#indicator-sets), no scope) or `'indicator-default'` (the inputs and plot styles new indicators of an id start with, the indicator id as `scope`, one entry named `'default'`; the built-in adapter keeps them under `<prefix>templates:indicator-default`, apart from named templates). Names are unique within a kind and scope: saving under a taken name replaces that template. The built-in adapter compares names exactly, so `Trend` and `trend` are two templates. An adapter may instead match names without case, as the [indicator template dialog](./indicator-picker#indicator-templates) does; `listTemplates` should then return the name given to the latest save. `listTemplates` returns the names in the order they were first saved; `loadTemplate` returns the content as saved, or `null`. The content is any JSON value and the adapter does not check it, so validate it before applying it. The [templates add-on](./ui-shell#drawing-templates) of `@charton/ui` saves and applies `'drawing'` and `'indicator'` templates, and [`'indicator-default'`](./ui-shell#save-as-default) ones.
+Templates are named styles a user saves once and reuses. `kind` is `'drawing'` (with the tool type as `scope`), `'indicator'` (with the indicator id as `scope`), `'chart'` (no scope), `'indicator-set'` (a group of indicators with their panes from [`chart.indicators.serializeSet()`](./indicators#indicator-sets), no scope) or `'indicator-default'` (the inputs and plot styles new indicators of an id start with, the indicator id as `scope`, one entry named `'default'`; the built-in adapter keeps them under `<prefix>templates:indicator-default`, apart from named templates). Names are unique within a kind and scope: saving under a taken name replaces that template. The built-in adapter compares names exactly, so `Trend` and `trend` are two templates. An adapter may instead match names without case, as the [indicator template dialog](./indicator-picker#indicator-templates) does; `listTemplates` should then return the name given to the latest save. `listTemplates` returns the names in the order they were first saved; `loadTemplate` returns the content as saved, or `null`. The content is any JSON value and the adapter does not check it, so validate it before applying it. The [templates add-on](./ui-shell#drawing-templates) of `@chart-on/ui` saves and applies `'drawing'` and `'indicator'` templates, and [`'indicator-default'`](./ui-shell#save-as-default) ones.
 
 ```ts
 await storage.saveTemplate('drawing', 'Thick blue', { color: '#2f6bff', width: 3 }, 'trend-line');
@@ -181,7 +181,7 @@ It loads the most recently saved layout from `listLayouts` (by `savedAt`), skipp
 UI preferences (the colour scheme, favourites, the last interval, whether a panel is open) are not part of a layout. Keep them in a settings store, which reads synchronously so the UI can start with the right values:
 
 ```ts
-import { createSettingsStore } from '@charton/core';
+import { createSettingsStore } from '@chart-on/core';
 
 const settings = createSettingsStore({
   adapter: storage.settings,                   // any { get, set, remove } with string values

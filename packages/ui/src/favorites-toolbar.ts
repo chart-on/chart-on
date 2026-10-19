@@ -3,7 +3,7 @@
  * (intervals, chart styles) beside a menu of all of them with a star each.
  * They read the favourites of the shell holding the chart (`favoritesOf`).
  */
-import { ERRORS_DOCS_URL, isActivityInterval, type Chart, type Interval } from '@charton/core';
+import { ERRORS_DOCS_URL, isActivityInterval, type Chart, type Interval } from '@chart-on/core';
 import { ChevronDown, Star } from 'lucide';
 import { iconButton, popoverItem, type MenuOption } from './controls';
 import { h, icon, markActive, placePopover, popoverToggle } from './dom';

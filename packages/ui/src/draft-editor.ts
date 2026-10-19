@@ -1,4 +1,4 @@
-import type { Chart, DraftEditEvent, DraftLine, OrderType } from '@charton/core';
+import type { Chart, DraftEditEvent, DraftLine, OrderType } from '@chart-on/core';
 import { button } from './controls';
 import { fadeOutAndRemove, h, isolateFromChart, onDismiss, placeAtOrigin } from './dom';
 import { keyOf, shellText, type Localized, type ShellMessageKey } from './messages';

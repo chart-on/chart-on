@@ -10,7 +10,7 @@ import {
   type GridLineOptions,
   type GridLineStyle,
   type GridOptionsPatch,
-} from '@charton/core';
+} from '@chart-on/core';
 import { Check, Palette, RotateCcw, X } from 'lucide';
 import { createColorControl, type ColorControl } from './color-control';
 import { lineStyleOptions } from './drawing-style-controls';
@@ -374,7 +374,7 @@ export function createAppearance(chart: Chart, options: AppearanceOptions = {}):
   const mode = () => options.mode?.() ?? ownMode;
   let panel: Panel | null = null;
   // The watermark comes with the `watermark()` plugin; a chart without it has no text to set.
-  const watermark = () => (chart.installedPlugins.includes('@charton/core/watermark') ? chart.watermark : null);
+  const watermark = () => (chart.installedPlugins.includes('@chart-on/core/watermark') ? chart.watermark : null);
   // What the app set, which an unset or reset choice goes back to.
   const baseLogo = chart.features.attributionLogo;
 
@@ -614,7 +614,7 @@ function createPanel(chart: Chart, handle: AppearanceHandle, base: () => ChartTh
       block.append(h('div', { class: 'pc-appearance-row' }, h('label', { class: 'pc-appearance-check' }, show, h('span', {}, label))));
     }
     // The name row needs the `watermark()` plugin's watermark.
-    const mark = section.id === 'watermark' && chart.installedPlugins.includes('@charton/core/watermark') ? chart.watermark : null;
+    const mark = section.id === 'watermark' && chart.installedPlugins.includes('@chart-on/core/watermark') ? chart.watermark : null;
     if (mark) {
       const label = shellText(chart, 'appearanceWatermarkText');
       // No maxlength: the watermark cuts the line to 40 characters itself.

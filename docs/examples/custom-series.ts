@@ -1,4 +1,4 @@
-import { createChart, withAlpha, type Bar, type CustomSeriesDef } from '@charton/core';
+import { createChart, withAlpha, type Bar, type CustomSeriesDef } from '@chart-on/core';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

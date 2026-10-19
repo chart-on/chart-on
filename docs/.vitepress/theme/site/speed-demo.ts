@@ -1,4 +1,4 @@
-import { createChart, statsOverlay, type Bar, type Chart } from '@charton/core';
+import { createChart, statsOverlay, type Bar, type Chart } from '@chart-on/core';
 import { sampleBars } from '../../../examples/sample-data';
 import { errorText, retheme, themeFor, whenVisible, type Section } from './section';
 import { slidingIndicator } from './slide';

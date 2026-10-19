@@ -1,9 +1,9 @@
 /*
- * @charton/ui — flat trading-terminal look.
+ * @chart-on/ui — flat trading-terminal look.
  * Dark by default, light with `data-theme="light"` on .pc-shell (`.pc-light` still works);
  * without `data-theme` the colours follow the OS setting.
  * Override any --pc-* variable on .pc-shell to restyle. The chart tokens at the end of the
- * block color the canvas: the shell reads them with `themeFromCss` from @charton/core.
+ * block color the canvas: the shell reads them with `themeFromCss` from @chart-on/core.
  */
 .pc-shell {
   --pc-shell: #0a0a0e;
@@ -233,7 +233,7 @@
 /*
  * High contrast: add the `pc-theme-high-contrast` class (shell option `className`).
  * Dark by default; light with data-theme="light", or the OS setting without data-theme.
- * Same colours as highContrastDarkTheme / highContrastLightTheme in @charton/core.
+ * Same colours as highContrastDarkTheme / highContrastLightTheme in @chart-on/core.
  */
 .pc-shell.pc-theme-high-contrast {
   --pc-shell: #000000;

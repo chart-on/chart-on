@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createMockDataSource, type Chart } from '@charton/core';
-import type { ChartShell as ShellInstance } from '@charton/ui';
-import type { ChartShellProps } from '@charton/svelte/shell';
+import { createMockDataSource, type Chart } from '@chart-on/core';
+import type { ChartShell as ShellInstance } from '@chart-on/ui';
+import type { ChartShellProps } from '@chart-on/svelte/shell';
 import { installBrowser, type Browser } from './browser';
 import { render } from './render.svelte';
 import Probe from './fixtures/Probe.svelte';
@@ -106,7 +106,7 @@ describe('<ChartShell>', () => {
 
   // A leak shows up on every mount, so a handful of mounts finds it. Each shell builds a few
   // hundred elements, which the DOM test environment takes 70-160 ms to create, so 100 mounts
-  // outran the test timeout. The fake-container lifecycle test in @charton/ui does the 100.
+  // outran the test timeout. The fake-container lifecycle test in @chart-on/ui does the 100.
   it('leaves nothing behind after 10 mounts and unmounts', () => {
     for (let i = 0; i < 10; i++) shell().unmount();
     browser.runFrames();

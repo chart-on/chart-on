@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { overflowOrder, toolbarGroups, type ToolbarItem } from '@charton/ui';
-import type { Chart } from '@charton/core';
+import { overflowOrder, toolbarGroups, type ToolbarItem } from '@chart-on/ui';
+import type { Chart } from '@chart-on/core';
 import { cycleToggle, demoToolbar, type DemoToggle } from '../src/toolbar';
 
 const toggle = (value: string): DemoToggle => ({ value, label: value, isOn: () => false, toggle: () => {} });

@@ -1,4 +1,4 @@
-import { createChart, createMockDataSource, dataSource, type Chart } from '@charton/core';
+import { createChart, createMockDataSource, dataSource, type Chart } from '@chart-on/core';
 import { light, theme } from './page-theme';
 import { expose } from './expose';
 

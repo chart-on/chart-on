@@ -1,4 +1,4 @@
-import { builtinTools, type Chart, type DrawingToolDef } from '@charton/core';
+import { builtinTools, type Chart, type DrawingToolDef } from '@chart-on/core';
 import { ChevronRight, Ellipsis, Eye, EyeOff, Lock, LockOpen, Magnet, Redo2, Star, Trash2, Undo2 } from 'lucide';
 import { iconButton, overflowMore, popoverItem, type OverflowMore } from './controls';
 import { crosshairIcon, drawingIcon, drawingIcons, groupFaces, groupIcons, pointerCursorIcon } from './icons';

@@ -1,4 +1,4 @@
-import { intervalSeconds, type IndicatorDef, type IndicatorRow } from '@charton/core';
+import { intervalSeconds, type IndicatorDef, type IndicatorRow } from '@chart-on/core';
 
 /**
  * A mock "open interest" feed: an indicator whose values are not a function

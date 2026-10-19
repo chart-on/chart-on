@@ -202,7 +202,7 @@ function draw(ctx: CanvasRenderingContext2D, env: PrimitiveEnv, v: Readonly<Reco
  */
 export function higherIntervalBars(): ChartPlugin {
   return {
-    name: '@charton/core/higher-interval-bars',
+    name: '@chart-on/core/higher-interval-bars',
     version: CORE_VERSION,
     install: (ctx) => {
       const chart = ctx.chart;

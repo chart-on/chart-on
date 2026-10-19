@@ -16,6 +16,7 @@ import { createChartShell, type ChartShell, type ChartShellOptions, type ShellTh
 import { mountToolbar, type ToolbarHandle, type ToolbarItem, type ToolbarOptions } from './toolbar';
 import { devCheck } from './options-schema';
 import { shellText, type ShellMessageKey } from './messages';
+import { presetShellTokens } from './color-presets';
 
 /** Grid presets, named columns x rows. */
 export type ChartGridLayout = '1x1' | '2x1' | '1x2' | '3x1' | '1x3' | '2x2' | '3x2' | '4x2';
@@ -267,6 +268,9 @@ export function createChartGrid(container: HTMLElement, options: ChartGridOption
     cellEl.addEventListener('pointerdown', () => activate(cells.findIndex((c) => c.el === cellEl)), true);
     cellEl.addEventListener('focusin', () => activate(cells.findIndex((c) => c.el === cellEl)));
     shell.chart.on('localization:change', relabel);
+    const restyle = () => cells[activeIndex]?.shell === shell && wearPreset();
+    shell.on('preset:change', restyle);
+    shell.on('theme:change', restyle);
     links.add(shell.chart);
     grids.set(shell.chart, () => api);
     const cell: Cell = { el: cellEl, shell, cleanup: undefined };
@@ -287,12 +291,26 @@ export function createChartGrid(container: HTMLElement, options: ChartGridOption
     const changed = index !== activeIndex;
     activeIndex = index;
     markActive();
+    // Also on a layout change, which can replace the active cell's shell.
+    wearPreset();
     if (focus) cells[index]!.shell.chart.root.focus();
     if (changed) {
       relabel();
       toolbar?.refresh();
       emit('active:change', { index, shell: cells[index]!.shell });
     }
+  }
+
+  // The grid's own chrome (toolbar, gutters, active outline) wears the active cell's colour preset,
+  // which each shell sets inline on its own element only. The same tokens, so both match.
+  let presetTokens: string[] = [];
+  function wearPreset(): void {
+    for (const name of presetTokens) el.style.setProperty(name, '');
+    const shell = cells[activeIndex]?.shell;
+    const preset = shell?.appearance?.preset;
+    const tokens = preset && !shell.el.classList.contains('pc-theme-high-contrast') ? presetShellTokens(preset, shell.resolvedTheme) : {};
+    presetTokens = Object.keys(tokens);
+    for (const name of presetTokens) el.style.setProperty(name, tokens[name]!);
   }
 
   function markActive(): void {

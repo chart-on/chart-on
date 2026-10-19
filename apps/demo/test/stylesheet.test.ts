@@ -26,10 +26,10 @@ async function buildDemo(): Promise<Map<string, string>> {
   return files;
 }
 
-/** The stylesheets a built page links, by output file name. */
+/** The stylesheets a built page links, by output file name (the demo builds with relative `./` URLs). */
 function linkedStylesheets(html: string): string[] {
   return [...html.matchAll(/<link\b[^>]*\brel="stylesheet"[^>]*>/g)]
-    .map((tag) => /\bhref="\/?([^"]+)"/.exec(tag[0])?.[1])
+    .map((tag) => /\bhref="\.?\/?([^"]+)"/.exec(tag[0])?.[1])
     .filter((href): href is string => href !== undefined);
 }
 

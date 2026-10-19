@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { examplesMarkdown } from './examples-markdown';
 import { writeDocsText } from './docs-text';
@@ -11,6 +13,33 @@ const siteUrl = (process.env.DOCS_SITE_URL ?? 'https://charton.dev/').replace(/\
 const description =
   'WebGL2 financial charts in TypeScript: a headless engine with candles, heatmaps, order flow, indicators and drawing tools, plus an optional UI toolkit.';
 const ogImage = `${siteUrl}og-image.png`;
+const ogImageAlt = 'charton: next gen charting library for the web';
+
+/**
+ * A description for a generated API page, which has no front matter: the first sentence of the
+ * doc comment under the heading, or the symbol and its package when there is no comment.
+ */
+function apiDescription(path: string, markdown: string): string {
+  const match = markdown.match(/^# (.+)$/m);
+  const heading = match?.[1] ?? '';
+  // The comment comes before the first section; a function's first section is its call signature,
+  // so skip that heading. Signatures are block quotes, not comments.
+  const body = markdown.slice(match?.index ?? 0).replace('## Call Signature', '');
+  const comment = body
+    .split(/^#{2,} /m)[0]
+    .split(/\n\s*\n/)
+    .slice(1)
+    .map((p) => p.replace(/\[([^\]]*)\]\([^)]*\)|[`*]|\\/g, '$1').replace(/\s+/g, ' ').trim())
+    .find((p) => p && !p.startsWith('>') && !p.startsWith('Defined in:'));
+  if (comment) {
+    // VitePress does not escape quotes in its description tag. Search results cut near 160 characters.
+    const sentence = (comment.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? comment).replace(/"/g, "'");
+    return sentence.length > 160 ? `${sentence.slice(0, 159).replace(/\s\S*$/, '')}…` : sentence;
+  }
+  const [kind, name] = heading.replace(/\\/g, '').split(': ');
+  const pkg = path.match(/^api\/(@[^/]+\/[^/]+)/)?.[1] ?? 'charton';
+  return name ? `The ${name} ${kind.toLowerCase()} in ${pkg}.` : `API reference for ${pkg}.`;
+}
 
 export default defineConfig({
   lang: 'en-US',
@@ -26,6 +55,8 @@ export default defineConfig({
   buildEnd: writeDocsText,
   sitemap: { hostname: siteUrl },
   head: [
+    // The .ico is for browsers and link previews that cannot use the SVG.
+    ['link', { rel: 'icon', href: `${base}favicon.ico`, sizes: '48x48' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}logo.svg` }],
     ['link', { rel: 'apple-touch-icon', href: `${base}apple-touch-icon.png` }],
     ['meta', { name: 'theme-color', content: '#f5f1e8', media: '(prefers-color-scheme: light)' }],
@@ -35,10 +66,17 @@ export default defineConfig({
     ['meta', { property: 'og:image', content: ogImage }],
     ['meta', { property: 'og:image:width', content: '1200' }],
     ['meta', { property: 'og:image:height', content: '630' }],
-    ['meta', { property: 'og:image:alt', content: 'charton: next gen charting library for the web' }],
+    ['meta', { property: 'og:image:alt', content: ogImageAlt }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:image', content: ogImage }],
+    ['meta', { name: 'twitter:image:alt', content: ogImageAlt }],
   ],
+  // Generated API pages have no front matter, so describe each from its own doc comment.
+  transformPageData(pageData, { siteConfig }) {
+    if (!pageData.relativePath.startsWith('api/') || pageData.frontmatter.description) return;
+    const markdown = readFileSync(join(siteConfig.srcDir, pageData.relativePath), 'utf8');
+    pageData.description = apiDescription(pageData.relativePath, markdown);
+  },
   // Each page's own title, description and address for search engines and link previews.
   transformHead({ pageData, title, description: pageDescription }) {
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '');

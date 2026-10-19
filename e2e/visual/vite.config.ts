@@ -14,12 +14,12 @@ export default defineConfig({
   resolve: {
     alias: {
       // Subpaths before the package names, which would otherwise take them as paths inside their entries.
-      '@charton/core/testing': src('../../packages/core/src/testing.ts'),
-      '@charton/core': src('../../packages/core/src/index.ts'),
-      '@charton/ui/style.css': src('../../packages/ui/src/style.css'),
-      '@charton/ui': src('../../packages/ui/src/index.ts'),
-      '@charton/ta': src('../../packages/ta/src/index.ts'),
-      '@charton/indicators': src('../../packages/indicators/src/index.ts'),
+      '@chart-on/core/testing': src('../../packages/core/src/testing.ts'),
+      '@chart-on/core': src('../../packages/core/src/index.ts'),
+      '@chart-on/ui/style.css': src('../../packages/ui/src/style.css'),
+      '@chart-on/ui': src('../../packages/ui/src/index.ts'),
+      '@chart-on/ta': src('../../packages/ta/src/index.ts'),
+      '@chart-on/indicators': src('../../packages/indicators/src/index.ts'),
     },
   },
 });

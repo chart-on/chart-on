@@ -1,4 +1,4 @@
-import { sourceAt, sourceOf, type IndicatorDef, type IndicatorOutputs, type InputDef, type SourceKey } from '@charton/core';
+import { sourceAt, sourceOf, type IndicatorDef, type IndicatorOutputs, type InputDef, type SourceKey } from '@chart-on/core';
 import {
   atr,
   atrAt,
@@ -48,7 +48,7 @@ import {
   vwapAt,
   vwapLookback,
   type SessionStart,
-} from '@charton/ta';
+} from '@chart-on/ta';
 
 // Colour inputs default to '' (the theme's line colour). Guides and fills are
 // translucent greys and blues that read on dark and light backgrounds.

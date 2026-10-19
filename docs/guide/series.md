@@ -142,7 +142,7 @@ Switch any time with `candles.applyOptions({ style })`.
 | `kagi` | Kagi line for bars from `PriceBarBuilder` with `type: 'kagi'`, see [Price-based bars](#price-based-bars). Needs the `priceStyles()` plugin |
 | `pointFigure` | Columns of X and O boxes for bars from `PriceBarBuilder` with `type: 'pointFigure'`, see [Price-based bars](#price-based-bars). Needs the `priceStyles()` plugin |
 
-The table lists the styles in the order of the shell's style menu (`chartStyles` in `@charton/ui`): grouped by what they draw, all four prices, the range or the close, and within a group the style that shows the most values of a bar first. `rangeBand` was called `hlcArea` before; a saved layout with that name draws `candles` (see [upgrading](../upgrading/)).
+The table lists the styles in the order of the shell's style menu (`chartStyles` in `@chart-on/ui`): grouped by what they draw, all four prices, the range or the close, and within a group the style that shows the most values of a bar first. `rangeBand` was called `hlcArea` before; a saved layout with that name draws `candles` (see [upgrading](../upgrading/)).
 `heikinAshi(bars)` and `heikinAshiBar(bar, prevHa)` are exported if you need the values yourself.
 
 Switching style eases the price scale to the new range (with the chart's `smoothScale` option, on by default), so moving between close-only styles (`line`, `area`, ...) and high-low styles (`candles`, `rangeBand`, ...) animates. `rangeBand` autoscales on high and low like candles.
@@ -178,7 +178,7 @@ The body width is the normal body width (`bodyRatio` × bar spacing) scaled by t
 Renko, line break, range, kagi and point & figure bars are made from price movement, not from the passage of time, so they have a timeline of their own. `PriceBarBuilder` turns your time bars into them, and an ordinary candle series draws the result:
 
 ```ts
-import { PriceBarBuilder } from '@charton/core';
+import { PriceBarBuilder } from '@chart-on/core';
 
 const builder = new PriceBarBuilder({ type: 'renko', size: { kind: 'fixed', size: 5 } });
 const candles = chart.addCandles({ title: 'Renko' });
@@ -217,7 +217,7 @@ const chart = createChart(el, {
 Kagi and point & figure bars are not candles, so the candle series has a style for each, drawn on the GPU by its own renderer. Both come with the `priceStyles()` [plugin](./features#opt-in-features), which `builtins()` includes. Without it a series in either style draws nothing, and development builds warn once ([`price-styles-missing`](./errors#price-styles-missing)):
 
 ```ts
-import { PriceBarBuilder, createChart, priceStyles } from '@charton/core';
+import { PriceBarBuilder, createChart, priceStyles } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [priceStyles()] });
 const builder = new PriceBarBuilder({ type: 'pointFigure', size: { kind: 'percent', percent: 1 }, reversal: 3 });
@@ -274,7 +274,7 @@ const signal = chart.addLine({ title: 'Signal', lineStyle: 'dashed', lineType: '
 On a live chart the newest point is easy to lose. `lastPointPulse` draws a ring that grows out of the last point and fades. It needs the `lastPointPulse()` [plugin](./features#opt-in-features), which `builtins()` includes; without it the option is kept but draws nothing, and development builds warn once ([`pulse-missing`](./errors#pulse-missing)):
 
 ```ts
-import { createChart, lastPointPulse } from '@charton/core';
+import { createChart, lastPointPulse } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [lastPointPulse()] });
 const price = chart.addLine({ title: 'Price', lastPointPulse: 'on-update' });

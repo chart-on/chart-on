@@ -1,4 +1,4 @@
-import { createChart } from '@charton/core';
+import { createChart } from '@chart-on/core';
 import type { ExampleContext } from './types';
 import { fetchOlderBars, sampleBars } from './sample-data';
 

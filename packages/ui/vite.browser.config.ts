@@ -20,8 +20,8 @@ export default defineConfig({
     // Bundle the engine from source, so this build does not depend on core's `dist`.
     // The add-ons import the shell by package name; here that is the same source as `./index`.
     alias: {
-      '@charton/core': fileURLToPath(new URL('../core/src/index.ts', import.meta.url)),
-      '@charton/ui': fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      '@chart-on/core': fileURLToPath(new URL('../core/src/index.ts', import.meta.url)),
+      '@chart-on/ui': fileURLToPath(new URL('./src/index.ts', import.meta.url)),
     },
   },
   build: {

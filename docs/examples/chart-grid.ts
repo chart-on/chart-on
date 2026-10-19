@@ -1,5 +1,5 @@
-import { createChartGrid } from '@charton/ui';
-import '@charton/ui/style.css';
+import { createChartGrid } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart, darkTheme } from '@charton/core';
+import { Chart, darkTheme } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createAppearance } from '../src/appearance';
 import { createChartSettings } from '../src/chart-settings';

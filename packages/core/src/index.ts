@@ -143,7 +143,7 @@ export type {
   SessionLane,
   SessionLaneState,
 } from './session-bands';
-// `Pane` and `Timeline` are types here, for the public signatures that use them; the classes are in `@charton/core/internal`.
+// `Pane` and `Timeline` are types here, for the public signatures that use them; the classes are in `@chart-on/core/internal`.
 export type { Pane, PaneOptions } from './pane';
 export { TimeScale, PriceScale, easeOutCubic } from './scales';
 export type { CellReduce } from './gl/heatmap-reduce';

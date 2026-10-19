@@ -8,7 +8,7 @@ import {
   type ChartSettingSection,
   type ChartTheme,
   type GridOptionsPatch,
-} from '@charton/core';
+} from '@chart-on/core';
 import { Settings } from 'lucide';
 import { appearanceOf, COLOR_KEYS, type AppearanceHandle, type AppearancePatch } from './appearance';
 import { createFormDialog, type FormDialog } from './form-dialog';

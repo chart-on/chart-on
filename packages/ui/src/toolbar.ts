@@ -1,4 +1,4 @@
-import type { Chart, MessageParams, SettingsAdapter } from '@charton/core';
+import type { Chart, MessageParams, SettingsAdapter } from '@chart-on/core';
 import { Ellipsis } from 'lucide';
 import { button, iconButton, menuButton, popoverItem, segmentedTabs, type MenuOption, type SegmentOption } from './controls';
 import { h, markActive, icon, nameButton, placePopover, popoverToggle, visibilityOf, type IconSource, type Visibility, type VisibilityControl } from './dom';
@@ -229,8 +229,8 @@ interface Mounted {
  *
  * @example
  * ```ts
- * import { builtins, createChart } from '@charton/core';
- * import { createToolbar, fullscreen, intervals, screenshot } from '@charton/ui';
+ * import { builtins, createChart } from '@chart-on/core';
+ * import { createToolbar, fullscreen, intervals, screenshot } from '@chart-on/ui';
  *
  * const chart = createChart(chartEl, { plugins: builtins() });
  * const toolbar = createToolbar(topEl, chart, [intervals(['1m', '1h', '1d']), screenshot(), fullscreen()]);

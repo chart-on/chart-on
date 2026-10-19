@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import { createChartShell, type ChartShell } from '../src/shell';
 import { shellOf } from '../src/plugin-host';

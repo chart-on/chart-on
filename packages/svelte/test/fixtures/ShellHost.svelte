@@ -1,9 +1,9 @@
 <!-- Renders `<ChartShell>` with the props it gets, records what `bind:shell` and `bind:chart` take, and renders `Child` inside. -->
 <script lang="ts">
   import type { Component } from 'svelte';
-  import type { Chart } from '@charton/core';
-  import type { ChartShell as ShellInstance } from '@charton/ui';
-  import { ChartShell, type ChartShellProps } from '@charton/svelte/shell';
+  import type { Chart } from '@chart-on/core';
+  import type { ChartShell as ShellInstance } from '@chart-on/ui';
+  import { ChartShell, type ChartShellProps } from '@chart-on/svelte/shell';
 
   let {
     record,

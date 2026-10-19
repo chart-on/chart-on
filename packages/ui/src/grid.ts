@@ -10,7 +10,7 @@ import {
   type LayoutSerializeOptions,
   type LinkGroup,
   type LinkGroupOptions,
-} from '@charton/core';
+} from '@chart-on/core';
 import { h, isRtl } from './dom';
 import { createChartShell, type ChartShell, type ChartShellOptions, type ShellTheme } from './shell';
 import { mountToolbar, type ToolbarHandle, type ToolbarItem, type ToolbarOptions } from './toolbar';
@@ -193,7 +193,7 @@ export function gridOf(chart: Chart): ChartGrid | undefined {
 /**
  * One to eight chart shells in a grid of resizable cells, with an active cell
  * that the grid toolbar acts on and a link group that keeps the charts in step.
- * Requires `@charton/ui/style.css`.
+ * Requires `@chart-on/ui/style.css`.
  *
  * @example
  * ```ts

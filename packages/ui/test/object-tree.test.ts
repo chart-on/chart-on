@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { Chart, type IndicatorDef } from '@charton/core';
+import { Chart, type IndicatorDef } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createObjectTree, type ObjectTreeHandle } from '../src/object-tree';
 import { buildObjectTree, canDropNode, flattenTree, moveNode, ObjectKeys, removeNodes } from '../src/object-tree-model';

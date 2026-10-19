@@ -1,4 +1,4 @@
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import { Table, X } from 'lucide';
 import { iconButton } from './controls';
 import { h, holdPanelInput } from './dom';
@@ -65,7 +65,7 @@ export function tableViewToolbarItem(): ToolbarItem {
  * series' own format. It follows the view as it pans, zooms and gets new bars,
  * and changes only the rows that differ, so a screen reader keeps its place.
  * Opening it moves focus to the table; Escape or the close button closes it
- * and returns focus. Requires `@charton/ui/style.css`.
+ * and returns focus. Requires `@chart-on/ui/style.css`.
  */
 export function createTableView(chart: Chart, options: TableViewOptions = {}): TableViewHandle {
   let panel: Panel | null = null;

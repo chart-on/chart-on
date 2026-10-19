@@ -13,7 +13,7 @@ Each band is a **lane** with a name, an IANA timezone, opening hours in that tim
 Session bands are a [primitive](./primitives). Create them and attach them to a chart:
 
 ```ts
-import { createChart, createSessionBands } from '@charton/core';
+import { createChart, createSessionBands } from '@chart-on/core';
 
 const chart = createChart(el);
 const bands = createSessionBands(); // Asia, Europe and Americas
@@ -101,7 +101,7 @@ Two standalone helpers work on a single lane without a primitive:
 Pass the bands to the bottom bar (which turns it on) to get a chip with a dot per lane. A dot is solid while its lane is open. Clicking the chip lists the lanes with countdowns, updated every second:
 
 ```ts
-import { createChartShell } from '@charton/ui';
+import { createChartShell } from '@chart-on/ui';
 
 const bands = createSessionBands();
 const shell = createChartShell(el, { bottomBar: { sessionBands: bands } });

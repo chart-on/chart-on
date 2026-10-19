@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart, chartSettingsSchema, darkTheme, type ChartSettingField } from '@charton/core';
+import { Chart, chartSettingsSchema, darkTheme, type ChartSettingField } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { chooseOption } from './listbox';
 import { createAppearance } from '../src/appearance';
@@ -106,8 +106,8 @@ describe('chart settings dialog', () => {
     expect(opened.marketStatus).toBe(true);
     expect(opened['features.countdown']).toBe(true);
     settings.close();
-    expect(chart.uninstall('@charton/core/market-status')).toBe(true);
-    expect(chart.uninstall('@charton/core/countdown')).toBe(true);
+    expect(chart.uninstall('@chart-on/core/market-status')).toBe(true);
+    expect(chart.uninstall('@chart-on/core/countdown')).toBe(true);
     const values = settings.open()!.values;
     expect('marketStatus' in values).toBe(false);
     expect('features.countdown' in values).toBe(false);

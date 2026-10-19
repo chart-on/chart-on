@@ -9,7 +9,7 @@ Instead of pushing bars with `setData` and `update`, give the chart a data sourc
 Loading through a source needs the `dataSource()` plugin, or `builtins()`; the UI shell adds it. Without it `setDataSource` throws a [`not-registered`](./errors#not-registered) `ChartError`, so a chart that only gets bars through `setData` leaves the loading code out of its bundle.
 
 ```ts
-import { createChart, dataSource } from '@charton/core';
+import { createChart, dataSource } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [dataSource()] });
 ```
@@ -23,7 +23,7 @@ Call `setSymbol` again to switch interval or symbol: the request in flight is ca
 An interval is a count and a unit: `s`, `m`, `h`, `d`, `w`, or the calendar units `M` (month), `Q` (quarter) and `y` (year). A bare unit counts one, so `'d'` is `'1d'`. The `Interval` type spells this out, so a typo in a literal such as `'1x'` does not compile; turn an app's own string into one with `isInterval`:
 
 ```ts
-import { isInterval, intervalSeconds, parseInterval } from '@charton/core';
+import { isInterval, intervalSeconds, parseInterval } from '@chart-on/core';
 
 if (isInterval(picked)) await chart.setSymbol('ABC', picked);
 intervalSeconds('15m');   // 900, the nominal length
@@ -59,7 +59,7 @@ The chart relies on this in two places. A live bar whose time falls inside the o
 Two more units count activity instead of time: `T` makes a bar every `count` trades (`'100T'`) and `V` every `count` units of traded volume (`'5000V'`). They describe the same bars as `createBarBuilder({ ticks: 100 })` and `{ volume: 5000 }` (see [Bars from trades](#bars-from-trades-and-from-shorter-intervals)), so a data source that builds bars from trades can offer them in its symbol's `intervals`. `isActivityInterval` tells them apart:
 
 ```ts
-import { intervalSeconds, isActivityInterval, parseInterval } from '@charton/core';
+import { intervalSeconds, isActivityInterval, parseInterval } from '@chart-on/core';
 
 parseInterval('100T');      // { count: 100, unit: 'T' }
 isActivityInterval('100T'); // true
@@ -75,7 +75,7 @@ These bars have no length in seconds, so:
 - When a symbol's `intervals` do not list the activity interval asked for, the chart loads the listed one of the same unit nearest in count, else the shortest listed time interval; looking for the nearest time interval never picks an activity one. It always loads a listed interval.
 - The built-in mock and exchange data sources make time bars only: asked for an activity interval, they reject with an `invalid-interval` `ChartError`.
 - A persistent cache keeps their snapshot for 10 minutes.
-- The `intervals` toolbar preset of `@charton/ui` shows them as "100 trades" and "5K volume" under their own headings, and only while the current symbol lists them ([toolbar presets](./ui-shell#presets)).
+- The `intervals` toolbar preset of `@chart-on/ui` shows them as "100 trades" and "5K volume" under their own headings, and only while the current symbol lists them ([toolbar presets](./ui-shell#presets)).
 
 ### The symbol's timezone
 
@@ -145,7 +145,7 @@ chart.compared;            // every compared symbol
 With the `marketStatus()` plugin (in `builtins()`), the chart works out the market phase from its `session` option (regular hours) and an optional `extendedSession` (pre- and post-market around them), in the chart's `timezone`. Without the plugin `chart.marketStatus()` throws a [`not-registered`](./errors#not-registered) error and the legend shows no badge; `marketPhase` works without it:
 
 ```ts
-import type { SessionSchedule } from '@charton/core';
+import type { SessionSchedule } from '@chart-on/core';
 
 // The same hours Monday to Friday.
 const weekdays = (start: string, end: string): SessionSchedule => {
@@ -189,7 +189,7 @@ Switching back to a cached symbol and interval shows the cached bars and fetches
 The memory cache dies with the page. With a `cache` adapter, the chart also keeps a snapshot of the newest window of each symbol and interval (the bars of an initial load, live bars included) in persistent storage. The next load of that symbol and interval, after a reload too, paints the snapshot at once while the source is asked as usual:
 
 ```ts
-import { createIndexedDbCache } from '@charton/core';
+import { createIndexedDbCache } from '@chart-on/core';
 
 chart.setDataSource(source, { cache: createIndexedDbCache({ namespace: `user-${userId}` }) });
 chart.on('data:snapshot', ({ savedAt }) => showBadge(`cached ${ago(savedAt)}`));
@@ -285,7 +285,7 @@ Each adjustment is `{ time, kind: 'split' | 'dividend' | 'other', factor, label?
 | `'splits'` | Splits only |
 | `'all'` | Splits, dividends and other actions |
 
-Adjusting and marking need the `adjustments()` plugin (or `builtins()`); without it the bars show as sent. Switching `adjustment` re-scales the loaded bars without fetching anything and keeps the view; indicators recompute on the adjusted bars. A source without `adjustments` is shown as sent whatever the option. For bars you push yourself, `adjustBars(bars, adjustments, mode)` and `adjustBar(bar, adjustments, mode)` from `@charton/core` do the same arithmetic.
+Adjusting and marking need the `adjustments()` plugin (or `builtins()`); without it the bars show as sent. Switching `adjustment` re-scales the loaded bars without fetching anything and keeps the view; indicators recompute on the adjusted bars. A source without `adjustments` is shown as sent whatever the option. For bars you push yourself, `adjustBars(bars, adjustments, mode)` and `adjustBar(bar, adjustments, mode)` from `@chart-on/core` do the same arithmetic.
 
 Drawings on the main pane stay on the bars they were drawn on: when the option changes, or loading reveals another adjustment (an older split a history page brings), their points are re-priced with the bars, undo history included. `chart.drawings` reports the prices on screen, while `drawings.serialize()` writes the prices as your source sent them and `drawings.load()` reads them that way, so a saved layout lands on the same bars under any option. Save with `serialize()` rather than from `drawings:change` payloads. Charts in a link group that mirrors drawings put each copy on the same bars, even when their `adjustment` options differ.
 
@@ -495,7 +495,7 @@ These bars come back as `ActivityBar`: a `Bar` with `startTime` and `endTime`, t
 A data source is a plain object implementing `DataSource`. Adapters for a specific exchange or vendor belong in their own package; this one wraps an imaginary HTTP API and maps its fields to `Bar` explicitly. The API answers `GET {base}/series/{symbol}/{interval}?count=&start=&end=` with `{ points: [{ when, first, max, min, last, qty }] }`, the newest `count` points with `start <= when < end`, and streams the same points as JSON over a socket.
 
 ```ts
-import type { Bar, BarsRequest, DataSource, Interval, SymbolInfo } from '@charton/core';
+import type { Bar, BarsRequest, DataSource, Interval, SymbolInfo } from '@chart-on/core';
 
 /** One point as the API sends it: its own field names, not the chart's. */
 interface Point { when: number; first: number; max: number; min: number; last: number; qty: number }
@@ -577,10 +577,10 @@ A source that ignores `from` returns the wrong window for `'refresh'` and `'rese
 
 ### Check your adapter
 
-`testDataSource` from `@charton/core/testing` sends your source each of these request shapes, plus a few pages back and an aborted request, and returns what it found wrong. Run it in your own test suite with a symbol that has at least three times `limit` bars of history:
+`testDataSource` from `@chart-on/core/testing` sends your source each of these request shapes, plus a few pages back and an aborted request, and returns what it found wrong. Run it in your own test suite with a symbol that has at least three times `limit` bars of history:
 
 ```ts
-import { testDataSource } from '@charton/core/testing';
+import { testDataSource } from '@chart-on/core/testing';
 
 it('answers the requests the chart sends', async () => {
   const source = createExampleDataSource(baseUrl, wsUrl);

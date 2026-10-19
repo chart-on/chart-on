@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, type IndicatorDef, type SettingsAdapter } from '@charton/core';
+import { Chart, type IndicatorDef, type SettingsAdapter } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { findIn } from '../src/dialog';
 import { createToolbar, type ToolbarHandle, type ToolbarItem } from '../src/toolbar';

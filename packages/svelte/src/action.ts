@@ -1,5 +1,5 @@
 import type { ActionReturn } from 'svelte/action';
-import { createChart, type Chart } from '@charton/core';
+import { createChart, type Chart } from '@chart-on/core';
 import { readInputs, startEngine, stopEngine, syncEvents, updateEngine, type ChartInputs } from './sync.js';
 
 /** What `use:chart` takes: the engine inputs, plus a callback that receives the chart. */

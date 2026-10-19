@@ -1,4 +1,4 @@
-import { pluralText, type Chart, type ClusterClickEvent, type TradeLine } from '@charton/core';
+import { pluralText, type Chart, type ClusterClickEvent, type TradeLine } from '@chart-on/core';
 import { X } from 'lucide';
 import { fadeOutAndRemove, h, icon, isolateFromChart, onDismiss, placeAtOrigin } from './dom';
 import { shellText, type Localized } from './messages';

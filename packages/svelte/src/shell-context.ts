@@ -1,5 +1,5 @@
 import { getContext, hasContext, setContext } from 'svelte';
-import type { ChartShell } from '@charton/ui';
+import type { ChartShell } from '@chart-on/ui';
 import type { Current } from './context.js';
 
 const shellKey = Symbol('charton-shell');

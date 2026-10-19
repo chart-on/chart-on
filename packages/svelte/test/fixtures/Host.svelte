@@ -1,8 +1,8 @@
 <!-- Renders `<Chart>` with the props it gets, records every value `bind:chart` takes, and renders `Child` inside. -->
 <script lang="ts">
   import type { Component } from 'svelte';
-  import type { Chart as ChartInstance } from '@charton/core';
-  import { Chart, type ChartProps } from '@charton/svelte';
+  import type { Chart as ChartInstance } from '@chart-on/core';
+  import { Chart, type ChartProps } from '@chart-on/svelte';
 
   let {
     record,

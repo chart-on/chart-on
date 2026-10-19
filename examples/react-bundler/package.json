@@ -2,7 +2,7 @@
   "name": "charton-example-react-bundler",
   "version": "0.0.0",
   "private": true,
-  "description": "Example: the chart widget in a client-rendered app using @charton/react built with a bundler.",
+  "description": "Example: the chart widget in a client-rendered app using @chart-on/react built with a bundler.",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
@@ -10,9 +10,9 @@
     "build": "tsc -p . && vite build"
   },
   "dependencies": {
-    "@charton/core": "workspace:^",
-    "@charton/react": "workspace:^",
-    "@charton/ui": "workspace:^",
+    "@chart-on/core": "workspace:^",
+    "@chart-on/react": "workspace:^",
+    "@chart-on/ui": "workspace:^",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

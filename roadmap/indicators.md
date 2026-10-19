@@ -8,7 +8,7 @@
 
 ## Today
 
-The `IndicatorDef` contract, the runner and the indicator manager (`chart.indicators`: registry, placeholders, versioning, lookback) are in `@charton/core`. `@charton/ta` and `@charton/indicators` (the T1 and T2 sets) exist; the Ichimoku lagging line waits for plot offsets. Line and histogram plots and fills are supported; the other plot kinds below are not yet. Indicators backed by external data (`fields`, `fetch`, `subscribe`, `chunkBars`, `refetchOn`, `supports`, plus `status` and `indicator:status`) are in core (#210): the chart owns fetching, paging, chunking, cancellation and re-subscribing, and `compute` gets the fetched values aligned with the bars.
+The `IndicatorDef` contract, the runner and the indicator manager (`chart.indicators`: registry, placeholders, versioning, lookback) are in `@chart-on/core`. `@chart-on/ta` and `@chart-on/indicators` (the T1 and T2 sets) exist; the Ichimoku lagging line waits for plot offsets. Line and histogram plots and fills are supported; the other plot kinds below are not yet. Indicators backed by external data (`fields`, `fetch`, `subscribe`, `chunkBars`, `refetchOn`, `supports`, plus `status` and `indicator:status`) are in core (#210): the chart owns fetching, paging, chunking, cancellation and re-subscribing, and `compute` gets the fetched values aligned with the bars.
 
 ## Requirements
 
@@ -30,16 +30,16 @@ Every indicator is a TypeScript `IndicatorDef`: a pure function with declared in
 
 | Tier | Who writes it | Distributed as | Trust | Runs where |
 | --- | --- | --- | --- | --- |
-| Built-in | project | `@charton/indicators` | full | main thread (small) or Worker (large) |
+| Built-in | project | `@chart-on/indicators` | full | main thread (small) or Worker (large) |
 | Custom | app developer or community package author | the app's own code, or an npm package that exports definitions | full | same |
 
 - **Full trust.** An indicator runs in the page like any other dependency the app installs. The library does not sandbox it; the app developer decides which packages to trust.
 - **Workers are for speed, not safety.** `compute` may return a promise, so heavy indicators can run in a Web Worker. That keeps the main thread free; it is not an isolation boundary.
-- **Community indicators are packages,** the same model as exchange-specific data adapters: they live outside this repository and depend on the public contract and `@charton/ta`.
+- **Community indicators are packages,** the same model as exchange-specific data adapters: they live outside this repository and depend on the public contract and `@chart-on/ta`.
 
 ## Built-in indicators
 
-Separate package so core stays small and indicators are tree-shakeable: `@charton/indicators` (defs) + `@charton/ta` (pure math). Core only knows the `IndicatorDef` contract.
+Separate package so core stays small and indicators are tree-shakeable: `@chart-on/indicators` (defs) + `@chart-on/ta` (pure math). Core only knows the `IndicatorDef` contract.
 
 ```ts
 interface IndicatorDef<I extends Record<string, InputValue>> {
@@ -74,7 +74,7 @@ type PlotDef =
 
 Why vectorized instead of per-bar callbacks: per-bar callbacks with series objects allocate and call through closures on every bar; for 100k bars × several indicators that dominates frame time. Array loops over typed arrays are JIT friendly and allocation free.
 
-### Std library (`@charton/ta`)
+### Std library (`@chart-on/ta`)
 
 Pure functions on `Float64Array`, NaN for warmup, tested against known reference values. Written in-house: common JS TA packages use arrays of objects and per-bar classes, which are larger and slower than typed-array loops.
 
@@ -96,7 +96,7 @@ Pure functions on `Float64Array`, NaN for warmup, tested against known reference
 - A package exports one or more `IndicatorDef`s and leaves registration to the app: `chart.indicators.register(def)`.
 - Ids are namespaced by the package (`my-lib/vwap-bands`) so packages don't clash with each other or with built-ins. Registering a taken id throws, unless it is the same definition object.
 - Definitions carry a `version`. When inputs change, an optional `migrate(inputs, fromVersion)` upgrades saved state.
-- Authors build on `@charton/ta`, so a custom indicator is a few lines and matches the built-ins' results.
+- Authors build on `@chart-on/ta`, so a custom indicator is a few lines and matches the built-ins' results.
 - A saved layout that names an unregistered id keeps the entry as a placeholder, so nothing is lost when the app registers the package later.
 
 ## Chart integration
@@ -137,7 +137,7 @@ Implementation notes:
 
 ## Tests
 
-- `@charton/ta`: each function against known values, warmup NaNs, empty and length-1 input.
+- `@chart-on/ta`: each function against known values, warmup NaNs, empty and length-1 input.
 - Incremental `update` equals full `compute` on the last bar.
 
 ## Deferred: script language for untrusted indicators
@@ -198,7 +198,7 @@ barcolor close > s ? up : down
 - Operators: arithmetic, comparison, `and`/`or`/`not`, ternary `a ? b : c`.
 - Variables are immutable series definitions. Stateful recurrences use built-ins (`ema`, `cum`, `valuewhen`, `barssince`) or a `state` block: `state x = 0 then x[1] + volume` (compiled to a single loop).
 - No user loops in v1. Optional later: `for i in 0..N` with `N` a constant ≤ 500.
-- Built-ins = the `@charton/ta` function list plus `open high low close volume time hl2 hlc3 ohlc4`.
+- Built-ins = the `@chart-on/ta` function list plus `open high low close volume time hl2 hlc3 ohlc4`.
 - Declarations: `indicator`, `input`, `plot`, `band`, `fill`, `shape`, `barcolor`, `bgcolor`.
 - External data series (liquidations, broker flow) referenced as `ext("name")`; the app supplies them. Scripts cannot fetch anything.
 
@@ -206,7 +206,7 @@ barcolor close > s ? up : down
 
 ```
 source text → tokenize → parse (AST) → resolve names/types → compute lookback
-           → emit JS function over Float64Array (calls into @charton/ta) → IndicatorDef
+           → emit JS function over Float64Array (calls into @chart-on/ta) → IndicatorDef
 ```
 
 - Errors carry line/column for an editor.

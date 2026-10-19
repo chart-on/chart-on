@@ -1,8 +1,8 @@
-import { builtins, createChart, darkTheme, lightTheme, volumeOf, type Chart } from '@charton/core';
-import { sampleBars } from '@charton/core/testing';
-import { builtinIndicators } from '@charton/indicators';
-import { createChartShell, favorites } from '@charton/ui';
-import '@charton/ui/style.css';
+import { builtins, createChart, darkTheme, lightTheme, volumeOf, type Chart } from '@chart-on/core';
+import { sampleBars } from '@chart-on/core/testing';
+import { builtinIndicators } from '@chart-on/indicators';
+import { createChartShell, favorites } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 /**
  * Fixed-size scenes for the screenshot tests in ../visual.spec.ts: candles with volume, a

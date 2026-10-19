@@ -6,12 +6,12 @@ description: "Feed the chart from a unified exchange library: history paging, ti
 
 Unified exchange libraries put many exchanges, centralized and decentralized, behind one API. Their market data methods share a shape: rows of `[timeMs, open, high, low, close, volume]` from a fetch method, the latest rows from an optional streaming method, a list of markets and the timeframes the exchange supports. `createOhlcvDataSource` turns such an exchange object into a chart data source, so history paging, symbol search and live bars work without writing an adapter.
 
-`@charton/core` does not depend on any library. The adapter declares the few members it calls (`OhlcvExchange`) and accepts any object that has them. The library, and which exchange to use, stay in your app.
+`@chart-on/core` does not depend on any library. The adapter declares the few members it calls (`OhlcvExchange`) and accepts any object that has them. The library, and which exchange to use, stay in your app.
 
 ## Wiring an exchange
 
 ```ts
-import { createChart, createOhlcvDataSource, dataSource } from '@charton/core';
+import { createChart, createOhlcvDataSource, dataSource } from '@chart-on/core';
 // The exchange class comes from the library your app installs.
 import { SomeExchange } from 'your-exchange-library';
 
@@ -100,11 +100,11 @@ A failed stream read or poll reports `reconnecting` through `onStatus` and waits
 
 ## Testing your setup
 
-`testDataSource` from `@charton/core/testing` checks a data source against the requests the chart sends. Run it with a fake exchange object in your tests, so they do not depend on the network:
+`testDataSource` from `@chart-on/core/testing` checks a data source against the requests the chart sends. Run it with a fake exchange object in your tests, so they do not depend on the network:
 
 ```ts
-import { createOhlcvDataSource, type OhlcvExchange } from '@charton/core';
-import { testDataSource } from '@charton/core/testing';
+import { createOhlcvDataSource, type OhlcvExchange } from '@chart-on/core';
+import { testDataSource } from '@chart-on/core/testing';
 
 const start = Math.floor(Date.now() / 60_000) * 60_000 - 399 * 60_000;
 const rows = Array.from({ length: 400 }, (_, i) => [start + i * 60_000, 10, 11, 9, 10, 1]);

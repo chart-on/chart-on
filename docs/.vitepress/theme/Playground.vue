@@ -208,8 +208,8 @@ onBeforeUnmount(() => {
     <h1>Playground</h1>
     <p class="playground-intro">
       Edit the code and the chart re-runs. It is a docs example: a default export that draws into <code>el</code> and
-      returns its clean-up. Import <code>@charton/core</code>, <code>@charton/ui</code>, <code>@charton/indicators</code>,
-      <code>@charton/ta</code> and <code>./sample-data</code>. The address always holds the code, so a copied link
+      returns its clean-up. Import <code>@chart-on/core</code>, <code>@chart-on/ui</code>, <code>@chart-on/indicators</code>,
+      <code>@chart-on/ta</code> and <code>./sample-data</code>. The address always holds the code, so a copied link
       reproduces it.
     </p>
     <div class="playground-toolbar">

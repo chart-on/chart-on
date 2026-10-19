@@ -1,4 +1,4 @@
-import { parseColor, type Localizer } from '@charton/core';
+import { parseColor, type Localizer } from '@chart-on/core';
 import { gridKeys, h, placePopover, popoverToggle } from './dom';
 import { shellText } from './messages';
 

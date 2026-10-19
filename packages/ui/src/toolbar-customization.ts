@@ -1,4 +1,4 @@
-import { createLocalStorageAdapter, type Chart } from '@charton/core';
+import { createLocalStorageAdapter, type Chart } from '@chart-on/core';
 import { ArrowDown, ArrowDownToLine, ArrowUp, ArrowUpToLine, GripVertical, X } from 'lucide';
 import { button, iconButton } from './controls';
 import { findIn, openDialogFrame, type DialogFrame } from './dialog';

@@ -60,15 +60,15 @@ afterAll(() => {
 
 describe('importing on a server', () => {
   it.each([
-    ['@charton/core', () => import('@charton/core')],
-    ['@charton/core/internal', () => import('@charton/core/internal')],
-    ['@charton/core/testing', () => import('@charton/core/testing')],
-    ['@charton/ui', () => import('@charton/ui')],
-    ['@charton/ui/templates', () => import('@charton/ui/templates')],
-    ['@charton/ta', () => import('@charton/ta')],
-    ['@charton/indicators', () => import('@charton/indicators')],
-    ['@charton/react', () => import('@charton/react')],
-    ['@charton/react/shell', () => import('@charton/react/shell')],
+    ['@chart-on/core', () => import('@chart-on/core')],
+    ['@chart-on/core/internal', () => import('@chart-on/core/internal')],
+    ['@chart-on/core/testing', () => import('@chart-on/core/testing')],
+    ['@chart-on/ui', () => import('@chart-on/ui')],
+    ['@chart-on/ui/templates', () => import('@chart-on/ui/templates')],
+    ['@chart-on/ta', () => import('@chart-on/ta')],
+    ['@chart-on/indicators', () => import('@chart-on/indicators')],
+    ['@chart-on/react', () => import('@chart-on/react')],
+    ['@chart-on/react/shell', () => import('@chart-on/react/shell')],
   ])(
     '%s touches no browser global',
     async (_name, load) => {
@@ -84,7 +84,7 @@ describe('importing on a server', () => {
   );
 
   it('answers feature detection on a server without throwing', async () => {
-    const { isWebGL2Supported } = await import('@charton/core');
+    const { isWebGL2Supported } = await import('@chart-on/core');
     expect(isWebGL2Supported()).toBe(false);
   });
 });

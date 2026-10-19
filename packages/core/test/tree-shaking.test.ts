@@ -15,7 +15,7 @@ type Manifest = { name: string; sideEffects?: unknown };
 const manifests = Object.values(
   import.meta.glob<string>('../../*/package.json', { query: '?raw', import: 'default', eager: true }),
 ).map((raw) => JSON.parse(raw) as Manifest);
-const manifest = (pkg: string): Manifest => manifests.find((m) => m.name === `@charton/${pkg}`)!;
+const manifest = (pkg: string): Manifest => manifests.find((m) => m.name === `@chart-on/${pkg}`)!;
 
 const ENTRY = '\0tree-shaking-entry';
 
@@ -32,15 +32,15 @@ async function bundle(imports: string[], built?: string): Promise<string> {
       root: repoRoot,
       configFile: false,
       logLevel: 'silent',
-      resolve: { alias: built ? {} : { '@charton/core': `${coreSrc}index.ts` } },
+      resolve: { alias: built ? {} : { '@chart-on/core': `${coreSrc}index.ts` } },
       plugins: [
         {
           name: 'tree-shaking-entry',
           enforce: 'pre',
-          resolveId: (id) => (id === 'tree-shaking-entry' ? ENTRY : built && id === '@charton/core' ? SINGLE : null),
+          resolveId: (id) => (id === 'tree-shaking-entry' ? ENTRY : built && id === '@chart-on/core' ? SINGLE : null),
           load: (id) =>
             id === ENTRY
-              ? `import { ${imports.join(', ')} } from '@charton/core';\nconsole.log(${imports.join(', ')});\n`
+              ? `import { ${imports.join(', ')} } from '@chart-on/core';\nconsole.log(${imports.join(', ')});\n`
               : id === SINGLE
                 ? built
                 : null,
@@ -115,12 +115,12 @@ async function keptFromBuilt(files: Map<string, string>, imports: string[]): Pro
         enforce: 'pre',
         resolveId(id, importer) {
           if (id === 'tree-shaking-entry') return ENTRY;
-          if (id === '@charton/core') return `${BUILT}index.js`;
+          if (id === '@chart-on/core') return `${BUILT}index.js`;
           if (!importer?.startsWith(BUILT) || !id.startsWith('.')) return null;
           return BUILT + new URL(id, `file:///${importer.slice(BUILT.length)}`).pathname.slice(1);
         },
         load(id) {
-          if (id === ENTRY) return `import { ${imports.join(', ')} } from '@charton/core';\nconsole.log(${imports.join(', ')});\n`;
+          if (id === ENTRY) return `import { ${imports.join(', ')} } from '@chart-on/core';\nconsole.log(${imports.join(', ')});\n`;
           return id.startsWith(BUILT) ? files.get(id.slice(BUILT.length)) : null;
         },
       },

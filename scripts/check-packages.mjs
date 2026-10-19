@@ -10,7 +10,7 @@ import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const REPOSITORY = 'git+https://github.com/chart-on/charton.git';
+const REPOSITORY = 'git+https://github.com/chart-on/chart-on.git';
 
 const problems = [];
 const manifests = readdirSync(join(root, 'packages'), { withFileTypes: true })

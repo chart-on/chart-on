@@ -1,5 +1,5 @@
 /**
- * The widget component for `@charton/ui`, in its own entry so apps that use
+ * The widget component for `@chart-on/ui`, in its own entry so apps that use
  * only the engine never load the shell.
  */
 export { default as ChartShell } from './ChartShell.svelte';

@@ -1,4 +1,4 @@
-import type { PluginContext } from '@charton/core';
+import type { PluginContext } from '@chart-on/core';
 import type { ToolbarHandle, ToolbarItem, ToolbarPlacement } from './toolbar';
 
 /** What the shell offers plugins (see `shellOf`). */

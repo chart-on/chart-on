@@ -11,7 +11,7 @@ The UI package has controls for both: a replay toolbar button with floating play
 `chart.replay` hides the main series' bars after a chosen time and reveals them again one at a time, to practise reading a chart without seeing what came next. It needs the `replay()` plugin (or `builtins()`; the UI shell adds it), and throws a [`not-registered`](./errors#not-registered) error without it. See [Opt-in features](./features#opt-in-features).
 
 ```ts
-import { pickBar } from '@charton/core';
+import { pickBar } from '@chart-on/core';
 
 const picked = await pickBar(chart);       // let the user click the starting bar
 if (picked) chart.replay.start(picked.time);
@@ -42,7 +42,7 @@ Bars from the [data source](./data-sources) keep arriving and are held back: liv
 
 ## Pick a bar
 
-`pickBar(chart)` resolves with `{ time, index, bar }` (`PickedBar`) for the next bar of the main series the user clicks, showing a crosshair cursor meanwhile. Clicks beyond the bars are ignored. Escape, `cancelPickBar(chart)`, another `pickBar(chart)` or `chart.destroy()` resolve it with `null`; on a chart already destroyed it resolves with `null` at once. Both are standalone exports of `@charton/core`, so apps that do not pick bars leave them out.
+`pickBar(chart)` resolves with `{ time, index, bar }` (`PickedBar`) for the next bar of the main series the user clicks, showing a crosshair cursor meanwhile. Clicks beyond the bars are ignored. Escape, `cancelPickBar(chart)`, another `pickBar(chart)` or `chart.destroy()` resolve it with `null`; on a chart already destroyed it resolves with `null` at once. Both are standalone exports of `@chart-on/core`, so apps that do not pick bars leave them out.
 
 ## Go to a date
 

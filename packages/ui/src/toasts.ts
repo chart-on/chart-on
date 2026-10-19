@@ -1,4 +1,4 @@
-import type { Chart, ChartStatus, NotifyEvent } from '@charton/core';
+import type { Chart, ChartStatus, NotifyEvent } from '@chart-on/core';
 import { LoaderCircle, X } from 'lucide';
 import { iconButton } from './controls';
 import { fadeOutAndRemove, h, icon } from './dom';

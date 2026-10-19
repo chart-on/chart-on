@@ -8,7 +8,7 @@ import {
   type SeasonalAverage,
   type SeasonalNormalize,
   type SeasonalWindow,
-} from '@charton/core';
+} from '@chart-on/core';
 import { light, theme } from './page-theme';
 import { expose } from './expose';
 

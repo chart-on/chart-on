@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { AccessItem, IndicatorDef } from '@charton/core';
+import type { AccessItem, IndicatorDef } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createChartShell, type ChartShell, type ChartShellOptions } from '../src/shell';
 import { favorites } from '../src/favorites';

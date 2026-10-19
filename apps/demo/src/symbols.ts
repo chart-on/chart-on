@@ -1,5 +1,5 @@
-import type { PriceFormat } from '@charton/core';
-import type { SymbolSearchFilters, SymbolSearchResult } from '@charton/ui';
+import type { PriceFormat } from '@chart-on/core';
+import type { SymbolSearchFilters, SymbolSearchResult } from '@chart-on/ui';
 
 /** A made-up symbol and the price level its synthetic bars start from. */
 export interface DemoSymbol extends SymbolSearchResult {

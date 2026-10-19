@@ -1,6 +1,6 @@
-import { sampleBars } from '@charton/core/testing';
-import { chartStyle, createChartShell, intervals, symbolHeader, symbolSearch, type ChartShell } from '@charton/ui';
-import '@charton/ui/style.css';
+import { sampleBars } from '@chart-on/core/testing';
+import { chartStyle, createChartShell, intervals, symbolHeader, symbolSearch, type ChartShell } from '@chart-on/ui';
+import '@chart-on/ui/style.css';
 
 /**
  * The UI shell for the keyboard tests in ../keyboard.spec.ts: toolbar (two menus, a button

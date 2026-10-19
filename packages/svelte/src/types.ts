@@ -1,6 +1,6 @@
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import type { ChartInputs } from './sync.js';
 
 /** Attributes of the container `div` that the components pass on: `class`, `style`, `id` and the rest. */

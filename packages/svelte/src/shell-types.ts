@@ -1,6 +1,6 @@
 import type { Snippet } from 'svelte';
-import type { Chart } from '@charton/core';
-import type { ChartShell, ChartShellOptions, ShellEvents, ShellFeatures, ShellPalette, ShellTheme } from '@charton/ui';
+import type { Chart } from '@chart-on/core';
+import type { ChartShell, ChartShellOptions, ShellEvents, ShellFeatures, ShellPalette, ShellTheme } from '@chart-on/ui';
 import type { ChartInputs } from './sync.js';
 import type { ContainerAttributes } from './types.js';
 

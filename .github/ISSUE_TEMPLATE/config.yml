@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
   - name: Ask a question
-    url: https://github.com/chart-on/charton/discussions/categories/q-a
+    url: https://github.com/chart-on/chart-on/discussions/categories/q-a
     about: Usage questions and help with your integration go to Discussions, not issues.
   - name: Report a security vulnerability
-    url: https://github.com/chart-on/charton/security/advisories/new
+    url: https://github.com/chart-on/chart-on/security/advisories/new
     about: Report it privately. Never open a public issue for a vulnerability (see SECURITY.md).
   - name: Contributing guide
-    url: https://github.com/chart-on/charton/blob/main/CONTRIBUTING.md
+    url: https://github.com/chart-on/chart-on/blob/main/CONTRIBUTING.md
     about: How work is coordinated (issue first, one PR per issue) and the project conventions.

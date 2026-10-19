@@ -1,4 +1,4 @@
-import { createChart, createMockDataSource, dataSource } from '@charton/core';
+import { createChart, createMockDataSource, dataSource } from '@chart-on/core';
 import type { ExampleContext } from './types';
 
 export default function mount(el: HTMLElement, { theme }: ExampleContext) {

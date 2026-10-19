@@ -9,7 +9,7 @@ A sonifier plays the visible series as sound, so people who cannot see the chart
 Pitch follows the value: the lowest value in view sounds at the low end of the pitch range and the highest at the high end. Up and down bars also differ in timbre (a pure tone for up, a softer buzz for down) and stereo side (right for up, left for down), so the direction is heard without judging the pitch. Short cues mark bar markers, crossed alert lines and the first bar of a new trading day.
 
 ```ts
-import { createChart, createSonifier } from '@charton/core';
+import { createChart, createSonifier } from '@chart-on/core';
 
 const chart = createChart(container);
 const sonifier = createSonifier(chart, { durationMs: 5000 });

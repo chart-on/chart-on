@@ -10,8 +10,8 @@ import {
   type ToolbarButtonItem,
   type ToolbarItem,
   type ToolbarMenuItem,
-} from '@charton/ui';
-import type { CandleSeriesOptions, CandleStyle, Chart, Interval } from '@charton/core';
+} from '@chart-on/ui';
+import type { CandleSeriesOptions, CandleStyle, Chart, Interval } from '@chart-on/core';
 import { Layers, PanelsTopLeft } from 'lucide';
 
 /** A demo on/off switch shown as one entry of a checked menu. */

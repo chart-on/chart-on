@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createMockDataSource, Chart as CoreChart, type Chart as ChartInstance } from '@charton/core';
-import { Chart, type ChartProps } from '@charton/svelte';
+import { createMockDataSource, Chart as CoreChart, type Chart as ChartInstance } from '@chart-on/core';
+import { Chart, type ChartProps } from '@chart-on/svelte';
 import { plainCopy, sameValue } from '../src/sync';
 import { installBrowser, type Browser } from './browser';
 import { deep, render } from './render.svelte';

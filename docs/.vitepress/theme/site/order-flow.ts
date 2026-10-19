@@ -9,7 +9,7 @@ import {
   type DepthLevel,
   type FootprintBar,
   type TradeTick,
-} from '@charton/core';
+} from '@chart-on/core';
 import { errorText, retheme, rng, themeFor, whenVisible, type Section } from './section';
 
 /** Price grid: rows of 5 from 59,400 up. */

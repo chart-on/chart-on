@@ -1,15 +1,15 @@
 {
-  "name": "@charton/indicators",
+  "name": "@chart-on/indicators",
   "version": "0.1.0",
-  "description": "Built-in chart indicators (SMA, EMA, Bollinger Bands, VWAP, RSI, MACD, volume MA, cumulative volume, Keltner, Donchian, Supertrend, Ichimoku, ATR, Stochastic, Stoch RSI, DMI/ADX, OBV, moon phases) for @charton/core.",
+  "description": "Built-in chart indicators (SMA, EMA, Bollinger Bands, VWAP, RSI, MACD, volume MA, cumulative volume, Keltner, Donchian, Supertrend, Ichimoku, ATR, Stochastic, Stoch RSI, DMI/ADX, OBV, moon phases) for @chart-on/core.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chart-on/charton.git",
+    "url": "git+https://github.com/chart-on/chart-on.git",
     "directory": "packages/indicators"
   },
-  "homepage": "https://github.com/chart-on/charton#readme",
-  "bugs": "https://github.com/chart-on/charton/issues",
+  "homepage": "https://github.com/chart-on/chart-on#readme",
+  "bugs": "https://github.com/chart-on/chart-on/issues",
   "type": "module",
   "sideEffects": false,
   "engines": {
@@ -35,12 +35,12 @@
     "typecheck": "tsc -p ."
   },
   "dependencies": {
-    "@charton/ta": "workspace:^"
+    "@chart-on/ta": "workspace:^"
   },
   "peerDependencies": {
-    "@charton/core": "workspace:^"
+    "@chart-on/core": "workspace:^"
   },
   "devDependencies": {
-    "@charton/core": "workspace:^"
+    "@chart-on/core": "workspace:^"
   }
 }

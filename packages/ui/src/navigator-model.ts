@@ -1,4 +1,4 @@
-import type { Time } from '@charton/core';
+import type { Time } from '@chart-on/core';
 
 /** One point the navigator draws: a bar's close or a line's value. */
 export type NavigatorPoint = { time: Time; close: number } | { time: Time; value: number };

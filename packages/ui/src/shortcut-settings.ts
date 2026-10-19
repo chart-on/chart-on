@@ -1,4 +1,4 @@
-import { normalizeShortcut, type ActionState, type Chart } from '@charton/core';
+import { normalizeShortcut, type ActionState, type Chart } from '@chart-on/core';
 import { Plus, RotateCcw, X } from 'lucide';
 import { linkShortcutSettings, loadStored, localSettingsStorage, same, saveStored, type ChartSettingsStorage } from './chart-settings';
 import { iconButton } from './controls';

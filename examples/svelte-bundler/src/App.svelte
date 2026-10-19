@@ -1,8 +1,8 @@
 <!-- The widget with synthetic data, a theme switch and a crosshair readout. -->
 <script lang="ts">
-  import { createMockDataSource } from '@charton/core';
-  import type { ChartShell as Shell } from '@charton/ui';
-  import { ChartShell } from '@charton/svelte/shell';
+  import { createMockDataSource } from '@chart-on/core';
+  import type { ChartShell as Shell } from '@chart-on/ui';
+  import { ChartShell } from '@chart-on/svelte/shell';
 
   // Created once with the component, so the source stays stable and the symbol loads once.
   const dataSource = createMockDataSource();

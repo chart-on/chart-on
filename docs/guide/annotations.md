@@ -7,7 +7,7 @@ description: "Markers, lines and highlights your application adds from code: exe
 Annotations are markers, lines and highlights that your application adds from code: executions, signals, reference prices, orders, positions, price alerts, event windows, price zones and notes. They live on `chart.annotations`, which needs the [opt-in](./features#opt-in-features) `annotations()` plugin (or `builtins()`):
 
 ```ts
-import { annotations, createChart } from '@charton/core';
+import { annotations, createChart } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [annotations()] });
 ```
@@ -151,7 +151,7 @@ chart.annotations.setMarkers(signals, rsiLine);
 Bar markers are generic signals. For an account's executions use the fill layer: fills on one bar and side fold into one marker at their volume-weighted price, with a count. Fills are a trading add-on, like [trade lines](#trade-lines), [order drafts](#order-drafts) and [alert lines](#alert-lines): they need the `trading()` plugin after `annotations()` (`builtins()` and the UI shell include it). Without it, the fill and line calls (`setTrades`, `addTrade`, `clearTrades`, `getTrades`, `tradeGroups`, `applyTradeOptions`, `tradeOptions`, `addTradeLine`, `addAlertLine`, `startOrderDraft` and `syncTrades`) throw a [`not-registered`](./errors#not-registered) `ChartError` naming `trading()`, while `tradeLines`, `alertLines`, `draftLines` and `alertsCrossed` answer empty.
 
 ```ts
-import { annotations, createChart, trading } from '@charton/core';
+import { annotations, createChart, trading } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [annotations(), trading()] });
 ```

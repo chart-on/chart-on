@@ -1,15 +1,15 @@
 {
-  "name": "@charton/core",
+  "name": "@chart-on/core",
   "version": "0.1.0",
   "description": "WebGL2 financial chart engine: candles, heatmaps, panes, drawing tools.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chart-on/charton.git",
+    "url": "git+https://github.com/chart-on/chart-on.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/chart-on/charton#readme",
-  "bugs": "https://github.com/chart-on/charton/issues",
+  "homepage": "https://github.com/chart-on/chart-on#readme",
+  "bugs": "https://github.com/chart-on/chart-on/issues",
   "type": "module",
   "sideEffects": false,
   "engines": {

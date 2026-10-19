@@ -1,27 +1,27 @@
 ---
-description: "Mount the chart or the shell as components with @charton/vue: props watched and applied in place, a template ref or composable for the instance, events as callbacks, and server rendering."
+description: "Mount the chart or the shell as components with @chart-on/vue: props watched and applied in place, a template ref or composable for the instance, events as callbacks, and server rendering."
 ---
 
 # Template component wrapper
 
-`@charton/vue` wraps the engine and the shell as components and composables for apps built with a template-based component framework (version 3.5 or later), including apps that render every page on the server first. It follows the [wrapper contract](./frameworks#the-wrapper-contract): the chart is created when the component mounts and destroyed when it unmounts, and changing a prop updates the chart in place instead of creating a new one.
+`@chart-on/vue` wraps the engine and the shell as components and composables for apps built with a template-based component framework (version 3.5 or later), including apps that render every page on the server first. It follows the [wrapper contract](./frameworks#the-wrapper-contract): the chart is created when the component mounts and destroyed when it unmounts, and changing a prop updates the chart in place instead of creating a new one.
 
 | Export | From | What it is |
 | --- | --- | --- |
-| `<Chart>` | `@charton/vue` | The engine alone, in a `div`. |
-| `useChart()` | `@charton/vue` | A ref holding the `Chart` of the nearest `<Chart>` or `<ChartShell>`. |
-| `<ChartShell>` | `@charton/vue/shell` | The widget: toolbar, drawing rail, bottom bar and the chart. |
-| `useChartShell()` | `@charton/vue/shell` | A ref holding the `ChartShell` of the nearest `<ChartShell>`. |
+| `<Chart>` | `@chart-on/vue` | The engine alone, in a `div`. |
+| `useChart()` | `@chart-on/vue` | A ref holding the `Chart` of the nearest `<Chart>` or `<ChartShell>`. |
+| `<ChartShell>` | `@chart-on/vue/shell` | The widget: toolbar, drawing rail, bottom bar and the chart. |
+| `useChartShell()` | `@chart-on/vue/shell` | A ref holding the `ChartShell` of the nearest `<ChartShell>`. |
 
 ## Install
 
 ```bash
-pnpm add @charton/vue @charton/core
+pnpm add @chart-on/vue @chart-on/core
 # Only for <ChartShell>:
-pnpm add @charton/ui
+pnpm add @chart-on/ui
 ```
 
-The framework (version 3.5 or later), `@charton/core` and `@charton/ui` are peer dependencies: the app installs them once and the wrapper uses the app's copies. `@charton/ui` is optional, because `<ChartShell>` lives in its own entry, `@charton/vue/shell`. An app that only imports `@charton/vue` never loads it.
+The framework (version 3.5 or later), `@chart-on/core` and `@chart-on/ui` are peer dependencies: the app installs them once and the wrapper uses the app's copies. `@chart-on/ui` is optional, because `<ChartShell>` lives in its own entry, `@chart-on/vue/shell`. An app that only imports `@chart-on/vue` never loads it.
 
 The components are plain component objects, so they need no compiler plugin. Import them where you use them, or register them globally with `app.component('Chart', Chart)`.
 
@@ -31,8 +31,8 @@ Give the component a height; the chart fills its container. `class`, `style` and
 
 ```vue
 <script setup lang="ts">
-import { createMockDataSource, dataSource as dataSourcePlugin } from '@charton/core';
-import { Chart } from '@charton/vue';
+import { createMockDataSource, dataSource as dataSourcePlugin } from '@chart-on/core';
+import { Chart } from '@chart-on/vue';
 
 defineProps<{ symbol: string }>();
 // Created once per component instance: a new source reloads the data.
@@ -67,7 +67,7 @@ With a template ref, which reaches the component's exposed `chart`:
 ```vue
 <script setup lang="ts">
 import { useTemplateRef } from 'vue';
-import { Chart, type ChartExposed } from '@charton/vue';
+import { Chart, type ChartExposed } from '@chart-on/vue';
 
 const view = useTemplateRef<ChartExposed>('view');
 </script>
@@ -84,8 +84,8 @@ With `useChart()` in a component inside the default slot. It returns a ref that 
 <!-- Candles.vue -->
 <script setup lang="ts">
 import { onWatcherCleanup, watch } from 'vue';
-import type { Bar } from '@charton/core';
-import { useChart } from '@charton/vue';
+import type { Bar } from '@chart-on/core';
+import { useChart } from '@chart-on/vue';
 
 const props = defineProps<{ bars: Bar[] }>();
 const chart = useChart();
@@ -137,8 +137,8 @@ Events come through a prop rather than `@event` listeners because the chart and 
 
 ```vue
 <script setup lang="ts">
-import { ChartShell } from '@charton/vue/shell';
-import '@charton/ui/style.css';
+import { ChartShell } from '@chart-on/vue/shell';
+import '@chart-on/ui/style.css';
 
 defineProps<{ dark: boolean }>();
 </script>

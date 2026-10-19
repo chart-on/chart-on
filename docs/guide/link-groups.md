@@ -7,7 +7,7 @@ description: "Keep the crosshair, visible range, symbol, interval, timezone and 
 A link group keeps several charts in step: move the crosshair, pan or zoom on one and the others follow. It works with any charts on the page, in whatever layout the app gives them; the UI package's [chart grid](./chart-grid) links its charts this way.
 
 ```ts
-import { createChart, createLinkGroup } from '@charton/core';
+import { createChart, createLinkGroup } from '@chart-on/core';
 
 const left = createChart(leftHost);
 const right = createChart(rightHost);

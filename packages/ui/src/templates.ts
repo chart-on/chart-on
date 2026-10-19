@@ -1,5 +1,5 @@
 /**
- * `@charton/ui/templates`: style templates for the drawing settings dialog and
+ * `@chart-on/ui/templates`: style templates for the drawing settings dialog and
  * the indicator settings panel, an opt-in add-on. Pass `drawingTemplates()` or
  * `indicatorTemplates()` as their `headerControl`. Their menus can also save
  * a tool's or an indicator's settings as the default for new ones.
@@ -14,7 +14,7 @@ import {
   type NotificationKind,
   type StorageAdapter,
   type TemplateKind,
-} from '@charton/core';
+} from '@chart-on/core';
 import {
   askTemplateName,
   confirmDialog,
@@ -30,7 +30,7 @@ import {
   type IndicatorSettingsOptions,
   type MenuOption,
   type ShellMessageKey,
-} from '@charton/ui';
+} from '@chart-on/ui';
 import { LayoutTemplate, Trash2 } from 'lucide';
 
 /** Options for `drawingTemplates` and `indicatorTemplates`. */
@@ -122,8 +122,8 @@ const control =
  *
  * @example
  * ```ts
- * import { createChartShell } from '@charton/ui';
- * import { drawingTemplates } from '@charton/ui/templates';
+ * import { createChartShell } from '@chart-on/ui';
+ * import { drawingTemplates } from '@chart-on/ui/templates';
  *
  * createChartShell(el, { drawingSettings: { headerControl: drawingTemplates() } });
  * ```
@@ -149,8 +149,8 @@ export function drawingTemplates(options: DrawingTemplatesOptions = {}): NonNull
  *
  * @example
  * ```ts
- * import { createChartShell } from '@charton/ui';
- * import { indicatorDefaults, indicatorTemplates } from '@charton/ui/templates';
+ * import { createChartShell } from '@chart-on/ui';
+ * import { indicatorDefaults, indicatorTemplates } from '@chart-on/ui/templates';
  *
  * const defaults = indicatorDefaults();
  * createChartShell(el, {

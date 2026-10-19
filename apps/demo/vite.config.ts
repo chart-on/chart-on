@@ -20,16 +20,16 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@charton/core/internal': src('../../packages/core/src/internal.ts'),
-      '@charton/core': src('../../packages/core/src/index.ts'),
-      // Before `@charton/ui`, which would otherwise take it as a path inside its entry.
-      '@charton/ui/style.css': src('../../packages/ui/src/style.css'),
-      '@charton/ui/templates': src('../../packages/ui/src/templates.ts'),
-      '@charton/ui': src('../../packages/ui/src/index.ts'),
-      '@charton/ta': src('../../packages/ta/src/index.ts'),
-      '@charton/indicators': src('../../packages/indicators/src/index.ts'),
-      // `@charton/locales/<tag>` resolves to `src/<tag>.ts`.
-      '@charton/locales': src('../../packages/locales/src'),
+      '@chart-on/core/internal': src('../../packages/core/src/internal.ts'),
+      '@chart-on/core': src('../../packages/core/src/index.ts'),
+      // Before `@chart-on/ui`, which would otherwise take it as a path inside its entry.
+      '@chart-on/ui/style.css': src('../../packages/ui/src/style.css'),
+      '@chart-on/ui/templates': src('../../packages/ui/src/templates.ts'),
+      '@chart-on/ui': src('../../packages/ui/src/index.ts'),
+      '@chart-on/ta': src('../../packages/ta/src/index.ts'),
+      '@chart-on/indicators': src('../../packages/indicators/src/index.ts'),
+      // `@chart-on/locales/<tag>` resolves to `src/<tag>.ts`.
+      '@chart-on/locales': src('../../packages/locales/src'),
     },
   },
 });

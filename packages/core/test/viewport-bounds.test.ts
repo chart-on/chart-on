@@ -98,7 +98,7 @@ describe('time bounds', () => {
   it('go with the plugin', () => {
     const c = chart();
     c.setViewportBounds({ time: { to: 100 * 60 }, price: { low: 120, high: 180 } });
-    c.uninstall('@charton/core/viewport-bounds');
+    c.uninstall('@chart-on/core/viewport-bounds');
     expect(c.viewportBounds).toBeNull();
     expect(c.time.bounds).toBeNull();
     expect(c.panes[0]!.price.bounds).toBeNull();

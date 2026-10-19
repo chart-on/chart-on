@@ -400,7 +400,7 @@ describe('sonifier cleanup', () => {
     expect(audio.ctx.closed).toBe(true);
     expect(live(c)).toBeUndefined();
     // The test setup's built-in plugins stay; the sonifier's own is gone.
-    expect(c.installedPlugins.filter((name) => !name.startsWith('@charton/core/'))).toEqual([]);
+    expect(c.installedPlugins.filter((name) => !name.startsWith('@chart-on/core/'))).toEqual([]);
     expect(dispatch(c.root, 'keydown', { key: 'p', code: '' }).defaultPrevented).toBe(false);
     expect(s.play()).toBe(false);
   });

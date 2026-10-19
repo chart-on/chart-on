@@ -52,7 +52,7 @@ describe.each([
     expect(badge(c)).toBe('15 min delayed');
     await tick();
     // Markers are only fetched with the plugin.
-    const withMarkers = plugins.some((p) => p.name === '@charton/core/source-markers');
+    const withMarkers = plugins.some((p) => p.name === '@chart-on/core/source-markers');
     expect(state.markerRequests > 0).toBe(withMarkers);
 
     state.fail = true;

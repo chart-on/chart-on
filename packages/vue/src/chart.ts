@@ -1,5 +1,5 @@
 import { defineComponent, h, markRaw, onActivated, onDeactivated, onMounted, onUnmounted, provide, shallowRef } from 'vue';
-import { createChart, type Chart as CoreChart } from '@charton/core';
+import { createChart, type Chart as CoreChart } from '@chart-on/core';
 import { chartKey } from './context';
 import { chartProps, clearEvents, readInputs, startEngine, watchEngine, type ChartEventHandlers, type ChartInputs, type Engine } from './sync';
 

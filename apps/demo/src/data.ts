@@ -1,5 +1,5 @@
-import type { Bar, HeatmapData, ValuePoint } from '@charton/core';
-import { seededRandom } from '@charton/core/internal';
+import type { Bar, HeatmapData, ValuePoint } from '@chart-on/core';
+import { seededRandom } from '@chart-on/core/internal';
 
 /** Deterministic PRNG so reloads show the same simulation. */
 export const rng = seededRandom;

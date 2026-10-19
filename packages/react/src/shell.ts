@@ -10,7 +10,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
-import type { ChartEvents } from '@charton/core';
+import type { ChartEvents } from '@chart-on/core';
 import {
   createChartShell,
   type ChartShell as CoreShell,
@@ -19,7 +19,7 @@ import {
   type ShellFeatures,
   type ShellPalette,
   type ShellTheme,
-} from '@charton/ui';
+} from '@chart-on/ui';
 import { ChartContext } from './context';
 import { clearEvents, keepUnset, sameValue, syncChart, syncEvents, type ChartEventHandlers, type ChartInputs } from './sync';
 
@@ -98,7 +98,7 @@ function syncShell(shell: CoreShell, last: ShellInputs, next: ChartShellProps): 
 
 /**
  * The batteries-included widget: toolbar, drawing rail, bottom bar and the
- * chart, in a `div`. Import `@charton/ui/style.css` once in the app. The shell
+ * chart, in a `div`. Import `@chart-on/ui/style.css` once in the app. The shell
  * is created when the component mounts and destroyed when it unmounts; prop
  * changes update it in place. The `ref` receives the `ChartShell` while the
  * component is mounted (its chart is `shell.chart`), and null otherwise.

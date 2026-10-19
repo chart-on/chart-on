@@ -1,4 +1,4 @@
-import type { Chart, LegendEntry, Time, ValuesAt } from '@charton/core';
+import type { Chart, LegendEntry, Time, ValuesAt } from '@chart-on/core';
 import { h } from './dom';
 
 /** Options for `createDataWindow`: its heading. */
@@ -24,7 +24,7 @@ const REFRESH_MS = 1000;
  * bar, formatted like the legend. Focus it and use the arrow keys (Home/End
  * for the ends, Escape to release) to step bar by bar; the time and values are
  * announced politely to screen readers on focus and on each step.
- * Requires `@charton/ui/style.css`.
+ * Requires `@chart-on/ui/style.css`.
  */
 export function createDataWindow(host: HTMLElement, chart: Chart, options: DataWindowOptions = {}): DataWindowHandle {
   const title = options.title ?? 'Data window';

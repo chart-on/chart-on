@@ -1,4 +1,4 @@
-import { withAlpha, type Bar, type CustomSeriesDef } from '@charton/core';
+import { withAlpha, type Bar, type CustomSeriesDef } from '@chart-on/core';
 
 /** One point of a price channel. */
 export interface BandPoint {

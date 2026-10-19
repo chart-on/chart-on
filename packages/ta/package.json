@@ -1,15 +1,15 @@
 {
-  "name": "@charton/ta",
+  "name": "@chart-on/ta",
   "version": "0.1.0",
   "description": "Technical-analysis helpers over Float64Array for chart indicators.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chart-on/charton.git",
+    "url": "git+https://github.com/chart-on/chart-on.git",
     "directory": "packages/ta"
   },
-  "homepage": "https://github.com/chart-on/charton#readme",
-  "bugs": "https://github.com/chart-on/charton/issues",
+  "homepage": "https://github.com/chart-on/chart-on#readme",
+  "bugs": "https://github.com/chart-on/chart-on/issues",
   "type": "module",
   "sideEffects": false,
   "engines": {

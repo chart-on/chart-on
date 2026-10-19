@@ -1,4 +1,4 @@
-import type { ChartTheme } from '@charton/core';
+import type { ChartTheme } from '@chart-on/core';
 
 /** What the docs pass to an example besides its element. */
 export interface ExampleContext {

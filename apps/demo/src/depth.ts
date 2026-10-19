@@ -1,4 +1,4 @@
-import type { Chart, DepthLane, DepthLevel } from '@charton/core';
+import type { Chart, DepthLane, DepthLevel } from '@chart-on/core';
 
 /**
  * A synthetic order book for the demo's depth lane: levels on both sides of

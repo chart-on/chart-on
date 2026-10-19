@@ -2,7 +2,7 @@ import { build, type Rollup } from 'vite';
 import { describe, expect, it } from 'vitest';
 import { fileURLToPath } from 'node:url';
 
-// The add-on entries (`@charton/ui/templates`) are opt-in: the main entry must not reach their
+// The add-on entries (`@chart-on/ui/templates`) are opt-in: the main entry must not reach their
 // modules, so an app that leaves them out ships none of their code.
 
 /** A source file as a bundler module id (forward slashes on Windows too). */
@@ -13,7 +13,7 @@ async function modulesOf(entry: string): Promise<string[]> {
   const output = (await build({
     configFile: false,
     logLevel: 'silent',
-    build: { write: false, minify: false, rollupOptions: { input: entry, external: ['@charton/core', '@charton/ui'], preserveEntrySignatures: 'strict' } },
+    build: { write: false, minify: false, rollupOptions: { input: entry, external: ['@chart-on/core', '@chart-on/ui'], preserveEntrySignatures: 'strict' } },
   })) as Rollup.RollupOutput;
   return output.output.flatMap((chunk) => (chunk.type === 'chunk' ? chunk.moduleIds : [])).map((id) => id.replaceAll('\\', '/'));
 }

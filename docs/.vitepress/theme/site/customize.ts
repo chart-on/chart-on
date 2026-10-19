@@ -7,8 +7,8 @@ import {
   type Chart,
   type CustomSeriesDef,
   type IndicatorDef,
-} from '@charton/core';
-import { ema } from '@charton/ta';
+} from '@chart-on/core';
+import { ema } from '@chart-on/ta';
 import { HOUR } from '../../../examples/sample-data';
 import { errorText, rng, themeFor, whenVisible, type Section } from './section';
 import { slidingIndicator } from './slide';

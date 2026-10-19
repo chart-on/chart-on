@@ -4,7 +4,7 @@ description: "Deprecated APIs with their replacements, and what changed in each 
 
 # Upgrading
 
-How the public API changes between releases, and what to do about it. The rules behind this page are in [the contributing guide](https://github.com/chart-on/charton/blob/main/CONTRIBUTING.md#deprecations-and-breaking-changes).
+How the public API changes between releases, and what to do about it. The rules behind this page are in [the contributing guide](https://github.com/chart-on/chart-on/blob/main/CONTRIBUTING.md#deprecations-and-breaking-changes).
 
 - A deprecated API keeps working until the removal release named in its entry. Development builds log one `charton [deprecated]` warning per API per page load, linking to its entry below; production builds log nothing.
 - Each entry shows the old and the new code.
@@ -70,7 +70,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Image capture is an opt-in plugin.** `chart.captureImage` (compositing every layer into one image, with its caption, padding, background and theme options) moved into the new `imageCapture()` plugin, so a chart that never takes a screenshot leaves that code out. `builtins()` includes it, and the UI shell adds it when the app's own `chart.plugins` list leaves it out, since its screenshot and copy-image buttons use it. Otherwise add it:
 
   ```ts
-  import { createChart, imageCapture } from '@charton/core';
+  import { createChart, imageCapture } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [imageCapture()] });
   const blob = await chart.captureImage();
@@ -111,10 +111,10 @@ The first release on npm. These entries are for code built from the repository b
 
   `builtinTools` and `patternTools` are in the [catalogue order](../guide/drawings#tool-catalogue), so code that picked tools by index should pick them by `type`. Each rail flyout starts on its group's most general tool (Trend line for Lines, Text for Annotate, and so on).
 
-- **Picking a bar is a standalone function.** `chart.pickBar()` and `chart.cancelPickBar()` are now the `@charton/core` exports `pickBar(chart)` and `cancelPickBar(chart)`, so apps that do not pick bars leave the code out. They behave as before:
+- **Picking a bar is a standalone function.** `chart.pickBar()` and `chart.cancelPickBar()` are now the `@chart-on/core` exports `pickBar(chart)` and `cancelPickBar(chart)`, so apps that do not pick bars leave the code out. They behave as before:
 
   ```ts
-  import { cancelPickBar, pickBar } from '@charton/core';
+  import { cancelPickBar, pickBar } from '@chart-on/core';
 
   const picked = await pickBar(chart); // was chart.pickBar()
   cancelPickBar(chart);                // was chart.cancelPickBar()
@@ -123,7 +123,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Viewport bounds are an opt-in plugin.** `chart.setViewportBounds` moved into the new `viewportBounds()` plugin, so a chart without it leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. Otherwise add it:
 
   ```ts
-  import { createChart, viewportBounds } from '@charton/core';
+  import { createChart, viewportBounds } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [viewportBounds()] });
   ```
@@ -133,7 +133,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Point series are an opt-in plugin.** `chart.addPoints` moved into the new `points()` plugin, so a chart without it leaves the point series code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. Otherwise add it:
 
   ```ts
-  import { createChart, points } from '@charton/core';
+  import { createChart, points } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [points()] });
   ```
@@ -143,7 +143,7 @@ The first release on npm. These entries are for code built from the repository b
 - **The bar-close countdown is an opt-in plugin.** The time left in the newest bar, which the `countdown` feature flag shows under the last price label, moved into the new `countdown()` plugin, so a chart without it leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. Otherwise add it:
 
   ```ts
-  import { countdown, createChart } from '@charton/core';
+  import { countdown, createChart } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [countdown()] });
   ```
@@ -153,7 +153,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Drawing level defaults and colours changed.** The built-in level tools take their default levels from each method: the Fib speed fan uses the retracement's Fibonacci levels, the Gann box Gann's range divisions (quarters shown, odd eighths and thirds hidden), the trend-based Fib time 0 and the powers of the golden ratio from φ⁻² to φ², and the pitchforks the tines (1) with the halfway lines (0.5) and the warning lines at 2 and 3 hidden. Every default level now carries `color: 'auto'`, the shared [level colour rule](../guide/drawings#level-colours), instead of a named theme level colour. Saved drawings keep their own levels and colours, so they draw as before; only new drawings and drawings without `style.levels` change. Code that shows a level's colour, such as a custom levels editor, resolves `'auto'` with the new `resolveLevelColor`:
 
   ```ts
-  import { resolveLevelColor } from '@charton/core';
+  import { resolveLevelColor } from '@chart-on/core';
 
   // Before: resolveThemeColor(level.color, chart.theme) ?? drawingColor
   const color = resolveLevelColor(level, chart.theme) ?? drawingColor;
@@ -213,7 +213,7 @@ The first release on npm. These entries are for code built from the repository b
   | `mark:click`, `timemark:click` | `sourcemarkers:click` with `{ markers, point }` | Its listeners make both bar markers and badges take presses |
   | `chart.refreshMarks()` | Report a reset from the source (`onReset`) | One refetch path for bars and their markers |
   | `chart.clearMarks()` | `chart.applyOptions({ marks: false, timeMarks: false })` | With both options off nothing is fetched |
-  | `sourceMarks()` plugin, `@charton/core/source-marks` | `sourceMarkers()`, `@charton/core/source-markers` | Named after what it fetches |
+  | `sourceMarks()` plugin, `@chart-on/core/source-marks` | `sourceMarkers()`, `@chart-on/core/source-markers` | Named after what it fetches |
   | error code `marks-failed`, warning `source-marks-missing` | `markers-failed`, `source-markers-missing` | The same |
 
   ```ts
@@ -242,11 +242,11 @@ The first release on npm. These entries are for code built from the repository b
   Ids are now unique across both placements, since they share one list. The time-axis band appears once the source has sent a `timeAxis` marker, rather than whenever it had `getTimeMarks`. With only one of `marks` and `timeMarks` off, markers are still fetched, as before; with both off, none are, and `chart.sourceMarkers` is empty.
 
 - **`History` is an interface.** The undo stack behind `chart.history` now comes with the drawings and indicators plugins, the only ones that make undo steps, so a chart without them leaves it out. The exported `History` type, which was a class, is now an interface with its public members: `canUndo`, `canRedo`, `undo()`, `redo()` and `clear()`. It was only exported as a type, so no app could construct it or test `instanceof History`, and calls on `chart.history` work as before. Code that declared its own class `implements History`, or reached the internal members (`record`, `begin`, `commit`, `cancel`, `mute`, `drop`, `last`, `interrupt`) through a cast, needs changing: an implementation needs only the five public members, and the internal ones are no longer reachable. On a chart without drawings or indicators, `chart.history` has nothing to undo: `undo()` and `redo()` return false and `history:change` never fires.
-- **Localization is an opt-in plugin.** Applying the `localization` option (`createLocalizer`: `Intl` numbers, digits and grouping, compact amounts, dates and hour cycles, `messages` and `translate`) moved into the new `localization()` plugin, so a chart that stays in English leaves the `Intl` code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. An app that picks its own plugins, or passes none, and sets `localization` (including the `@charton/locales` packs) adds it:
+- **Localization is an opt-in plugin.** Applying the `localization` option (`createLocalizer`: `Intl` numbers, digits and grouping, compact amounts, dates and hour cycles, `messages` and `translate`) moved into the new `localization()` plugin, so a chart that stays in English leaves the `Intl` code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. An app that picks its own plugins, or passes none, and sets `localization` (including the `@chart-on/locales` packs) adds it:
 
   ```ts
-  import { createChart, localization } from '@charton/core';
-  import { deDE } from '@charton/locales/de-DE';
+  import { createChart, localization } from '@chart-on/core';
+  import { deDE } from '@chart-on/locales/de-DE';
 
   const chart = createChart(el, { plugins: [localization()], localization: deDE });
   ```
@@ -255,7 +255,7 @@ The first release on npm. These entries are for code built from the repository b
 - **The last-point pulse is an opt-in plugin.** The ring the `lastPointPulse` series option draws moved into the new `lastPointPulse()` plugin, so a chart that never pulses leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. An app that picks its own plugins, or passes none, and sets `lastPointPulse` adds it:
 
   ```ts
-  import { createChart, lastPointPulse } from '@charton/core';
+  import { createChart, lastPointPulse } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [lastPointPulse()] });
   chart.addLine({ lastPointPulse: 'on-update' });
@@ -266,7 +266,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Bar grouping is an opt-in plugin.** The bucketing behind the `grouping` option (pixel and calendar buckets, the coarser levels series draw buckets from, `chart.grouping` and `grouping:change`) moved into the new `grouping()` plugin, so a chart that never groups bars leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. An app that picks its own plugins, or passes none, and sets `grouping` adds it:
 
   ```ts
-  import { createChart, grouping } from '@charton/core';
+  import { createChart, grouping } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [grouping()], grouping: { mode: 'pixel' } });
   ```
@@ -275,7 +275,7 @@ The first release on npm. These entries are for code built from the repository b
 - **The kagi and point & figure styles are an opt-in plugin.** Drawing a candle series in the `kagi` or `pointFigure` style moved into the new `priceStyles()` plugin, so a chart that never shows them leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. An app that picks its own plugins, or passes none, and shows either style adds it:
 
   ```ts
-  import { createChart, priceStyles } from '@charton/core';
+  import { createChart, priceStyles } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [priceStyles()] });
   chart.addCandles({ style: 'kagi' });
@@ -285,7 +285,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Reference lines are an opt-in plugin.** `chart.referenceLines` and the lines the `referenceLines` option turns on (previous close, visible high, low and average, bid, ask and extended hours) moved into the new `referenceLines()` plugin, so a chart that never shows them leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. An app that picks its own plugins, or passes none, and shows reference lines adds it:
 
   ```ts
-  import { createChart, referenceLines } from '@charton/core';
+  import { createChart, referenceLines } from '@chart-on/core';
 
   const chart = createChart(el, {
     plugins: [referenceLines()],
@@ -297,7 +297,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Saving and loading layouts is an opt-in plugin.** `chart.serializeLayout` and `chart.loadLayout` moved into the new `layouts()` plugin, so a chart that never saves what the user arranged leaves that code out. `builtins()` includes it and the UI shell and chart grid add it, so apps that pass `builtins()` or use the shell need no change. An app that picks its own plugins, or passes none, and saves or restores layouts adds it:
 
   ```ts
-  import { createChart, layouts } from '@charton/core';
+  import { createChart, layouts } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [layouts()] });
   const saved = chart.serializeLayout();
@@ -308,7 +308,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Loading through a data source is an opt-in plugin.** The data controller behind `chart.setDataSource` (symbol and interval loads, history paging, live bars and the snapshot cache) moved into the new `dataSource()` plugin, so a chart that only gets bars through `setData` leaves that code out. `builtins()` includes it and the UI shell and chart grid add it, so apps that pass `builtins()` or use the shell need no change. An app that picks its own plugins, or passes none, and attaches a source adds it:
 
   ```ts
-  import { createChart, dataSource } from '@charton/core';
+  import { createChart, dataSource } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [dataSource()] });
   chart.setDataSource(source);
@@ -316,10 +316,10 @@ The first release on npm. These entries are for code built from the repository b
 
   Without it, `setDataSource(source)` throws a [`not-registered`](../guide/errors#not-registered) `ChartError` and `chart.data` stays null; `setDataSource(null)` still works. The framework wrappers' `dataSource` prop needs it too: pass `plugins: [dataSource()]` (or `builtins()`) in `options`, created once. Without it the component does not attach the source and development builds warn once ([`data-source-missing`](../guide/errors#data-source-missing)) instead of throwing. Uninstalling the plugin detaches the source and keeps the bars it loaded. `DataController` stays a public export.
 
-- **The shell's order draft editor, order cluster list and bar replay strip are opt-in parts.** They were on by default; like the [other optional parts](../guide/ui-shell#optional-parts), each shell option now takes what its factory from `@charton/ui` returns, so a shell without the option leaves the part's code out. Pass them to keep them:
+- **The shell's order draft editor, order cluster list and bar replay strip are opt-in parts.** They were on by default; like the [other optional parts](../guide/ui-shell#optional-parts), each shell option now takes what its factory from `@chart-on/ui` returns, so a shell without the option leaves the part's code out. Pass them to keep them:
 
   ```ts
-  import { clusterList, createChartShell, draftEditor, replayControls } from '@charton/ui';
+  import { clusterList, createChartShell, draftEditor, replayControls } from '@chart-on/ui';
 
   createChartShell(el, {
     // was: on by default, or draftEditor: { quantityPresets, maxQuantity }
@@ -333,10 +333,10 @@ The first release on npm. These entries are for code built from the repository b
 
   Where you passed `draftEditor: false`, `clusterList: false` or `replayControls: false`, drop the option. Without a part, its handle (`shell.draftEditor`, `shell.clusterList`, `shell.replayControls`) is null, `draft:edit` and `annotations:cluster` are left to your own listeners, and a replay runs without the floating strip. The draft editor and the cluster list need the `trading()` plugin and the strip needs `replay()`; the shell still adds both when your plugin list leaves them out. Development builds warn when an option still holds the old object or boolean. `createDraftEditor`, `createClusterList` and `createReplayControls` are unchanged for use without the shell.
 
-- **The shell's symbol search, command palette, favourites, toasts and toolbar customization are opt-in parts.** Each shell option takes what its factory from `@charton/ui` returns, so a shell without the option leaves the part's code out. Favourites, the command palette and toasts were on by default; pass them to keep them. One line per part:
+- **The shell's symbol search, command palette, favourites, toasts and toolbar customization are opt-in parts.** Each shell option takes what its factory from `@chart-on/ui` returns, so a shell without the option leaves the part's code out. Favourites, the command palette and toasts were on by default; pass them to keep them. One line per part:
 
   ```ts
-  import { commandPalette, createChartShell, favorites, symbolSearch, toasts, toolbarCustomization } from '@charton/ui';
+  import { commandPalette, createChartShell, favorites, symbolSearch, toasts, toolbarCustomization } from '@chart-on/ui';
 
   createChartShell(el, {
     // was: toolbar: { items, customizable: true, locked: ['symbol'], settings }
@@ -357,7 +357,7 @@ The first release on npm. These entries are for code built from the repository b
 - **The built-in watermark is an opt-in plugin.** `chart.watermark` and the `watermark` feature flag moved into the new `watermark()` plugin, so a minimal chart leaves the watermark code out. `builtins()` includes it and the UI shell adds it, so apps that use either need no change. An app that picks its own plugins and shows the watermark adds it:
 
   ```ts
-  import { createChart, watermark } from '@charton/core';
+  import { createChart, watermark } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [watermark()], features: { watermark: true } });
   ```
@@ -367,7 +367,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Corporate action adjustments are an opt-in plugin.** Back-adjusting bars under the `adjustment` option and marking corporate actions (`adjustmentMarkers`) moved into the new `adjustments()` plugin, so a minimal chart leaves that code out. `builtins()` includes it and the UI shell adds it, so apps that pass `builtins()` or use the shell need no change. An app that picks its own plugins and whose source has `adjustments` adds it (with `annotations()` for the markers):
 
   ```ts
-  import { adjustments, createChart } from '@charton/core';
+  import { adjustments, createChart } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [adjustments()], adjustment: 'splits' });
   ```
@@ -377,7 +377,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Data source markers are an opt-in plugin.** Fetching the data source's markers (`markers`, see the entry on markers above) moved into the new `sourceMarkers()` plugin, so a minimal chart leaves that code out. `builtins()` includes it and the UI shell adds it, so apps that pass `builtins()` or use the shell need no change. An app that picks its own plugins and serves markers adds it, with `annotations()` to draw them:
 
   ```ts
-  import { annotations, createChart, sourceMarkers } from '@charton/core';
+  import { annotations, createChart, sourceMarkers } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [annotations(), sourceMarkers()] });
   ```
@@ -387,7 +387,7 @@ The first release on npm. These entries are for code built from the repository b
 - **The shared WebGL context is an opt-in plugin** (#911). `gl: 'shared'` draws through the context the new `sharedContext()` plugin brings, so a chart without it leaves the shared context code out. `builtins()` includes it, and `createChartGrid` adds it to each cell, so apps that pass `builtins()` or use the UI shell or grid need no change. An app that sets `gl: 'shared'` with its own plugin list adds it there:
 
   ```ts
-  import { createChart, sharedContext } from '@charton/core';
+  import { createChart, sharedContext } from '@chart-on/core';
 
   const chart = createChart(el, { gl: 'shared', plugins: [sharedContext()] });
   ```
@@ -397,7 +397,7 @@ The first release on npm. These entries are for code built from the repository b
 - **The render statistics are an opt-in plugin** (#910). Frame measuring (`renderStats`, `chart.frameStats`, `frame:render`), the `renderStatsOverlay` panel and GPU frame timing moved into the new `statsOverlay()` plugin, so a minimal chart leaves their code out. `builtins()` includes it, and so does the UI shell's default plugin list, so apps that pass `builtins()` or use the shell's defaults need no change. An app that picks its own plugins and uses `renderStats`, `renderStatsOverlay`, `chart.frameStats` or `frame:render` adds it:
 
   ```ts
-  import { createChart, statsOverlay } from '@charton/core';
+  import { createChart, statsOverlay } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [statsOverlay()], renderStatsOverlay: true });
   ```
@@ -407,26 +407,26 @@ The first release on npm. These entries are for code built from the repository b
 - **Trade fills and trading lines are an opt-in plugin.** The fill markers and the order, position, alert and draft lines moved out of `annotations()` into the new `trading()` plugin, so an app that only uses markers, price lines, zones, bands and text labels leaves their code out. `builtins()` includes it and the UI shell adds it, so apps that pass `builtins()` or use the shell need no change. An app that passes `annotations()` and calls `setTrades`, `addTrade`, `clearTrades`, `getTrades`, `tradeGroups`, `applyTradeOptions`, `tradeOptions`, `addTradeLine`, `addAlertLine`, `startOrderDraft` or `syncTrades` adds `trading()` after it:
 
   ```ts
-  import { annotations, createChart, trading } from '@charton/core';
+  import { annotations, createChart, trading } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [annotations(), trading()] });
   ```
 
   Without it, those calls throw a [`not-registered`](../guide/errors#not-registered) `ChartError` naming `trading()`. Reading `tradeLines`, `alertLines`, `draftLines` or `alertsCrossed` does not throw: without the plugin there are no such lines, so they answer empty. Annotations are never saved in layouts, so a layout loads the same with or without the plugin.
 
-- **Engine internals moved to `@charton/core/internal`.** The `Pane` and `Timeline` classes, `layoutPanes` and `COLLAPSED_PANE_HEIGHT` are no longer exported from `@charton/core`. `Pane` and `Timeline` stay there as types, so code that names `chart.panes` or `chart.timeline` keeps compiling; only constructing them or `instanceof` needs the new entry. The series draw routines `drawPolyline` and `drawBaseline`, `resolveBaseLevel`, and the volume profile binning steps `binVolume` and `profileLayout` moved there too; for a volume profile, `computeVolumeProfile` on the main entry does both binning steps and reuses an `out` profile. The new entry has no stability promise: what is in it can change in any release.
+- **Engine internals moved to `@chart-on/core/internal`.** The `Pane` and `Timeline` classes, `layoutPanes` and `COLLAPSED_PANE_HEIGHT` are no longer exported from `@chart-on/core`. `Pane` and `Timeline` stay there as types, so code that names `chart.panes` or `chart.timeline` keeps compiling; only constructing them or `instanceof` needs the new entry. The series draw routines `drawPolyline` and `drawBaseline`, `resolveBaseLevel`, and the volume profile binning steps `binVolume` and `profileLayout` moved there too; for a volume profile, `computeVolumeProfile` on the main entry does both binning steps and reuses an `out` profile. The new entry has no stability promise: what is in it can change in any release.
 
   ```ts
   // Before
-  import { Pane, Timeline, binVolume, drawPolyline } from '@charton/core';
+  import { Pane, Timeline, binVolume, drawPolyline } from '@chart-on/core';
   // After
-  import { Pane, Timeline, binVolume, drawPolyline } from '@charton/core/internal';
+  import { Pane, Timeline, binVolume, drawPolyline } from '@chart-on/core/internal';
   ```
 
 - **Depth lanes are an opt-in plugin.** `chart.addDepthLane` needs the new `depthLane()` plugin, so a plain `createChart` bundle leaves the depth lane out. `builtins()` includes it, and the UI shell passes `builtins()` unless you set `chart.plugins`, so apps that use either need no change. Otherwise add it:
 
   ```ts
-  import { createChart, depthLane } from '@charton/core';
+  import { createChart, depthLane } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [depthLane()] });
   ```
@@ -444,7 +444,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Bar replay is an opt-in plugin.** `chart.replay` needs the new `replay()` plugin. A plain `createChart` bundle leaves the replay code out. `builtins()` includes it, and the UI shell adds it, so apps that pass `builtins()` or use the shell need no change. Otherwise add it:
 
   ```ts
-  import { createChart, replay } from '@charton/core';
+  import { createChart, replay } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [replay()] });
   ```
@@ -454,7 +454,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Indicators and compared symbols are opt-in plugins too.** `chart.indicators` needs the new `indicators()` plugin, and `chart.compare()` the new `comparisons()` plugin. A plain `createChart` bundle leaves out the indicator manager, its runners and series, and the compare loaders, about 15% of it. `builtins()` includes both, and the UI shell adds them, so apps that pass `builtins()` or use the shell need no change. Otherwise add what the chart uses:
 
   ```ts
-  import { comparisons, createChart, indicators } from '@charton/core';
+  import { comparisons, createChart, indicators } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [indicators(), comparisons()] });
   ```
@@ -464,17 +464,17 @@ The first release on npm. These entries are for code built from the repository b
 - **Annotations and drawings are opt-in plugins too.** `chart.annotations` needs the new `annotations()` plugin, and `chart.drawings` needs drawings: `drawingTools()` as before, or the new `drawings()` for the manager with only your own tools. A plain `createChart` bundle leaves out the annotation layers, the drawing manager, its clipboard and commands, about a fifth of it. `builtins()` includes both, and the UI shell adds them, so apps that pass `builtins()` or use the shell need no change. Otherwise add what the chart uses:
 
   ```ts
-  import { annotations, createChart, drawingTools } from '@charton/core';
+  import { annotations, createChart, drawingTools } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [annotations(), drawingTools()] });
   ```
 
-  Without them, `chart.annotations` and `chart.drawings` throw a [`not-registered`](../guide/errors#not-registered) `ChartError` naming the plugin, and so do a plugin's `ctx.registerDrawingTool` and `perSymbolDrawings`. Marks and time marks from the data source, corporate action markers and indicator shape plots draw through annotations: without the plugin they do not show (development builds warn once, [`annotations-missing`](../guide/errors#annotations-missing)). A chart without drawings keeps the drawings and tool defaults of a layout it loads, reports them in `errors`, and writes them back unchanged when it saves; installing drawings later loads them. The drawing commands (`undo`, `redo`, `delete-drawings` and the others) and `draw-<type>` come with drawings. The drawings plugins are named `@charton/core/drawings` (`installedPlugins`, `uninstall`), and a chart takes one of `drawings()` and `drawingTools()`.
+  Without them, `chart.annotations` and `chart.drawings` throw a [`not-registered`](../guide/errors#not-registered) `ChartError` naming the plugin, and so do a plugin's `ctx.registerDrawingTool` and `perSymbolDrawings`. Marks and time marks from the data source, corporate action markers and indicator shape plots draw through annotations: without the plugin they do not show (development builds warn once, [`annotations-missing`](../guide/errors#annotations-missing)). A chart without drawings keeps the drawings and tool defaults of a layout it loads, reports them in `errors`, and writes them back unchanged when it saves; installing drawings later loads them. The drawing commands (`undo`, `redo`, `delete-drawings` and the others) and `draw-<type>` come with drawings. The drawings plugins are named `@chart-on/core/drawings` (`installedPlugins`, `uninstall`), and a chart takes one of `drawings()` and `drawingTools()`.
 
 - **Heatmaps, volume profiles and the built-in drawing tools are opt-in plugins.** A chart from `createChart` no longer includes them, so bundles that do not use them leave their code out. Pass what a chart uses in its `plugins` option; `builtins()` restores the previous behaviour:
 
   ```ts
-  import { builtins, createChart } from '@charton/core';
+  import { builtins, createChart } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: builtins() }); // or some of heatmap(), volumeProfile(), drawingTools(tools)
   ```
@@ -502,7 +502,7 @@ The first release on npm. These entries are for code built from the repository b
 - **Market status is an opt-in plugin.** `chart.marketStatus()` and the legend badge of the `marketStatus` option (the market phase from the `session` and `extendedSession` options, and the data delay) moved into the new `marketStatus()` plugin, so a chart that shows neither leaves that code out. `builtins()` includes it, so apps that pass `builtins()`, or use the UI shell with its default plugins, need no change. Otherwise add it:
 
   ```ts
-  import { createChart, marketStatus } from '@charton/core';
+  import { createChart, marketStatus } from '@chart-on/core';
 
   const chart = createChart(el, { plugins: [marketStatus()] });
   chart.marketStatus(); // { phase, next, delay }

@@ -8,26 +8,26 @@ charton ships as eight packages:
 
 | Package | Use it for |
 | --- | --- |
-| `@charton/core` | The chart engine. Canvases only, no UI chrome. Bring your own controls. |
-| `@charton/ui` | Optional shell: top toolbar, drawing-tool rail and styles around a core chart. |
-| `@charton/indicators` | Optional [built-in indicators](./indicators#built-in-indicators). |
-| `@charton/ta` | Optional [technical-analysis helpers](./technical-analysis) for writing indicators. |
-| `@charton/locales` | Optional [translations](./localization#locale-packs) of the built-in text, one entry per language, applied through the `localization()` plugin. |
-| `@charton/react` | Optional [components and hooks](./component-wrapper) for apps built with a component-based UI framework. |
-| `@charton/vue` | Optional [components and composables](./template-wrapper) for apps built with a template-based component framework. |
-| `@charton/svelte` | Optional [components and an action](./compiled-wrapper) for apps built with a compiler-based component framework. |
+| `@chart-on/core` | The chart engine. Canvases only, no UI chrome. Bring your own controls. |
+| `@chart-on/ui` | Optional shell: top toolbar, drawing-tool rail and styles around a core chart. |
+| `@chart-on/indicators` | Optional [built-in indicators](./indicators#built-in-indicators). |
+| `@chart-on/ta` | Optional [technical-analysis helpers](./technical-analysis) for writing indicators. |
+| `@chart-on/locales` | Optional [translations](./localization#locale-packs) of the built-in text, one entry per language, applied through the `localization()` plugin. |
+| `@chart-on/react` | Optional [components and hooks](./component-wrapper) for apps built with a component-based UI framework. |
+| `@chart-on/vue` | Optional [components and composables](./template-wrapper) for apps built with a template-based component framework. |
+| `@chart-on/svelte` | Optional [components and an action](./compiled-wrapper) for apps built with a compiler-based component framework. |
 
 ## Install
 
 Install the engine, and the UI shell if you want it:
 
 ```bash
-pnpm add @charton/core
+pnpm add @chart-on/core
 # optional UI shell
-pnpm add @charton/ui
+pnpm add @chart-on/ui
 ```
 
-Use the same version for every `@charton/*` package ([versioning](./versioning)). Requires a browser with WebGL2. No bundler? Use the [script-tag build](./frameworks#with-a-script-tag).
+Use the same version for every `@chart-on/*` package ([versioning](./versioning)). Requires a browser with WebGL2. No bundler? Use the [script-tag build](./frameworks#with-a-script-tag).
 
 ## Core only
 
@@ -37,7 +37,7 @@ The container needs a size. The chart fills it and follows resizes automatically
 <div id="chart" style="height: 480px"></div>
 ```
 
-Every example in these docs is a module whose `mount(el)` draws into an element and returns a clean-up function; in your app, `el` is that `#chart` element. The chart below runs exactly the code under it. `sampleBars` makes up [sample data](https://github.com/chart-on/charton/blob/main/docs/examples/sample-data.ts) in the same shape as yours:
+Every example in these docs is a module whose `mount(el)` draws into an element and returns a clean-up function; in your app, `el` is that `#chart` element. The chart below runs exactly the code under it. `sampleBars` makes up [sample data](https://github.com/chart-on/chart-on/blob/main/docs/examples/sample-data.ts) in the same shape as yours:
 
 <!-- example: first-chart -->
 
@@ -66,12 +66,12 @@ chart.destroy(); // or shell.destroy() when using the UI shell
 
 The chart draws its series with WebGL2, which every current desktop and mobile browser supports. There is no fallback renderer.
 
-Supported browsers: Chrome and Edge 111+, Firefox 114+, Safari 16.4+ (macOS and iOS). WebGL2 alone needs less (Safari has it from 15), but the packages are compiled for this set, so older browsers fail on the JavaScript before they reach WebGL. The list is the `browserslist` field of each package's `package.json`, so tools that read it (autoprefixers, transpilers) pick it up. Node.js 22+ is needed only for tooling and tests, for example `@charton/core/testing`.
+Supported browsers: Chrome and Edge 111+, Firefox 114+, Safari 16.4+ (macOS and iOS). WebGL2 alone needs less (Safari has it from 15), but the packages are compiled for this set, so older browsers fail on the JavaScript before they reach WebGL. The list is the `browserslist` field of each package's `package.json`, so tools that read it (autoprefixers, transpilers) pick it up. Node.js 22+ is needed only for tooling and tests, for example `@chart-on/core/testing`.
 
 Check before creating a chart if you want to show your own message:
 
 ```ts
-import { createChart, isWebGL2Supported, ChartError } from '@charton/core';
+import { createChart, isWebGL2Supported, ChartError } from '@chart-on/core';
 
 if (!isWebGL2Supported()) showMessage('This chart needs WebGL2.');
 

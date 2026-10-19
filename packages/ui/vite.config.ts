@@ -5,7 +5,7 @@ import { thirdPartyNotices } from '../../scripts/third-party-notices.ts';
 import pkg from './package.json' with { type: 'json' };
 
 /**
- * Emits the declaration behind the `types` condition of `@charton/ui/style.css`, so a side-effect
+ * Emits the declaration behind the `types` condition of `@chart-on/ui/style.css`, so a side-effect
  * import of the stylesheet type-checks under `noUncheckedSideEffectImports`.
  */
 function stylesheetTypes(): Plugin {
@@ -21,7 +21,7 @@ export default defineConfig({
   plugins: [stylesheetTypes(), thirdPartyNotices()],
   build: {
     lib: { entry: 'src/index.ts', formats: ['es'], fileName: 'index', cssFileName: 'style' },
-    rollupOptions: { external: ['@charton/core'], output: libraryOutput },
+    rollupOptions: { external: ['@chart-on/core'], output: libraryOutput },
     target: buildTargets(pkg.browserslist),
     sourcemap: true,
     emptyOutDir: true,

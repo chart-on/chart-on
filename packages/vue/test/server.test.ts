@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { createSSRApp, defineComponent, h } from 'vue';
 import { renderToString } from 'vue/server-renderer';
-import { Chart, useChart } from '@charton/vue';
-import { ChartShell, useChartShell } from '@charton/vue/shell';
+import { Chart, useChart } from '@chart-on/vue';
+import { ChartShell, useChartShell } from '@chart-on/vue/shell';
 
 /** Server rendering: no DOM, no WebGL, and no chart, only the container element. */
 

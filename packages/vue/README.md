@@ -1,17 +1,17 @@
-# @charton/vue
+# @chart-on/vue
 
-Components and composables that mount @charton/core charts and @charton/ui shells in Vue apps, with server rendering support.
+Components and composables that mount @chart-on/core charts and @chart-on/ui shells in Vue apps, with server rendering support.
 
-Part of [charton](https://github.com/chart-on/charton#readme), a WebGL2 charting library.
+Part of [charton](https://github.com/chart-on/chart-on#readme), a WebGL2 charting library.
 
 ```bash
-npm install @charton/vue @charton/core @charton/ui vue
+npm install @chart-on/vue @chart-on/core @chart-on/ui vue
 ```
 
-- [Template wrapper guide](https://github.com/chart-on/charton/blob/main/docs/guide/template-wrapper.md)
-- [Changelog](https://github.com/chart-on/charton/blob/main/CHANGELOG.md)
-- [Issues](https://github.com/chart-on/charton/issues)
+- [Template wrapper guide](https://github.com/chart-on/chart-on/blob/main/docs/guide/template-wrapper.md)
+- [Changelog](https://github.com/chart-on/chart-on/blob/main/CHANGELOG.md)
+- [Issues](https://github.com/chart-on/chart-on/issues)
 
 ## License
 
-[Apache-2.0](https://github.com/chart-on/charton/blob/main/LICENSE). See [NOTICE](https://github.com/chart-on/charton/blob/main/NOTICE).
+[Apache-2.0](https://github.com/chart-on/chart-on/blob/main/LICENSE). See [NOTICE](https://github.com/chart-on/chart-on/blob/main/NOTICE).

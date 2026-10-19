@@ -3,7 +3,7 @@
  * and uninstalled together. Copy this folder, rename the package and the
  * ids, and replace the two contributions with your own.
  */
-import type { ChartPlugin, DrawingToolDef, IndicatorDef } from '@charton/core';
+import type { ChartPlugin, DrawingToolDef, IndicatorDef } from '@chart-on/core';
 
 /** Prefix every id with the package name, so it cannot clash with the built-ins or other plugins. */
 const ID = 'charton-plugin-starter';

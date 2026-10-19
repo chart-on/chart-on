@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { builtInColorPresets, Chart, colorSafeUpDown, contrastRatio, darkTheme, lightTheme, presetTheme, type ColorPreset } from '@charton/core';
+import { builtInColorPresets, Chart, colorSafeUpDown, contrastRatio, darkTheme, lightTheme, presetTheme, type ColorPreset } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createAppearance, sanitizeSaved, type AppearanceStorage, type SavedAppearance } from '../src/appearance';
 import { presetShellTokens, usablePresets } from '../src/color-presets';

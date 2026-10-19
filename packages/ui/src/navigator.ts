@@ -1,4 +1,4 @@
-import type { Chart, Time } from '@charton/core';
+import type { Chart, Time } from '@chart-on/core';
 import { h } from './dom';
 import { shellText } from './messages';
 import {

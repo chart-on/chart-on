@@ -150,7 +150,7 @@ A `pitchfan` uses the same levels, but as rays from A through each level's point
 The median-line geometry is available as a pure helper. It works on pixels as well as on time (x) and price (y):
 
 ```ts
-import { pitchforkMedian } from '@charton/core';
+import { pitchforkMedian } from '@chart-on/core';
 
 const a = { x: 100, y: 400 }, b = { x: 200, y: 200 }, c = { x: 300, y: 300 };
 pitchforkMedian('standard', a, b, c);        // { origin: { x: 100, y: 400 }, mid: { x: 250, y: 250 } }
@@ -172,7 +172,7 @@ Results are cached per drawing. A redraw reuses them, and a live bar that update
 The regression fit is also available as a pure helper:
 
 ```ts
-import { regressionChannel } from '@charton/core';
+import { regressionChannel } from '@chart-on/core';
 
 regressionChannel(bars);       // { count, intercept, slope, deviation, r } over all bars
 regressionChannel(bars, 10, 50); // bars 10 to 49; intercept is the fitted price at bar 10
@@ -187,7 +187,7 @@ The zone on the profitable side takes the theme's `up` color and the losing side
 The figures are available as pure helpers:
 
 ```ts
-import { formatDuration, positionStats, priceChange } from '@charton/core';
+import { formatDuration, positionStats, priceChange } from '@chart-on/core';
 
 positionStats('long', 100, 110, 95); // { targetPnl: 10, targetPercent: 10, stopPnl: -5, stopPercent: -5, riskReward: 2 }
 priceChange(200, 150);               // { change: -50, percent: -25 }
@@ -199,7 +199,7 @@ formatDuration(90061);               // '1d 1h'
 The `image` tool stretches an image over the box between its two points. It is not one of the built-in tools, because the chart never fetches anything itself: `createImageTool({ load })` makes it, and `load` turns a drawing's reference into an image. The reference is the drawing's `text`, a string the app chooses (a URL, a file name, an id it keys its own files by), and it is all that `serialize()`, the clipboard and linked charts carry; image bytes never go into saved drawings.
 
 ```ts
-import { createImageTool } from '@charton/core';
+import { createImageTool } from '@chart-on/core';
 
 const files = new Map<string, Blob>(); // the app's own uploads, by id
 
@@ -246,7 +246,7 @@ The `emoji` tool draws a glyph, usually one emoji, centred on its point. The gly
 It is not one of the built-in tools. Add it to the tools a chart offers, and the shell's rail shows it with the markers:
 
 ```ts
-import { builtinTools, createChart, drawingTools, emojiTool } from '@charton/core';
+import { builtinTools, createChart, drawingTools, emojiTool } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [drawingTools([...builtinTools, emojiTool])] });
 chart.drawings.add({ type: 'emoji', pane: 0, points: [point], style: { fontSize: 40, angle: -15 }, text: '🚀' });
@@ -260,7 +260,7 @@ The `icon` and `sticker` tools work like `emoji`: one point, a fixed size in css
 - `createStickerTool({ load })` draws an image the app supplies (64 px by default). Like the [image tool](#images), the drawing keeps only the app's reference, and `load` turns it into an image, canvas, bitmap or `Blob`, once per reference.
 
 ```ts
-import { builtinTools, createChart, createStickerTool, drawingTools, iconTool } from '@charton/core';
+import { builtinTools, createChart, createStickerTool, drawingTools, iconTool } from '@chart-on/core';
 
 const stickers = createStickerTool({ load: (ref) => fetch(`/stickers/${ref}.png`).then((r) => r.blob()) });
 const chart = createChart(el, { plugins: [drawingTools([...builtinTools, iconTool, stickers])] });
@@ -277,7 +277,7 @@ Saved drawings and the clipboard carry only the markup or the reference, never i
 `recognizeSketch(points, options?)` reads a stroke, in plot pixels, as built-in drawings and returns the candidates best first, each with a `tool`, a `score` from 0 to 1 and the tool's anchor `points` in plot pixels. A straight stroke becomes a `hline` or `vline` when within 10° of either, a `ray` when it ends at a side of the plot (pass `plotWidth`) or else a `trendline`; a straight shaft with a hook that turns back becomes an `arrow`; a closed loop becomes a `rectangle` or an `ellipse` by how much of its bounding box it fills; and a zig-zag moving one way in time becomes a `fib-retracement` between its lowest and highest points. Taps and strokes that fit nothing give an empty list.
 
 ```ts
-import { builtinSketchRecognizers, recognizeSketch, type SketchRecognizer } from '@charton/core';
+import { builtinSketchRecognizers, recognizeSketch, type SketchRecognizer } from '@chart-on/core';
 
 recognizeSketch(stroke, { plotWidth: 800 })[0]; // { tool: 'trendline', score: 0.85, points: [a, b] }
 
@@ -466,7 +466,7 @@ chart.drawings.hiddenByInterval(line.id); // true while the current interval is 
 - On other intervals the drawing stays in `getAll()` and in `serialize()`, but it is not drawn or hit-tested, `select()` ignores it, and the chart pans through it, like a `hidden` drawing. A selected drawing is deselected when an interval change hides it.
 - The interval is the data source's (`setSymbol`), or the spacing of the bars when the app sets them itself. While the chart has no interval yet, every drawing shows.
 - `setVisibleOn` is one undo step and fires `drawing:update` with the change `'visibility'`. An invalid interval, or a range whose `from` is longer than its `to`, throws and changes nothing.
-- In `@charton/ui`, the drawing settings dialog edits the ranges on its **Visibility** tab ([drawing settings](./ui-shell#drawing-settings)).
+- In `@chart-on/ui`, the drawing settings dialog edits the ranges on its **Visibility** tab ([drawing settings](./ui-shell#drawing-settings)).
 
 ### Tie to an indicator
 
@@ -533,11 +533,11 @@ The other level tools take the same field. The Fib channel labels the left end o
 
 `labelContent` (**Label content**) sets what the labels say, the same way on every level tool: `'level'` (0.618), `'price'` (the level's price), `'both'` (0.618 (1,234.50)) or `'percent'` (61.8%, the level as a share of the move). Each tool keeps the content it drew before the field existed, so saved drawings look the same: the Fib retracement and extension show `'both'`, the other level tools `'level'`. The channel, pitchforks, Gann box and squares and speed fan show the price where each label sits; labels that mark a time (the time tools, and the time levels along a box's price edge) or a radius (the arcs, circles and wedge) have no price and show the level for `'price'` and `'both'`. The Gann fan's labels name its rays' ratios, so it has no content choice.
 
-`fibLevels(start, end, [0.382, 0.618])` from `@charton/core` computes the same prices without a chart.
+`fibLevels(start, end, [0.382, 0.618])` from `@chart-on/core` computes the same prices without a chart.
 
 ### Level colours
 
-Every built-in level tool (Fibonacci, Gann and pitchfork tools) colours its default levels with one shared rule, so a ratio has the same colour in every tool. The defaults carry `color: 'auto'`, and `levelColor(value, theme)` from `@charton/core` gives the colour:
+Every built-in level tool (Fibonacci, Gann and pitchfork tools) colours its default levels with one shared rule, so a ratio has the same colour in every tool. The defaults carry `color: 'auto'`, and `levelColor(value, theme)` from `@chart-on/core` gives the colour:
 
 - **Whole multiples** (0, 1, 2 …: the move's own ends and its repeats) are neutral, the theme's `text`.
 - **Any other value** takes its fraction of a whole move and counts the golden steps from the move's end (log base φ of one over the fraction). One step is the golden section, 0.618: the key ratio of the Fibonacci tools, drawn in the theme's accent (`drawing`). Fewer steps (0.786, 0.75) sit between the accent and the neutral; more steps (0.5, 0.382 … down to an eighth) fade from the accent towards the canvas (`background`).

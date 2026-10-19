@@ -1,10 +1,10 @@
 ---
-description: "Schema-driven settings forms and searchable pickers from @charton/ui, with custom input kinds, live preview and keyboard control."
+description: "Schema-driven settings forms and searchable pickers from @chart-on/ui, with custom input kinds, live preview and keyboard control."
 ---
 
 # Form and picker dialogs
 
-`@charton/ui` ships two dialog primitives that every settings surface can share, in the widget and in your own app:
+`@chart-on/ui` ships two dialog primitives that every settings surface can share, in the widget and in your own app:
 
 - **`createFormDialog`** builds a settings form from a schema: sections, groups and inputs, with conditional visibility, validation messages and a live preview that Cancel undoes.
 - **`createPickerDialog`** is a searchable list with categories, single or multiple selection, paging, row actions, and loading, error and empty states.
@@ -16,7 +16,7 @@ Both open at once in the element you pass (use the shell element, `shell.el`, so
 ## Form dialog
 
 ```ts
-import { createFormDialog, type FormSchema } from '@charton/ui';
+import { createFormDialog, type FormSchema } from '@chart-on/ui';
 
 const schema: FormSchema = {
   id: 'bands',
@@ -112,7 +112,7 @@ With `presentation: 'panel'` the form slides in from the right edge of the host 
 Register a renderer for a new kind with `registerInput(kind, renderer)`; it returns a function that removes it again. A renderer gets the input and a context, and returns the control:
 
 ```ts
-import { registerInput, type FormInputBase, type InputRenderer } from '@charton/ui';
+import { registerInput, type FormInputBase, type InputRenderer } from '@chart-on/ui';
 
 interface StepperInputDef extends FormInputBase<number> {
   kind: 'stepper';
@@ -120,7 +120,7 @@ interface StepperInputDef extends FormInputBase<number> {
 }
 
 // Let schemas use the kind with full typing.
-declare module '@charton/ui' {
+declare module '@chart-on/ui' {
   interface FormInputKinds {
     stepper: StepperInputDef;
   }
@@ -154,7 +154,7 @@ const unregister = registerInput('stepper', stepper);
 ## Picker dialog
 
 ```ts
-import { createPickerDialog } from '@charton/ui';
+import { createPickerDialog } from '@chart-on/ui';
 
 createPickerDialog(
   shell.el,

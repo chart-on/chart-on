@@ -1,4 +1,4 @@
-import { createChart, dataSource, type Bar, type DataSource, type SymbolInfo } from '@charton/core';
+import { createChart, dataSource, type Bar, type DataSource, type SymbolInfo } from '@chart-on/core';
 import type { ExampleContext } from './types';
 import { sampleBars, sampleTicks } from './sample-data';
 

@@ -1,4 +1,4 @@
-import type { Chart } from '@charton/core';
+import type { Chart } from '@chart-on/core';
 import { iconButton } from './controls';
 import { drawingIcon } from './icons';
 import { shellText } from './messages';

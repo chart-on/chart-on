@@ -1,4 +1,4 @@
-import { ALWAYS_OPEN, utcOffsetText, zoneOf, type Chart, type PriceScaleMode, type SessionBands, type SessionSchedule, type Time } from '@charton/core';
+import { ALWAYS_OPEN, utcOffsetText, zoneOf, type Chart, type PriceScaleMode, type SessionBands, type SessionSchedule, type Time } from '@chart-on/core';
 import { settingsOf } from './chart-settings';
 import { menuButton, type MenuOption } from './controls';
 import { h, placePopover, type VisibilityControl } from './dom';

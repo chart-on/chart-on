@@ -1,4 +1,4 @@
-import type { IndicatorDef } from '@charton/core';
+import type { IndicatorDef } from '@chart-on/core';
 
 /**
  * A sample bar colour plot: recolours the bars whose volume is at least

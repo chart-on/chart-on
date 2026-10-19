@@ -11,7 +11,7 @@ A watermark is large, faint text or an image behind the series, typically the sy
 Install the `watermark()` plugin (or `builtins()`), turn on the `watermark` [feature flag](./features) and the chart shows the symbol and interval it loads through its [data source](./data-sources). It updates on every symbol or interval switch.
 
 ```ts
-import { createChart, dataSource, watermark } from '@charton/core';
+import { createChart, dataSource, watermark } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [dataSource(), watermark()], features: { watermark: true } });
 chart.setDataSource(source);
@@ -94,7 +94,7 @@ The color comes from the `watermark` theme key (CSS token `--pc-chart-watermark`
 The watermark is an ordinary [primitive](./primitives), built only on the public API, so you can attach more of them: for example a logo in the corner of a pane. A primitive draws in the one pane it is attached to, so attach a watermark per pane to mark them all.
 
 ```ts
-import { createWatermark } from '@charton/core';
+import { createWatermark } from '@chart-on/core';
 
 const logo = new Image();
 logo.src = '/logo.svg';

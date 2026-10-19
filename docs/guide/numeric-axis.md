@@ -7,7 +7,7 @@ description: "Charts whose horizontal axis is a number instead of time: order-bo
 Some trading charts have no time on the horizontal axis: a cumulative order-book depth curve puts price there, a yield curve puts maturity there, and an option chain puts the strike there. `createNumericChart` makes a chart for this kind of data. It uses the same WebGL2 renderer, theme tokens, fonts and price formats as `createChart`, so it looks the same as your time charts next to them.
 
 ```ts
-import { createNumericChart, darkTheme } from '@charton/core';
+import { createNumericChart, darkTheme } from '@chart-on/core';
 
 const chart = createNumericChart(container, {
   theme: darkTheme,
@@ -56,7 +56,7 @@ Candles, indicators, sessions, the data source, replay and the drawing tools all
 A numeric chart takes its own kind of [primitive](./primitives): a plain object whose members are all optional. It works like a time chart's primitive, but its coordinates are in `x` instead of bar indices and times.
 
 ```ts
-import { crispLine, type NumericPrimitive } from '@charton/core';
+import { crispLine, type NumericPrimitive } from '@chart-on/core';
 
 /** A vertical line at the mid price, with its price as a label. */
 function midLine(mid: number, color = '#f59e0b'): NumericPrimitive {
@@ -116,7 +116,7 @@ createNumericChart(container, {
 `depthCurve(bids, asks)` turns order-book levels (`{ price, size }`, in any order) into the two cumulative series of a depth curve, for step lines:
 
 ```ts
-import { createNumericChart, depthCurve, darkTheme, type BookLevel } from '@charton/core';
+import { createNumericChart, depthCurve, darkTheme, type BookLevel } from '@chart-on/core';
 
 const chart = createNumericChart(container, { theme: darkTheme, priceScale: { marginBottom: 0 } });
 const bidLine = chart.addLine({ title: 'Bids', color: darkTheme.bid, lineType: 'step', area: true });

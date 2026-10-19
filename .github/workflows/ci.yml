@@ -29,7 +29,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
-      # Build first: tests import workspace packages through their dist (the demo loads @charton/locales).
+      # Build first: tests import workspace packages through their dist (the demo loads @chart-on/locales).
       - run: pnpm build
       - run: pnpm test
       - run: pnpm check:packages
@@ -104,7 +104,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @charton/core build
+      - run: pnpm --filter @chart-on/core build
 
       # Without a base build the comparison reports this branch's numbers only.
       - name: Build the base branch
@@ -115,7 +115,7 @@ jobs:
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
           git worktree add --detach "$RUNNER_TEMP/base" "$BASE_SHA"
           pnpm -C "$RUNNER_TEMP/base" install --frozen-lockfile
-          pnpm -C "$RUNNER_TEMP/base" --filter @charton/core build
+          pnpm -C "$RUNNER_TEMP/base" --filter @chart-on/core build
 
       # The same benchmark file runs against both builds, alternating, to even out machine noise.
       - name: Run benchmarks on the base branch and this branch

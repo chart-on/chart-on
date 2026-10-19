@@ -9,13 +9,13 @@ import {
   type DrawingStyle,
   type DrawingToolDef,
   type Localizer,
-} from '@charton/core';
+} from '@chart-on/core';
 import { ArrowLeftToLine, ArrowRightToLine, Bold, Droplet, Italic, Ruler, SeparatorHorizontal, Tag } from 'lucide';
 import { createColorControl } from './color-control';
 import { iconButton, menuButton, type MenuOption } from './controls';
 import { h, markActive, type IconSource } from './dom';
 import { keyOf, shellText, type Localized, type ShellMessageKey } from './messages';
-import { resolveFont } from '@charton/core';
+import { resolveFont } from '@chart-on/core';
 
 /** How a control changes the drawing it edits: a live preview, or a committed undo step. */
 export interface StyleEdit {

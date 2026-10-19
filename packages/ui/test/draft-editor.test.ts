@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Chart, type DraftEditEvent, type DraftLine, type DraftSegment } from '@charton/core';
+import { Chart, type DraftEditEvent, type DraftLine, type DraftSegment } from '@chart-on/core';
 import { fakeContainer } from '../../core/test/fake-dom';
 import { createDraftEditor, presetLabel, presetQuantity, type DraftEditorHandle, type DraftEditorOptions } from '../src/draft-editor';
 

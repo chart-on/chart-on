@@ -44,16 +44,16 @@ importers:
 
   apps/demo:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/indicators':
+      '@chart-on/indicators':
         specifier: workspace:^
         version: link:../../packages/indicators
-      '@charton/locales':
+      '@chart-on/locales':
         specifier: workspace:^
         version: link:../../packages/locales
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../../packages/ui
       lucide:
@@ -62,13 +62,13 @@ importers:
 
   docs:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../packages/core
-      '@charton/indicators':
+      '@chart-on/indicators':
         specifier: workspace:^
         version: link:../packages/indicators
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../packages/ui
       '@codemirror/commands':
@@ -105,19 +105,19 @@ importers:
 
   examples/plugin-starter:
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
 
   examples/react-bundler:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/react':
+      '@chart-on/react':
         specifier: workspace:^
         version: link:../../packages/react
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../../packages/ui
       react:
@@ -136,10 +136,10 @@ importers:
 
   examples/react-ssr:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/react':
+      '@chart-on/react':
         specifier: workspace:^
         version: link:../../packages/react
       react:
@@ -158,13 +158,13 @@ importers:
 
   examples/svelte-bundler:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/svelte':
+      '@chart-on/svelte':
         specifier: workspace:^
         version: link:../../packages/svelte
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../../packages/ui
       svelte:
@@ -180,10 +180,10 @@ importers:
 
   examples/svelte-ssr:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/svelte':
+      '@chart-on/svelte':
         specifier: workspace:^
         version: link:../../packages/svelte
       svelte:
@@ -199,13 +199,13 @@ importers:
 
   examples/vue-bundler:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../../packages/ui
-      '@charton/vue':
+      '@chart-on/vue':
         specifier: workspace:^
         version: link:../../packages/vue
       vue:
@@ -214,10 +214,10 @@ importers:
 
   examples/vue-ssr:
     dependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../../packages/core
-      '@charton/vue':
+      '@chart-on/vue':
         specifier: workspace:^
         version: link:../../packages/vue
       vue:
@@ -228,29 +228,29 @@ importers:
 
   packages/indicators:
     dependencies:
-      '@charton/ta':
+      '@chart-on/ta':
         specifier: workspace:^
         version: link:../ta
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../core
 
   packages/locales:
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../core
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../ui
 
   packages/react:
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../core
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../ui
       '@types/react':
@@ -271,10 +271,10 @@ importers:
 
   packages/svelte:
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../core
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../ui
       '@sveltejs/package':
@@ -297,7 +297,7 @@ importers:
 
   packages/ui:
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../core
       happy-dom:
@@ -309,10 +309,10 @@ importers:
 
   packages/vue:
     devDependencies:
-      '@charton/core':
+      '@chart-on/core':
         specifier: workspace:^
         version: link:../core
-      '@charton/ui':
+      '@chart-on/ui':
         specifier: workspace:^
         version: link:../ui
       happy-dom:

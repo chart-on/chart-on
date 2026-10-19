@@ -9,7 +9,7 @@ import {
   type ComparedSymbol,
   type LineStyle,
   type Series,
-} from '@charton/core';
+} from '@chart-on/core';
 import { createFormDialog, type FormDialog } from './form-dialog';
 import { defaultFormActions, type FormInputDef, type FormSchema, type FormValues } from './form-model';
 import { lineStyleOptions } from './drawing-style-controls';

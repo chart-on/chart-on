@@ -8,8 +8,8 @@ import {
   emojiTool,
   iconTool,
   type LocalizationOptions,
-} from '@charton/core';
-import { appearanceSections, defaultShellMessages } from '@charton/ui';
+} from '@chart-on/core';
+import { appearanceSections, defaultShellMessages } from '@chart-on/ui';
 
 // Every pack the package exports, so a new language gets these checks by adding its export.
 const manifest = '../package.json';

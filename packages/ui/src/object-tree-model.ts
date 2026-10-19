@@ -1,4 +1,4 @@
-import type { Chart, Drawing, Indicator, Pane, Series } from '@charton/core';
+import type { Chart, Drawing, Indicator, Pane, Series } from '@chart-on/core';
 import { keyOf, shellText } from './messages';
 
 /** What a row of the object tree stands for. */

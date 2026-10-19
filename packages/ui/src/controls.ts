@@ -1,4 +1,4 @@
-import type { MessageParams } from '@charton/core';
+import type { MessageParams } from '@chart-on/core';
 import { Check, ChevronDown } from 'lucide';
 import { h, markActive, icon, inlineKey, nameButton, placePopover, popoverToggle, prefersReducedMotion, type IconSource } from './dom';
 import { stepTab } from './indicator-picker-model';

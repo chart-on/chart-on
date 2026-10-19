@@ -104,7 +104,7 @@ Each `RenderStats` snapshot has these fields:
 The panel comes with the same `statsOverlay()` plugin; without it the option draws nothing.
 
 ```ts
-import { createChart, statsOverlay } from '@charton/core';
+import { createChart, statsOverlay } from '@chart-on/core';
 
 const chart = createChart(el, { plugins: [statsOverlay()] });
 chart.applyOptions({ renderStatsOverlay: 'bounds' });

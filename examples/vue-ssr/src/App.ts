@@ -1,6 +1,6 @@
 import { defineComponent, h, markRaw, ref } from 'vue';
-import { createMockDataSource } from '@charton/core';
-import { Chart } from '@charton/vue';
+import { createMockDataSource } from '@chart-on/core';
+import { Chart } from '@chart-on/vue';
 
 const intervals = ['1m', '1h', '1d'] as const;
 

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Chart, type Bar, type DataSource, type IndicatorDef, type SymbolInfo } from '@charton/core';
+import { Chart, type Bar, type DataSource, type IndicatorDef, type SymbolInfo } from '@chart-on/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { createChartGrid } from '../src/grid';
 import { createChartShell } from '../src/shell';

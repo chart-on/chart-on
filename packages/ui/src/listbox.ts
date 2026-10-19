@@ -2,7 +2,7 @@
  * The themed dropdown every select in the shell uses: a closed trigger that
  * opens a listbox popover, with a search box over it for long lists.
  */
-import type { Localizer } from '@charton/core';
+import type { Localizer } from '@chart-on/core';
 import { ChevronDown } from 'lucide';
 import { fadeOutAndRemove, h, icon, isRtl, onDismiss } from './dom';
 import type { FormOption } from './form-model';

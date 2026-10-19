@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
-import { Chart, useChart } from '@charton/react';
-import { ChartShell, useChartShell } from '@charton/react/shell';
+import { Chart, useChart } from '@chart-on/react';
+import { ChartShell, useChartShell } from '@chart-on/react/shell';
 
 /** Server rendering: no DOM, no WebGL, and no chart, only the container element. */
 

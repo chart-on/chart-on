@@ -1,4 +1,4 @@
-// Makes the package build emit `dist/style.css`. Apps must still import `@charton/ui/style.css`
+// Makes the package build emit `dist/style.css`. Apps must still import `@chart-on/ui/style.css`
 // themselves: `sideEffects` marks this module side-effect free, so a production bundler that
 // only uses its re-exports skips this import (#446). Only the dev server applies it regardless.
 import './style.css';

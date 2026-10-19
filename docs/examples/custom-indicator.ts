@@ -1,5 +1,5 @@
-import { createChart, indicators, sourceAt, sourceOf, type IndicatorDef, type SourceKey } from '@charton/core';
-import { sma, smaAt, smaLookback } from '@charton/ta';
+import { createChart, indicators, sourceAt, sourceOf, type IndicatorDef, type SourceKey } from '@chart-on/core';
+import { sma, smaAt, smaLookback } from '@chart-on/ta';
 import type { ExampleContext } from './types';
 import { sampleBars } from './sample-data';
 

@@ -3,7 +3,7 @@ import { dialogButton, focusableIn, nextDialogId, openDialogFrame } from './dial
 import { stepTab } from './indicator-picker-model';
 import { h, icon, inlineKey } from './dom';
 import { createListbox } from './listbox';
-import type { Localizer } from '@charton/core';
+import type { Localizer } from '@chart-on/core';
 import { inputRenderer, type InputControl, type InputRenderer } from './form-inputs';
 import { keyedText, shellText } from './messages';
 import {

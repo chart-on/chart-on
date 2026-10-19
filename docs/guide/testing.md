@@ -4,12 +4,12 @@ description: "Unit-test the code around the chart under Node: a fake browser env
 
 # Testing your integration
 
-`@charton/core/testing` lets you test the code you write around the chart, such as toolbar wiring, data mapping and saved layouts, in a Node test runner, without a browser or a GPU. It is a separate entry: nothing in the main bundle imports it, so it costs your app nothing.
+`@chart-on/core/testing` lets you test the code you write around the chart, such as toolbar wiring, data mapping and saved layouts, in a Node test runner, without a browser or a GPU. It is a separate entry: nothing in the main bundle imports it, so it costs your app nothing.
 
 ```ts
 import { afterEach, expect, it } from 'vitest';
-import { createChart, volumeOf } from '@charton/core';
-import { describeScene, flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+import { createChart, volumeOf } from '@chart-on/core';
+import { describeScene, flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
 
 const env = installTestEnvironment({ width: 960, height: 540 });
 afterEach(() => env.uninstall());

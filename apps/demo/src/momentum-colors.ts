@@ -1,4 +1,4 @@
-import type { IndicatorDef } from '@charton/core';
+import type { IndicatorDef } from '@chart-on/core';
 
 /**
  * A sample of point colours: momentum (the close against the close `length`

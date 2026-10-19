@@ -36,8 +36,8 @@ const GLOBALS = ['document', 'window', 'ResizeObserver', 'requestAnimationFrame'
  *
  * @example
  * ```ts
- * import { createChart } from '@charton/core';
- * import { describeScene, flushFrames, installTestEnvironment, sampleBars } from '@charton/core/testing';
+ * import { createChart } from '@chart-on/core';
+ * import { describeScene, flushFrames, installTestEnvironment, sampleBars } from '@chart-on/core/testing';
  *
  * const env = installTestEnvironment({ width: 960, height: 540 });
  * const chart = createChart(env.container());
@@ -344,7 +344,7 @@ function describeAnnotations(chart: Chart): SceneDescription['annotations'] {
     }
   }
   // Fills need the trading() plugin; a chart without it has none.
-  if (chart.installedPlugins.includes('@charton/core/trading')) for (const trade of layer.getTrades()) add('trade', trade);
+  if (chart.installedPlugins.includes('@chart-on/core/trading')) for (const trade of layer.getTrades()) add('trade', trade);
   const groups = [
     ['price-line', layer.priceLines], ['trade-line', layer.tradeLines],
     ['alert-line', layer.alertLines], ['draft-line', layer.draftLines],

@@ -1,4 +1,4 @@
-import { seededRandom } from '@charton/core/internal';
+import { seededRandom } from '@chart-on/core/internal';
 
 /**
  * The hero illustration: an isometric stack of the library's layers (the
@@ -212,7 +212,7 @@ export function heroArt(): string {
   <g class="hx-layer" style="--i:0">${box('hx-box hx-base', [0, 0, BASE.z], SIZE, SIZE, BASE.h)}
   <text class="hx-face-text" transform="${onLeft([14, SIZE, BASE.z + BASE.h / 2])}" dominant-baseline="central">WebGL2 renderer</text></g>
   <g class="hx-layer" style="--i:1">${box('hx-box hx-core', [0, 0, CORE.z], SIZE, SIZE, CORE.h)}
-  <text class="hx-face-title" transform="${onLeft([16, SIZE, CORE.z + CORE.h / 2])}" dominant-baseline="central">@charton/core</text>
+  <text class="hx-face-title" transform="${onLeft([16, SIZE, CORE.z + CORE.h / 2])}" dominant-baseline="central">@chart-on/core</text>
   ${coreChart()}</g>
   <g class="hx-layer" style="--i:2">${box('hx-box hx-mid', [0, 0, MID.z], SIZE, SIZE, MID.h)}
   <text class="hx-face-text" transform="${onLeft([14, SIZE, MID.z + MID.h / 2])}" dominant-baseline="central">series · drawings</text></g>

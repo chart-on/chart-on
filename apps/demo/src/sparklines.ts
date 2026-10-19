@@ -1,11 +1,10 @@
-import { createChart, createMockDataSource, darkTheme, dataSource, lightTheme, type Chart } from '@charton/core';
+import { createChart, createMockDataSource, dataSource, type Chart } from '@charton/core';
+import { light, theme } from './page-theme';
 import { expose } from './expose';
 
 // Static charts for thumbnails and sparklines next to one interactive chart: the
 // static ones give their WebGL context back after each drawing, so 41 charts stay
 // within the browser's context limit.
-const light = matchMedia('(prefers-color-scheme: light)');
-const theme = () => (light.matches ? lightTheme : darkTheme);
 
 const main = createChart(document.getElementById('main')!, { theme: theme(), timezone: 'UTC', plugins: [dataSource()] });
 main.setDataSource(createMockDataSource({ startPrice: 100 }));

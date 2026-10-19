@@ -1,10 +1,9 @@
-import { createNumericChart, crispLine, darkTheme, depthCurve, lightTheme, type BookLevel, type NumericChart, type NumericPrimitive } from '@charton/core';
+import { createNumericChart, crispLine, depthCurve, type BookLevel, type NumericChart, type NumericPrimitive } from '@charton/core';
+import { light, theme } from './page-theme';
 import { expose } from './expose';
 
 // Charts with a numeric horizontal axis: an order-book depth curve, a yield
 // curve and open interest by option strike, all with synthetic data.
-const light = matchMedia('(prefers-color-scheme: light)');
-const theme = () => (light.matches ? lightTheme : darkTheme);
 
 /** Deterministic pseudo-random numbers, so the page looks the same on every load. */
 function random(seed: number): () => number {

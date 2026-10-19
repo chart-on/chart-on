@@ -19,7 +19,7 @@ charton ships as eight packages:
 
 ## Install
 
-The packages are not published to npm yet. Until the first release, build them from the [repository](https://github.com/chart-on/charton). Once they are published, install them with:
+Install the engine, and the UI shell if you want it:
 
 ```bash
 pnpm add @charton/core
@@ -27,7 +27,7 @@ pnpm add @charton/core
 pnpm add @charton/ui
 ```
 
-Requires a browser with WebGL2. No bundler? Use the [script-tag build](./frameworks#with-a-script-tag).
+Use the same version for every `@charton/*` package ([versioning](./versioning)). Requires a browser with WebGL2. No bundler? Use the [script-tag build](./frameworks#with-a-script-tag).
 
 ## Core only
 

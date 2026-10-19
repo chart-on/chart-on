@@ -18,6 +18,10 @@ None yet.
 
 ### Unreleased
 
+### 0.1.0
+
+The first release on npm. These entries are for code built from the repository before it; an app starting on 0.1.0 needs none of them.
+
 - **Default toolbar items** (#1014). `defaultToolbarItems()` is now the symbol, interval and indicators on the left and indicator templates, bar replay, fullscreen and chart settings on the right; chart style and the price scale menu left the list. To keep them, add them back: `toolbar: [...defaultToolbarItems(), chartStyle(), { ...scaleMode(), group: 'view' }]`. A shell with no `toolbar` option now also mounts the replay strip, and its picker-style search boxes are flat rows across the dialog. The command palette opens with its search box and category chips, lists nothing until something is typed or a chip picked, and finds the new `chart-settings`, `appearance`, `light-mode` and `dark-mode` actions and the chart settings' sections (`ChartSettingsHandle.commandSource`, id `settings`; an app source with that id keeps its place).
 - **Minimal shell defaults: a default toolbar, no bottom bar** (#1001). A shell given no `toolbar` now shows `defaultToolbarItems()` (interval, chart style, indicators, price scale, settings, fullscreen); pass `toolbar: []` to keep the old empty top. A shell given no `bottomBar` now has none; pass `bottomBar: true` (or `{}`) for the bar it showed before. Shorthand options and item lists are unchanged. Chart grid cells keep no toolbar of their own: the grid's toolbar acts on the active cell.
 
@@ -505,7 +509,3 @@ None yet.
   ```
 
   Without it `chart.marketStatus()` throws a [`not-registered`](../guide/errors#not-registered) `ChartError` at the call, with `context` `{ call: 'marketStatus', plugin: 'marketStatus()' }`, and the `marketStatus` option is kept, stays on by default and shows no badge. Development builds warn once when the option is set to `true` explicitly ([`market-status-missing`](../guide/errors#market-status-missing)). `marketPhase(regular, extended, zone, now)` stays a standalone export that needs no plugin. The UI shell does not add the plugin itself: an app that gives the shell its own `chart.plugins` list adds `marketStatus()` to that list. Without it the shell's settings dialog leaves out the market status switch.
-
-### 0.1
-
-First release.

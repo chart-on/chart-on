@@ -124,10 +124,17 @@ Some add-on code still ships in the default bundles while it moves out. The full
 
 ## Status and install
 
-> [!NOTE]
-> charton is pre-1.0 and not on npm yet. Until the first release, build the packages from this repository (see [Develop](#develop)). The API can still change between minor releases ([versioning](docs/guide/versioning.md)); the [upgrading guide](docs/upgrading/index.md) lists every change.
+```bash
+pnpm add @charton/core
+# optional: the UI shell, indicators, translations and framework components
+pnpm add @charton/ui @charton/indicators @charton/locales
+pnpm add @charton/react   # or @charton/vue, @charton/svelte
+```
 
-<!-- TODO(#725): add the install lines (pnpm add @charton/core, @charton/ui and the others) once the npm scope is claimed and 0.1.0 is published, and drop the note above. -->
+Install the same version of every `@charton/*` package you use: they are released together.
+
+> [!NOTE]
+> charton is pre-1.0: the API can still change between minor releases ([versioning](docs/guide/versioning.md)); the [upgrading guide](docs/upgrading/index.md) lists every change.
 
 Want to see it first? `pnpm install && pnpm dev` runs the demo app (`apps/demo`) at http://localhost:5173: synthetic data, every chart type, a volume overlay, a liquidation heatmap, liquidation and delta panes, and live ticks.
 

@@ -141,6 +141,7 @@ export default defineConfig({
           { text: 'Testing your integration', link: '/guide/testing' },
           { text: 'Errors and warnings', link: '/guide/errors' },
           { text: 'Upgrading', link: '/upgrading/' },
+          { text: 'Versioning', link: '/guide/versioning' },
           { text: 'Security and strict pages', link: '/guide/security' },
           { text: 'Sponsor', link: '/sponsor' },
         ],

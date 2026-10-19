@@ -19,6 +19,7 @@ Closes #
 - [ ] Tests added or updated for new logic
 - [ ] Gzip size change per bundle (`pnpm size`) noted above; growth over 1 KiB explained
 - [ ] README / docs updated for user-facing or API changes
+- [ ] Changeset added (`pnpm changeset`) and `CHANGELOG.md` updated, or the change publishes nothing
 - [ ] Deprecations have an upgrade-guide entry in `docs/upgrading/` (or none)
 - [ ] New controls placed per `roadmap/toolbar-layout.md` (or no new controls)
 - [ ] Other products, companies and exchanges are described by their role, not named

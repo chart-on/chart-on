@@ -11,6 +11,8 @@
     "typecheck": "tsc -p packages/ta && tsc -p packages/core && tsc -p packages/indicators && tsc -p packages/ui && tsc -p packages/locales && tsc -p packages/react && tsc -p packages/vue && pnpm --filter @charton/svelte typecheck && tsc -p apps/demo && tsc -p docs/examples && tsc -p docs/.vitepress/theme/site && tsc -p examples/plugin-starter && tsc -p e2e",
     "check:packages": "node scripts/check-packages.mjs",
     "check:csp": "node scripts/check-csp.mjs",
+    "version-packages": "changeset version && node scripts/version-packages.mjs",
+    "release": "pnpm build && pnpm check:packages && changeset publish --no-git-tag",
     "test:browser": "playwright test",
     "size": "node scripts/check-size.mjs",
     "size:report": "node scripts/size-report.mjs",
@@ -22,6 +24,7 @@
     "docs:build": "pnpm api:docs && pnpm --filter docs build"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "@microsoft/api-extractor": "7.59.3",
     "@playwright/test": "~1.63.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",

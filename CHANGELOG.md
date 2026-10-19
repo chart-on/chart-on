@@ -4,6 +4,8 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 
 ## Unreleased
 
+- `@chart-on/ui`: trash and remove icon buttons (`.pc-danger`), such as Remove all drawings on the drawing tool rail, use the normal icon colour and show the danger colour only on hover (#49). Sizes (gzip, production): `style.css` 12,800 to 12,792 B (-8 B). No public API change.
+
 ## 0.1.0 (2026-10-19)
 
 The first release on npm. This entry describes what each package contains, and the [guides](docs/guide/getting-started.md) cover the details. **Changed** lists what changed for code built from the repository before the release.

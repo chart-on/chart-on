@@ -17,6 +17,7 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 ### Fixed
 
 - `@chart-on/ui`: in rail flyouts that group tools into sections, each row's hover and active highlight spans the menu width (#45). A tool button inside a section's block box shrank to its icon and label when the shell had no favourites; sections are now grids, so their rows stretch.
+- `@chart-on/ui`: trash and remove icon buttons (`.pc-danger`), such as Remove all drawings on the drawing tool rail, use the normal icon colour and show the danger colour only on hover (#49).
 
 ## 0.1.0 (2026-10-19)
 

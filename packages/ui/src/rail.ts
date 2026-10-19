@@ -47,7 +47,7 @@ export type RailItem =
       onClick: (chart: Chart) => void;
       /** Disables the button while false; re-checked on tool and history changes. */
       enabled?: (chart: Chart) => boolean;
-      /** Shows a destructive action, e.g. remove all drawings, in the danger colour. */
+      /** Marks a destructive action, e.g. remove all drawings: neutral, in the danger colour on hover. */
       danger?: boolean;
     } & RailItemText)
   /**

@@ -4,6 +4,10 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 
 ## Unreleased
 
+### Added
+
+- `@chart-on/core`: quick measure (#43). With `chart.drawings.quickMeasure = true`, Shift+click on an empty part of a pane, with no tool active, starts a temporary date and price measurement that follows the pointer; the next click fixes it, and the click after that, `Escape` or focus leaving the chart removes it (`clearMeasure()` from code). It is no drawing: not saved, copied or undoable, and it fires no `drawings:change`. Shift+drag still draws a selection box. Off by default, pointer only. Sizes (gzip, production): the script-tag build 354,505 to 354,798 B (+293 B), within its budget; a plain `createChart` app is unchanged.
+
 ### Fixed
 
 - `@chart-on/ui`: in rail flyouts that group tools into sections, each row's hover and active highlight spans the menu width (#45). A tool button inside a section's block box shrank to its icon and label when the shell had no favourites; sections are now grids, so their rows stretch. Sizes (gzip, production): `style.css` 12,800 to 12,795 B (-5 B). No public API change.

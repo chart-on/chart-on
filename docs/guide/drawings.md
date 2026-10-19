@@ -332,6 +332,7 @@ chart.drawings.setMagnetMode('weak'); // 'off', 'weak' or 'strong'; fires magnet
 chart.drawings.setLocked(true);   // prevent moving or editing
 chart.drawings.setHidden(true);   // hide all drawings; fires drawings:visibility
 chart.drawings.stayInDrawingMode = true; // keep the tool active after each drawing
+chart.drawings.quickMeasure = true; // Shift+click on empty plot space measures
 chart.drawings.setAxisLabels(false); // no axis labels for the selected drawing
 ```
 
@@ -340,6 +341,12 @@ The magnet snaps the price of each point placed or anchor dragged in the main pa
 Holding Shift while placing the next point or dragging an anchor keeps it horizontal, vertical or at 45° on screen from the previous point (from the next one for the first anchor); horizontal keeps that point's price exactly and vertical its time. Holding Shift while dragging a whole drawing moves it along one of those directions only. The constraint wins over the magnet. Shift on the press itself still adds to the selection, so press first and then hold Shift.
 
 While a drawing is selected or being placed, its prices are labelled on the price axis and its times on the time axis, in the drawing's colour, and the range between them is highlighted. A horizontal line labels only its price and a vertical line only its time; tools choose theirs with [`axisMarks`](./custom-drawing-tools#contract).
+
+### Quick measure
+
+With `quickMeasure` on, Shift+click on an empty part of a pane, with no tool active, starts a temporary measurement at that point. It follows the pointer and shows what the `date-price-range` tool shows: the price change, the percent, the bar count and the elapsed time. The next click fixes it, and the click after that, `Escape`, or focus leaving the chart removes it, and so does picking a tool. `clearMeasure()` removes it from code.
+
+The measurement is not a drawing: it is not part of `serialize()`, layouts, the clipboard or the undo history, and it fires no `drawings:change`. It takes the `date-price-range` tool's defaults for its look and needs that tool registered (`drawingTools()` has it). Shift+drag still draws a selection box, also on a pane without drawings while the option is on. It is off by default, and pointer-only: a touch has no Shift.
 
 ## Add, update, remove from code
 
@@ -363,7 +370,7 @@ chart.drawings.setVisible(line.id, false);
 
 ### Selecting several drawings
 
-Shift+click adds a drawing to the selection or takes it out again. Shift+drag on an empty part of a pane draws a selection box and adds every drawing of that pane whose anchors all lie inside it (on a pane without selectable drawings, Shift+drag pans as usual). A plain click on one of several selected drawings leaves only it selected, and a click on empty space clears the selection.
+Shift+click adds a drawing to the selection or takes it out again. Shift+drag on an empty part of a pane draws a selection box and adds every drawing of that pane whose anchors all lie inside it (on a pane without selectable drawings, Shift+drag pans as usual, unless [quick measure](#quick-measure) is on). A plain click on one of several selected drawings leaves only it selected, and a click on empty space clears the selection.
 
 Dragging any selected drawing moves all of them together: by the same number of bars, and by the same height on each drawing's own pane scale, so shapes hold on log scales too. Locked drawings stay where they are. Dragging an anchor still edits only its own drawing. The move is one undo step, and so is `Delete`, which removes every selected drawing.
 

@@ -348,6 +348,17 @@ export class DrawingManager {
   /** Keep the tool active after finishing a drawing. */
   stayInDrawingMode = false;
   /**
+   * Shift+click on empty plot space, with no tool active, starts a temporary
+   * date and price measurement that follows the pointer; the next click fixes
+   * it, and the click after that, Escape or `clearMeasure()` removes it.
+   * Shift+drag still draws a selection box. The measurement is no drawing: it
+   * is not saved, copied or undoable and fires no `drawings:change`. It looks
+   * like the `date-price-range` tool and needs it registered. Default false.
+   */
+  quickMeasure = false;
+  /** The quick measurement on screen, `fixed` once its second click placed it; see `quickMeasure`. */
+  #measure: { drawing: Drawing; fixed: boolean } | null = null;
+  /**
    * How drawings pasted from another chart through the system clipboard are
    * placed; see `PasteScaling`. Default null: at their own times and prices.
    */
@@ -571,6 +582,7 @@ export class DrawingManager {
       throw new Error(/* @__PURE__ */ isDev() && process.env.NODE_ENV !== 'production' ? `Drawing tool "${type}" is not allowed` : '');
     }
     this.#cancelCreate();
+    this.clearMeasure();
     this.#activeTool = type;
     this.#kept = type !== null && options.keep === true;
     if (type) this.select(null);
@@ -1091,6 +1103,7 @@ export class DrawingManager {
    * history too, and adds no undo step.
    */
   remapPanes(map: readonly number[]): void {
+    this.clearMeasure();
     // Tied drawings stay, hidden: their indicator is gone with the pane (removing it removed them) or comes back, e.g. loaded again, and they follow it.
     const moved = this.#mapPanes((d) => {
       const pane = map[d.pane] ?? d.pane;
@@ -1276,6 +1289,14 @@ export class DrawingManager {
   pointerDown(paneIndex: number, p: Point, modifiers: DrawingModifiers = {}): boolean {
     this.#modifiers = modifiers;
     this.#endHint();
+    const m = this.#measure;
+    if (m) {
+      // A click fixes a following measurement and clears a fixed one; neither reaches the chart.
+      // The pointer moves already placed its second corner.
+      if (m.fixed) this.clearMeasure();
+      else m.fixed = true;
+      return true;
+    }
     const g = this.#gesture;
     if (g?.kind === 'create') {
       this.#placePoint(g, p);
@@ -1293,7 +1314,8 @@ export class DrawingManager {
     const shift = modifiers.shift === true;
     const hit = this.hitTest(p);
     if (!hit) {
-      if (shift && this.#items.some((d) => d.pane === paneIndex && this.#isSelectable(d))) {
+      // With `quickMeasure`, a box that ends as a click starts a measurement instead.
+      if (shift && (this.quickMeasure || this.#items.some((d) => d.pane === paneIndex && this.#isSelectable(d)))) {
         this.#gesture = { kind: 'box', pane: paneIndex, start: p, end: p };
         return true;
       }
@@ -1346,6 +1368,11 @@ export class DrawingManager {
   pointerMove(p: Point, modifiers: DrawingModifiers = {}): boolean {
     this.#modifiers = modifiers;
     const g = this.#gesture;
+    const m = this.#measure;
+    if (m && !m.fixed) {
+      m.drawing.points[1] = this.#toModel(m.drawing, p);
+      this.#host.requestOverlay();
+    }
     if (!g) {
       this.#updateHover(p);
       return false;
@@ -1467,6 +1494,7 @@ export class DrawingManager {
       return true;
     }
     if (e.key === 'Escape') {
+      if (this.clearMeasure()) return true;
       if (this.#isCreating || g?.kind === 'sketch' || g?.kind === 'box') this.#cancelCreate();
       else if (this.#activeTool) this.setTool(null);
       else if (this.#selectedIds.length > 0) this.select(null);
@@ -1485,6 +1513,14 @@ export class DrawingManager {
   deleteSelection(): boolean {
     if (this.#selectedIds.length === 0 || this.locked) return false;
     this.#removeSelection();
+    return true;
+  }
+
+  /** Remove the quick measurement; false when there is none. See `quickMeasure`. */
+  clearMeasure(): boolean {
+    if (!this.#measure) return false;
+    this.#measure = null;
+    this.#host.requestOverlay();
     return true;
   }
 
@@ -1530,7 +1566,8 @@ export class DrawingManager {
     if (this.hidden) return;
     const paneEnv = this.env(paneIndex, width, height);
     const seconds = this.#barSeconds();
-    for (const d of this.ordered()) {
+    // The quick measurement draws last, over the drawings.
+    for (const d of this.#measure ? [...this.ordered(), this.#measure.drawing] : this.ordered()) {
       if (d.pane !== paneIndex || d.hidden || (below && !d.below) || !this.#onInterval(d, seconds)) continue;
       const tool = this.#toolFor(d);
       if (!tool || !this.#mayCover(d, tool, 0, 0, width, height)) continue;
@@ -1577,6 +1614,17 @@ export class DrawingManager {
   }
 
   /* ---------------------------- internals ---------------------------- */
+
+  /** Start a quick measurement at `p`, both corners there; nothing without `quickMeasure` or the `date-price-range` tool. */
+  #startMeasure(paneIndex: number, p: Point): void {
+    const type = 'date-price-range';
+    if (!this.quickMeasure || !this.#tools.has(type)) return;
+    const drawing: Drawing = { id: '', type, pane: paneIndex, points: [], style: this.toolDefaults(type), ...this.#tie(paneIndex) };
+    const q = this.#toModel(drawing, p);
+    drawing.points = [q, q];
+    this.#measure = { drawing, fixed: false };
+    this.#host.requestOverlay();
+  }
 
   #startCreate(type: string, paneIndex: number, p: Point): void {
     const tool = this.#tools.get(type)!;
@@ -1915,10 +1963,11 @@ export class DrawingManager {
   /**
    * Add to the selection the drawings of pane `paneIndex` whose anchors all
    * lie in the box from `a` to `b` (plot-space css px), with their groups. A
-   * box too small to be a drag selects nothing.
+   * box too small to be a drag selects nothing; it is a click, which starts a
+   * quick measurement (see `quickMeasure`).
    */
   #selectInBox(paneIndex: number, a: Point, b: Point): void {
-    if (Math.abs(b.x - a.x) <= DRAG_CREATE_PX && Math.abs(b.y - a.y) <= DRAG_CREATE_PX) return;
+    if (Math.abs(b.x - a.x) <= DRAG_CREATE_PX && Math.abs(b.y - a.y) <= DRAG_CREATE_PX) return this.#startMeasure(paneIndex, a);
     const top = this.#host.panes[paneIndex]?.top ?? 0;
     const [x0, x1] = [Math.min(a.x, b.x), Math.max(a.x, b.x)];
     const [y0, y1] = [Math.min(a.y, b.y) - top, Math.max(a.y, b.y) - top];

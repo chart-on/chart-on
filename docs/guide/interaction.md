@@ -24,6 +24,7 @@ Built in, no setup needed. Each input path can be turned off with [feature flags
 | `Alt` + click | Plot | Lock the crosshair on that bar, or release it (see [locking the crosshair](./options#locking-the-crosshair)) |
 | `Shift` + click | Drawing | Add it to the drawing selection, or take it out (see [selecting several drawings](./drawings#selecting-several-drawings)) |
 | `Shift` + drag | Plot, on a pane with drawings | Selection box: select the drawings inside it |
+| `Shift` + click | Plot, empty space, with `drawings.quickMeasure` on | Start a temporary price and time measurement; click to fix it, click again or press `Escape` to remove it (see [quick measure](./drawings#quick-measure)) |
 
 When the newest bar is out of view, a floating button scrolls back to it (`scrollButton` option).
 

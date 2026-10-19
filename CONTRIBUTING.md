@@ -138,8 +138,6 @@ A PR that changes a published package records two things:
 - **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` by the rules above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none, and neither do changes merged before 0.1.0 is published: they ship in 0.1.0.
 - **A changelog line** under **Unreleased** in [`CHANGELOG.md`](CHANGELOG.md) for user-facing changes (features, fixes, deprecations, breaking changes), one line each, naming the package. A release moves those lines under its version.
 
-Until the first release, **Unreleased** is a one-screen summary of each package instead: a PR changes it only when the summary should name something new. The line-per-change log starts with 0.1.0.
-
 ### Releases
 
 A maintainer cuts a release when the pending changesets should go out:
@@ -151,7 +149,7 @@ Publishing authenticates with npm trusted publishing (OIDC), so no npm token is 
 
 1. The packages publish under the `@chart-on` scope of the `chart-on` npm account (the `@charton` scope belongs to another account). Require two-factor authentication on it, and convert it to an organization when more maintainers need publish rights.
 2. Add a granular npm access token with publish rights to the `@chart-on` scope as the `NPM_TOKEN` repository secret.
-3. Release 0.1.0: in a PR, run `node scripts/version-packages.mjs` (the packages are already at 0.1.0, so there is no changeset to version), review the notes and merge it.
+3. Merge the release PR for 0.1.0 (#21), whose notes `node scripts/version-packages.mjs` moved; the packages were already at 0.1.0, so it has no changeset.
 4. For each package on npm, add `chart-on/chart-on` with the workflow `release.yml` as trusted publisher, and set publishing access to require two-factor authentication and disallow tokens.
 5. Delete the `NPM_TOKEN` secret and revoke the token.
 

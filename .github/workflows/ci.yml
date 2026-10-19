@@ -96,29 +96,50 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
-      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
-
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @chart-on/core build
-
-      # Without a base build the comparison reports this branch's numbers only.
-      - name: Build the base branch
-        continue-on-error: true
+      # When nothing the benchmarks build or run changed, both sides run identical code and any
+      # "regression" is runner noise, so the remaining steps are skipped.
+      - name: Check whether the benchmark inputs changed
+        id: inputs
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          if git diff --quiet "$BASE_SHA" HEAD -- packages/core 'packages/*/test/*.bench.ts' \
+            scripts tsconfig.base.json vitest.bench.config.ts package.json pnpm-lock.yaml .github/workflows/ci.yml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Skipped: this pull request changes nothing the benchmarks build or run." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.inputs.outputs.changed == 'true'
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
+      - if: steps.inputs.outputs.changed == 'true'
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - if: steps.inputs.outputs.changed == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.inputs.outputs.changed == 'true'
+        run: pnpm --filter @chart-on/core build
+
+      # Without a base build the comparison reports this branch's numbers only.
+      - name: Build the base branch
+        if: steps.inputs.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
           git worktree add --detach "$RUNNER_TEMP/base" "$BASE_SHA"
           pnpm -C "$RUNNER_TEMP/base" install --frozen-lockfile
           pnpm -C "$RUNNER_TEMP/base" --filter @chart-on/core build
 
       # The same benchmark file runs against both builds, alternating, to even out machine noise.
       - name: Run benchmarks on the base branch and this branch
+        if: steps.inputs.outputs.changed == 'true'
         run: |
           for run in 1 2; do
             CHARTON_BENCH_CORE="$RUNNER_TEMP/base/packages/core/dist" pnpm bench --reporter=json --outputFile="base-$run.json" || true
@@ -126,4 +147,5 @@ jobs:
           done
 
       - name: Compare with the base branch
+        if: steps.inputs.outputs.changed == 'true'
         run: node scripts/compare-bench.mjs --base base-1.json --base base-2.json --head head-1.json --head head-2.json

@@ -17,7 +17,7 @@ A version is `major.minor.patch`. While charton is before 1.0, the minor number 
 
 | Release | Before 1.0 (0.3.1 to …) | From 1.0 (1.3.1 to …) |
 | --- | --- | --- |
-| Patch | 0.3.2: fixes and backwards-compatible additions | 1.3.2: fixes |
+| Patch | 0.3.2: fixes, backwards-compatible additions and deprecations | 1.3.2: fixes |
 | Minor | 0.4.0: may contain breaking changes | 1.4.0: backwards-compatible additions |
 | Major | 1.0.0: the stable API | 2.0.0: breaking changes |
 

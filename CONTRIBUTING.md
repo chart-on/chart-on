@@ -138,7 +138,7 @@ The API reference on the docs site is generated from the same doc comments: `pnp
 Users upgrade when upgrades are predictable. These rules cover APIs that shipped in a published release. An API no release has contained yet can be renamed or removed outright, without a deprecation: no app depends on it. So:
 
 - **What is breaking.** Removing or renaming an export, option, event, method, CSS class or token; changing a type so that code which compiled no longer does (narrowing a parameter, widening a return or payload type, making an optional field required); changing a default or behaviour that existing code relies on. Adding optional fields, exports or events is not.
-- **Deprecate before removing.** Keep the old name working and point it at the new one. Before 1.0 it lives for at least one minor release (deprecated in 0.3, removed in 0.4 at the earliest); from 1.0, until the next major.
+- **Deprecate before removing.** Keep the old name working and point it at the new one. A deprecation breaks nothing, so it can ship in a patch release. Before 1.0 the old API then lives until a later minor release at the earliest (deprecated in 0.3.1, removed in 0.4.0 at the earliest); from 1.0, until the next major.
 - **Mark it.** A JSDoc `@deprecated` tag on the old symbol that names the replacement. Where the tag would mislead (one form of a union type), say it in the comment instead.
 - **Warn once.** Where the old API is used, log `charton [deprecated]: <message> (<upgrading page>#<id>)` once per page load, in development builds only, with `id` the anchor of its entry on the upgrading page. Guard it like `devWarn` in `packages/core/src/util/dev.ts`, so production bundles drop it.
 - **Document it in the same PR.** An entry under "Deprecated APIs" in `docs/upgrading/index.md`, headed with the old name in backticks, with the removal release and before/after code. A test fails when an `@deprecated` tag has no entry.
@@ -151,11 +151,24 @@ The packages follow [semantic versioning](https://semver.org/), with the usual p
 - **Before 1.0:** a minor release (0.3 to 0.4) may contain breaking changes, still announced through the deprecation steps above. A patch release (0.3.1 to 0.3.2) has fixes and backwards-compatible additions only.
 - **From 1.0:** breaking changes only in a major release, additions in a minor release, fixes in a patch release.
 
+Each change gets the release type of the first row it matches, read from the top:
+
+| Change | Before 1.0 | From 1.0 |
+| --- | --- | --- |
+| Breaking, as defined in [Deprecations and breaking changes](#deprecations-and-breaking-changes), including removing a deprecated API | `minor` | `major` |
+| New option, export, event, method, CSS class or token, or new behaviour behind an option that is off by default | `patch` | `minor` |
+| Deprecation that keeps the old API working | `patch` | `minor` |
+| Changed default look or behaviour that keeps every API working and needs no change in app code | `patch` | `minor` |
+| Fix that changes no API | `patch` | `patch` |
+| Publishes nothing: tests, docs, the demo, CI | no changeset | no changeset |
+
+A change that matches several rows takes the highest. When it is unclear whether apps rely on a default, treat changing it as breaking. The reviewer checks the type in the PR, and the maintainer cutting a release checks every pending changeset against this table ([Releasing an update](#releasing-an-update), step 1). A published version number is never used again, even when a release went wrong (see [Releases](#releases)).
+
 All published packages (`packages/*`) share one version and are released together, so an app installs the same version of each; `pnpm check:packages` fails when their versions differ. What this means for users, and which ranges to depend on, is in the [versioning guide](docs/guide/versioning.md).
 
 A PR that changes a published package records two things:
 
-- **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` by the rules above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none.
+- **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` from the table above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none.
 - **A changelog line** under **Unreleased** in [`CHANGELOG.md`](CHANGELOG.md) for user-facing changes (features, fixes, deprecations, breaking changes), one line each, naming the package. A release moves those lines under its version.
 
 ### Releases
@@ -164,7 +177,7 @@ Releases are cut by a [maintainer](#maintainers) whenever the changes on `main` 
 
 #### Releasing an update
 
-1. **Check what is pending.** Every PR that changed a published package added a changeset to `.changeset/` and a line under **Unreleased** in `CHANGELOG.md` ([Versioning and changelog](#versioning-and-changelog)). `pnpm changeset status --verbose` prints the next version of every package: the highest type among the pending changesets (`patch` gives 0.1.0 to 0.1.1, `minor` gives 0.1.0 to 0.2.0). If it lists no packages, there is nothing to release.
+1. **Check what is pending.** Every PR that changed a published package added a changeset to `.changeset/` and a line under **Unreleased** in `CHANGELOG.md` ([Versioning and changelog](#versioning-and-changelog)). `pnpm changeset status --verbose` prints the next version of every package: the highest type among the pending changesets (`patch` gives 0.1.0 to 0.1.1, `minor` gives 0.1.0 to 0.2.0). If it lists no packages, there is nothing to release. Read each changeset against the [release type table](#versioning-and-changelog) and correct the ones that do not match in the release pull request, saying which and why in its description.
 2. **Open a release issue** titled `Release <version>`, as for any other change, and claim it.
 3. **Version the packages** on a branch from an up-to-date `main`:
 

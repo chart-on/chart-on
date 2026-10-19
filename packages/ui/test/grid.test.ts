@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ChartError, points, sharedContext, type Chart } from '@charton/core';
+import { builtInColorPresets, ChartError, points, sharedContext, type Chart } from '@charton/core';
 import { dispatch, fakeContainer } from '../../core/test/fake-dom';
 import { contextBudget } from '../../core/src/gl/context-budget';
 import { createChartGrid, moveEdge, sanitizeSizes, type ChartGrid, type ChartGridOptions } from '../src/grid';
@@ -167,6 +167,22 @@ describe('createChartGrid', () => {
     expect(clicked).toEqual([g.charts[0], g.charts[1]]);
     g.toolbar!.setVisible(false);
     expect(node(g.el).children.find((c) => c.className === 'pc-shell-top')).toMatchObject({ hidden: true });
+  });
+
+  it('dresses its own chrome in the active cell’s colour preset', () => {
+    const g = grid({ layout: '2x1', theme: 'dark', cell: { ...bare, appearance: { storage: null } } });
+    const token = (name: string) => node(g.el).style[name];
+    const [ink, lime] = ['paper-ink', 'terminal-lime'].map((id) => builtInColorPresets.find((p) => p.id === id)!);
+    expect(token('--pc-accent')).toBe(ink!.dark.primary);
+    // Another cell's preset waits until that cell is active.
+    g.cells[1]!.setColorPreset('terminal-lime');
+    expect(token('--pc-accent')).toBe(ink!.dark.primary);
+    g.setActive(1);
+    expect(token('--pc-accent')).toBe(lime!.dark.primary);
+    g.setTheme('light');
+    expect([token('--pc-accent'), token('--pc-canvas')]).toEqual([lime!.light.primary, lime!.light.background]);
+    g.cells[1]!.setColorPreset(null);
+    expect(token('--pc-accent')).toBe('');
   });
 
   it('switches and follows the preset with the gridLayout toolbar preset', () => {

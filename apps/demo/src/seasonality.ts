@@ -2,15 +2,14 @@ import {
   createChart,
   createSeasonality,
   createStaticDataSource,
-  darkTheme,
   dataSource,
-  lightTheme,
   type Bar,
   type SeasonalAlign,
   type SeasonalAverage,
   type SeasonalNormalize,
   type SeasonalWindow,
 } from '@charton/core';
+import { light, theme } from './page-theme';
 import { expose } from './expose';
 
 // Five years of synthetic weekday closes with a seasonal swing (strong spring,
@@ -44,8 +43,6 @@ const source = createStaticDataSource({
   bars: (_symbol, interval) => (interval === '1d' ? history : undefined),
 });
 
-const light = matchMedia('(prefers-color-scheme: light)');
-const theme = () => (light.matches ? lightTheme : darkTheme);
 const chart = createChart(document.getElementById('chart')!, { theme: theme(), timezone: 'UTC', plugins: [dataSource()] });
 chart.setDataSource(source);
 const view = createSeasonality(chart, { symbol: 'SEASON', years: 5, average: 'mean' });

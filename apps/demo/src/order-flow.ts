@@ -2,9 +2,7 @@ import {
   createBarBuilder,
   createChart,
   createFootprintBuilder,
-  darkTheme,
   footprintSeries,
-  lightTheme,
   tpoColumns,
   tpoSeries,
   type Bar,
@@ -13,6 +11,7 @@ import {
   type Interval,
   type TradeTick,
 } from '@charton/core';
+import { light, theme } from './page-theme';
 import { rng } from './data';
 import { expose } from './expose';
 
@@ -61,8 +60,6 @@ function updateFrom<T>(series: { update(item: T): void }, list: readonly T[], fr
   for (let i = Math.max(0, from); i < list.length; i++) series.update(list[i]!);
 }
 
-const light = matchMedia('(prefers-color-scheme: light)');
-const theme = () => (light.matches ? lightTheme : darkTheme);
 const now = () => Date.now() / 1000;
 const feed = tradeFeed(Math.floor(now() / 86400 - HISTORY_DAYS) * 86400, 100);
 

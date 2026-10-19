@@ -60,7 +60,7 @@ In the UI shell, the same section has **Name size**, **Symbol size** and **Inter
 
 ### Project mark
 
-The chart draws the project mark in the centre of the main pane while the `attributionLogo` [feature flag](./features) is on, which it is by default. While the built-in watermark shows, the chart sets its `logo` option from the flag, and the watermark draws the mark above its image and lines in the text colour, so the two never overlap. Turn it off with `features: { attributionLogo: false }`; in the UI shell, the appearance panel's Watermark section has a **Logo** switch (label `appearanceLogo`), saved as `logo` and cleared by **Reset**, which goes back to what your app set. A watermark you make with `createWatermark` draws the mark only when you set `logo: true` on it.
+The project logo is not part of the watermark: it is a small [logo badge](./features#logo-badge) in a corner of the plot, behind the `attributionLogo` feature flag. The watermark's `logo` option, which draws the mark above the image and lines, is [deprecated](../upgrading/#logo-on-watermarkoptions): the chart no longer sets it, and it is removed in 0.3.
 
 The built-in watermark draws in the main pane only, so it is hidden while that pane is collapsed or another pane is maximized. It is part of the chart image, so [screenshots](./events#screenshot-and-data-export) include it.
 
@@ -73,7 +73,7 @@ The built-in watermark draws in the main pane only, so it is hidden while that p
 | `author` | `''` | A line above `lines`, e.g. the user's name: plain text, trimmed, at most 40 characters; empty adds none |
 | `authorSize` | `null` | Size of the `author` line in css px; half of `fontSize` when `null` |
 | `lineSizes` | `[]` | Sizes of `lines` by position in css px, over each line's own size; a missing or `null` entry keeps it |
-| `logo` | `false` | Draw the project mark above the image and text, in the text colour. The chart keeps it in step with `features.attributionLogo` on the built-in watermark |
+| `logo` | `false` | Deprecated, removed in 0.3. Draw the project mark above the image and text, in the text colour. The chart no longer sets it ([project mark](#project-mark)) |
 | `image` | `null` | Any `CanvasImageSource`, drawn above the text. An `<img>` that is still loading is drawn once it loads |
 | `imageSize` | `null` | `{ width, height }` in css px; the image's natural size when `null` |
 | `anchor` | `'center'` | `'center'`, `'top'`, `'bottom'`, `'left'`, `'right'`, `'top-left'`, `'top-right'`, `'bottom-left'` or `'bottom-right'`. Text aligns to the anchor's side |

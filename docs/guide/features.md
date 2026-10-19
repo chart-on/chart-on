@@ -32,7 +32,13 @@ The defaults keep the full built-in behaviour. `defaultChartFeatures` is exporte
 | `contextMenu` | `true` | Right click emits the `chart:contextmenu` event and suppresses the browser menu while something listens (the UI shell's menu does) |
 | `watermark` | `false` | The symbol and interval behind the series ([Watermark](./watermark)) |
 | `plusButton` | `true` | The "+" button by the crosshair price label, shown while something listens for `plus:click` ([Annotations](./annotations#plus-button)) |
-| `attributionLogo` | `true` | The project mark in the centre of the main pane, behind the series, in the theme's `watermark` colour. While the [watermark](./watermark#project-mark) shows, it sits above the watermark's lines. It is drawn on the chart, not a link |
+| `attributionLogo` | `true` | A small project logo at the bottom of the plot, linking to the project site ([logo badge](#logo-badge)) |
+
+### Logo badge
+
+While `attributionLogo` is on, the chart shows the project mark at the bottom of the plot on the start side, just above the time axis: bottom left, or bottom right in a [right-to-left](./localization) chart, across the plot from the scroll-to-latest button. It is a link (`<a class="pc-attribution">`) to `https://charton.dev` that opens in a new tab. At rest it is small and faint, in the theme's `textMuted` colour; on hover or keyboard focus it shows in full on the chart background, with the name "charton" beside the mark. Its look comes from the chart's stylesheet with no specificity, so host CSS on `.pc-attribution` overrides it. Its accessible name is the `attribution` message ("Made with charton"). Pressing it does not pan the chart. It is hidden while the loading indicator shows and when the plot is smaller than 200 × 100 css px.
+
+A screenshot cannot hold a link, so [`captureImage`](./events#screenshot-and-data-export) draws the mark and the text `charton.dev` in the same corner instead. The screenshot's `watermark: false` option leaves them out.
 
 To hide the logo, turn the flag off when creating the chart, or later:
 
@@ -40,6 +46,8 @@ To hide the logo, turn the flag off when creating the chart, or later:
 const chart = createChart(el, { features: { attributionLogo: false } });
 chart.applyOptions({ features: { attributionLogo: false } });
 ```
+
+In the UI shell, the appearance panel's Background section has a **Logo** switch (label `appearanceLogo`), saved as `logo` and cleared by that section's **Reset**, which goes back to what your app set.
 
 The crosshair is not a feature flag. Its visibility and axis labels are crosshair options.
 

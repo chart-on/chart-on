@@ -12,11 +12,22 @@ How the public API changes between releases, and what to do about it. The rules 
 
 ## Deprecated APIs
 
-None yet.
+### `logo` on `WatermarkOptions`
+
+Deprecated in 0.2, removed in 0.3. The project logo is now a [logo badge](../guide/features#logo-badge) in a corner of the plot, so the chart no longer sets the watermark's `logo` option from `features.attributionLogo`. An app that set `logo` on its own watermark to show the mark drops the option; the badge shows by default.
+
+```ts
+// Before
+chart.attachPrimitive(createWatermark({ lines: ['DEMO'], logo: true }));
+// After: the chart shows the mark itself, as a badge (features.attributionLogo, on by default)
+chart.attachPrimitive(createWatermark({ lines: ['DEMO'] }));
+```
 
 ## Releases
 
 ### Unreleased
+
+- **The project logo is a corner badge** (#42). With `features.attributionLogo` on (the default), the chart no longer draws the project mark in the centre of the main pane or inside the built-in watermark. It shows a small link to the project site at the bottom of the plot on the start side instead, and screenshots draw the mark and `charton.dev` text in that corner. `features: { attributionLogo: false }` still hides it. In the UI shell, the appearance panel's **Logo** switch moved from the Watermark section to the Background section, so the Background section's **Reset** now clears it. The watermark's `logo` option is [deprecated](#logo-on-watermarkoptions).
 
 ### 0.1.0
 

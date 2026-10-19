@@ -61,9 +61,18 @@ interface Pixels {
   data: Uint8Array;
 }
 
-/** The RGBA pixels of a screenshot of `target`, decoded by the page itself. */
-async function pixels(page: Page, target: Locator): Promise<Pixels> {
-  const png = (await target.screenshot()).toString('base64');
+/**
+ * A screenshot of `target` as PNG. The same pixels encode to the same bytes, so
+ * frames compare without decoding them: with software WebGL, decoding a
+ * desktop-sized chart costs as much as taking its screenshot.
+ */
+const shot = (target: Locator): Promise<Buffer> => target.screenshot();
+
+/** The RGBA pixels of a screenshot of `target`. */
+const pixels = async (page: Page, target: Locator): Promise<Pixels> => decode(page, await shot(target));
+
+/** The RGBA pixels of a PNG, decoded by the page itself. */
+async function decode(page: Page, png: Buffer): Promise<Pixels> {
   const { width, height, data } = await page.evaluate(async (src) => {
     const bytes = Uint8Array.from(atob(src), (c) => c.charCodeAt(0));
     const image = await createImageBitmap(new Blob([bytes], { type: 'image/png' }));
@@ -73,7 +82,7 @@ async function pixels(page: Page, target: Locator): Promise<Pixels> {
     let text = '';
     for (let i = 0; i < rgba.length; i += 0x8000) text += String.fromCharCode(...rgba.subarray(i, i + 0x8000));
     return { width: image.width, height: image.height, data: btoa(text) };
-  }, png);
+  }, png.toString('base64'));
   return { width, height, data: Uint8Array.from(Buffer.from(data, 'base64')) };
 }
 
@@ -99,25 +108,28 @@ function commonest(img: Pixels): [number, number, number] {
   return [key >> 16, (key >> 8) & 255, key & 255];
 }
 
-function differs(a: Pixels, b: Pixels): boolean {
-  return a.width !== b.width || a.height !== b.height || Buffer.compare(a.data, b.data) !== 0;
-}
-
-/** The pixels of `target` once two screenshots in a row match, so a chart has finished drawing. */
-async function settled(page: Page, target: Locator): Promise<Pixels> {
-  let last = await pixels(page, target);
+/** The screenshot of `target` once two in a row match, so a chart has finished drawing. */
+async function settled(target: Locator): Promise<Buffer> {
+  let last = await shot(target);
   await expect.poll(async () => {
-    const next = await pixels(page, target);
-    const same = !differs(last, next);
+    const next = await shot(target);
+    const same = next.equals(last);
     last = next;
     return same;
   }, 'the chart settles').toBe(true);
   return last;
 }
 
-/** Waits until `target` no longer shows `before`. */
-async function changes(page: Page, target: Locator, before: Pixels, what: string): Promise<void> {
-  await expect.poll(async () => differs(before, await pixels(page, target)), what).toBe(true);
+/** Waits until `target` shows something other than `before` and has settled there, and returns that screenshot. */
+async function changes(target: Locator, before: Buffer, what: string): Promise<Buffer> {
+  let last = before;
+  await expect.poll(async () => {
+    const next = await shot(target);
+    const done = !next.equals(before) && next.equals(last);
+    last = next;
+    return done;
+  }, what).toBe(true);
+  return last;
 }
 
 /**
@@ -307,7 +319,7 @@ for (const [size, viewport] of Object.entries(SIZES)) {
         expect(await inside(tile.locator('.lp-panel-bar button'), tile.locator('.lp-panel-bar'))).toBe(true);
 
         // The lane: blue bid bars in one lane-wide band left of the price axis.
-        const withBook = await settled(page, host);
+        const withBook = await decode(page, await settled(host));
         const bids = columnsWhere(withBook, bluish);
         expect(bids.length).toBeGreaterThan(100);
         const [left, right] = [Math.min(...bids), Math.max(...bids)];
@@ -328,10 +340,10 @@ for (const [size, viewport] of Object.entries(SIZES)) {
         for (const name of ['Heatmap', 'Footprint']) {
           const button = key.filter({ hasText: name });
           const pressed = await button.getAttribute('aria-pressed');
-          const before = await settled(page, host);
+          const before = await settled(host);
           await button.click();
           await expect(button).toHaveAttribute('aria-pressed', pressed === 'true' ? 'false' : 'true');
-          await changes(page, host, before, `${name} changes the chart`);
+          await changes(host, before, `${name} changes the chart`);
           await button.click();
         }
       });
@@ -358,7 +370,8 @@ for (const [size, viewport] of Object.entries(SIZES)) {
         expect(await overlaps(files)).toEqual([]);
         expect(await overlaps(codeTile.locator(':scope > *'))).toEqual([]);
 
-        const siteBackground = commonest(await pixels(page, host));
+        let before = await settled(host);
+        const siteBackground = commonest(await decode(page, before));
         expect(siteBackground).not.toEqual(BRAND_BACKGROUND);
 
         // Each layer switches on, changes the chart and brings its file forward, in view.
@@ -372,7 +385,6 @@ for (const [size, viewport] of Object.entries(SIZES)) {
         ]) {
           const button = layers.filter({ hasText: layer });
           const pressed = (await button.getAttribute('aria-pressed')) === 'true';
-          const before = await settled(page, host);
           await button.click();
           await expect(button).toHaveAttribute('aria-pressed', String(!pressed));
           const tab = files.filter({ hasText: file });
@@ -385,7 +397,7 @@ for (const [size, viewport] of Object.entries(SIZES)) {
             const box = el.getBoundingClientRect();
             return box.left >= strip.left - 1 && box.right <= strip.right + 1;
           }), `${file} scrolled into view`).toBe(true);
-          await changes(page, host, before, `${layer} changes the chart`);
+          before = await changes(host, before, `${layer} changes the chart`);
         }
         // The sliding highlight sits under the selected tab.
         await expect.poll(() => tabs.evaluate((strip) => {
@@ -397,17 +409,17 @@ for (const [size, viewport] of Object.entries(SIZES)) {
 
         // Brand colours, and they stay on across a scheme change.
         const brand = (img: Pixels) => commonest(img).every((v, i) => Math.abs(v - BRAND_BACKGROUND[i]!) <= 2);
-        await expect.poll(async () => brand(await pixels(page, host))).toBe(true);
+        expect(brand(await decode(page, before))).toBe(true);
         await pickScheme(page, other(scheme));
         // The scheme switch redraws the chart; it keeps the brand background.
-        const switched = await settled(page, host);
-        expect(brand(switched)).toBe(true);
+        const switched = await settled(host);
+        expect(brand(await decode(page, switched))).toBe(true);
         await expect(layers.filter({ hasText: 'Colours' })).toHaveAttribute('aria-pressed', 'true');
 
         // Off again: the other scheme's own background.
         await layers.filter({ hasText: 'Colours' }).click();
-        await changes(page, host, switched, 'Colours off changes the chart');
-        const otherBackground = commonest(await settled(page, host));
+        const off = await changes(host, switched, 'Colours off changes the chart');
+        const otherBackground = commonest(await decode(page, off));
         expect(otherBackground).not.toEqual(BRAND_BACKGROUND);
         expect(otherBackground).not.toEqual(siteBackground);
 

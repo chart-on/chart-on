@@ -5,6 +5,8 @@ const src = (path: string) => fileURLToPath(new URL(path, import.meta.url));
 
 // Resolve workspace packages to source for instant HMR across packages.
 export default defineConfig({
+  // Relative asset URLs, so the build works under any sub-path (the docs site hosts it under `demo/`).
+  base: './',
   // More pages: static charts (`interactive: false`) as sparklines, a grid of linked charts, a seasonality view, charts with a numeric horizontal axis, and order-flow charts (footprint and TPO).
   build: {
     rollupOptions: {

@@ -149,7 +149,7 @@ Publishing authenticates with npm trusted publishing (OIDC), so no npm token is 
 
 1. Create the `charton` organization on npm, owned by the maintainers, with two-factor authentication required.
 2. Add a granular npm access token with publish rights to the `@charton` scope as the `NPM_TOKEN` repository secret.
-3. Merge the release PR for 0.1.0 (#20), whose notes `node scripts/version-packages.mjs` moved; the packages were already at 0.1.0, so it has no changeset.
+3. Merge the release PR for 0.1.0 (#21), whose notes `node scripts/version-packages.mjs` moved; the packages were already at 0.1.0, so it has no changeset.
 4. For each package on npm, add `chart-on/charton` with the workflow `release.yml` as trusted publisher, and set publishing access to require two-factor authentication and disallow tokens.
 5. Delete the `NPM_TOKEN` secret and revoke the token.
 

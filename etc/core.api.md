@@ -2613,6 +2613,7 @@ export class DrawingManager {
     get canUndo(): boolean;
     // (undocumented)
     clear(): void;
+    clearMeasure(): boolean;
     // @internal
     clipboardItems(): Drawing[];
     clone(id: string): Drawing | null;
@@ -2687,6 +2688,7 @@ export class DrawingManager {
     // @internal
     priceScaleOf(id: string): PriceScale | null;
     quickFields(id: string): string[];
+    quickMeasure: boolean;
     redo(): boolean;
     // (undocumented)
     register(tool: DrawingToolDef): void;

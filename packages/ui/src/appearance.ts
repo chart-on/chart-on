@@ -29,7 +29,7 @@ export interface AppearancePatch {
   grid?: GridOptionsPatch;
   /** Line above the symbol in the chart's watermark (`chart.watermark` option `author`), e.g. the user's name. */
   watermarkText?: string;
-  /** Show the project mark (the chart's `features.attributionLogo`); unset keeps what the app set. */
+  /** Show the project logo badge (the chart's `features.attributionLogo`); unset keeps what the app set. */
   logo?: boolean;
   /** Font sizes of the watermark lines in css px: the name, the symbol and the interval. */
   watermarkSizes?: WatermarkSizes;
@@ -143,7 +143,7 @@ export function resetSection(patch: AppearancePatch, id: AppearanceSectionId): A
   if (id === 'grid') return mergePatch({}, { ...patch, grid: undefined });
   const section = appearanceSections.find((s) => s.id === id);
   const theme = Object.fromEntries((section?.colors ?? []).map((c) => [c.key, undefined]));
-  return mergePatch(patch, { theme, ...(id === 'watermark' && { watermarkText: undefined, logo: undefined, watermarkSizes: undefined }) });
+  return mergePatch(patch, { theme, ...(id === 'watermark' && { watermarkText: undefined, watermarkSizes: undefined }), ...(id === 'background' && { logo: undefined }) });
 }
 
 /** Theme to give the chart: `base` with the overrides on top. */
@@ -603,8 +603,8 @@ function createPanel(chart: Chart, handle: AppearanceHandle, base: () => ChartTh
       const read = () => theme()[key] ?? unsetColor(key);
       block.append(color(name(key, label), read, (value) => handle.set({ theme: { [key]: value } })));
     }
-    // The project mark is the chart's own (`features.attributionLogo`), with or without the watermark plugin.
-    if (section.id === 'watermark') {
+    // The logo badge is the chart's own (`features.attributionLogo`), not part of the watermark.
+    if (section.id === 'background') {
       const label = shellText(chart, 'appearanceLogo');
       const show = h('input', { type: 'checkbox', 'aria-label': t('appearanceShow', named(label)) });
       const read = () => String(chart.features.attributionLogo);

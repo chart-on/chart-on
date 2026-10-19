@@ -108,13 +108,15 @@ describe('appearance overrides', () => {
     expect(resetSection({ watermarkText: 'Jo' }, 'grid')).toEqual({ watermarkText: 'Jo' });
   });
 
-  it('keeps the logo choice and usable watermark sizes, and resets them with the watermark', () => {
+  it('keeps the logo choice and usable watermark sizes, and resets the logo with the background', () => {
     expect(sanitizePatch({ logo: false, watermarkSizes: { author: 20, symbol: 300, interval: 12.5, other: 30 } })).toEqual({
       logo: false,
       watermarkSizes: { author: 20 },
     });
     expect(sanitizePatch({ logo: 'no', watermarkSizes: 5 })).toEqual({});
-    expect(resetSection({ logo: false, watermarkSizes: { symbol: 40 }, theme: { up: '#ff0000' } }, 'watermark')).toEqual({ theme: { up: '#ff0000' } });
+    const patch = { logo: false, watermarkSizes: { symbol: 40 }, theme: { up: '#ff0000' } };
+    expect(resetSection(patch, 'watermark')).toEqual({ logo: false, theme: { up: '#ff0000' } });
+    expect(resetSection(patch, 'background')).toEqual({ watermarkSizes: { symbol: 40 }, theme: { up: '#ff0000' } });
   });
 });
 
@@ -245,12 +247,17 @@ describe('appearance on a chart', () => {
     const a = createAppearance(c, { storage: { load: () => null, save } });
     a.open();
     const box = byLabel(panelOf(c), 'Show logo') as unknown as HTMLInputElement;
+    // In the Background section: the logo is no longer part of the watermark.
+    const section = find(panelOf(c), (n) => n.className === 'pc-appearance-section' && n.getAttribute('aria-label') === 'Background');
+    expect(find(section, (n) => (n as unknown) === box)).not.toBeNull();
     expect(box.checked).toBe(true);
     box.checked = false;
     dispatch(box as never, 'change');
     expect(c.features.attributionLogo).toBe(false);
     expect(save).toHaveBeenLastCalledWith(expect.objectContaining({ logo: false }));
     a.reset('watermark');
+    expect(c.features.attributionLogo).toBe(false);
+    a.reset('background');
     expect(c.features.attributionLogo).toBe(true);
     expect(box.checked).toBe(true);
     a.destroy();

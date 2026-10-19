@@ -1,0 +1,66 @@
+/* Paper & Ink for the extra demo pages: the page one shade deeper than the charts, as on the main page. */
+:root {
+  --bg: #1d1d1d;
+  --panel: #242424;
+  --ink: rgb(245 241 232 / 0.72);
+  --ink-strong: #f5f1e8;
+  --line: rgb(245 241 232 / 0.14);
+  --hover: rgb(245 241 232 / 0.3);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #ede8dc;
+    --panel: #f5f1e8;
+    --ink: rgb(36 36 36 / 0.72);
+    --ink-strong: #242424;
+    --line: rgb(36 36 36 / 0.14);
+    --hover: rgb(36 36 36 / 0.3);
+  }
+}
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 13px system-ui, sans-serif;
+  accent-color: var(--ink-strong);
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* The caret is two gradients in the text colour, so it follows the scheme. */
+select {
+  appearance: none;
+  height: 30px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink-strong);
+  font: inherit;
+  background:
+    linear-gradient(45deg, transparent 50%, currentColor 50%) calc(100% - 15px) 50% / 5px 5px no-repeat,
+    linear-gradient(135deg, currentColor 50%, transparent 50%) calc(100% - 10px) 50% / 5px 5px no-repeat,
+    var(--panel);
+  cursor: pointer;
+}
+select:hover {
+  border-color: var(--hover);
+}
+input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--ink-strong);
+  outline-offset: 2px;
+}

@@ -1,6 +1,6 @@
 {
   "name": "@chart-on/indicators",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Built-in chart indicators (SMA, EMA, Bollinger Bands, VWAP, RSI, MACD, volume MA, cumulative volume, Keltner, Donchian, Supertrend, Ichimoku, ATR, Stochastic, Stoch RSI, DMI/ADX, OBV, moon phases) for @chart-on/core.",
   "license": "Apache-2.0",
   "repository": {

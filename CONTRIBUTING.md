@@ -135,17 +135,17 @@ All published packages (`packages/*`) share one version and are released togethe
 
 A PR that changes a published package records two things:
 
-- **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` by the rules above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none.
+- **A changeset**, the release type. Run `pnpm changeset`, pick any package the PR changes and `patch`, `minor` or `major` by the rules above, and commit the file it writes to `.changeset/`. The summary can be one line; the changelog is written separately. The highest type among the pending changesets sets the next version of every package. Changes that publish nothing (tests, docs, the demo, CI) need none, and neither do changes merged before 0.1.0 is published: they ship in 0.1.0.
 - **A changelog line** under **Unreleased** in [`CHANGELOG.md`](CHANGELOG.md) for user-facing changes (features, fixes, deprecations, breaking changes), one line each, naming the package. A release moves those lines under its version.
 
 Until the first release, **Unreleased** is a one-screen summary of each package instead: a PR changes it only when the summary should name something new. The line-per-change log starts with 0.1.0.
 
 ### Releases
 
-Releases run from [`.github/workflows/release.yml`](.github/workflows/release.yml) on every push to `main`:
+A maintainer cuts a release when the pending changesets should go out:
 
-1. While changesets are pending, it keeps a **chore: version packages** pull request up to date. That PR runs `pnpm version-packages`: `changeset version` bumps every package to the next version and deletes the changesets, and `scripts/version-packages.mjs` sets `CORE_VERSION` (with its line in `etc/core.api.md`), moves the **Unreleased** notes of `CHANGELOG.md` and of the upgrading page under the new version, and points the changelog's upgrading links at it. A maintainer reviews the notes, edits them in that PR if needed and merges it. CI does not start by itself on a PR the workflow opened: close and reopen it, or push a commit to it, to run the checks before merging.
-2. Once merged, with no changesets left, the workflow publishes: when the current version has a section in `CHANGELOG.md` and no GitHub release yet, it runs `pnpm release` (build, `pnpm check:packages`, then `changeset publish`, which runs `pnpm publish` for each package npm does not have yet, so `workspace:` ranges become real versions), then creates the GitHub release `v<version>` with that changelog section. A failed publish is retried by the next push to `main`.
+1. **Version.** On a branch from an up-to-date `main` (`chore/<issue>-release-<version>`), run `pnpm version-packages`. `changeset version` bumps every package to the next version and deletes the changesets; `scripts/version-packages.mjs` sets `CORE_VERSION` (with its line in `etc/core.api.md`), moves the **Unreleased** notes of `CHANGELOG.md` and of the upgrading page under the new version, dated today, and points the changelog's upgrading links at it. Review and edit the notes, then open a pull request titled `chore: release <version>`.
+2. **Publish.** Merging it runs [`.github/workflows/release.yml`](.github/workflows/release.yml). On a push to `main` with no pending changesets, when the current version has a section in `CHANGELOG.md` and no GitHub release yet, it runs `pnpm release` (build, `pnpm check:packages`, then `changeset publish`, which runs `pnpm publish` for each package npm does not have yet, so `workspace:` ranges become real versions), then creates the GitHub release `v<version>` with that changelog section. Every other push publishes nothing. A failed publish is retried by the next push to `main`. Fix the date in the notes if the pull request merges on a later day.
 
 Publishing authenticates with npm trusted publishing (OIDC), so no npm token is stored. It can only be configured for a package that already exists on npm, so the first release is set up once:
 

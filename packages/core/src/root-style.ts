@@ -10,7 +10,7 @@
  * cannot do that, the root is styled inline as before.
  *
  * The same sheet styles the logo badge (`.pc-attribution`): faint at rest,
- * and on hover or keyboard focus full, on the chart background, with the
+ * and on hover or focus full, on the chart background, with the
  * project name shown beside the mark. Without the sheet the badge is an
  * unstyled link showing the mark and the name.
  */

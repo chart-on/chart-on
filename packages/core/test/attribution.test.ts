@@ -91,6 +91,8 @@ describe('attribution badge on a chart', () => {
     expect([b.tagName, b.href, b.target, b.rel]).toEqual(['a', 'https://charton.dev', '_blank', 'noopener']);
     expect(b.getAttribute('aria-label')).toBe('Made with charton');
     expect([b.style.position, b.style.display]).toEqual(['absolute', 'flex']);
+    // Not a Tab stop: the chart's areas keep their keyboard order.
+    expect((b as unknown as { tabIndex: number }).tabIndex).toBe(-1);
     expect(b.style.left).toBe(`${c.plotLeft + 8}px`);
     expect(b.style.right).toBe('');
     expect(b.style.bottom).toBe(`${c.height - c.plotHeight + 8}px`);

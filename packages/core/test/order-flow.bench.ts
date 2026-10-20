@@ -46,20 +46,29 @@ function newChart(bars: ReturnType<typeof sampleBars>): Chart {
 /**
  * Pan a few bars per frame at the `text`, `cells` and `narrow` bar spacings (px), each showing the
  * series at another level of detail, and zoom from `narrow` to `text` and back.
+ *
+ * A frame's cost depends on the rows in view, so every task (warmup included) starts from the same
+ * bar and cycles over the same 64 frames: a run then measures the same data however many
+ * iterations fit in its time, and the base and head builds stay comparable.
  */
 async function panAndZoom(bench: TestContext['bench'], chart: Chart, times: number[], [text, cells, narrow]: [number, number, number]) {
-  let at = 0;
+  const START = 1_000;
+  let frame = 0;
+  const reset = (spacing: number) => () => {
+    frame = 0;
+    chart.setBarSpacing(spacing);
+    chart.scrollToTime(times[START]!, false);
+    flushFrames();
+  };
   const pan = () => {
-    at = (at + 3) % (times.length - 2_000);
-    chart.scrollToTime(times[1_000 + at]!, false);
+    chart.scrollToTime(times[START + (frame++ % 64) * 3]!, false);
     driveFrames();
   };
-  let frame = 0;
   await bench.compare(
-    bench('pan with text', { beforeAll: () => chart.setBarSpacing(text) }, pan),
-    bench('pan with cells', { beforeAll: () => chart.setBarSpacing(cells) }, pan),
-    bench('pan zoomed out', { beforeAll: () => chart.setBarSpacing(narrow) }, pan),
-    bench('zoom', () => {
+    bench('pan with text', { beforeAll: reset(text) }, pan),
+    bench('pan with cells', { beforeAll: reset(cells) }, pan),
+    bench('pan zoomed out', { beforeAll: reset(narrow) }, pan),
+    bench('zoom', { beforeAll: reset(narrow) }, () => {
       // From the narrow fallback up to text and back.
       chart.setBarSpacing(narrow + ((text - narrow) * Math.abs((frame++ % 32) - 16)) / 16);
       driveFrames();

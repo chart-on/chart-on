@@ -39,7 +39,7 @@ export interface DrawingStyle {
   extendLeft?: boolean;
   /** Extend lines (or level lines) past their right anchor to the pane edge. */
   extendRight?: boolean;
-  /** Show the tool's label (price, level, name). */
+  /** Show the tool's label (price, level, name). A long or short position with `false` shows its labels only while hovered or selected. */
   showLabel?: boolean;
   /**
    * Side of a level tool's lines or box its labels sit on, on screen. The

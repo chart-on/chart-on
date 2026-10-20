@@ -2460,7 +2460,8 @@ export class DrawingManager {
           : { x: this.#host.time.indexToX(tl.indexFromTime(q.time)), y: scale.priceToY(q.price) },
       ),
       selected: this.#isSelected(d.id),
-      hovered: d.id === this.#hoveredId,
+      // The drawing being placed is under the pointer.
+      hovered: d.id === this.#hoveredId || d === this.#creating,
     };
   }
 

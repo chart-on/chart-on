@@ -134,7 +134,7 @@ describe('figure options in the manager', () => {
     const saved = JSON.parse(JSON.stringify(a.serialize()));
     const b = manager();
     expect(b.load(saved).errors).toEqual([]);
-    expect(b.getAll().map((d) => d.style)).toEqual([{ showStats: false, profitColor: '#0000ff', lossColor: '#ff00ff' }, { showStats: false }]);
+    expect(b.getAll().map((d) => d.style)).toEqual([{ showLabel: false, showStats: false, profitColor: '#0000ff', lossColor: '#ff00ff' }, { showStats: false }]);
     expect(() => a.add({ type: 'long-position', pane: 0, points, style: { profitColor: 5 as never } })).toThrow('Drawing "style.profitColor" must be a string');
     saved.drawings[0].style.lossColor = 1;
     const c = manager();

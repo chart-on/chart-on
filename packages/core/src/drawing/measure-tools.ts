@@ -1,7 +1,7 @@
 import type { Point, Rect } from '../types';
 import { contrastText, withAlpha } from '../util/color';
 import { englishLocalizer, pluralText, type CoreMessageKey, type Localizer } from '../util/locale';
-import { arrowHead, dash, fillOf, HIT, line, LINE_FIELDS, pill, pillHeight, pillWidth, TEXT_FIELDS, two } from './draw';
+import { arrowHead, dash, fillOf, HIT, LABEL_OFF, line, LINE_FIELDS, pill, pillHeight, pillWidth, TEXT_FIELDS, two } from './draw';
 import { distToSegment, normalizedRect, pointInRect } from './geometry';
 import type { DrawingEnv, DrawingTextStyle, DrawingToolDef, ScreenDrawing } from './types';
 import { clampLow, sharp } from '../util/math';
@@ -277,6 +277,8 @@ function renderPosition(ctx: CanvasRenderingContext2D, d: ScreenDrawing, env: Dr
   ctx.setLineDash(dash(style));
   hline(ctx, e.y, left, right);
 
+  // With showLabel false the labels, which cover the bars, show only while the position is hovered or selected.
+  if (style.showLabel === false && !d.hovered && !d.selected) return;
   const top = Math.min(e.y, ...ys);
   const bounds = { x: left, y: top, width: right - left, height: Math.max(e.y, ...ys) - top };
   if (!onScreen(bounds, env)) return;
@@ -308,7 +310,9 @@ function positionTool(type: string, label: string, side: PositionSide): DrawingT
     group: 'measure',
     points: 3,
     // Zones are colored by profit and loss; the line style applies to the entry line.
-    styleFields: [...LINE_FIELDS, ...TEXT_FIELDS, ...FIGURE_FIELDS, 'profitColor', 'lossColor'],
+    styleFields: [...LINE_FIELDS, ...TEXT_FIELDS, ...FIGURE_FIELDS, 'showLabel', 'profitColor', 'lossColor'],
+    // New positions keep their labels off the bars until hovered; saved ones without the field keep them shown.
+    defaultStyle: LABEL_OFF,
     render: (ctx, d, env) => renderPosition(ctx, d, env, side),
     hitTest(d, p) {
       const [e, t, s] = three(d);

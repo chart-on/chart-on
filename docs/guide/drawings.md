@@ -112,8 +112,8 @@ A name in code font at the end of a row is a style field of that tool beyond the
 | `price-range` | 2 | Price change and percent between two prices (`showStats`, `showFill`) |
 | `projection` | 2 | Replays the closes of the bars between the points as a line starting on the newest bar's close, keeping their spacing; it moves on as new bars arrive |
 | `bars-pattern` | 3 | Copies the bars between the first two points as ghost candles starting at the third, moved so the first copied bar opens at its price |
-| `long-position` | 3 | Entry, target and stop zones of a long position with P/L and risk/reward (`showStats`, `profitColor`, `lossColor`) |
-| `short-position` | 3 | Entry, target and stop zones of a short position with P/L and risk/reward (`showStats`, `profitColor`, `lossColor`) |
+| `long-position` | 3 | Entry, target and stop zones of a long position with P/L and risk/reward (new ones start with `showLabel: false`, labelled only while hovered or selected; `showStats`, `showLabel`, `profitColor`, `lossColor`) |
+| `short-position` | 3 | Entry, target and stop zones of a short position with P/L and risk/reward (new ones start with `showLabel: false`, labelled only while hovered or selected; `showStats`, `showLabel`, `profitColor`, `lossColor`) |
 | **No group** | | |
 | `eraser` | click or drag | Places nothing: a click removes the drawing under the pointer, a drag every drawing its stroke crosses, as one undo step. Locked drawings stay |
 | `zoom-box` | drag | Places nothing: zooms the view to the dragged box's time range and its pane's price range (autoscale off). A click or a flat drag does nothing, and `Escape` drops the box |

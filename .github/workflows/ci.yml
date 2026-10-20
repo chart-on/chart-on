@@ -72,6 +72,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:browser ${{ matrix.args }}
 
+      # A failed browser test leaves its screenshot and error context here, for runner-only failures.
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: test-results-${{ strategy.job-index }}
+          path: test-results/
+          retention-days: 7
+
   examples:
     name: Framework examples
     runs-on: ubuntu-latest

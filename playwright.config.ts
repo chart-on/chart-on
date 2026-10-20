@@ -32,6 +32,8 @@ const pages: [dir: string, port: number, project: string][] = [
 export default defineConfig({
   testDir: 'e2e',
   reporter: 'list',
+  // A failed test keeps a screenshot of its page in test-results/, which CI uploads.
+  use: { screenshot: 'only-on-failure' },
   forbidOnly: true,
   projects: [
     {

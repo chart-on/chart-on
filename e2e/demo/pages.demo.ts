@@ -65,7 +65,12 @@ for (const scheme of SCHEMES) {
       const background = rgbOf(await page.evaluate(() => window.charts[0]!.theme.background));
       const plot = await page.evaluate(() => window.charts[0]!.plotRect);
       const plotPixels = () => pixels(page, { x: main.x + plot.x, y: main.y + plot.y + plot.height * 0.2, width: plot.width * 0.9, height: plot.height * 0.6 });
-      await expect.poll(async () => colorDistance((await plotPixels())[0]![0]!, background), 'plot background').toBeLessThan(40);
+      // Most of the plot, not one pixel: the main chart's bars are random, so a candle can sit anywhere.
+      const backgroundShare = async () => {
+        const all = (await plotPixels()).flat();
+        return all.filter((p) => colorDistance(p, background) < 40).length / all.length;
+      };
+      await expect.poll(backgroundShare, 'plot background').toBeGreaterThan(0.5);
       // Rows with ink: candles span many, the dotted last-price line only one or two.
       const inkedRows = async () => (await plotPixels()).filter((row) => row.filter((p) => colorDistance(p, background) > 80).length >= 3).length;
       await expect.poll(inkedRows, 'candles drawn').toBeGreaterThan(40);

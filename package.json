@@ -12,7 +12,7 @@
     "check:packages": "node scripts/check-packages.mjs",
     "check:csp": "node scripts/check-csp.mjs",
     "version-packages": "changeset version && node scripts/version-packages.mjs",
-    "release": "pnpm build && pnpm check:packages && changeset publish --no-git-tag",
+    "release": "pnpm build && pnpm check:packages && node scripts/stage-packages.mjs",
     "test:browser": "playwright test",
     "size": "node scripts/check-size.mjs",
     "size:report": "node scripts/size-report.mjs",

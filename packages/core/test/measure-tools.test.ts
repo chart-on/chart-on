@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { DrawingManager, type DrawingHost } from '../src/drawing/manager';
 import {
   datePriceRange,
@@ -230,6 +230,21 @@ describe('position tools', () => {
     }
   });
 
+  it('with showLabel false, labels only while hovered or selected', () => {
+    const d = screen('long-position', [pos(600, 200), pos(1800, 300), pos(1800, 150)]);
+    d.drawing.style = { showLabel: false };
+    expect(draw(longPosition, d)).toEqual([]);
+    expect(draw(longPosition, { ...d, hovered: true })).toHaveLength(3);
+    const short = screen('short-position', [pos(600, 200), pos(1800, 150), pos(1800, 250)]);
+    short.drawing.style = { showLabel: false };
+    expect(draw(shortPosition, short)).toEqual([]);
+    expect(draw(shortPosition, { ...short, selected: true }).map((t) => t.text).sort()).toEqual([
+      'Short entry 200.00 · R:R 1.00',
+      'Stop 250.00 · -50.00 (-25.00%)',
+      'Target 150.00 · +50.00 (+25.00%)',
+    ]);
+  });
+
   it('skips labels when the drawing is off screen', () => {
     expect(draw(longPosition, screen('long-position', [pos(6000, 200), pos(7000, 300), pos(7000, 150)]))).toEqual([]);
   });
@@ -420,6 +435,21 @@ describe('position tools in the drawing manager', () => {
     ]);
     expect(manager.tool).toBeNull();
     expect(manager.selected?.id).toBe(d?.id);
+  });
+
+  it('starts new positions with labels shown only while hovered, and labels while placing', () => {
+    const manager = setup();
+    manager.setTool('long-position');
+    click(manager, { x: 500, y: 300 });
+    manager.pointerMove({ x: 600, y: 200 });
+    vi.stubGlobal('document', { createElement: () => ({ getContext: () => ({ font: '', measureText: (t: string) => ({ width: t.length * 6 }) }) }) });
+    const { ctx, texts } = recorder();
+    manager.render(ctx, 0, 1000, 500);
+    vi.unstubAllGlobals();
+    expect(texts.map((t) => t.text)).toContain('Long entry 200.00 · R:R —');
+    click(manager, { x: 600, y: 200 });
+    click(manager, { x: 600, y: 350 });
+    expect(manager.getAll()[0]?.style.showLabel).toBe(false);
   });
 
   it('drags each anchor on its own', () => {

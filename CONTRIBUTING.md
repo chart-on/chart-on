@@ -264,6 +264,8 @@ GPU time needs a real GPU, so it is measured by hand: `node e2e/heatmap-page/ben
 
 On a pull request, CI runs the same benchmark file against the base branch's build and the branch's build, twice each and alternating, and fails when a benchmark's median is more than 25% slower than on the base branch (the faster of the two runs counts on each side). The comparison table is in the job summary. To compare locally, save runs with `pnpm bench --reporter=json --outputFile=<file>` (set `CHARTON_BENCH_CORE` to another build's `packages/core/dist` to benchmark that build) and run `node scripts/compare-bench.mjs --base <file> --head <file>`.
 
+A benchmark measures the same work on every run. tinybench runs as many iterations as fit in its time, and a frame's cost can depend on what is in view, so a task that pans or zooms resets its position and state in its `beforeAll` and cycles over a fixed window instead of carrying on from where the last task or run stopped ([`order-flow.bench.ts`](packages/core/test/order-flow.bench.ts) shows how). Otherwise the base and head runs measure different data and the check fails on changes that touch no engine code.
+
 [`packages/core/test/render-counts.test.ts`](packages/core/test/render-counts.test.ts) runs the same scenarios with `renderStats` on and checks what each frame asks of the GPU: draw calls, instances against the bars on screen, buffer and texture uploads and their bytes, and the memory held. Counts do not depend on the machine, so these checks are part of `pnpm test` and fail a change that adds GPU work per frame, such as re-sending every bar while panning, even when the timings barely move.
 
 ## Labels

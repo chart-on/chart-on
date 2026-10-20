@@ -26,7 +26,8 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
       # A version is released once it has a CHANGELOG.md section and no GitHub release yet. A failed
-      # run is retried by the next push, since changeset publish skips the packages npm already has.
+      # run is retried by the next push, which skips the packages npm already has; versions still
+      # waiting for approval are approved first (CONTRIBUTING.md#releasing-an-update).
       - name: Find a version to release
         id: check
         env:
@@ -54,11 +55,13 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      # pnpm publish hands the packed tarball to npm, and trusted publishing needs npm 11.5.1 or later.
+      # Staging with trusted publishing needs npm 11.15.0 or later.
       - if: steps.check.outputs.version
         run: npm install -g npm@latest && pnpm install --frozen-lockfile
 
-      - name: Publish
+      # Stages every package for an owner to approve on npm (scripts/stage-packages.mjs), then creates
+      # the GitHub release. The versions go public once they are approved.
+      - name: Stage
         if: steps.check.outputs.version
         env:
           GH_TOKEN: ${{ github.token }}

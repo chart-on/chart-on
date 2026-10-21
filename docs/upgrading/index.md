@@ -27,6 +27,8 @@ chart.attachPrimitive(createWatermark({ lines: ['DEMO'] }));
 
 ### Unreleased
 
+### 0.1.2
+
 ### 0.1.1
 
 - **The project logo is a corner badge** (#42). With `features.attributionLogo` on (the default), the chart no longer draws the project mark in the centre of the main pane or inside the built-in watermark. It shows a small link to the project site at the bottom of the plot on the start side instead, and screenshots draw the mark and `charton.dev` text in that corner. `features: { attributionLogo: false }` still hides it. In the UI shell, the appearance panel's **Logo** switch moved from the Watermark section to the Background section, so the Background section's **Reset** now clears it. The watermark's `logo` option is [deprecated](#logo-on-watermarkoptions).

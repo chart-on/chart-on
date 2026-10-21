@@ -2456,14 +2456,16 @@
   color: var(--pc-muted);
 }
 
-/* Fixed to the viewport (placed by form-inputs.ts), so the scrolling form body does not clip it. */
-.pc-popover.pc-form-combo-popover {
+/* Fixed to the viewport (placed by `placeFixed`), so a scrolling dialog body does not clip it. */
+.pc-popover:is(.pc-form-combo-popover, .pc-color-popover) {
   position: fixed;
-  top: auto;
   /* Placed by `top` only, above the trigger too: a `bottom` would squeeze it. */
   bottom: auto;
   inset-inline-start: auto;
   z-index: 30;
+}
+
+.pc-popover.pc-form-combo-popover {
   box-sizing: border-box;
   min-width: 0;
   padding: var(--pc-space-3);
@@ -4019,10 +4021,6 @@
 
 /* --------------------------- color control ---------------------------- */
 
-.pc-color-control {
-  position: relative;
-}
-
 .pc-color-trigger {
   display: inline-grid;
   place-items: center;
@@ -4049,13 +4047,14 @@
   outline-offset: 1px;
 }
 
-/* Opens from whichever edge of its trigger keeps it on screen (`placePopover`). */
+/* Opens under its trigger, or above it when that keeps it on screen (`placeFixed`); scrolls only on a very short window. */
 .pc-color-popover {
   min-width: 0;
   width: 248px;
   max-width: calc(100vw - 2 * var(--pc-space-5));
   gap: var(--pc-space-4);
   padding: var(--pc-space-5);
+  overflow-y: auto;
 }
 
 /* Ten columns, `SWATCH_COLUMNS` in color-control.ts: the arrow keys move by that many per row. */

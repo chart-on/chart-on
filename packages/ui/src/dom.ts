@@ -221,7 +221,8 @@ export function popoverToggle(
     panel = null;
     dispose();
     expand(false);
-    if (refocus && hadFocus) trigger.focus();
+    // Without scrolling: a popover that follows its trigger closes once the trigger scrolled out of view.
+    if (refocus && hadFocus) trigger.focus({ preventScroll: true });
     onClose?.();
   };
   const open = () => {
@@ -236,6 +237,10 @@ export function popoverToggle(
   trigger.addEventListener('click', () => (panel ? close() : open()));
   return { open, close };
 }
+
+/** Space kept between a popover and the viewport edges, and between it and its trigger. */
+const POPOVER_MARGIN = 8;
+const POPOVER_GAP = 4;
 
 /** Where a dropdown list goes, as computed by `popoverPlacement`: which trigger edge it aligns to and its height cap. */
 export interface PopoverPlacement {
@@ -256,8 +261,8 @@ export function popoverPlacement(
   list: { width: number; height: number },
   viewport: { width: number; height: number },
   options: { up?: boolean; alignEnd?: boolean } = {},
-  margin = 8,
-  gap = 4,
+  margin = POPOVER_MARGIN,
+  gap = POPOVER_GAP,
 ): PopoverPlacement {
   const startOverflow = Math.max(0, trigger.left + list.width - (viewport.width - margin));
   const endOverflow = Math.max(0, margin - (trigger.right - list.width));
@@ -297,6 +302,85 @@ export function placePopover(list: HTMLElement, trigger: HTMLElement, options: {
   // Scroll only when capped, so flyouts inside uncapped lists are not clipped.
   list.style.maxHeight = maxHeight === null ? '' : `${maxHeight}px`;
   list.style.overflowY = maxHeight === null ? '' : 'auto';
+}
+
+/** The visual viewport, where the browser has one (it shrinks for an on-screen keyboard). */
+const visualViewport = (): VisualViewport | null | undefined => (window as { visualViewport?: VisualViewport | null }).visualViewport;
+
+/** Internal: height of the visible viewport; 0 where there is none. */
+export function viewportHeight(): number {
+  return visualViewport()?.height ?? document.documentElement?.clientHeight ?? window.innerHeight ?? 0;
+}
+
+/**
+ * Whether `el` can still be seen: not scrolled out of the viewport or out of
+ * an ancestor that clips its overflow (such as a scrolling dialog body).
+ */
+function inView(el: HTMLElement): boolean {
+  const box = el.getBoundingClientRect();
+  const vh = viewportHeight();
+  if (vh > 0 && (box.bottom <= 0 || box.top >= vh)) return false;
+  if (typeof getComputedStyle !== 'function') return true;
+  for (let p = el.parentElement; p; p = p.parentElement) {
+    if (!/(auto|scroll|hidden)/.test(getComputedStyle(p).overflowY)) continue;
+    const clip = p.getBoundingClientRect();
+    if (box.bottom <= clip.top || box.top >= clip.bottom) return false;
+  }
+  return true;
+}
+
+/**
+ * Internal: fixes `popover` to the viewport at `trigger`, so a scrolling ancestor such as a dialog
+ * body neither clips it nor grows around it. It opens under the trigger, or above it when less than
+ * `minRoom` px (default its own height) is free below and more is free above. It stays inside the
+ * viewport, its height capped to the room on its side and to `maxHeight`. Right to left, it lines
+ * up with the trigger's right edge. The stylesheet gives such popovers `position: fixed`.
+ */
+export function placeFixed(popover: HTMLElement, trigger: HTMLElement, minRoom = popover.scrollHeight, maxHeight = Infinity): void {
+  const vw = document.documentElement?.clientWidth ?? 0;
+  const vh = viewportHeight();
+  const box = trigger.getBoundingClientRect();
+  const below = vh - POPOVER_MARGIN - box.bottom - POPOVER_GAP;
+  const above = box.top - POPOVER_GAP - POPOVER_MARGIN;
+  const up = vh > 0 && below < minRoom && above > below;
+  // A transformed ancestor makes `fixed` relative to it; measure and cancel its offset
+  // (without the popover's own entry animation, which moves and scales it).
+  popover.style.left = '0px';
+  popover.style.top = '0px';
+  popover.style.animation = 'none';
+  const origin = popover.getBoundingClientRect();
+  popover.style.animation = '';
+  const width = popover.offsetWidth;
+  let left = isRtl(trigger) ? box.right - width : box.left;
+  if (vw > 0) left = Math.max(POPOVER_MARGIN, Math.min(left, vw - POPOVER_MARGIN - width));
+  popover.style.left = `${left - origin.left}px`;
+  if (vh > 0) popover.style.maxHeight = `${Math.min(maxHeight, Math.max(160, Math.floor(up ? above : below)))}px`;
+  // Above the trigger, place by the measured height: `bottom` would assume the viewport is the containing block.
+  const top = up ? box.top - POPOVER_GAP - popover.offsetHeight : box.bottom + POPOVER_GAP;
+  popover.style.top = `${top - origin.top}px`;
+  popover.classList.toggle('pc-popover--up', up);
+}
+
+/**
+ * Internal: keeps a `placeFixed` popover at its trigger when the page scrolls or resizes (also
+ * when an on-screen keyboard opens): `place` runs again while the trigger is in view, `close`
+ * once it is not. Returns a function that stops following.
+ */
+export function followTrigger(popover: HTMLElement, trigger: HTMLElement, place: () => void, close: () => void): () => void {
+  const follow = (e: Event) => {
+    if (e.type === 'scroll' && popover.contains(e.target as Node)) return;
+    if (inView(trigger)) place();
+    else close();
+  };
+  const vv = visualViewport();
+  document.addEventListener('scroll', follow, true);
+  window.addEventListener('resize', follow);
+  vv?.addEventListener('resize', follow);
+  return () => {
+    document.removeEventListener('scroll', follow, true);
+    window.removeEventListener('resize', follow);
+    vv?.removeEventListener('resize', follow);
+  };
 }
 
 export function prefersReducedMotion(): boolean {

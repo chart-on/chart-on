@@ -1,5 +1,5 @@
 import { parseColor, type Localizer } from '@chart-on/core';
-import { gridKeys, h, placePopover, popoverToggle } from './dom';
+import { followTrigger, gridKeys, h, placeFixed, popoverToggle } from './dom';
 import { shellText } from './messages';
 
 /** Columns of the swatch grid (`.pc-swatches` in the stylesheet): one per hue of the defaults. */
@@ -108,6 +108,8 @@ export function createColorControl(options: ColorControlOptions): ColorControl {
     options.onInput(joinColor(parts));
   };
 
+  /** Stops the open picker following its trigger; set on each open, before any close. */
+  let unfollow: () => void;
   // Closing hands focus back to the trigger when it was in the picker (Escape, panel close), not after a click elsewhere.
   const { close } = popoverToggle(wrap, trigger, () => {
     const panel = h('div', { class: 'pc-popover pc-color-popover', role: 'dialog', 'aria-label': options.label });
@@ -131,11 +133,15 @@ export function createColorControl(options: ColorControlOptions): ColorControl {
     const opacity = h('label', { class: 'pc-opacity-row' }, h('span', {}, opacityText), slider, percent);
     panel.append(grid, h('div', { class: 'pc-color-custom' }, h('span', {}, shellText(options, 'colorCustomShort')), custom), opacity);
     wrap.append(panel);
-    placePopover(panel, trigger);
+    // Fixed to the viewport, so a scrolling dialog body neither clips it nor grows around it.
+    const place = () => placeFixed(panel, trigger);
+    place();
+    unfollow = followTrigger(panel, trigger, place, close);
     paint();
     (grid.firstElementChild as HTMLElement | null)?.focus();
     return panel;
   }, () => {
+    unfollow();
     custom = slider = percent = null;
     if (changed) {
       changed = false;

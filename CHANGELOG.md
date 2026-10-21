@@ -8,6 +8,10 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 
 - `@chart-on/core`: long and short positions list `showLabel` (the **Label** switch in the drawing settings) (#61). Off, their entry, target and stop labels show only while the position is hovered, selected or being placed, so they no longer cover the bars inside it; on, they always show. New positions start with it off; saved positions without the field keep their labels.
 
+### Fixed
+
+- `@chart-on/ui`: the color picker in settings dialogs floats over the dialog (#65). It was placed inside the dialog's scrolling body, which clipped it and grew a scroll bar around it. Like the dropdown lists, it is now fixed to the viewport: it opens under its swatch button, or above it when there is more room there, follows the button when the body scrolls and closes once the button scrolls out of view.
+
 ## 0.1.1 (2026-10-19)
 
 ### Added

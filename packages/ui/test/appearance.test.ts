@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Chart, darkTheme, lightTheme } from '@chart-on/core';
-import { dispatch, fakeContainer } from '../../core/test/fake-dom';
+import { dispatch, fakeContainer, fireWindowResize } from '../../core/test/fake-dom';
 import {
   createAppearance,
   mergePatch,
@@ -339,6 +339,34 @@ describe('color control', () => {
     expect(document.activeElement).not.toBe(trigger);
     control.destroy();
     expect(document.activeElement).toBe(trigger);
+  });
+
+  it('floats over a scrolling dialog body: fixed at its trigger, above it near the bottom, closing once scrolled out of view', () => {
+    chart();
+    const control = createColorControl({ label: 'Up', value: '#ffffff', onInput() {} });
+    const trigger = find(control.el, (n) => n.className === 'pc-color-trigger') as unknown as HTMLElement & { dispatch(t: string): void };
+    const at = (top: number) => (trigger.getBoundingClientRect = () => ({ left: 20, right: 48, width: 28, top, bottom: top + 28, height: 28 }) as DOMRect);
+    const panel = () => find(control.el, (n) => n.className.includes('pc-color-popover')) as unknown as HTMLElement | null;
+    const win = window as unknown as { innerHeight?: number };
+    const height = win.innerHeight;
+    win.innerHeight = 600;
+    try {
+      at(100);
+      trigger.dispatch('click');
+      expect(panel()!.style.left).toBe('20px');
+      expect(panel()!.style.top).toBe(`${128 + 4}px`);
+      // Near the bottom it opens above, placed by its measured height.
+      Object.assign(panel()!, { scrollHeight: 260, offsetHeight: 260 });
+      at(400);
+      fireWindowResize();
+      expect(panel()!.style.top).toBe(`${400 - 4 - 260}px`);
+      at(-80);
+      dispatch(trigger, 'scroll');
+      expect(panel()).toBeNull();
+    } finally {
+      win.innerHeight = height;
+      control.destroy();
+    }
   });
 
   it('makes a fully transparent color visible when a swatch is picked', () => {

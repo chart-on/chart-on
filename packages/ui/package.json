@@ -1,6 +1,6 @@
 {
   "name": "@chart-on/ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Config-driven toolbar, drawing tool rail and shell for @chart-on/core.",
   "license": "Apache-2.0",
   "repository": {

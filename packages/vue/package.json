@@ -1,6 +1,6 @@
 {
   "name": "@chart-on/vue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Components and composables that mount @chart-on/core charts and @chart-on/ui shells in Vue apps, with server rendering support.",
   "license": "Apache-2.0",
   "repository": {

@@ -4,6 +4,8 @@ Notable changes to the `@chart-on/*` packages. The versioning policy (before 1.0
 
 ## Unreleased
 
+## 0.1.2 (2026-10-21)
+
 ### Changed
 
 - `@chart-on/core`: long and short positions list `showLabel` (the **Label** switch in the drawing settings) (#61). Off, their entry, target and stop labels show only while the position is hovered, selected or being placed, so they no longer cover the bars inside it; on, they always show. New positions start with it off; saved positions without the field keep their labels.

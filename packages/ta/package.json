@@ -1,6 +1,6 @@
 {
   "name": "@chart-on/ta",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Technical-analysis helpers over Float64Array for chart indicators.",
   "license": "Apache-2.0",
   "repository": {

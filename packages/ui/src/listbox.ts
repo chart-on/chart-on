@@ -4,7 +4,7 @@
  */
 import type { Localizer } from '@chart-on/core';
 import { ChevronDown } from 'lucide';
-import { fadeOutAndRemove, h, icon, isRtl, onDismiss } from './dom';
+import { fadeOutAndRemove, followTrigger, h, icon, onDismiss, placeFixed } from './dom';
 import type { FormOption } from './form-model';
 import { shellText } from './messages';
 
@@ -39,9 +39,6 @@ export interface Listbox {
 
 /** Rows Page Up and Page Down move in the list. */
 const PAGE_ROWS = 8;
-/** Space kept between the popover and the viewport edges, and its trigger. */
-const POPOVER_MARGIN = 8;
-const POPOVER_GAP = 4;
 /** Below this much room under the trigger, the popover opens above it when there is more room there. */
 const POPOVER_MIN_ROOM = 240;
 /** Tallest the popover grows, in px. */
@@ -59,31 +56,6 @@ function filterOptions(options: readonly FormOption[], query: string): number[] 
     if (!q || o.label.toLowerCase().includes(q) || String(o.value).toLowerCase().includes(q)) out.push(i);
   });
   return out;
-}
-
-/** The visual viewport, where the browser has one (it shrinks for an on-screen keyboard). */
-const visualViewport = (): VisualViewport | null | undefined => (window as { visualViewport?: VisualViewport | null }).visualViewport;
-
-/** Height of the visible viewport; 0 where there is none. */
-export function viewportHeight(): number {
-  return visualViewport()?.height ?? document.documentElement?.clientHeight ?? window.innerHeight ?? 0;
-}
-
-/**
- * Whether `el` can still be seen: not scrolled out of the viewport or out of
- * an ancestor that clips its overflow (such as a scrolling dialog body).
- */
-function inView(el: HTMLElement): boolean {
-  const box = el.getBoundingClientRect();
-  const vh = viewportHeight();
-  if (vh > 0 && (box.bottom <= 0 || box.top >= vh)) return false;
-  if (typeof getComputedStyle !== 'function') return true;
-  for (let p = el.parentElement; p; p = p.parentElement) {
-    if (!/(auto|scroll|hidden)/.test(getComputedStyle(p).overflowY)) continue;
-    const clip = p.getBoundingClientRect();
-    if (box.bottom <= clip.top || box.top >= clip.bottom) return false;
-  }
-  return true;
 }
 
 /**
@@ -224,42 +196,8 @@ export function createListbox(o: ListboxOptions): Listbox {
 
   /** Fix the popover under the trigger (or above it when there is more room there), inside the viewport. */
   const place = () => {
-    if (!popover) return;
-    const vw = document.documentElement?.clientWidth ?? 0;
-    const vh = viewportHeight();
-    const box = trigger.getBoundingClientRect();
-    const width = Math.max(box.width, search ? 220 : 160);
-    const below = vh - POPOVER_MARGIN - box.bottom - POPOVER_GAP;
-    const above = box.top - POPOVER_GAP - POPOVER_MARGIN;
-    const up = vh > 0 && below < POPOVER_MIN_ROOM && above > below;
-    // Right to left, the list lines up with the trigger's right edge.
-    let left = isRtl(trigger) ? box.right - width : box.left;
-    if (vw > 0) left = Math.max(POPOVER_MARGIN, Math.min(left, vw - POPOVER_MARGIN - width));
-    // A transformed ancestor makes `fixed` relative to it; measure and cancel its offset
-    // (without the popover's own entry animation, which moves and scales it).
-    popover.style.left = '0px';
-    popover.style.top = '0px';
-    popover.style.animation = 'none';
-    const origin = popover.getBoundingClientRect();
-    popover.style.animation = '';
-    popover.style.width = `${width}px`;
-    popover.style.left = `${left - origin.left}px`;
-    if (vh > 0) popover.style.maxHeight = `${Math.min(POPOVER_MAX_HEIGHT, Math.max(160, Math.floor(up ? above : below)))}px`;
-    // Above the trigger, place by the measured height: `bottom` would assume the viewport is the containing block.
-    const top = up ? box.top - POPOVER_GAP - popover.offsetHeight : box.bottom + POPOVER_GAP;
-    popover.style.top = `${top - origin.top}px`;
-    popover.classList.toggle('pc-popover--up', up);
-  };
-
-  /**
-   * The page scrolled or resized (also when focusing the search box scrolls
-   * the page or brings up an on-screen keyboard): follow the trigger, and
-   * close only once it is out of view.
-   */
-  const follow = (e: Event) => {
-    if (!popover || (e.type === 'scroll' && popover.contains(e.target as Node))) return;
-    if (inView(trigger)) place();
-    else close(false);
+    popover!.style.width = `${Math.max(trigger.getBoundingClientRect().width, search ? 220 : 160)}px`;
+    placeFixed(popover!, trigger, POPOVER_MIN_ROOM, POPOVER_MAX_HEIGHT);
   };
 
   /** Close the list; with `refocus`, give focus back to the trigger. */
@@ -271,9 +209,6 @@ export function createListbox(o: ListboxOptions): Listbox {
     active = -1;
     dispose?.();
     dispose = null;
-    document.removeEventListener('scroll', follow, true);
-    window.removeEventListener('resize', follow);
-    visualViewport()?.removeEventListener('resize', follow);
     trigger.setAttribute('aria-expanded', 'false');
     trigger.removeAttribute('aria-controls');
     // Without scrolling: the list may have closed because the trigger scrolled out of view.
@@ -320,10 +255,13 @@ export function createListbox(o: ListboxOptions): Listbox {
     trigger.setAttribute('aria-controls', listId);
     render();
     focusEl.focus({ preventScroll: true });
-    dispose = onDismiss(wrap, () => close(false));
-    document.addEventListener('scroll', follow, true);
-    window.addEventListener('resize', follow);
-    visualViewport()?.addEventListener('resize', follow);
+    // Focusing the search box may scroll the page or bring up an on-screen keyboard: follow the trigger.
+    const dismiss = onDismiss(wrap, () => close(false));
+    const unfollow = followTrigger(popover, trigger, place, () => close(false));
+    dispose = () => {
+      dismiss();
+      unfollow();
+    };
   };
 
   const onKey = (e: KeyboardEvent) => {
